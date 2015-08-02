@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.orb.ParserTable.TestLegacyORBSocketFactory
+
 import scala.collection.mutable
 import scalaj.http._
 import org.json4s._
@@ -10,7 +12,7 @@ import org.json4s.native.JsonMethods._
  * This object represents a Telegram user or bot.
  * Field 	Type 	Description
  * id 	Integer 	Unique identifier for this user or bot
- * first_name 	String 	User‘s or bot’s first name
+ * first_name 	String 	User‘s or bot’s first namenc
  * last_name 	String 	Optional. User‘s or bot’s last name
  * username 	String 	Optional. User‘s or bot’s username
  */
@@ -274,27 +276,35 @@ class TelegramBot(token: String) {
 
   protected def getJSON(action: String, options : (String, Any)*): JValue = {
 
-    println("Options: " + options.mkString(", "))
-
-    val clean = options filter { case (_, Some(_)) => true; case _ => false }
-
-    println("Clean: " + clean.mkString(", "))
-
-
-    val p = clean.toMap mapValues (_.toString) // get rid of the Option
-    val query = Http(apiBaseURL + action).params(p)
-    println("Query: " + query.toString)
-    val response = query.asString
-
-    parseOpt(response.body) match {
-      case Some(json) => (json \ "result")
-      case None => throw new Exception("Invalid reponse:\n" + response.body)
+    // Skip Nones and stringify the rest
+    val p = options filter {
+      case (_, None) => false
+      case _ => true
+    } map {
+      case (a, Some(b)) => (a, b.toString)
+      case (a, b) => (a, b.toString)
     }
+
+    val query = Http(apiBaseURL + action).params(p).timeout(10000, 10000)
+
+    println("Query: " + query.toString)
+
+      val response = query.asString
+
+      parseOpt(response.body) match {
+        case Some(json) => (json \ "result")
+        case None => throw new Exception("Invalid reponse:\n" + response.body)
+      }
   }
 
   protected def getAs[R: Manifest](action: String, options : (String, Any)*): R = {
     implicit val formats = DefaultFormats
     getJSON(action, options : _*).extract[R]
+  }
+
+  protected def getAsOption[R: Manifest](action: String, options : (String, Any)*): Option[R] = {
+    implicit val formats = DefaultFormats
+    getJSON(action, options : _*).extractOpt[R]
   }
 
   /**
@@ -319,10 +329,10 @@ class TelegramBot(token: String) {
   def sendMessage(chat_id: Int,
                   text : String,
                   disable_web_page_preview : Option[Boolean] = None,
-                  reply_to_message_id : Option[Int] = None): Message =
+                  reply_to_message_id : Option[Int] = None): Option[Message] =
   // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
   {
-    getAs[Message]("sendMessage",
+    getAsOption[Message]("sendMessage",
       "chat_id"                   -> chat_id,
       "text"                      -> text,
       "disable_web_page_preview"  -> disable_web_page_preview,
@@ -443,63 +453,89 @@ trait Webhooks {
   }
 }
 
-class SimpleBot extends TelegramBot("TOKE_HERE") with Polling with Runnable {
+abstract class SimpleBot(token: String) extends TelegramBot(token) with Polling with Runnable {
 
   lazy val botName = {
     val user = getMe
     user.username.get
   }
 
-  var updatesOffset = 0
+  def handleUpdate(update: Update): Unit
+
+  private var polling = true
+  val pollingCycle = 5000
 
   override def run(): Unit = {
-    while (true) {
 
+    println("Running: " + botName)
+
+    var updatesOffset = 0
+
+    while (polling) {
       for (u <- getUpdates(offset = Some(updatesOffset))) {
         handleUpdate(u)
         updatesOffset = updatesOffset max (u.update_id + 1)
-        println(updatesOffset)
       }
 
-      Thread.sleep(5000)
+      Thread.sleep(pollingCycle)
     }
   }
+  //def start(): Unit = (new Thread(this)).start()
+  def stop(): Unit = (polling = false)
+}
 
-  private val commands = mutable.HashMap[String, (Message, Seq[String]) => Unit]()
+trait Commands {
+  this : TelegramBot =>
 
-  def handleUpdate(update: Update): Unit = update.message map handleMessage
+  private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()
+  val cmdPrefix = "/"
 
-  def handleMessage(message: Message): Unit = {
-    message.text map { t =>
+  def handleUpdate(update: Update): Unit = {
+    for {
+      msg <- update.message
+      text <- msg.text
+    } /* do */ {
+
+      println("Message: " + text)
+
       // TODO: Allow parameters with spaces e.g. /echo "Hello World"
-      val tokens = t split " "
-      if (tokens.nonEmpty) {
-        val cmd = tokens.head
-        if (commands contains cmd)
-          commands(cmd)(message, tokens.tail)
+      val tokens = text split " "
+      tokens match {
+        case Array(rawCmd, args @ _*) if rawCmd startsWith cmdPrefix =>
+          val cmd = (rawCmd stripPrefix cmdPrefix).toLowerCase
+          if (commands contains cmd)
+            commands(cmd)(msg.chat.id, args)
+
+        case _ => /* Ignore */
+
       }
     }
   }
 
-
-  def reply(message: Message, text: String): Message = {
-    sendMessage(message.chat.id, text, reply_to_message_id = Some(message.message_id))
+  def replyTo(chat_id: Int)(text: String): Option[Message] = {
+    sendMessage(chat_id, text)
   }
 
-
-  def on(command: String)(action: (Message, Seq[String]) => Unit): Unit = {
+  def on(command: String)(action: (Int, Seq[String]) => Unit): Unit = {
     commands += (command -> action)
   }
 }
 
-class Bot extends SimpleBot {
-  on("/hello") { (m, args) => reply(m, "Hello World") }
+object FlunkeyBot extends SimpleBot("105458118:AAGFT0D0h0jfoc9g6kPA-PkGV1WNT1blHYw") with Commands {
+  on("hello") { (sender, args) =>
+    replyTo(sender) {
+      "Hello World!"
+    }
+  }
+  on("echo") { (sender, args) =>
+    replyTo(sender) {
+      args mkString " "
+    }
+  }
 }
 
 object Main {
   def main (args: Array[String]): Unit = {
-    val json = ("name" -> "Mukel")
-    println(compact(render(json)))
-    (new Bot()).run()
+    FlunkeyBot.run()
   }
 }
