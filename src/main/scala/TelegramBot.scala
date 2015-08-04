@@ -25,6 +25,7 @@
 import java.io.File
 import java.nio.file.{Paths, Files}
 
+import Status.Status
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -150,7 +151,7 @@ class TelegramBot(token: String) {
    * action 	String 	Yes 	Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data.
    */
   def sendChatAction(chat_id: Int,
-                     action: String): Unit = {
+                     action: Status): Unit = {
     getJSON("sendChatAction",
       "chat_id" -> chat_id,
       "action"  -> action)
@@ -380,5 +381,4 @@ class TelegramBot(token: String) {
       "caption"             -> caption,
       "reply_to_message_id" -> reply_to_message_id)
   }
-
 }

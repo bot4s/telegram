@@ -1,3 +1,4 @@
+import Status.Status
 
 abstract class SimpleBot(token: String) extends TelegramBot(token) with Polling with Runnable {
 
@@ -28,4 +29,6 @@ abstract class SimpleBot(token: String) extends TelegramBot(token) with Polling 
   }
   //def start(): Unit = (new Thread(this)).start()
   def stop(): Unit = (polling = false)
+
+  def setStatus(chat_id: Int, status: Status): Unit = sendChatAction(chat_id, status)
 }

@@ -18,9 +18,12 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
   }
 
   on("photo") { (sender, args) => Future {
-      sendPhoto(sender, new File("./Mukel_Photo.jpg"), Some("It's me!!!"))
-    }
-  }
+    setStatus(sender, Status.UploadPhoto)
+    Thread.sleep(5000)
+    val file =new File("./Mukel_Photo.jpg")
+    println("Doest the file exists: " + file.exists())
+    sendPhoto(sender, file, Some("It's me!!!"))
+  }}
 
   on("echo") { (sender, args) => Future {
     replyTo(sender) {
