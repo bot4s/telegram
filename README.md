@@ -2,9 +2,9 @@
 Telegram Bot API Wrapper for Scala
 
 # About TOKEN safety
-In order to save some unintentional, please DO NOT SHARE BOT TOKENS in any form.
-A simple but efficient way is to store a file e.g. "mybot.token" outside the repo
-and spawn your bot as follows:
+In order to avoid unintentional TOKEN sharing, please DO NOT SHARE BOT TOKENS in any form.
+
+A simple but efficient way is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
 
 ```scala
 
@@ -12,7 +12,7 @@ and spawn your bot as follows:
     
     on("hello") { (sender, args) =>
       replyTo(sender) {
-      	"My token is safe"
+      	"My token is safe!!!"
       }
     }
 
