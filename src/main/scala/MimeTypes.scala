@@ -1,7 +1,8 @@
+
 object MimeTypes {
   val defaultMimeType = "application/octet-stream"
 
-  def fromExtension(ext: String): String = ext2Mime.getOrElse(ext, defaultMimeType)
+  def fromExtension(ext: String): String = ext2Mime.getOrElse(ext.toLowerCase, defaultMimeType)
 
   def fromFileName(fileName: String): String = {
     fileName.split(".").takeRight(1).headOption map (fromExtension) getOrElse defaultMimeType
@@ -15,7 +16,7 @@ object MimeTypes {
     "3gpp" -> "video/3gpp",
     "7z" -> "application/x-7z-compressed",
     "aa" -> "audio/audible",
-    "AAC" -> "audio/aac",
+    "aac" -> "audio/aac",
     "aax" -> "audio/vnd.audible.aax",
     "ac3" -> "audio/ac3",
     "accda" -> "application/msaccess.addin",
@@ -27,12 +28,12 @@ object MimeTypes {
     "accdw" -> "application/msaccess.webapplication",
     "accft" -> "application/msaccess.ftemplate",
     "acx" -> "application/internet-property-stream",
-    "AddIn" -> "text/xml",
+    "addin" -> "text/xml",
     "ade" -> "application/msaccess",
     "adobebridge" -> "application/x-bridge-url",
     "adp" -> "application/msaccess",
-    "ADT" -> "audio/vnd.dlna.adts",
-    "ADTS" -> "audio/aac",
+    "adt" -> "audio/vnd.dlna.adts",
+    "adts" -> "audio/aac",
     "ai" -> "application/postscript",
     "aif" -> "audio/x-aiff",
     "aifc" -> "audio/aiff",
@@ -99,7 +100,6 @@ object MimeTypes {
     "disco" -> "text/xml",
     "divx" -> "video/divx",
     "dll" -> "application/x-msdownload",
-    "dll.config" -> "text/xml",
     "dlm" -> "text/dlm",
     "doc" -> "application/msword",
     "docm" -> "application/vnd.ms-word.document.macroEnabled.12",
@@ -109,7 +109,7 @@ object MimeTypes {
     "dotx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
     "dsw" -> "text/plain",
     "dtd" -> "text/xml",
-    "dtsConfig" -> "text/xml",
+    "dtsconfig" -> "text/xml",
     "dv" -> "video/x-dv",
     "dvi" -> "application/x-dvi",
     "dwf" -> "drawing/x-dwf",
@@ -119,7 +119,6 @@ object MimeTypes {
     "etl" -> "application/etl",
     "etx" -> "text/x-setext",
     "evy" -> "application/envoy",
-    "exe.config" -> "text/xml",
     "fdf" -> "application/vnd.fdf",
     "fif" -> "application/fractals",
     "filters" -> "Application/xml",
@@ -171,7 +170,7 @@ object MimeTypes {
     "itlp" -> "application/x-itunes-itlp",
     "itms" -> "application/x-itunes-itms",
     "itpc" -> "application/x-itunes-itpc",
-    "IVF" -> "video/x-ivf",
+    "ivf" -> "video/x-ivf",
     "jar" -> "application/java-archive",
     "jck" -> "application/liquidmotion",
     "jcz" -> "application/liquidmotion",
@@ -383,7 +382,6 @@ object MimeTypes {
     "spl" -> "application/futuresplash",
     "src" -> "application/x-wais-source",
     "srf" -> "text/plain",
-    "SSISDeploymentManifest" -> "text/xml",
     "ssm" -> "application/streamingmedia",
     "sst" -> "application/vnd.ms-pki.certstore",
     "stl" -> "application/vnd.ms-pki.stl",
@@ -463,7 +461,7 @@ object MimeTypes {
     "wiq" -> "application/xml",
     "wiz" -> "application/msword",
     "wks" -> "application/vnd.ms-works",
-    "WLMP" -> "application/wlmoviemaker",
+    "wlmp" -> "application/wlmoviemaker",
     "wlpginstall" -> "application/x-wlpg-detect",
     "wlpginstall3" -> "application/x-wlpg3-detect",
     "wm" -> "video/x-ms-wm",
@@ -513,7 +511,7 @@ object MimeTypes {
     "xml" -> "text/xml",
     "xmta" -> "application/xml",
     "xof" -> "x-world/x-vrml",
-    "XOML" -> "text/plain",
+    "xoml" -> "text/plain",
     "xpm" -> "image/x-xpixmap",
     "xps" -> "application/vnd.ms-xpsdocument",
     "xrm-ms" -> "text/xml",
