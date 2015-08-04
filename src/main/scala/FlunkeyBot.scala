@@ -1,11 +1,10 @@
-
 import java.io.{FileInputStream, InputStream}
+import java.net.URLEncoder
 import scala.collection.mutable
 import scala.concurrent.{ExecutionContext, Future}
 import scalaj.http._
 import java.io.File
 import java.nio.file.{Files, Paths}
-
 
 object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
 
@@ -17,6 +16,7 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
     }
   }
 
+  // Async reply
   on("photo") { (sender, args) => Future {
     setStatus(sender, Status.UploadPhoto)
     Thread.sleep(5000)
@@ -30,6 +30,22 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
       args mkString " "
     }
   }}
+
+  // Let Me Google That For You :)
+  on("lmgtfy") { (sender, args) =>
+    replyTo(sender, disable_web_page_preview = Some(true)) {
+      "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
+  }}
+
+  on("start") { (sender, args) =>
+    replyTo(sender) {
+      """/hello - says hello to the world!!!
+        |/lmgtfy query - sends a LMGTFY URL !!
+        |/echo args - simple echo
+        |/photo - sends a picture of me!!!
+      """.stripMargin
+    }
+  }
 }
 
 object Main {

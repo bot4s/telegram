@@ -2,9 +2,8 @@
 Telegram Bot API Wrapper for Scala
 
 # About TOKEN safety
-In order to avoid unintentional TOKEN sharing, please DO NOT SHARE BOT TOKENS in any form.
-
-A simple but efficient way is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
+Please DO NOT SHARE BOT TOKENS in any form.
+In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
 
 ```scala
 
@@ -69,17 +68,23 @@ Or
 
 ```scala
 
-  object EchoBot extends SimpleBot(TOKEN) with Commands {
+  object CoolBot extends SimpleBot(TOKEN) with Commands {
 
-    on("hello") { (sender, args) =>
+    // Let Me Google That For You :)    
+    on("lmgtfy") { (sender, args) =>
+      replyTo(sender, disable_web_page_preview = Some(true)) {
+        "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
+      }
+    }
+
+    on("echo") { (sender, args) =>
       replyTo(sender) {
       	args mkString " "
       }
     }
-
   }
   
-  EchoBot.run()
+  CoolBot.run()
   
 ```
 

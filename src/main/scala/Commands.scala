@@ -28,8 +28,8 @@ trait Commands {
     }
   }
 
-  def replyTo(chat_id: Int)(text: String): Option[Message] = {
-    sendMessage(chat_id, text)
+  def replyTo(chat_id: Int, disable_web_page_preview : Option[Boolean] = None, reply_to_message_id: Option[Int] = None)(text: String): Option[Message] = {
+    sendMessage(chat_id, text, disable_web_page_preview, reply_to_message_id)
   }
 
   def on(command: String)(action: (Int, Seq[String]) => Unit): Unit = {
