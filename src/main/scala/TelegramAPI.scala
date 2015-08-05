@@ -270,8 +270,8 @@ case class Update(
  * upload_document for general files,
  * find_location for location data.
  */
-object Status extends Enumeration {
-  type Status = Value
+object ChatAction extends Enumeration {
+  type ChatAction = Value
   val Typing = Value("typing")
   val UploadPhoto = Value("upload_photo")
   val RecordVideo = Value("record_video")

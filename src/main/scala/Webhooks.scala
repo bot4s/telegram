@@ -1,5 +1,5 @@
 trait Webhooks {
-  this: TelegramBot =>
+  this: TelegramBotAPI =>
   /**
    * setWebhook
    *
@@ -13,7 +13,7 @@ trait Webhooks {
    *     3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
    */
   def setWebhook(url: Option[String]): Unit = {
-    getJSON("setWebhook",
+    getJson("setWebhook",
       "url" -> url)
   }
 }

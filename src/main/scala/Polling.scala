@@ -1,5 +1,5 @@
 trait Polling {
-  this: TelegramBot =>
+  this: TelegramBotAPI =>
   /**
    * getUpdates
    *

@@ -2,7 +2,7 @@ import java.net.URLEncoder
 import scala.concurrent.{ExecutionContext, Future}
 import java.io.File
 
-object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
+object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
 
   import ExecutionContext.Implicits.global
   import OptionPimps._
@@ -15,12 +15,12 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
 
   // Async reply
   on("photo") { (sender, args) => Future {
-    setStatus(sender, Status.UploadPhoto)
+    Future { setChatAction(sender, ChatAction.UploadPhoto) }
     val file = new File("./Mukel_Photo.jpg")
-    sendPhoto(sender, file, Some("It's me!!!"))
+    sendPhoto(sender, file, caption = "It's me!!!")
   }}
 
-  on("echo") { (sender, args) => Future {
+  on("echo") { (sender, args) => {
     replyTo(sender) {
       args mkString " "
     }
@@ -45,9 +45,6 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
 
 object Main {
   def main (args: Array[String]): Unit = {
-    val t = new Thread(FlunkeyBot)
-    t.setDaemon(true)
-    t.start()
-    t.join()
+    FlunkeyBot.run()
   }
 }

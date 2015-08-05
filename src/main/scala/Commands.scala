@@ -4,7 +4,7 @@ import scala.collection.mutable
  * Makes a bot command-aware using a nice declarative interface
  */
 trait Commands {
-  this : SimpleBot =>
+  this : TelegramBot =>
 
   private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()
   val cmdPrefix = "/"
@@ -31,7 +31,10 @@ trait Commands {
     }
   }
 
-  def replyTo(chat_id: Int, disable_web_page_preview : Option[Boolean] = None, reply_to_message_id: Option[Int] = None)(text: String): Option[Message] = {
+  def replyTo(chat_id: Int,
+              disable_web_page_preview : Option[Boolean] = None,
+              reply_to_message_id: Option[Int] = None)
+             (text: String): Option[Message] = {
     sendMessage(chat_id, text, disable_web_page_preview, reply_to_message_id)
   }
 
