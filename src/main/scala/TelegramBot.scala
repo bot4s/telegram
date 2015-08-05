@@ -223,19 +223,6 @@ class TelegramBot(token: String) {
    * reply_to_message_id 	Integer 	Optional 	If the message is a reply, ID of the original message
    * reply_markup 	ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply 	Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
-  def sendPhotoId(chat_id: Int,
-                  photo_id : String,
-                  caption : Option[String] = None,
-                  reply_to_message_id : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
-  {
-    getAsOption[Message]("sendPhoto",
-      "chat_id"             -> chat_id,
-      "photo"               -> photo_id,
-      "caption"             -> caption,
-      "reply_to_message_id" -> reply_to_message_id)
-  }
-
   def sendPhoto(chat_id: Int,
                 photo_file : File,
                 caption : Option[String] = None,
@@ -245,6 +232,19 @@ class TelegramBot(token: String) {
     getAsOption[Message]("sendPhoto",
       "chat_id"             -> chat_id,
       "photo"               -> photo_file,
+      "caption"             -> caption,
+      "reply_to_message_id" -> reply_to_message_id)
+  }
+
+  def sendPhotoId(chat_id: Int,
+                  photo_id : String,
+                  caption : Option[String] = None,
+                  reply_to_message_id : Option[Int] = None): Option[Message] =
+  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+  {
+    getAsOption[Message]("sendPhoto",
+      "chat_id"             -> chat_id,
+      "photo"               -> photo_id,
       "caption"             -> caption,
       "reply_to_message_id" -> reply_to_message_id)
   }
@@ -274,7 +274,7 @@ class TelegramBot(token: String) {
   }
 
   def sendAudioId(chat_id: Int,
-                  audio_id : Int,
+                  audio_id : String,
                   duration : Option[Int] = None,
                   reply_to_message_id : Option[Int] = None): Option[Message] =
   // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
@@ -308,7 +308,7 @@ class TelegramBot(token: String) {
   }
 
   def sendDocumentId(chat_id: Int,
-                     document_id : Int,
+                     document_id : String,
                      reply_to_message_id : Option[Int] = None): Option[Message] =
   // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
   {
@@ -340,7 +340,7 @@ class TelegramBot(token: String) {
   }
 
   def sendStickerId(chat_id: Int,
-                    sticker_id : Int,
+                    sticker_id : String,
                     reply_to_message_id : Option[Int] = None): Option[Message] =
   // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
   {
@@ -378,7 +378,7 @@ class TelegramBot(token: String) {
   }
 
   def sendVideoId(chat_id: Int,
-                  video_id : Int,
+                  video_id : String,
                   duration : Option[Int] = None,
                   caption : Option[String] = None,
                   reply_to_message_id : Option[Int] = None): Option[Message] =
