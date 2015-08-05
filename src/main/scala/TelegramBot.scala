@@ -23,6 +23,7 @@
 */
 
 import java.io.File
+import java.net.URLConnection
 import java.nio.file.{Paths, Files}
 
 import Status.Status
@@ -57,7 +58,7 @@ class TelegramBot(token: String) {
           // post file as multipart form data
           val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
           val fileName = file.getName
-          val mimeType = MimeTypes.fromFileName(fileName)
+          val mimeType = URLConnection.guessContentTypeFromName(fileName)
           query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
 
         case Some(s) =>
