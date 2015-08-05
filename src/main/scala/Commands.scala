@@ -1,5 +1,8 @@
 import scala.collection.mutable
 
+/**
+ * Makes a bot command-aware using a nice declarative interface
+ */
 trait Commands {
   this : SimpleBot =>
 
