@@ -35,39 +35,48 @@ class TelegramBot(token: String) {
 
   private val apiBaseURL = "https://api.telegram.org/bot" + token + "/"
 
+  /**
+   * getJSON
+   *
+   * All of the complexity of the whole query system resides here.
+   *
+   * The parameters passed in [options] are handled as follows:
+   *   (id, file: File)  file content is injected as multipart form data, MIME type is inferred form extension.
+   *   (id, None)        is ignored (= the parameter is absent)
+   *   (id, Some(x))     (given optional parameter) passed as parameter id=x.toString
+   *   (id, x)           (anything else) passed as parameter id=x.toString
+   */
   protected def getJSON(action: String, options : (String, Any)*): JValue = {
 
-    val (rawFiles, parameters) = options partition {
-      case (_, _:File) => true
-      case _ => false
+    // TODO: Set appropiate timeout values
+    var query = Http(apiBaseURL + action).timeout(10000, 20000)
+
+    for ((id, value) <- options) {
+      value match {
+        case file: File =>
+          // post file as multipart form data
+          val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
+          val fileName = file.getName
+          val mimeType = MimeTypes.fromFileName(fileName)
+          query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
+
+        case Some(s) =>
+          query = query.param(id, s.toString)
+
+        case None => // ignore
+
+        case _ =>
+          query = query.param(id, value.toString)
+      }
     }
-
-    // Skip Nones and stringify the rest
-    val p = parameters filter {
-      case (_, None) => false
-      case _ => true
-    } map {
-      case (a, Some(b)) => (a, b.toString)
-      case (a, b) => (a, b.toString)
-    }
-
-    var query = Http(apiBaseURL + action).params(p).timeout(10000, 20000)
-
-    val files = rawFiles map { case (a, b:File) => (a, b) }
 
     implicit val formats = DefaultFormats
-
-    for ((id, file) <- files) {
-      val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
-      val fileName = file.getName
-      val mimeType = MimeTypes.fromFileName(fileName)
-      query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
-    }
 
     println("Query: " + query.toString)
 
     val response = query.asString
 
+    // TODO: Rethink the error handling, right now ok=false is considered an error!!!
     parseOpt(response.body) match {
       case Some(json) if (json \ "ok").extract[Boolean] =>
           (json \ "result")
