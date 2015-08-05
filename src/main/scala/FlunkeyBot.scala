@@ -1,14 +1,11 @@
-import java.io.{FileInputStream, InputStream}
 import java.net.URLEncoder
-import scala.collection.mutable
 import scala.concurrent.{ExecutionContext, Future}
-import scalaj.http._
 import java.io.File
-import java.nio.file.{Files, Paths}
 
 object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
 
   import ExecutionContext.Implicits.global
+  import OptionPimps._
 
   on("hello") { (sender, args) =>
     replyTo(sender) {
@@ -19,9 +16,7 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
   // Async reply
   on("photo") { (sender, args) => Future {
     setStatus(sender, Status.UploadPhoto)
-    Thread.sleep(5000)
-    val file =new File("./Mukel_Photo.jpg")
-    println("Doest the file exists: " + file.exists())
+    val file = new File("./Mukel_Photo.jpg")
     sendPhoto(sender, file, Some("It's me!!!"))
   }}
 
@@ -33,7 +28,7 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
 
   // Let Me Google That For You :)
   on("lmgtfy") { (sender, args) =>
-    replyTo(sender, disable_web_page_preview = Some(true)) {
+    replyTo(sender, disable_web_page_preview = true) {
       "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
   }}
 
@@ -50,6 +45,9 @@ object FlunkeyBot extends SimpleBot(Utils.tokenFromFile("./flunkeybot.token")) w
 
 object Main {
   def main (args: Array[String]): Unit = {
-    FlunkeyBot.run()
+    val t = new Thread(FlunkeyBot)
+    t.setDaemon(true)
+    t.start()
+    t.join()
   }
 }
