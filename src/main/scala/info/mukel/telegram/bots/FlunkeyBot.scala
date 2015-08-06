@@ -25,7 +25,7 @@ object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) 
       "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
   }}
 
-  on("start") { (sender, args) =>
+  on("start") { (sender, _) =>
     replyTo(sender) {
       """/hello - says hello to the world!!!
         |/lmgtfy query - sends a LMGTFY URL !!
@@ -35,25 +35,25 @@ object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) 
     }
   }
 
-  on("video") { (sender, args) =>
+  on("video") { (sender, _) =>
     sendVideo(sender, new File("./video.mp4"),
       caption = "Sample video")
   }
 
-  on("audio") { (sender, args) =>
+  on("audio") { (sender, _) =>
     sendAudio(sender, new File("./audio.mp3"))
   }
 
-  on("photo") { (sender, args) =>
+  on("photo") { (sender, _) =>
     sendPhoto(sender, new File("./photo.jpg"),
       caption = "Bender the great!")
   }
 
-  on("sticker") { (sender, args) =>
+  on("sticker") { (sender, _) =>
     sendSticker(sender, stickerFile = new File("./sticker.png"))
   }
 
-  on("document") { (sender, args) =>
+  on("document") { (sender, _) =>
     sendDocument(sender, documentFile = new File("./document.pdf"))
   }
 }
