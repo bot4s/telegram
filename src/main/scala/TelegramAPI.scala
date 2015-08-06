@@ -11,8 +11,8 @@
  */
 case class User(
                  id         : Int,
-                 first_name : String,
-                 last_name  : Option[String] = None,
+                 firstName  : String,
+                 lastName   : Option[String] = None,
                  username   : Option[String] = None
                  )
 
@@ -42,8 +42,8 @@ case class UserOrGroupChat(id : Int)
  * photos 	Array of Array of PhotoSize 	Requested profile pictures (in up to 4 sizes each)
  */
 case class UserProfilePhotos(
-                              total_count : Int,
-                              photos      : Array[Array[PhotoSize]]
+                              totalCount : Int,
+                              photos     : Array[Array[PhotoSize]]
                               )
 
 
@@ -58,10 +58,10 @@ case class UserProfilePhotos(
  * file_size 	Integer 	Optional. File size
  */
 case class PhotoSize(
-                      file_id   : String,
-                      width     : Int,
-                      height    : Int,
-                      file_size : Option[Int] = None
+                      fileId   : String,
+                      width    : Int,
+                      height   : Int,
+                      fileSize : Option[Int] = None
                       )
 
 // TODO
@@ -90,10 +90,10 @@ case class ReplyKeyboardMarkup()
  * file_size 	Integer 	Optional. File size
  */
 case class Audio(
-                  file_id   : String,
-                  duration  : Int,
-                  mime_type : Option[String] = None,
-                  file_size : Option[Int] = None
+                  fileId   : String,
+                  duration : Int,
+                  mimeType : Option[String] = None,
+                  fileSize : Option[Int] = None
                   )
 
 
@@ -109,11 +109,11 @@ case class Audio(
  * file_size 	Integer 	Optional. File size
  */
 case class Document(
-                     file_id   : String,
-                     thumb     : Option[PhotoSize] = None,
-                     file_name : Option[String] = None,
-                     mime_type : Option[String] = None,
-                     file_size : Option[Int] = None
+                     fileId   : String,
+                     thumb    : Option[PhotoSize] = None,
+                     fileName : Option[String] = None,
+                     mimeType : Option[String] = None,
+                     fileSize : Option[Int] = None
                      )
 
 /**
@@ -128,11 +128,11 @@ case class Document(
  * file_size 	Integer 	Optional. File size
  */
 case class Sticker(
-                    file_id   : String,
-                    width     : Int,
-                    height    : Int,
-                    thumb     : Option[PhotoSize] = None,
-                    file_size : Option[Int] = None
+                    fileId   : String,
+                    width    : Int,
+                    height   : Int,
+                    thumb    : Option[PhotoSize] = None,
+                    fileSize : Option[Int] = None
                     )
 
 /**
@@ -149,13 +149,13 @@ case class Sticker(
  * file_size 	Integer 	Optional. File size
  */
 case class Video(
-                  file_id   : String,
-                  width     : Int,
-                  height    : Int,
-                  duration  : Int,
-                  thumb     : Option[PhotoSize] = None,
-                  mime_type : Option[String] = None,
-                  file_size : Option[Int] = None
+                  fileId   : String,
+                  width    : Int,
+                  height   : Int,
+                  duration : Int,
+                  thumb    : Option[PhotoSize] = None,
+                  mimeType : Option[String] = None,
+                  fileSize : Option[Int] = None
                   )
 
 
@@ -170,10 +170,10 @@ case class Video(
  * user_id 	Integer 	Optional. Contact's user identifier in Telegram
  */
 case class Contact(
-                    phone_number : String,
-                    first_name   : String,
-                    last_name    : Option[String] = None,
-                    user_id      : Option[Int] = None
+                    phoneNumber : String,
+                    firstName   : String,
+                    lastName    : Option[String] = None,
+                    userId      : Option[Int] = None
                     )
 
 /**
@@ -218,33 +218,33 @@ case class Location(
  * group_chat_created 	True 	Optional. Informs that the group has been created
  */
 case class Message(
-                    message_id            : Int,
-                    from                  :	User,
-                    date                  : Int,
+                    messageId           : Int,
+                    from                :	User,
+                    date                : Int,
 
                     // TODO: This is a workaround to handle the limitations of the JSON deserialization.
                     // The correct type would be Either[User, GroupChat]
 
-                    chat                  :	UserOrGroupChat,
+                    chat                :	UserOrGroupChat,
 
-                    forward_from          :	Option[User] = None,
-                    forward_date          : Option[Int] = None,
-                    reply_to_message      : Option[Message] = None,
-                    text                  : Option[String] = None,
-                    audio                 : Option[Audio] = None,
-                    document              : Option[Document] = None,
-                    photo                 : Option[Array[PhotoSize]] = None,
-                    sticker               : Option[Sticker] = None,
-                    video                 : Option[Video] = None,
-                    caption               : Option[String] = None,
-                    contact               : Option[Contact] = None,
-                    location              : Option[Location] = None,
-                    new_chat_participant  : Option[User] = None,
-                    left_chat_participant : Option[User] = None,
-                    new_chat_title        : Option[String] = None,
-                    new_chat_photo        : Option[Array[PhotoSize]] = None,
-                    delete_chat_photo     : Option[Boolean] = None,
-                    group_chat_created    : Option[Boolean] = None
+                    forwardFrom         :	Option[User] = None,
+                    forwardDate         : Option[Int] = None,
+                    replyToMessage      : Option[Message] = None,
+                    text                : Option[String] = None,
+                    audio               : Option[Audio] = None,
+                    document            : Option[Document] = None,
+                    photo               : Option[Array[PhotoSize]] = None,
+                    sticker             : Option[Sticker] = None,
+                    video               : Option[Video] = None,
+                    caption             : Option[String] = None,
+                    contact             : Option[Contact] = None,
+                    location            : Option[Location] = None,
+                    newChatParticipant  : Option[User] = None,
+                    leftChatParticipant : Option[User] = None,
+                    newChatTitle        : Option[String] = None,
+                    newChatPhoto        : Option[Array[PhotoSize]] = None,
+                    deleteChatPhoto     : Option[Boolean] = None,
+                    groupChatCreated    : Option[Boolean] = None
                     )
 
 /**
@@ -256,7 +256,7 @@ case class Message(
  * message 	Message 	Optional. New incoming message of any kind — text, photo, sticker, etc.
  */
 case class Update(
-                   update_id : Int,
+                   updateId : Int,
                    message   : Option[Message] = None
                    )
 

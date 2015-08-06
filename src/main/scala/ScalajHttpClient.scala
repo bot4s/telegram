@@ -20,7 +20,7 @@ trait ScalajHttpClient extends HttpClient {
           val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
           val fileName = file.getName
 
-          // TODO: Get the MIME type, hope the server does some content-based MIME detection
+          // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
           val mimeType = "application/octet-stream"
           query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
 

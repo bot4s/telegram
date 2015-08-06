@@ -2,7 +2,7 @@ import java.net.URLEncoder
 import scala.concurrent.{ExecutionContext, Future}
 import java.io.File
 
-object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
+object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
 
   import ExecutionContext.Implicits.global
   import OptionPimps._
@@ -12,13 +12,6 @@ object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token"))
       "Hello World!"
     }
   }
-
-  // Async reply
-  on("photo") { (sender, args) => Future {
-    Future { setChatAction(sender, ChatAction.UploadPhoto) }
-    val file = new File("./Mukel_Photo.jpg")
-    sendPhoto(sender, file, caption = "It's me!!!")
-  }}
 
   on("echo") { (sender, args) => {
     replyTo(sender) {
@@ -40,6 +33,28 @@ object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token"))
         |/photo - sends a picture of me!!!
       """.stripMargin
     }
+  }
+
+  on("video") { (sender, args) =>
+    sendVideo(sender, new File("./video.mp4"),
+      caption = "Sample video")
+  }
+
+  on("audio") { (sender, args) =>
+    sendAudio(sender, new File("./audio.mp3"))
+  }
+
+  on("photo") { (sender, args) =>
+    sendPhoto(sender, new File("./photo.jpg"),
+      caption = "Bender the great!")
+  }
+
+  on("sticker") { (sender, args) =>
+    sendSticker(sender, sticker_file = new File("./sticker.png"))
+  }
+
+  on("document") { (sender, args) =>
+    sendDocument(sender, document_file = new File("./document.pdf"))
   }
 }
 
