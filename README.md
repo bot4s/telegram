@@ -7,6 +7,8 @@ Telegram Bot API Wrapper for Scala
 Please DO NOT SHARE BOT TOKENS in any form.
 In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
 
+Then you can safely share your code and submit pull requests.
+
 ```scala
 
   object MyBot extends SimpleBot(Utils.tokenFromFile("./mybot.token")) with Commands {
@@ -40,8 +42,8 @@ In order to avoid unintentional TOKEN sharing, a simple but efficient method is 
   - setWebhooks !!! The setWebhooks method is implemented but the embedded webserver isn't!!!
 
 ## Missing (not yet implemented):
-   ForceReply
-   Keyboard markups
+  - ForceReply
+  - Keyboard markups
 
 ## Webhooks vs Polling (getUpdates)
 Only polling is supported at the moment. Polling is by far the easiest method, and can be used locally without any additional requirements.
