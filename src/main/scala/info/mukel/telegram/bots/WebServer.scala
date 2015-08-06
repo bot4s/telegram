@@ -1,5 +1,9 @@
+package info.mukel.telegram.bots
+
 import java.net.InetSocketAddress
+
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
+
 import scala.collection.mutable._
 
 abstract class SimpleHttpServerBase(val socketAddress: String = "127.0.0.1",

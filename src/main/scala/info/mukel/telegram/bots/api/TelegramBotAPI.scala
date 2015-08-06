@@ -1,3 +1,4 @@
+package info.mukel.telegram.bots.api
 
 /*
  Telegram Bot API Wrapper for Scala
@@ -23,14 +24,11 @@
 */
 
 import java.io.File
-import java.net.URLConnection
-import java.nio.file.{Paths, Files}
-
 import ChatAction.ChatAction
+import info.mukel.telegram.bots.Utils
+import info.mukel.telegram.bots.http.HttpClient
 import org.json4s._
 import org.json4s.native.JsonMethods._
-
-import scalaj.http._
 
 class TelegramBotAPI(token: String) {
   this: HttpClient =>

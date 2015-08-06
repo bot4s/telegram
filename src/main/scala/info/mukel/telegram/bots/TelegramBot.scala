@@ -1,4 +1,7 @@
-import ChatAction.ChatAction
+package info.mukel.telegram.bots
+
+import info.mukel.telegram.bots.api.{TelegramBotAPI, Update}
+import info.mukel.telegram.bots.http.ScalajHttpClient
 
 /**
  * TelegramBot

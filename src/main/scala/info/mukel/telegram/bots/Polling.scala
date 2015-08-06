@@ -1,3 +1,7 @@
+package info.mukel.telegram.bots
+
+import info.mukel.telegram.bots.api.{TelegramBotAPI, Update}
+
 trait Polling {
   this: TelegramBotAPI =>
   /**

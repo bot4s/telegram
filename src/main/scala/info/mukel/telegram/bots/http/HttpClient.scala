@@ -1,7 +1,4 @@
-import java.io.File
-import java.net.URLConnection
-import java.nio.file.{Paths, Files}
-import scalaj.http.{Http, MultiPart}
+package info.mukel.telegram.bots.http
 
 /**
  * Created by mukel on 8/5/15.

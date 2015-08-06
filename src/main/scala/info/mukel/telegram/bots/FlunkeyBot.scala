@@ -1,11 +1,11 @@
-import java.net.URLEncoder
-import scala.concurrent.{ExecutionContext, Future}
+package info.mukel.telegram.bots
+
 import java.io.File
+import java.net.URLEncoder
+
+import info.mukel.telegram.bots.OptionPimps._
 
 object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
-
-  import ExecutionContext.Implicits.global
-  import OptionPimps._
 
   on("hello") { (sender, args) =>
     replyTo(sender) {
@@ -50,11 +50,11 @@ object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) 
   }
 
   on("sticker") { (sender, args) =>
-    sendSticker(sender, sticker_file = new File("./sticker.png"))
+    sendSticker(sender, stickerFile = new File("./sticker.png"))
   }
 
   on("document") { (sender, args) =>
-    sendDocument(sender, document_file = new File("./document.pdf"))
+    sendDocument(sender, documentFile = new File("./document.pdf"))
   }
 }
 

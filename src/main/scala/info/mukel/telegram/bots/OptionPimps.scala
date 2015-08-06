@@ -1,3 +1,5 @@
+package info.mukel.telegram.bots
+
 /**
  * Created by mukel on 8/5/15.
  */

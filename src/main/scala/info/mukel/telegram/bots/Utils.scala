@@ -1,3 +1,4 @@
+package info.mukel.telegram.bots
 
 object Utils {
   def tokenFromFile(file: String): String = {

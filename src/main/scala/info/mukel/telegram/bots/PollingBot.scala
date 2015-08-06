@@ -1,4 +1,6 @@
-import ChatAction.ChatAction
+package info.mukel.telegram.bots
+
+import info.mukel.telegram.bots.api.ChatAction.ChatAction
 
 /**
  * PollingBot

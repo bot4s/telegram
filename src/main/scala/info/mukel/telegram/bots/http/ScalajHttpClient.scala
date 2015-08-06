@@ -1,6 +1,8 @@
-import java.io.{ByteArrayInputStream, File}
-import java.net.URLConnection
-import java.nio.file.{Paths, Files}
+package info.mukel.telegram.bots.http
+
+import java.io.File
+import java.nio.file.{Files, Paths}
+
 import scalaj.http.{Http, MultiPart}
 
 /**

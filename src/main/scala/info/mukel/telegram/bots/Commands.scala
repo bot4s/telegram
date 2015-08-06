@@ -1,3 +1,7 @@
+package info.mukel.telegram.bots
+
+import info.mukel.telegram.bots.api.{Message, Update}
+
 import scala.collection.mutable
 
 /**
