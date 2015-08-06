@@ -11,11 +11,6 @@ abstract class PollingBot(token: String) extends TelegramBot(token) with Polling
 
   val pollingCycle = 1000
 
-  lazy val botName = {
-    val user = getMe
-    user.username.get
-  }
-
   private var running = true
 
   override def run(): Unit = {
