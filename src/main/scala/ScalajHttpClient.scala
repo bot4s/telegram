@@ -1,4 +1,4 @@
-import java.io.File
+import java.io.{ByteArrayInputStream, File}
 import java.net.URLConnection
 import java.nio.file.{Paths, Files}
 import scalaj.http.{Http, MultiPart}
@@ -19,7 +19,9 @@ trait ScalajHttpClient extends HttpClient {
           // post file as multipart form data
           val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
           val fileName = file.getName
-          val mimeType = URLConnection.guessContentTypeFromName(fileName)
+
+          // TODO: Get the MIME type, hope the server does some content-based MIME detection
+          val mimeType = "application/octet-stream"
           query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
 
         case Some(s) =>
@@ -36,6 +38,6 @@ trait ScalajHttpClient extends HttpClient {
     if (response.isSuccess)
       response.body
     else
-      throw new Exception("Request error: Code " + response.code)
+      throw new Exception("HTTP request error " + response.code + ": " + response.statusLine)
   }
 }
