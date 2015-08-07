@@ -7,7 +7,7 @@ import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import scala.collection.mutable._
 
 abstract class SimpleHttpServerBase(val socketAddress: String = "127.0.0.1",
-                                    val port: Int = 8080,
+                                    val port: Int = 88,
                                     val backlog: Int = 0) extends HttpHandler {
 
   private val address = new InetSocketAddress(socketAddress, port)

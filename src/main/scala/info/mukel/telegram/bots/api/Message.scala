@@ -30,7 +30,7 @@ package info.mukel.telegram.bots.api
   */
 case class Message(
                      messageId           : Int,
-                     from                :	User,
+                     from                : User,
                      date                : Int,
 
                      // TODO: This is a workaround to handle the limitations of the JSON deserialization.

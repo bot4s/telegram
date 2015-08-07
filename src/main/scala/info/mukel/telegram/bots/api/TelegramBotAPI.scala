@@ -82,14 +82,15 @@ class TelegramBotAPI(token: String) {
   def sendMessage(chatId: Int,
                   text : String,
                   disableWebPagePreview : Option[Boolean] = None,
-                  replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendMessage",
       "chat_id"                   -> chatId,
       "text"                      -> text,
       "disable_web_page_preview"  -> disableWebPagePreview,
-      "reply_to_message_id"       -> replyToMessageId)
+      "reply_to_message_id"       -> replyToMessageId,
+      "reply_markup"              -> (replyMarkup map Utils.jsonify))
   }
 
   /**
@@ -146,14 +147,15 @@ class TelegramBotAPI(token: String) {
   def sendLocation(chatId: Int,
                    latitude: Float,
                    longitude: Float,
-                   replyToMessageId: Option[Int] = None): Message =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                   replyToMessageId: Option[Int] = None,
+                   replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
-    getAs[Message]("sendLocation",
+    getAsOption[Message]("sendLocation",
       "chat_id"             -> chatId,
       "latitude"            -> latitude,
       "longitude"           -> longitude,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
 
@@ -169,7 +171,6 @@ class TelegramBotAPI(token: String) {
   def getUserProfilePhotos(userId: Int,
                            offset: Option[Int] = None,
                            limit: Option[Int] = None): UserProfilePhotos = {
-
     getAs[UserProfilePhotos]("getUserProfilePhotos",
       "user_id" -> userId,
       "offset"  -> offset,
@@ -190,27 +191,29 @@ class TelegramBotAPI(token: String) {
   def sendPhoto(chatId: Int,
                 photoFile : File,
                 caption : Option[String] = None,
-                replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                replyToMessageId : Option[Int] = None,
+                replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendPhoto",
       "chat_id"             -> chatId,
       "photo"               -> photoFile,
       "caption"             -> caption,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"              -> (replyMarkup map Utils.jsonify))
   }
 
   def sendPhotoId(chatId: Int,
                   photoId : String,
                   caption : Option[String] = None,
-                  replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendPhoto",
       "chat_id"             -> chatId,
       "photo"               -> photoId,
       "caption"             -> caption,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   /**
@@ -227,27 +230,29 @@ class TelegramBotAPI(token: String) {
   def sendAudio(chatId: Int,
                 audioFile : File,
                 duration : Option[Int] = None,
-                replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                replyToMessageId : Option[Int] = None,
+                replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendAudio",
       "chat_id"             -> chatId,
       "audio"               -> audioFile,
       "duration"            -> duration,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   def sendAudioId(chatId: Int,
                   audioId : String,
                   duration : Option[Int] = None,
-                  replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendAudio",
       "chat_id"             -> chatId,
       "audio"               -> audioId,
       "duration"            -> duration,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   /**
@@ -262,24 +267,26 @@ class TelegramBotAPI(token: String) {
    */
   def sendDocument(chatId: Int,
                    documentFile : File,
-                   replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                   replyToMessageId : Option[Int] = None,
+                   replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendDocument",
       "chat_id"             -> chatId,
       "document"            -> documentFile,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   def sendDocumentId(chatId: Int,
                      documentId : String,
-                     replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                     replyToMessageId : Option[Int] = None,
+                     replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendDocument",
       "chat_id"             -> chatId,
       "document"            -> documentId,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   /**
@@ -294,24 +301,26 @@ class TelegramBotAPI(token: String) {
    */
   def sendSticker(chatId: Int,
                   stickerFile : File,
-                  replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendSticker",
       "chat_id"             -> chatId,
       "sticker"             -> stickerFile,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   def sendStickerId(chatId: Int,
                     stickerId : String,
-                    replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                    replyToMessageId : Option[Int] = None,
+                    replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendSticker",
       "chat_id"             -> chatId,
       "sticker"             -> stickerId,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   /**
@@ -330,29 +339,31 @@ class TelegramBotAPI(token: String) {
                 videoFile : File,
                 duration : Option[Int] = None,
                 caption : Option[String] = None,
-                replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                replyToMessageId : Option[Int] = None,
+                replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendVideo",
       "chat_id"             -> chatId,
       "video"               -> videoFile,
       "duration"            -> duration,
       "caption"             -> caption,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 
   def sendVideoId(chatId: Int,
                   videoId : String,
                   duration : Option[Int] = None,
                   caption : Option[String] = None,
-                  replyToMessageId : Option[Int] = None): Option[Message] =
-  // reply_markup : Option[ Either[ReplyKeyboardMarkup, ReplyKeyboardHide, ForceReply] ])
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup : Option[ReplyMarkup] = None): Option[Message] =
   {
     getAsOption[Message]("sendAudio",
       "chat_id"             -> chatId,
       "video"               -> videoId,
       "duration"            -> duration,
       "caption"             -> caption,
-      "reply_to_message_id" -> replyToMessageId)
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map Utils.jsonify))
   }
 }

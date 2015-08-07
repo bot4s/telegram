@@ -4,6 +4,7 @@ import java.io.File
 import java.net.URLEncoder
 
 import info.mukel.telegram.bots.OptionPimps._
+import info.mukel.telegram.bots.api.{ForceReply, ReplyKeyboardHide, ReplyKeyboardMarkup}
 
 object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
 
@@ -21,7 +22,7 @@ object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) 
 
   // Let Me Google That For You :)
   on("lmgtfy") { (sender, args) =>
-    replyTo(sender, disable_web_page_preview = true) {
+    replyTo(sender, disableWebPagePreview = true) {
       "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
   }}
 
@@ -55,6 +56,24 @@ object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) 
 
   on("document") { (sender, _) =>
     sendDocument(sender, documentFile = new File("./document.pdf"))
+  }
+
+  on("markup") { (sender, _) =>
+    val kb: Array[Array[String]] = Array(Array("Rocks!", "Sucks!"))
+    val markup = ReplyKeyboardMarkup(kb,
+      resizeKeyboard = true,
+      oneTimeKeyboard = false)
+    sendMessage(sender, "Bieber?", replyMarkup = markup)
+  }
+
+  on("hide") { (sender, _) =>
+    val markup = ReplyKeyboardHide(true)
+    sendMessage(sender, "Bla bla bla...", replyMarkup = markup)
+  }
+
+  on("forcereply") { (sender, _) =>
+    val markup = ForceReply(true)
+    sendMessage(sender, "Bla bla bla...", replyMarkup = markup)
   }
 }
 

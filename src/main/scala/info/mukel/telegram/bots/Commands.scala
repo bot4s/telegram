@@ -68,11 +68,11 @@ trait Commands {
    *
    * Handy wrapper to send text replies
    */
-  def replyTo(chat_id: Int,
-              disable_web_page_preview : Option[Boolean] = None,
-              reply_to_message_id: Option[Int] = None)
+  def replyTo(chatId: Int,
+              disableWebPagePreview : Option[Boolean] = None,
+              replyToMessageId: Option[Int] = None)
              (text: String): Option[Message] = {
-    sendMessage(chat_id, text, disable_web_page_preview, reply_to_message_id)
+    sendMessage(chatId, text, disableWebPagePreview, replyToMessageId)
   }
 
   /**

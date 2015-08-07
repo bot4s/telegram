@@ -3,8 +3,10 @@
 
 Telegram Bot API Wrapper for Scala
 
+The aim of this project is to provide a 100% idiomatic Scala wrapper for the new Telegram Bot API. It's strongly-typed and the whole API is camel-cased.
+
 # About TOKEN safety
-Please DO NOT SHARE BOT TOKENS in any form.
+Please **DO NOT SHARE BOT TOKENS** in any form.
 
 In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
 
@@ -41,17 +43,20 @@ Then you can safely share your code and submit pull requests.
   - getUserProfilePhotos
   - getUpdates
   - setWebhooks !!! The setWebhooks method is implemented but the embedded webserver isn't!!!
+  - Custom keyboard markups
 
-## Missing (not yet implemented):
-  - ForceReply
-  - Keyboard markups
+## Would be nice to:
+  - Add proper logging
+  - Make the API async by default
+  - Improve error/exception handling
+  - Polish JSON back and forth stuff
 
 ## Webhooks vs Polling (getUpdates)
 Only polling is supported at the moment. Polling is by far the easiest method, and can be used locally without any additional requirements.
 Webhooks will be implemented (the code is already there) using a simple embedded webserver.
 
 ## About blocking
-API calls are blocking, but the code can be easily modified to run asynchronously (see AsycnBot below).
+API calls are (still) blocking, but the code can be easily modified to send async replies (see AsycnBot below).
 
 # Usage
 
