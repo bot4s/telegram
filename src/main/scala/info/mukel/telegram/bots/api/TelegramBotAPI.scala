@@ -27,15 +27,16 @@ import java.io.File
 import ChatAction.ChatAction
 import info.mukel.telegram.bots.Utils
 import info.mukel.telegram.bots.http.HttpClient
+import info.mukel.telegram.bots.json.Json4sBridge
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-class TelegramBotAPI(token: String) {
+class TelegramBotAPI(token: String) extends Json4sBridge {
   this: HttpClient =>
 
   private val apiBaseURL = "https://api.telegram.org/bot" + token + "/"
 
-  protected def getJson(action: String, options : (String, Any)*): JValue = {
+  protected def getJson(action: String, options : (String, Any)*): String = {
     val requestUrl = apiBaseURL + action
     val response = request(requestUrl, options : _*)
 
@@ -43,21 +44,20 @@ class TelegramBotAPI(token: String) {
     // TODO: Rethink the error handling, right now ok=false is considered an error!!!
     parseOpt(response) match {
       case Some(json) if (json \ "ok").extract[Boolean] =>
-        val result = (json \ "result") transformField { case (key, value) => (Utils.underscoreToCamel(key), value) }
-        println(result)
-        result
+        val result = (json \ "result")
+        compact(render(result))
       case _ => throw new Exception("Invalid reponse:\n" + response)
     }
   }
 
   protected def getAs[R: Manifest](action: String, options : (String, Any)*): R = {
     implicit val formats = DefaultFormats
-    getJson(action, options : _*).extract[R]
+    unjsonify[R](getJson(action, options : _*))
   }
 
   protected def getAsOption[R: Manifest](action: String, options : (String, Any)*): Option[R] = {
     implicit val formats = DefaultFormats
-    getJson(action, options : _*).extractOpt[R]
+    unjsonifyOpt[R](getJson(action, options : _*))
   }
 
   /**
@@ -90,7 +90,7 @@ class TelegramBotAPI(token: String) {
       "text"                      -> text,
       "disable_web_page_preview"  -> disableWebPagePreview,
       "reply_to_message_id"       -> replyToMessageId,
-      "reply_markup"              -> (replyMarkup map Utils.jsonify))
+      "reply_markup"              -> (replyMarkup map jsonify))
   }
 
   /**
@@ -155,7 +155,7 @@ class TelegramBotAPI(token: String) {
       "latitude"            -> latitude,
       "longitude"           -> longitude,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
 
@@ -199,7 +199,7 @@ class TelegramBotAPI(token: String) {
       "photo"               -> photoFile,
       "caption"             -> caption,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"              -> (replyMarkup map Utils.jsonify))
+      "reply_markup"              -> (replyMarkup map jsonify))
   }
 
   def sendPhotoId(chatId: Int,
@@ -213,7 +213,7 @@ class TelegramBotAPI(token: String) {
       "photo"               -> photoId,
       "caption"             -> caption,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   /**
@@ -238,7 +238,7 @@ class TelegramBotAPI(token: String) {
       "audio"               -> audioFile,
       "duration"            -> duration,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   def sendAudioId(chatId: Int,
@@ -252,7 +252,7 @@ class TelegramBotAPI(token: String) {
       "audio"               -> audioId,
       "duration"            -> duration,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   /**
@@ -274,7 +274,7 @@ class TelegramBotAPI(token: String) {
       "chat_id"             -> chatId,
       "document"            -> documentFile,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   def sendDocumentId(chatId: Int,
@@ -286,7 +286,7 @@ class TelegramBotAPI(token: String) {
       "chat_id"             -> chatId,
       "document"            -> documentId,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   /**
@@ -308,7 +308,7 @@ class TelegramBotAPI(token: String) {
       "chat_id"             -> chatId,
       "sticker"             -> stickerFile,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   def sendStickerId(chatId: Int,
@@ -320,7 +320,7 @@ class TelegramBotAPI(token: String) {
       "chat_id"             -> chatId,
       "sticker"             -> stickerId,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   /**
@@ -348,7 +348,7 @@ class TelegramBotAPI(token: String) {
       "duration"            -> duration,
       "caption"             -> caption,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 
   def sendVideoId(chatId: Int,
@@ -364,6 +364,6 @@ class TelegramBotAPI(token: String) {
       "duration"            -> duration,
       "caption"             -> caption,
       "reply_to_message_id" -> replyToMessageId,
-      "reply_markup"        -> (replyMarkup map Utils.jsonify))
+      "reply_markup"        -> (replyMarkup map jsonify))
   }
 }
