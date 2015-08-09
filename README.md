@@ -4,6 +4,7 @@
 Telegram Bot API Wrapper for Scala
 
 The aim of this project is to provide a 100% idiomatic Scala wrapper for the new Telegram Bot API. It's strongly-typed and the whole API is camel-cased.
+The only missing (but coming) feature is the asynchronous-ness by default.
 
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
