@@ -15,7 +15,7 @@ Then you can safely share your code and submit pull requests.
 
 ```scala
 
-  object MyBot extends PollingBot(Utils.tokenFromFile("./mybot.token")) with Commands {
+  object MyBot extends TelegramBot(Utils.tokenFromFile("./mybot.token")) with Polling with Commands {
     
     on("hello") { (sender, args) =>
       replyTo(sender) {
@@ -63,7 +63,7 @@ API calls are (still) blocking, but the code can be easily modified to send asyn
 
 ```scala
 
-  val helloBot = new PollingBot(TOKEN) with Commands
+  val helloBot = new TelegramBot(TOKEN) with Polling with Commands
   
   helloBot.on("hello") { (sender, args) =>
     replyTo(sender) {
@@ -79,7 +79,7 @@ Or
 
 ```scala
 
-  object CoolBot extends PollingBot(TOKEN) with Commands {
+  object CoolBot extends TelegramBot(TOKEN) with Polling with Commands {
   
     import info.mukel.telegram.bots.OptionPimps._
 
@@ -105,7 +105,7 @@ Async bot
 
 ```scala
 
-  object AsyncBot extends PollingBot(TOKEN) with Commands {
+  object AsyncBot extends TelegramBot(TOKEN) with Polling with Commands {
   
     import info.mukel.telegram.bots.OptionPimps._
     
