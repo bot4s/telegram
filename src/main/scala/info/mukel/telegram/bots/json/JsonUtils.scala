@@ -9,11 +9,19 @@ import org.json4s.native.Serialization._
 
 object JsonUtils {
 
+  private def underscoreToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(name, {m =>
+    m.group(1).toUpperCase()
+  })
+
+  private def camelToUnderscores(name: String) = "[A-Z\\d]".r.replaceAllIn(name, {m =>
+    "_" + m.group(0).toLowerCase()
+  })
+
   def jsonify[T <: AnyRef](t: T): String = {
     implicit val formats = Serialization.formats(NoTypeHints)
     val json = write(t)
     val ast = parse(json) transformField {
-      case (name, value) => (Utils.camelToUnderscores(name), value)
+      case (name, value) => (camelToUnderscores(name), value)
     }
     compact(render(ast))
   }
@@ -25,7 +33,7 @@ object JsonUtils {
   def unjsonify[T : Manifest](json: JValue): T = {
     implicit val formats = Serialization.formats(NoTypeHints)
     val camelCased = json transformField {
-      case (name, value) => (Utils.underscoreToCamel(name), value)
+      case (name, value) => (underscoreToCamel(name), value)
     }
     camelCased.extract[T]
   }
