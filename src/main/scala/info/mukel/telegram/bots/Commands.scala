@@ -5,6 +5,8 @@ import info.mukel.telegram.bots.api.{Message, Update}
 import scala.collection.mutable
 
 /**
+ * Commands
+ *
  * Makes a bot command-aware using a nice declarative interface
  */
 trait Commands {
@@ -71,7 +73,7 @@ trait Commands {
   def replyTo(chatId: Int,
               disableWebPagePreview : Option[Boolean] = None,
               replyToMessageId: Option[Int] = None)
-             (text: String): Option[Message] = {
+             (text: String): Message = {
     sendMessage(chatId, text, disableWebPagePreview, replyToMessageId)
   }
 

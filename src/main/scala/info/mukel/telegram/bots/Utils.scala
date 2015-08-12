@@ -9,4 +9,12 @@ object Utils {
   def tokenFromFile(file: String): String = {
     scala.io.Source.fromFile(file).getLines().next()
   }
+
+  def underscoreToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(name, {m =>
+    m.group(1).toUpperCase()
+  })
+
+  def camelToUnderscores(name: String) = "[A-Z\\d]".r.replaceAllIn(name, {m =>
+    "_" + m.group(0).toLowerCase()
+  })
 }

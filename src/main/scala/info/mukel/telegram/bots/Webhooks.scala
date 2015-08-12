@@ -1,23 +1,77 @@
 package info.mukel.telegram.bots
 
-import info.mukel.telegram.bots.api.TelegramBotAPI
+import java.net.InetSocketAddress
 
-trait Webhooks {
-  this: TelegramBotAPI =>
-  /**
-   * setWebhook
-   *
-   * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
-   * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
-   * Parameters 	Type 	Required 	Description
-   * url 	String 	Optional 	HTTPS url to send updates to. Use an empty string to remove webhook integration
-   *   Notes
-   *     1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
-   *     2. We currently do not support self-signed certificates.
-   *     3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
-   */
-  def setWebhook(url: Option[String]): Unit = {
-    getJson("setWebhook",
-      "url" -> url)
+import com.sun.net.httpserver._
+import info.mukel.telegram.bots.api.{Update, TelegramBotApi}
+import info.mukel.telegram.bots.http.ScalajHttpClient
+import info.mukel.telegram.bots.json.JsonUtils
+
+trait Webhooks extends HttpHandler {
+  this : TelegramBot =>
+
+  val webHookUrl: String
+  val hostname: String = "localhost"
+  val port: Int = 1234
+  val backlog: Int = 0
+
+  private val address = new InetSocketAddress(hostname, port)
+  private val server = HttpServer.create(address, backlog)
+
+  import OptionPimps._
+
+  override def run(): Unit = {
+    server.createContext("/", this)
+    server.start
+    setWebhook(webHookUrl)
+  }
+
+  def respond(exchange: HttpExchange, code: Int = 200, body: String = "") {
+    val bytes = body.getBytes
+    exchange.sendResponseHeaders(code, bytes.size)
+    val out = exchange.getResponseBody
+    out.write(bytes)
+    out.write("\r\n\r\n".getBytes)
+    out.close()
+    exchange.close()
+  }
+
+  override def handle(exchange: HttpExchange) = {
+    val method = exchange.getRequestMethod
+    val path = exchange.getRequestURI.getPath
+
+    println(method + " " + path)
+    try {
+      if (method == "POST" && path.stripPrefix("/") == token) {
+        val body = scala.io.Source.fromInputStream(exchange.getRequestBody).mkString
+        handleUpdate(JsonUtils.unjsonify[Update](body))
+        respond(exchange, 200, "OK!")
+      } else
+        // NOT FOUND
+        respond(exchange, 404)
+    } catch {
+        case ex: Exception => respond(exchange, 500, ex.toString)
+    }
+  }
+
+  def stop(delay: Int = 1) = {
+    setWebhook(None)
+    server.stop(delay)
+  }
+}
+
+object WebhookedBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token")) with Webhooks with Commands {
+  override val webHookUrl: String = "https://webhooks.mukel.info/" + token
+  on("hello") { (sender, _) =>
+    replyTo(sender) {
+      "Hello World! " + System.currentTimeMillis()
+    }
+  }
+}
+
+object Test {
+  def main(args: Array[String]): Unit = {
+    (new TelegramBotApi(Utils.tokenFromFile("./flunkeybot.token")) with ScalajHttpClient).setWebhook(None)
+    //WebhookedBot.run()
   }
 }

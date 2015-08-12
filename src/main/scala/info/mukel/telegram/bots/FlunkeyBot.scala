@@ -6,7 +6,7 @@ import java.net.URLEncoder
 import info.mukel.telegram.bots.OptionPimps._
 import info.mukel.telegram.bots.api.{ForceReply, ReplyKeyboardHide, ReplyKeyboardMarkup}
 
-object FlunkeyBot extends PollingBot(Utils.tokenFromFile("./flunkeybot.token")) with Commands {
+object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token")) with Polling with Commands {
 
   on("hello") { (sender, args) =>
     replyTo(sender) {

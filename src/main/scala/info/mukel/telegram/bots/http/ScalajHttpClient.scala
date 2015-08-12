@@ -11,11 +11,11 @@ import scalaj.http.{Http, MultiPart}
 
 trait ScalajHttpClient extends HttpClient {
 
-  def request(requestUrl: String, options : (String, Any)*): String = {
+  def request(requestUrl: String, params : (String, Any)*): String = {
     // TODO: Set appropiate timeout values
-    var query = Http(requestUrl).timeout(10000, 20000)
+    var query = Http(requestUrl)
 
-    for ((id, value) <- options) {
+    for ((id, value) <- params) {
       value match {
         case file: File =>
           // post file as multipart form data
