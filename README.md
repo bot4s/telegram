@@ -3,20 +3,20 @@
 
 Telegram Bot API Wrapper for Scala
 
-The aim of this project is to provide a 100% idiomatic Scala wrapper for the new Telegram Bot API. It's strongly-typed and the whole API is camel-cased.
-The only missing (but coming) feature is the asynchronous-ness by default.
+The aim of this project is to provide a 100% idiomatic Scala wrapper for the new Telegram Bot API. The whole API is stronly-typed and camelCased.
 
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
 
-In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file (UNTRACKED, OUTSIDE THE REPO!!!) e.g. "mybot.token" and spawn your bot as follows:
+In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file **UNTRACKED, OUTSIDE THE REPO!!!** e.g. "mybot.token" and spawn your bot as follows:
 
 Then you can safely share your code and submit pull requests.
 
 ```scala
 
-  object MyBot extends TelegramBot(Utils.tokenFromFile("./mybot.token")) with Polling with Commands {
-    
+  object MyBot extends TelegramBot(Utils.tokenFromFile("./mybot.token"))
+               with Polling with Commands {
+               
     on("hello") { (sender, args) =>
       replyTo(sender) {
       	"My token is safe!!!"
@@ -43,21 +43,23 @@ Then you can safely share your code and submit pull requests.
   - sendChatAction
   - getUserProfilePhotos
   - getUpdates
-  - setWebhooks !!! The setWebhooks method is implemented but the embedded webserver isn't!!!
+  - setWebhooks
   - Custom keyboard markups
 
 ## Would be nice to:
   - Add proper logging
-  - Make the API async by default
   - Improve error/exception handling
-  - Polish JSON back and forth stuff
+  - Make the API async by default
 
 ## Webhooks vs Polling (getUpdates)
-Only polling is supported at the moment. Polling is by far the easiest method, and can be used locally without any additional requirements.
-Webhooks will be implemented (the code is already there) using a simple embedded webserver.
+Both polling and web hooks are supported. Polling is by far the easiest method, and can be used locally without any additional requirements.
+
+Using web hooks requires a server (it wont work on your laptop) and a valid SSL certificate (which costs money). Self signed certificates wont work.
+
+The certificate requirement can be easily overcome by using the CloudFlare Universal SSL feature, which is awesome (and free).
 
 ## About blocking
-API calls are (still) blocking, but the code can be easily modified to send async replies (see AsycnBot below).
+All API calls are blocking, but the code can be easily modified to be fully asynchronous (see AsycnBot below).
 
 # Usage
 
@@ -125,5 +127,26 @@ Async bot
   }
   
   AsyncBot.run()
+  
+```
+
+Bot using web hooks
+
+```scala
+
+  object WebhookedBot extends TelegramBot(TOKEN) with Webhooks with Commands {
+
+    // The URL must contain the token to validate the request
+    override val webHookUrl = "https://webhooks.mukel.info/" + token
+    
+    on("hello") { (sender, args) =>
+      replyTo(sender) {
+        "Hello World!"
+      }
+    }
+
+  }
+  
+  WebhookedBot.run()
   
 ```
