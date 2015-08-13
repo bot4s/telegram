@@ -137,7 +137,7 @@ Bot using web hooks
   object WebhookedBot extends TelegramBot(TOKEN) with Webhooks with Commands {
 
     // The URL must contain the token to validate the request
-    override val webHookUrl = "https://webhooks.mukel.info/" + token
+    override val webHookUrl = "https://webhooks.yoursite.com/" + token
     
     on("hello") { (sender, args) =>
       replyTo(sender) {
