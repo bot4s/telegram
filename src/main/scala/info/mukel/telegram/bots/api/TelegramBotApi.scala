@@ -169,7 +169,7 @@ class TelegramBotApi(token: String) {
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendPhoto(chatId           : Int,
-                photoFile        : File,
+                photoFile        : InputFile,
                 caption          : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
                 replyMarkup      : Option[ReplyMarkup] = None): Message =
@@ -208,7 +208,7 @@ class TelegramBotApi(token: String) {
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendAudio(chatId           : Int,
-                audioFile        : File,
+                audioFile        : InputFile,
                 duration         : Option[Int] = None,
                 replyToMessageId : Option[Int] = None,
                 replyMarkup      : Option[ReplyMarkup] = None): Message =
@@ -246,7 +246,7 @@ class TelegramBotApi(token: String) {
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendDocument(chatId           : Int,
-                   documentFile     : File,
+                   documentFile     : InputFile,
                    replyToMessageId : Option[Int] = None,
                    replyMarkup      : Option[ReplyMarkup] = None): Message =
   {
@@ -280,7 +280,7 @@ class TelegramBotApi(token: String) {
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendSticker(chatId           : Int,
-                  stickerFile      : File,
+                  stickerFile      : InputFile,
                   replyToMessageId : Option[Int] = None,
                   replyMarkup      : Option[ReplyMarkup] = None): Message =
   {
@@ -316,7 +316,7 @@ class TelegramBotApi(token: String) {
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendVideo(chatId           : Int,
-                videoFile        : File,
+                videoFile        : InputFile,
                 duration         : Option[Int] = None,
                 caption          : Option[String] = None,
                 replyToMessageId : Option[Int] = None,

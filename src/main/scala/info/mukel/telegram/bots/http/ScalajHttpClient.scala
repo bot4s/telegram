@@ -3,6 +3,8 @@ package info.mukel.telegram.bots.http
 import java.io.File
 import java.nio.file.{Files, Paths}
 
+import info.mukel.telegram.bots.api.InputFile
+
 import scalaj.http.{Http, MultiPart}
 
 /**
@@ -17,14 +19,9 @@ trait ScalajHttpClient extends HttpClient {
 
     for ((id, value) <- params) {
       value match {
-        case file: File =>
-          // post file as multipart form data
-          val byteArray = Files.readAllBytes(Paths.get(file.getAbsolutePath))
-          val fileName = file.getName
-
+        case file: InputFile =>
           // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
-          val mimeType = "application/octet-stream"
-          query = query.postMulti(MultiPart(id, fileName, mimeType, byteArray))
+          query = query.postMulti(MultiPart(id, file.name, file.mimeType, file.bytes))
 
         case Some(s) =>
           query = query.param(id, s.toString)

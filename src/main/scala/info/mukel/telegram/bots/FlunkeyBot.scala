@@ -1,12 +1,11 @@
 package info.mukel.telegram.bots
 
-import java.io.File
 import java.net.URLEncoder
 
 import info.mukel.telegram.bots.OptionPimps._
-import info.mukel.telegram.bots.api.{ForceReply, ReplyKeyboardHide, ReplyKeyboardMarkup}
+import info.mukel.telegram.bots.api.{InputFile, ForceReply, ReplyKeyboardHide, ReplyKeyboardMarkup}
 
-object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token")) with Polling with Commands {
+object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./tokens/flunkeybot.token")) with Polling with Commands {
 
   on("hello") { (sender, args) =>
     replyTo(sender) {
@@ -37,32 +36,33 @@ object FlunkeyBot extends TelegramBot(Utils.tokenFromFile("./flunkeybot.token"))
   }
 
   on("video") { (sender, _) =>
-    sendVideo(sender, new File("./video.mp4"),
+    sendVideo(sender, InputFile("./files/video.mp4"),
       caption = "Sample video")
   }
 
   on("audio") { (sender, _) =>
-    sendAudio(sender, new File("./audio.mp3"))
+    sendAudio(sender, InputFile("./files/audio.mp3"))
   }
 
   on("photo") { (sender, _) =>
-    sendPhoto(sender, new File("./photo.jpg"),
+    sendPhoto(sender, InputFile("./files/photo.jpg"),
       caption = "Bender the great!")
   }
 
   on("sticker") { (sender, _) =>
-    sendSticker(sender, stickerFile = new File("./sticker.png"))
+    sendSticker(sender, stickerFile = InputFile("./files/sticker.png"))
   }
 
   on("document") { (sender, _) =>
-    sendDocument(sender, documentFile = new File("./document.pdf"))
+    sendDocument(sender, documentFile = InputFile("./files/document.pdf"))
   }
 
   on("markup") { (sender, _) =>
-    val kb: Array[Array[String]] = Array(Array("Rocks!", "Sucks!"))
+    val kb: Array[Array[String]] = Array(Array("Sucks!", "Sucks^2!"))
     val markup = ReplyKeyboardMarkup(kb,
       resizeKeyboard = true,
       oneTimeKeyboard = false)
+
     sendMessage(sender, "Bieber?", replyMarkup = markup)
   }
 
