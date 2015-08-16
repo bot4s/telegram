@@ -1,9 +1,9 @@
 # FlunkeyBot
 [![Travis CI Build Status](https://travis-ci.org/mukel/FlunkeyBot.svg)](https://travis-ci.org/mukel/FlunkeyBot)
 
-Telegram Bot API Wrapper for Scala
+Telegram Bot API for Scala
 
-The aim of this project is to provide a 100% idiomatic Scala wrapper for the new Telegram Bot API. The whole API is stronly-typed and camelCased.
+The aim of this project is to provide a 100% idiomatic Scala wrapper for the new [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, strongly-typed (no JSON stuff) and camelCased.
 
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
@@ -54,9 +54,12 @@ Then you can safely share your code and submit pull requests.
 ## Webhooks vs Polling (getUpdates)
 Both polling and web hooks are supported. Polling is by far the easiest method, and can be used locally without any additional requirements.
 
-Using web hooks requires a server (it wont work on your laptop) and a valid SSL certificate (which costs money). Self signed certificates wont work.
+Using web hooks requires a server (it won't work on your laptop) and a valid SSL certificate (which costs money). Self signed certificates won't work.
 
-The certificate requirement can be easily overcome by using the CloudFlare Universal SSL feature, which is awesome (and free).
+The certificate requirement can be easily overcome by using the [CloudFlare Universal SSL](https://blog.cloudflare.com/introducing-universal-ssl/) feature, which is awesome (and free). Another possible solution is hosting your bot on Google App Engine; the free quotas should be more than enough.
+
+## Bonus (or how to turn a spare phone into a Telegram Bot)
+Beside the usual ways, I've managed to run FlunkeyBot successfully on a Raspberry Pi 2, and most notably on an old Android (4.1.2) phone with a broken screen.
 
 ## About blocking
 All API calls are blocking, but the code can be easily modified to be fully asynchronous (see AsycnBot below).
@@ -121,7 +124,7 @@ Async bot
     
     // Send a photo aysnchronously
     on("bender") { (sender, _) => Future {
-      sendPhoto(sender, new File("./bender_photo.jpg"),
+      sendPhoto(sender, InputFile("./bender_photo.jpg"),
                 caption = "Bender the great!!!")
     }}
   }
