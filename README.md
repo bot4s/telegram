@@ -1,5 +1,5 @@
-# FlunkeyBot
-[![Travis CI Build Status](https://travis-ci.org/mukel/FlunkeyBot.svg)](https://travis-ci.org/mukel/FlunkeyBot)
+# TelegramBot4s
+[![Travis CI Build Status](https://travis-ci.org/mukel/FlunkeyBot.svg)](https://travis-ci.org/mukel/telegrambot4s)
 
 Telegram Bot API for Scala
 
