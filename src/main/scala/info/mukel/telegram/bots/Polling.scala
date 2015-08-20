@@ -3,15 +3,21 @@ package info.mukel.telegram.bots
 import info.mukel.telegram.bots.api.ChatAction._
 import info.mukel.telegram.bots.api.{TelegramBotApi, Update}
 
-trait Polling {
-  this: TelegramBot =>
+/**
+ * Polling
+ *
+ * Provides updates by using polling (getUpdates) with a default cycle s of 1s. 
+ */
+trait Polling extends Runnable {
+  this : TelegramBot =>
+
   import OptionPimps._
 
   val pollingCycle = 1000
   private var running = true
 
   override def run(): Unit = {
-    setWebhook(None)
+    // setWebhook(None)
     var updatesOffset = 0
     while (running) {
       for (u <- getUpdates(offset = updatesOffset)) {
@@ -24,6 +30,4 @@ trait Polling {
 
   //def start(): Unit = (new Thread(this)).start()
   def stop(): Unit = (running = false)
-  def setChatAction(chat_id: Int, chatAction: ChatAction): Unit = sendChatAction(chat_id, chatAction)
-
 }

@@ -19,7 +19,7 @@ import org.json4s.native.Serialization._
  * @param token  Bot token
  */
 class TelegramBotApi(token: String) {
-  this: HttpClient =>
+  this: HttpClient =>    
 
   implicit val formats = DefaultFormats
 

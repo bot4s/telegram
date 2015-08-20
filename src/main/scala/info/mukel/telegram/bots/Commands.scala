@@ -12,13 +12,17 @@ import scala.collection.mutable
 trait Commands {
   this : TelegramBot =>
 
-  private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()
-
+  // All commands must be preceeded by 'cmdPrefix' eg. /hello
   val cmdPrefix = "/"
+
+  // Allows targeting specific bots eg. /hello@FlunkeyBot
   val cmdAt = "@"
+
+  private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()  
 
   /**
    * handleUpdate
+   * @param update  the update to be processed.
    *
    * Parses messages and spawns bot commands accordingly, supports targeting specific bots.
    * Commands and bot names are case INSENSITIVE, additional parameters are NOT.
@@ -41,7 +45,6 @@ trait Commands {
     for {
       msg <- update.message
       text <- msg.text
-
     } /* do */ {
 
       println("Message: " + text)

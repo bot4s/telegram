@@ -10,7 +10,6 @@ import scalaj.http.{Http, MultiPart}
 /**
  * Created by mukel on 8/5/15.
  */
-
 trait ScalajHttpClient extends HttpClient {
 
   def request(requestUrl: String, params : (String, Any)*): String = {
