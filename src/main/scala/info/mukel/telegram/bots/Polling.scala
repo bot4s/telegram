@@ -6,7 +6,7 @@ import info.mukel.telegram.bots.api.{TelegramBotApi, Update}
 /**
  * Polling
  *
- * Provides updates by using polling (getUpdates) with a default cycle s of 1s. 
+ * Provides updates by using polling (getUpdates) with a default cycle of 1s. 
  */
 trait Polling extends Runnable {
   this : TelegramBot =>
