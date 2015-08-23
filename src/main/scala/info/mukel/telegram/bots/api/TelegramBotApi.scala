@@ -204,19 +204,25 @@ class TelegramBotApi(token: String) {
    * @param chatId            Unique identifier for the message recipient — User or GroupChat id
    * @param audioFile         Audio file to send. You can either pass a fileId as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
    * @param duration          Optional 	Duration of sent audio in seconds
+   * @param performer         Optional. Performer of the audio as defined by sender or by audio tags
+   * @param title             Optional. Title of the audio as defined by sender or by audio tags
    * @param replyToMessageId  Optional 	If the message is a reply, ID of the original message
    * @param replyMarkup       Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendAudio(chatId           : Int,
                 audioFile        : InputFile,
                 duration         : Option[Int] = None,
+                performer        : Option[String] = None,
+                title            : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
                 replyMarkup      : Option[ReplyMarkup] = None): Message =
   {
     getAs[Message]("sendAudio",
       "chat_id"             -> chatId,
-      "audio"               -> audioFile,
+      "audio"               -> audioFile,      
       "duration"            -> duration,
+      "performer"           -> performer,
+      "title"               -> title,
       "reply_to_message_id" -> replyToMessageId,
       "reply_markup"        -> (replyMarkup map JsonUtils.jsonify))
   }
@@ -224,6 +230,8 @@ class TelegramBotApi(token: String) {
   def sendAudioId(chatId           : Int,
                   audioId          : String,
                   duration         : Option[Int] = None,
+                  performer        : Option[String] = None,
+                  title            : Option[String] = None,
                   replyToMessageId : Option[Int] = None,
                   replyMarkup      : Option[ReplyMarkup] = None): Message =
   {
@@ -231,9 +239,57 @@ class TelegramBotApi(token: String) {
       "chat_id"             -> chatId,
       "audio"               -> audioId,
       "duration"            -> duration,
+      "performer"           -> performer,
+      "title"               -> title,
       "reply_to_message_id" -> replyToMessageId,
       "reply_markup"        -> (replyMarkup map JsonUtils.jsonify))
   }
+
+  /**
+   * sendVoice
+   *
+   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param chatId               Unique identifier for the message recipient — User or GroupChat id
+   * @param audio                Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+   * @param duration             Optional  Duration of sent audio in seconds
+   * @param replyToMessageId  Optional  If the message is a reply, ID of the original message
+   * @param replyMarkup         Optional  Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+   */
+  def sendVoice(chatId           : Int,
+                audioFile        : InputFile,
+                duration         : Option[Int] = None,
+                performer        : Option[String] = None,
+                title            : Option[String] = None,
+                replyToMessageId : Option[Int] = None,
+                replyMarkup      : Option[ReplyMarkup] = None): Message =
+  {
+    getAs[Message]("sendVoice",
+      "chat_id"             -> chatId,
+      "audio"               -> audioFile,
+      "duration"            -> duration,
+      "performer"           -> performer,
+      "title"               -> title,
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map JsonUtils.jsonify))
+  }
+
+  def sendVoiceId(chatId           : Int,
+                  audioId          : String,
+                  duration         : Option[Int] = None,
+                  performer        : Option[String] = None,
+                  title            : Option[String] = None,
+                  replyToMessageId : Option[Int] = None,
+                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+  {
+    getAs[Message]("sendVoice",
+      "chat_id"             -> chatId,
+      "audio"               -> audioId,
+      "duration"            -> duration,
+      "reply_to_message_id" -> replyToMessageId,
+      "reply_markup"        -> (replyMarkup map JsonUtils.jsonify))
+  } 
+
 
   /**
    * sendDocument
