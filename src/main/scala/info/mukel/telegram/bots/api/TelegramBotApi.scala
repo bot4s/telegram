@@ -199,7 +199,8 @@ class TelegramBotApi(token: String) {
   /**
    * sendAudio
    *
-   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+   * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+   * For backward compatibility, when the fields title and performer are both empty and the mime-type of the file to be sent is not audio/mpeg, the file will be sent as a playable voice message. For this to work, the audio must be in an .ogg file encoded with OPUS. This behavior will be phased out in the future. For sending voice messages, use the sendVoice method instead.
    *
    * @param chatId            Unique identifier for the message recipient — User or GroupChat id
    * @param audioFile         Audio file to send. You can either pass a fileId as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
