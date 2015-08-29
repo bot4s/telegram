@@ -14,21 +14,17 @@ trait ScalajHttpClient extends HttpClient {
 
   def request(requestUrl: String, params : (String, Any)*): String = {
     // TODO: Set appropiate timeout values
-    var query = Http(requestUrl)
-
-    for ((id, value) <- params) {
-      value match {
-        case file: InputFile =>
-          // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
-          query = query.postMulti(MultiPart(id, file.name, file.mimeType, file.bytes))
+    val query = params.foldLeft(Http(requestUrl)) {
+      case (q, (id, value)) => value match {case file: InputFile =>
+        // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
+        q.postMulti(MultiPart(id, file.name, file.mimeType, file.bytes))
 
         case Some(s) =>
-          query = query.param(id, s.toString)
+        q.param(id, s.toString)
 
-        case None => // ignore
+        case None => q
 
-        case _ =>
-          query = query.param(id, value.toString)
+        case _ => q.param(id, value.toString)
       }
     }
 
