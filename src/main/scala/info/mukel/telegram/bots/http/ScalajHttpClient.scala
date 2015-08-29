@@ -6,6 +6,9 @@ import java.nio.file.{Files, Paths}
 import info.mukel.telegram.bots.api.InputFile
 
 import scalaj.http.{Http, MultiPart}
+import scala.util.Try
+import scala.concurrent._
+import ExecutionContext.Implicits.global
 
 /**
  * Created by mukel on 8/5/15.
@@ -15,7 +18,8 @@ trait ScalajHttpClient extends HttpClient {
   def request(requestUrl: String, params : (String, Any)*): String = {
     // TODO: Set appropiate timeout values
     val query = params.foldLeft(Http(requestUrl)) {
-      case (q, (id, value)) => value match {case file: InputFile =>
+      case (q, (id, value)) => value match {
+        case file: InputFile =>
         // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
         q.postMulti(MultiPart(id, file.name, file.mimeType, file.bytes))
 
@@ -33,5 +37,13 @@ trait ScalajHttpClient extends HttpClient {
       response.body
     else
       throw new Exception("HTTP request error " + response.code + ": " + response.statusLine)
+  }
+
+  def asyncRequest(requestUrl: String, params : (String, Any)*): Future[String] = {
+    val p = Promise[String]()
+    Future {
+      p.complete(Try(request(requestUrl, params: _*)))
+    }
+    p.future
   }
 }

@@ -12,6 +12,13 @@ import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization
 import org.json4s.native.Serialization._
 
+import scala.util.Failure
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+
+
+case class InvalidResponse(response: String) extends Exception
+
 /**
  * TelegramBotApi
  *
@@ -25,7 +32,7 @@ class TelegramBotApi(token: String) {
 
   private val apiBaseURL = "https://api.telegram.org/bot" + token + "/"
 
-  protected def apiCall(action: String, params : (String, Any)*): JValue = {
+  protected def syncApiCall(action: String, params : (String, Any)*): JValue = {
     val requestUrl = apiBaseURL + action
     val response = request(requestUrl, params : _*)
     val json = parse(response)
@@ -35,10 +42,21 @@ class TelegramBotApi(token: String) {
       throw new Exception("Invalid reponse:\n" + response)
   }
 
+  protected def apiCall(action: String, params : (String, Any)*): Future[JValue] = {
+    val requestUrl = apiBaseURL + action
+    for (response <- asyncRequest(requestUrl, params : _*)) yield {
+      val json = parse(response)
+      if((json \ "ok").extract[Boolean])
+        (json \ "result")
+      else
+        throw new InvalidResponse(response)
+    }
+  }
 
-  protected def getAs[R: Manifest](action: String, params : (String, Any)*): R = {
-    val json = apiCall(action, params : _*)
-    JsonUtils.unjsonify[R](json)
+  protected def getAs[R: Manifest](action: String, params : (String, Any)*): Future[R] = {
+    for {
+      json <- apiCall(action, params : _*)
+    } yield JsonUtils.unjsonify[R](json)
   }
 
   /**
@@ -47,7 +65,7 @@ class TelegramBotApi(token: String) {
    * A simple method for testing your bot's auth token. Requires no parameters.
    * Returns basic information about the bot in form of a User object.
    */
-  def getMe: User = getAs[User]("getMe")
+  def getMe: Future[User] = getAs[User]("getMe")
 
   /**
    * sendMessage
@@ -64,7 +82,7 @@ class TelegramBotApi(token: String) {
                   text                  : String,
                   disableWebPagePreview : Option[Boolean] = None,
                   replyToMessageId      : Option[Int] = None,
-                  replyMarkup           : Option[ReplyMarkup] = None): Message =
+                  replyMarkup           : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendMessage",
       "chat_id"                   -> chatId,
@@ -85,7 +103,7 @@ class TelegramBotApi(token: String) {
    */
   def forwardMessage(chatId     : Int,
                      fromChatId : Int,
-                     messageId  : Int): Message =
+                     messageId  : Int): Future[Message] =
   {
     getAs[Message]("forwardMessage",
       "chat_id"      -> chatId,
@@ -128,7 +146,7 @@ class TelegramBotApi(token: String) {
                    latitude         : Float,
                    longitude        : Float,
                    replyToMessageId : Option[Int] = None,
-                   replyMarkup      : Option[ReplyMarkup] = None): Message =
+                   replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendLocation",
       "chat_id"             -> chatId,
@@ -150,7 +168,7 @@ class TelegramBotApi(token: String) {
    */
   def getUserProfilePhotos(userId : Int,
                            offset : Option[Int] = None,
-                           limit  : Option[Int] = None): UserProfilePhotos = {
+                           limit  : Option[Int] = None): Future[UserProfilePhotos] = {
     getAs[UserProfilePhotos]("getUserProfilePhotos",
       "user_id" -> userId,
       "offset"  -> offset,
@@ -172,7 +190,7 @@ class TelegramBotApi(token: String) {
                 photoFile        : InputFile,
                 caption          : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
-                replyMarkup      : Option[ReplyMarkup] = None): Message =
+                replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendPhoto",
       "chat_id"             -> chatId,
@@ -186,7 +204,7 @@ class TelegramBotApi(token: String) {
                   photoId          : String,
                   caption          : Option[String] = None,
                   replyToMessageId : Option[Int] = None,
-                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+                  replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendPhoto",
       "chat_id"             -> chatId,
@@ -215,7 +233,7 @@ class TelegramBotApi(token: String) {
                 performer        : Option[String] = None,
                 title            : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
-                replyMarkup      : Option[ReplyMarkup] = None): Message =
+                replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendAudio",
       "chat_id"             -> chatId,
@@ -233,7 +251,7 @@ class TelegramBotApi(token: String) {
                   performer        : Option[String] = None,
                   title            : Option[String] = None,
                   replyToMessageId : Option[Int] = None,
-                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+                  replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendAudio",
       "chat_id"             -> chatId,
@@ -262,7 +280,7 @@ class TelegramBotApi(token: String) {
                 performer        : Option[String] = None,
                 title            : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
-                replyMarkup      : Option[ReplyMarkup] = None): Message =
+                replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendVoice",
       "chat_id"             -> chatId,
@@ -280,7 +298,7 @@ class TelegramBotApi(token: String) {
                   performer        : Option[String] = None,
                   title            : Option[String] = None,
                   replyToMessageId : Option[Int] = None,
-                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+                  replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendVoice",
       "chat_id"             -> chatId,
@@ -304,7 +322,7 @@ class TelegramBotApi(token: String) {
   def sendDocument(chatId           : Int,
                    documentFile     : InputFile,
                    replyToMessageId : Option[Int] = None,
-                   replyMarkup      : Option[ReplyMarkup] = None): Message =
+                   replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendDocument",
       "chat_id"             -> chatId,
@@ -312,11 +330,10 @@ class TelegramBotApi(token: String) {
       "reply_to_message_id" -> replyToMessageId,
       "reply_markup"        -> (replyMarkup map JsonUtils.jsonify))
   }
-
   def sendDocumentId(chatId           : Int,
                      documentId       : String,
                      replyToMessageId : Option[Int] = None,
-                     replyMarkup      : Option[ReplyMarkup] = None): Message =
+                     replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendDocument",
       "chat_id"             -> chatId,
@@ -338,7 +355,7 @@ class TelegramBotApi(token: String) {
   def sendSticker(chatId           : Int,
                   stickerFile      : InputFile,
                   replyToMessageId : Option[Int] = None,
-                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+                  replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendSticker",
       "chat_id"             -> chatId,
@@ -350,7 +367,7 @@ class TelegramBotApi(token: String) {
   def sendStickerId(chatId           : Int,
                     stickerId        : String,
                     replyToMessageId : Option[Int] = None,
-                    replyMarkup      : Option[ReplyMarkup] = None): Message =
+                    replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendSticker",
       "chat_id"             -> chatId,
@@ -376,7 +393,7 @@ class TelegramBotApi(token: String) {
                 duration         : Option[Int] = None,
                 caption          : Option[String] = None,
                 replyToMessageId : Option[Int] = None,
-                replyMarkup      : Option[ReplyMarkup] = None): Message =
+                replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendVideo",
       "chat_id"             -> chatId,
@@ -392,7 +409,7 @@ class TelegramBotApi(token: String) {
                   duration         : Option[Int] = None,
                   caption          : Option[String] = None,
                   replyToMessageId : Option[Int] = None,
-                  replyMarkup      : Option[ReplyMarkup] = None): Message =
+                  replyMarkup      : Option[ReplyMarkup] = None): Future[Message] =
   {
     getAs[Message]("sendAudio",
       "chat_id"             -> chatId,
@@ -417,7 +434,7 @@ class TelegramBotApi(token: String) {
    */
   def getUpdates(offset  : Option[Int] = None,
                  limit   : Option[Int] = None,
-                 timeout : Option[Int] = None): Array[Update] = {
+                 timeout : Option[Int] = None): Future[Array[Update]] = {
     getAs[Array[Update]]("getUpdates",
       "offset"  -> offset,
       "limit"   -> limit,
@@ -437,7 +454,12 @@ class TelegramBotApi(token: String) {
    *     3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
    */
   def setWebhook(url: Option[String]): Unit = {
-    apiCall("setWebhook",
+    syncApiCall("setWebhook",
       "url" -> url)
+  }
+
+  def asyncSetWebhook(url: Option[String]): Unit = {
+    apiCall("setWebhook",
+                 "url" -> url)
   }
 }

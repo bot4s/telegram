@@ -3,6 +3,9 @@ package info.mukel.telegram.bots
 import info.mukel.telegram.bots.api.ChatAction._
 import info.mukel.telegram.bots.api.{TelegramBotApi, Update}
 
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+
 /**
  * Polling
  *
@@ -20,9 +23,11 @@ trait Polling extends Runnable {
     // setWebhook(None)
     var updatesOffset = 0
     while (running) {
-      for (u <- getUpdates(offset = updatesOffset)) {
-        handleUpdate(u)
+      for (updates <- getUpdates(offset = updatesOffset)) {
+        for (u <- updates ) {
+          handleUpdate(u)
         updatesOffset = updatesOffset max (u.updateId + 1)
+        }
       }
       Thread.sleep(pollingCycle)
     }
