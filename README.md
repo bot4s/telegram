@@ -5,6 +5,16 @@ Telegram Bot API for Scala
 
 The aim of this project is to provide a 100% idiomatic Scala wrapper for the new [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, strongly-typed (no JSON stuff) and camelCased.
 
+
+## Using it from SBT
+Cross-compiled for Scala 2.11 and 2.10 
+
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.1-SNAPSHOT"
+```
+
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
 
@@ -36,6 +46,7 @@ Then you can safely share your code and submit pull requests.
   - forwardMessage
   - sendPhoto
   - sendAudio
+  - sendVoice
   - sendDocument
   - sendSticker
   - sendVideo
