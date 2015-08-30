@@ -269,11 +269,11 @@ class TelegramBotApi(token: String) {
    *
    * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
    *
-   * @param chatId               Unique identifier for the message recipient — User or GroupChat id
-   * @param audio                Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
-   * @param duration             Optional  Duration of sent audio in seconds
+   * @param chatId            Unique identifier for the message recipient — User or GroupChat id
+   * @param audioFile         Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+   * @param duration          Optional  Duration of sent audio in seconds
    * @param replyToMessageId  Optional  If the message is a reply, ID of the original message
-   * @param replyMarkup         Optional  Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+   * @param replyMarkup       Optional  Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
    */
   def sendVoice(chatId           : Int,
                 audioFile        : InputFile,
@@ -448,19 +448,24 @@ class TelegramBotApi(token: String) {
    * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
    * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
    *
-   * @param url  Optional 	HTTPS url to send updates to. Use an empty string to remove webhook integration
+   * @param url          Optional HTTPS url to send updates to. Use an empty string to remove webhook integration
+   * @param certificate  Optional	Upload your public key certificate so that the root certificate in use can be checked
    *   Notes
    *     1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
-   *     2. We currently do not support self-signed certificates.
+   *     2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work.
    *     3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
    */
-  def setWebhook(url: Option[String]): Unit = {
+  def setWebhook(url         : Option[String],
+                 certificate : Option[InputFile] = None): Unit = {
     syncApiCall("setWebhook",
-      "url" -> url)
+      "url"         -> url,
+      "certificate" -> certificate)
   }
 
-  def asyncSetWebhook(url: Option[String]): Unit = {
+  def asyncSetWebhook(url         : Option[String],
+                      certificate : Option[InputFile] = None): Unit = {
     apiCall("setWebhook",
-                 "url" -> url)
+      "url"         -> url,
+      "certificate" -> certificate)
   }
 }
