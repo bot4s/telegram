@@ -16,7 +16,7 @@ import ExecutionContext.Implicits.global
 trait ScalajHttpClient extends HttpClient {
 
   def request(requestUrl: String, params : (String, Any)*): String = {
-    // TODO: Set appropiate timeout values
+    // TODO: Set appropriate timeout values
     val query = params.foldLeft(Http(requestUrl)) {
       case (q, (id, value)) => value match {
         case file: InputFile =>

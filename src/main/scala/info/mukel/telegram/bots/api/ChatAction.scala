@@ -1,6 +1,8 @@
 package info.mukel.telegram.bots.api
 
 /**
+ * ChatAction
+ *
  * Type of action to broadcast.
  *
  * Choose one, depending on what the user is about to receive:

@@ -9,6 +9,8 @@ import ExecutionContext.Implicits.global
 
 /**
  * TelegramBot
+ *
+ * Base for Telegram Bots
  */
 abstract class TelegramBot(val token: String) extends TelegramBotApi(token) with ScalajHttpClient {
 

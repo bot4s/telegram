@@ -10,7 +10,7 @@ import info.mukel.telegram.bots.json.JsonUtils
 /**
  * Webhooks
  *
- * Provides updates based on web hooks 
+ * Provides updates based on webhooks
  * The server once stopped cannot be restarted
  */
 trait Webhooks extends Runnable with HttpHandler {
@@ -48,7 +48,7 @@ trait Webhooks extends Runnable with HttpHandler {
     val path = exchange.getRequestURI.getPath
     println(method + " " + path)
     try {
-      // the token must conained somewhere in the path
+      // the token must contained somewhere in the path to 'authenticate' the request
       if (method == "POST" && path.contains(token)) {
         val body = scala.io.Source.fromInputStream(exchange.getRequestBody).mkString
         handleUpdate(JsonUtils.unjsonify[Update](body))
