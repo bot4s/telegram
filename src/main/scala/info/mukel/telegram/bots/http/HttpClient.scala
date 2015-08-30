@@ -1,5 +1,7 @@
 package info.mukel.telegram.bots.http
 
+import scala.concurrent.Future
+
 /**
  * Created by mukel on 8/5/15.
  */
@@ -16,5 +18,5 @@ trait HttpClient {
    *   (id, x)                (anything else) passed as parameter id=x.toString
    */
   def request(requestUrl: String, options : (String, Any)*): String
+  def asyncRequest(requestUrl: String, options : (String, Any)*): Future[String]
 }
-

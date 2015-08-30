@@ -3,6 +3,7 @@ package info.mukel.telegram.bots
 import info.mukel.telegram.bots.api.{Message, Update}
 
 import scala.collection.mutable
+import scala.concurrent.Future
 
 /**
  * Commands
@@ -76,7 +77,7 @@ trait Commands {
   def replyTo(chatId: Int,
               disableWebPagePreview : Option[Boolean] = None,
               replyToMessageId: Option[Int] = None)
-             (text: String): Message = {
+             (text: String): Future[Message] = {
     sendMessage(chatId, text, disableWebPagePreview, replyToMessageId)
   }
 
