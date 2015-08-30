@@ -73,7 +73,7 @@ The certificate requirement can be easily overcome by using the [CloudFlare Univ
 Beside the usual ways, I've managed to run FlunkeyBot successfully on a Raspberry Pi 2, and most notably on an old Android (4.1.2) phone with a broken screen.
 
 ## About blocking
-All API calls are blocking, but the code can be easily modified to be fully asynchronous (see AsycnBot below).
+All API calls are aysnc thanks to [Andrey Romanov](https://github.com/drewnoff), still all updates are processed sequentially which makes sense since the order of incoming messages should (usually) match the order of responses; in case the order doesn't matter, updates can be handled asynchonously, see Async Bot below.
 
 # Usage
 
