@@ -3,7 +3,7 @@
 
 Telegram Bot API for Scala
 
-The aim of this project is to provide a 100% idiomatic Scala wrapper for the new [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, strongly-typed (no JSON stuff) and camelCased.
+The aim of this project is to provide a 100% idiomatic Scala wrapper for the new [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, asynchronous by default, strongly-typed (no JSON stuff) and camelCased.
 
 
 ## Using it from SBT
@@ -60,7 +60,6 @@ Then you can safely share your code and submit pull requests.
 ## Would be nice to:
   - Add proper logging
   - Improve error/exception handling
-  - Make the API async by default
 
 ## Webhooks vs Polling (getUpdates)
 Both polling and web hooks are supported. Polling is by far the easiest method, and can be used locally without any additional requirements.
