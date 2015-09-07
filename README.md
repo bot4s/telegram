@@ -56,23 +56,31 @@ Then you can safely share your code and submit pull requests.
   - getUpdates
   - setWebhooks
   - Custom keyboard markups
+  - Self-signed certificates
 
 ## Would be nice to:
   - Add proper logging
   - Improve error/exception handling
+  - Improve the usage of self-signed certificates
 
 ## Webhooks vs Polling (getUpdates)
 Both polling and web hooks are supported. Polling is by far the easiest method, and can be used locally without any additional requirements.
 
-Using web hooks requires a server (it won't work on your laptop) and a valid SSL certificate (which costs money). Self signed certificates won't work.
+Using web hooks requires a server (it won't work on your laptop) and a valid SSL certificate (which costs money). Self signed certificates ~~wont work~~ are supported now since August 29th, see the API [recent changes](https://core.telegram.org/bots/api#recent-changes).
 
 The certificate requirement can be easily overcome by using the [CloudFlare Universal SSL](https://blog.cloudflare.com/introducing-universal-ssl/) feature, which is awesome (and free). Another possible solution is hosting your bot on Google App Engine; the free quotas should be more than enough.
+
+## Self-signed certificates
+Self-signed certificates are already supported, but not friendly at all, the user still has to worry about creating the certificates..., the goal is to add the functionality directly into the [Webhooks](https://github.com/mukel/telegrambot4s/blob/master/src/main/scala/info/mukel/telegram/bots/Webhooks.scala) trait, completely transparent to the user. The desired flow would be something like: generate certificate, set webhook, run.
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
 Beside the usual ways, I've managed to run FlunkeyBot successfully on a Raspberry Pi 2, and most notably on an old Android (4.1.2) phone with a broken screen.
 
 ## About blocking
 All API calls are aysnc thanks to [Andrey Romanov](https://github.com/drewnoff), still all updates are processed sequentially which makes sense since the order of incoming messages should (usually) match the order of responses; in case the order doesn't matter, updates can be handled asynchonously, see Async Bot below.
+
+## Contributions
+Contributions are highly appreciated, documentation improvements/corrections, [better ways to do things](https://github.com/mukel/telegrambot4s/pull/1/files). Writing a bot using this library is also a way to contribute, I'll add a link to your bot here in README anytime.
 
 # Usage
 
@@ -163,3 +171,6 @@ Bot using web hooks
   WebhookedBot.run()
   
 ```
+
+
+
