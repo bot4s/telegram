@@ -1,6 +1,6 @@
 name := "telegrambot4s"
 
-version := "1.0.1-SNAPSHOT"
+version := "1.0.2-SNAPSHOT"
 
 scalaVersion := "2.11.7"
 
@@ -9,7 +9,7 @@ organization := "info.mukel"
 crossScalaVersions := Seq("2.10.5", "2.11.7")
 
 libraryDependencies ++= Seq(
-  "org.scalaj" %% "scalaj-http" % "1.1.5",
+  "org.scalaj" %% "scalaj-http" % "2.2.0",
   "org.json4s" %% "json4s-native" % "3.2.11",
   "org.scalatest" %% "scalatest" % "2.2.4"
 )
