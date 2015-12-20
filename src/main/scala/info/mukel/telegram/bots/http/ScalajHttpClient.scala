@@ -15,9 +15,12 @@ import ExecutionContext.Implicits.global
  */
 trait ScalajHttpClient extends HttpClient {
 
+  val ConnectionTimeout = 2000
+  val ReadTimeout = 10000
+
   def request(requestUrl: String, params : (String, Any)*): String = {
     // TODO: Set appropriate timeout values
-    val query = params.foldLeft(Http(requestUrl)) {
+    val query = params.foldLeft(Http(requestUrl).timeout(ConnectionTimeout, ReadTimeout)) {
       case (q, (id, value)) => value match {
         case file: InputFile =>
         // TODO: Get the corret MIME type, right now the server ignored it or does some content-based MIME detection
