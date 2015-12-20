@@ -73,13 +73,30 @@ class TelegramBotApi(token: String) {
    * Use this method to send text messages. On success, the sent Message is returned.
    * 
    * @param chatId                 Unique identifier for the message recipient — User or GroupChat id
-   * @param text 	                 Text of the message to be sent
+   * @param text 	               Text of the message to be sent
+   * @param parseMode              Optional		Send "Markdown", if you want Telegram apps to show bold, italic and inline URLs in your bot's message. For the moment, only Telegram for Android supports this.
    * @param disableWebPagePreview  Optional 	Disables link previews for links in this message
    * @param replyToMessageId       Optional 	If the message is a reply, ID of the original message
    * @param replyMarkup            Optional 	Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+   *	
+   * Using markdown
+   * The Bot API supports very basic markdown. You can use bold and italic text, as well as inline links in your bots' messages. Telegram clients will render them accordingly (for the moment this is only supported in Telegram for Android and Telegram Web, but all official clients will catch up soon).
+   * For this to work, make sure to pass Markdown in the parse_mode field when using sendMessage. Use the following syntax in your message:
+   * 
+   * *bold text*
+   * _italic text_
+   * [text](URL)
+   *
+   * Note that Telegram clients will display an alert to the user before opening an inline link (‘Open this link?’ together with the full URL).
+   * 
+   * You can also use backticks for fixed-width and pre-formatted code:
+   * 
+   * `inline fixed-width code`
+   * ```pre-formatted fixed-width code block```
    */
   def sendMessage(chatId                : Int,
                   text                  : String,
+                  parseMode             : Option[String] = None,
                   disableWebPagePreview : Option[Boolean] = None,
                   replyToMessageId      : Option[Int] = None,
                   replyMarkup           : Option[ReplyMarkup] = None): Future[Message] =
@@ -87,6 +104,7 @@ class TelegramBotApi(token: String) {
     getAs[Message]("sendMessage",
       "chat_id"                   -> chatId,
       "text"                      -> text,
+      "parse_mode"                -> parseMode,
       "disable_web_page_preview"  -> disableWebPagePreview,
       "reply_to_message_id"       -> replyToMessageId,
       "reply_markup"              -> (replyMarkup map JsonUtils.jsonify))

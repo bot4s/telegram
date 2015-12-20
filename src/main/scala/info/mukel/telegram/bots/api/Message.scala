@@ -35,7 +35,7 @@ class Message(
               val date                : Int,
               // TODO: This is a workaround to handle the limitations of the JSON deserialization.
               // The correct type would be Either[User, GroupChat]
-              val chat                : UserOrGroupChat,
+              val chat                : Chat,
               val forwardFrom         : Option[User] = None,
               val forwardDate         : Option[Int] = None,
               val replyToMessage      : Option[Message] = None,
