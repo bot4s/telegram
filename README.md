@@ -12,7 +12,7 @@ Cross-compiled for Scala 2.11 and 2.10
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.1-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.2-SNAPSHOT"
 ```
 
 # About TOKEN safety
@@ -108,7 +108,7 @@ Or
 
     // Let Me Google That For You :)    
     on("lmgtfy") { (sender, args) =>
-      replyTo(sender, disable_web_page_preview = true) {
+      replyTo(sender, disableWebPagePreview = true) {
         "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8")
       }
     }
