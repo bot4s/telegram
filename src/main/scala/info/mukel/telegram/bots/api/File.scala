@@ -14,7 +14,7 @@ package info.mukel.telegram.bots.api
   * @param fileSize  Optional File size, if known
   * @param filePath  Optional File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
   */
-case class File(
+case class TelegramFile(
                  fileId   : String,
                  fileSize : Option[Int],
                  filePath : Option[String]

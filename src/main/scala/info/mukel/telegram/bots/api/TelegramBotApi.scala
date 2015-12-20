@@ -495,5 +495,5 @@ class TelegramBotApi(token: String) {
    *
    * @param fileId  File identifier to get info about
    */
-  def getFile(fileId: String) = getAs[File]("getFile", "file_id" -> fileId)
+  def getFile(fileId: String) = getAs[TelegramFile]("getFile", "file_id" -> fileId)
 }
