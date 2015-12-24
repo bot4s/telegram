@@ -9,8 +9,3 @@ jdk:
   - oraclejdk8
 
 sudo: false
-
-cache:
-  directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/
