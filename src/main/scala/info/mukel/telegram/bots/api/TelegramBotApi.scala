@@ -496,4 +496,33 @@ class TelegramBotApi(token: String) {
    * @param fileId  File identifier to get info about
    */
   def getFile(fileId: String) = getAs[TelegramFile]("getFile", "file_id" -> fileId)
+
+  /**
+    * answerInlineQuery
+    *
+    * Use this method to send answers to an inline query. On success, True is returned.
+    * No more than 50 results per query are allowed.
+    *
+    * @param inlineQueryId  String	Yes	Unique identifier for the answered query
+    * @param results        Array of InlineQueryResult	Yes	A JSON-serialized array of results for the inline query
+    * @param cacheTime      Integer	Optional	The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
+    * @param isPersonal     Boolean	Optional	Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+    * @param nextOffset     String	Optional	Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.
+    */
+  def answerInlineQuery(inlineQueryId : String,
+                        results       : Array[InlineQueryResult],
+                        cacheTime     : Option[Int] = None,
+                        isPersonal    : Option[Boolean] = None,
+                        nextOffset    : Option[String] = None): Unit = {
+
+    getAs[String]("answerInlineQuery",
+      "inline_query_id" -> inlineQueryId,
+      "results"         -> results,
+      "cache_time"      -> cacheTime,
+      "is_personal"     -> isPersonal,
+      "next_offset"     -> nextOffset)
+  }
+
+
+
 }
