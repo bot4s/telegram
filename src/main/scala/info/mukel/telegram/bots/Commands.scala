@@ -19,7 +19,7 @@ trait Commands {
   // Allows targeting specific bots eg. /hello@FlunkeyBot
   val cmdAt = "@"
 
-  private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()  
+  private val commands = mutable.HashMap[String, (Int, Seq[String]) => Unit]()
 
   /**
    * handleUpdate
@@ -44,7 +44,7 @@ trait Commands {
    */
   override def handleUpdate(update: Update): Unit = {
     for {
-      msg <- update.message
+      msg <- update.message if AuthorizationManager.isAuthorized(msg.chat.id)
       text <- msg.text
     } /* do */ {
 
