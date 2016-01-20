@@ -3,8 +3,9 @@
 
 Telegram Bot API for Scala
 
-The aim of this project is to provide a 100% idiomatic Scala wrapper for the new [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, asynchronous by default, strongly-typed (no JSON stuff/strings) and transparently camelCased.
+100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, asynchronous by default, strongly-typed (no JSON stuff/strings) and transparently camelCased.
 
+Keeping the library up to date ensuring that all the functionality works is becoming difficult, I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Using it from SBT
 Cross-compiled for Scala 2.11 and 2.10 
@@ -12,7 +13,7 @@ Cross-compiled for Scala 2.11 and 2.10
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.2-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.3-SNAPSHOT"
 ```
 
 # About TOKEN safety
