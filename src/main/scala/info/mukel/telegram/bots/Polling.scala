@@ -25,8 +25,8 @@ trait Polling extends Runnable {
     while (running) {
       for (updates <- getUpdates(offset = updatesOffset)) {
         for (u <- updates ) {
-          handleUpdate(u)
-        updatesOffset = updatesOffset max (u.updateId + 1)
+          Future(handleUpdate(u))
+          updatesOffset = updatesOffset max (u.updateId + 1)
         }
       }
       Thread.sleep(pollingCycle)
