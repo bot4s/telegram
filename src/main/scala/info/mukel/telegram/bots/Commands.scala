@@ -64,7 +64,7 @@ trait Commands {
               action(msg.chat.id, args)
           }
 
-        case _ => /* Ignore */
+        case _ => onText (text, msg)
       }
     }
   }
@@ -91,4 +91,11 @@ trait Commands {
   def on(command: String)(action: (Int, Seq[String]) => Unit): Unit = {
     commands += (command -> action)
   }
+
+  /**
+    * Allows to receive and process text messages
+    * @param text - message text
+    * @param message - whole message for more complex cases
+    */
+  def onText(text: String, message: Message) : Unit = {}
 }
