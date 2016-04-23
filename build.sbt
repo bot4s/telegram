@@ -1,17 +1,16 @@
 name := "telegrambot4s"
 
-version := "1.0.3-SNAPSHOT"
+version := "1.1.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 organization := "info.mukel"
 
-crossScalaVersions := Seq("2.10.5", "2.11.7")
+//crossScalaVersions := Seq("2.11.8")
 
 libraryDependencies ++= Seq(
-  "org.scalaj" %% "scalaj-http" % "2.2.0",
-  "org.json4s" %% "json4s-native" % "3.2.11",
-  "org.scalatest" %% "scalatest" % "2.2.4"
+  "org.scalaj" %% "scalaj-http" % "2.3.0",
+  "org.json4s" %% "json4s-native" % "3.3.0"
 )
 
 publishTo <<= version { v: String =>
