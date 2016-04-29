@@ -16,6 +16,13 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.0.3-SNAPSHOT"
 ```
 
+## Version 2 planned features (open an issue for feature request)
+  - Bot API v2 support (inline goodies)
+  - Built on top of Akka reactive streams
+  - Custom/plugable handlers (not just limited to commands)
+  - Seamless Webhook support
+  - Containerization (Google App Engine, Docker)
+
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
 
