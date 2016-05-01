@@ -6,11 +6,12 @@ scalaVersion := "2.11.8"
 
 organization := "info.mukel"
 
-//crossScalaVersions := Seq("2.11.8")
-
 libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "2.3.0",
-  "org.json4s" %% "json4s-native" % "3.3.0"
+  "org.json4s" %% "json4s-native" % "3.3.0",
+  "com.typesafe.akka" %% "akka-http-core" % "2.4.4",
+  "com.typesafe.akka" %% "akka-http-experimental" % "2.4.4",
+  "com.typesafe.akka" %% "akka-stream" % "2.4.4"
 )
 
 publishTo <<= version { v: String =>
