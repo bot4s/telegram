@@ -1,9 +1,11 @@
 package info.mukel.telegram.bots.v2
 
+import info.mukel.telegram.bots.v2.api.TelegramApi
+
 /**
-  * Created by mukel on 5/1/16.
+  * Telegram Bot base
   */
 trait TelegramBot {
-  abstract val token: String
-
+  val token: String
+  val api = new TelegramApi(token)
 }

@@ -1,46 +1,17 @@
 package info.mukel.telegram.bots.v2
 
-import akka.NotUsed
-import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
+import info.mukel.telegram.bots.v2.model._
+import info.mukel.telegram.bots.v2.api._
+import scala.util.{Failure, Success}
 
-import scala.concurrent.Future
-import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, ClosedShape}
-import akka.stream.scaladsl._
-
-/*
-trait ApiRequest
-
-trait ApiResponse
-
-trait ApiBase {
-
-  private val apiFlow: Flow[ApiRequest, ApiResponse, NotUsed] =
-    Flow[ApiRequest]
-      .via(apiRequestToHttpRequest)
-      .via(http)
-      .via(httpResponseToApiResponse)
-
-  def apiRequest(request: ApiRequest): Future[ApiResponse] =
-    Source.single(request)
-      .via(apiFlow)
-      .toMat(Sink.head)(Keep.right)
-      .run()
-}*/
+case object GetMe extends ApiRequest[User]
 
 object Test extends App {
 
-  def getUpdates(offset: Int): Future[List[Int]] = {
-    Future {
-      List(offset, offset + 1)
-    }
+  val api = new TelegramApi("YOU_TOKEN_HERE")
+
+  api.request(GetMe).onComplete {
+    case Success(user) => println(user)
+    case Failure(e) => println(e)
   }
-
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
-  import system.dispatcher
-
-  val s = Source(List(1, 2, 3)).map(_ * 2).scan(0)((acc, x) => acc max x)
-  s.runForeach(println)
-
 }
