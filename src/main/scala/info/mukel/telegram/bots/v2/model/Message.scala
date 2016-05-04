@@ -54,7 +54,7 @@ case class Message(
                caption               : Option[String] = None,
                contact               : Option[Contact] = None,
                location              : Option[Location] = None,
-               venue                 : Option[Venue],
+               venue                 : Option[Venue] = None,
                newChatMember         : Option[User] = None,
                leftChatMember        : Option[User] = None,
                newChatTitle          : Option[String] = None,

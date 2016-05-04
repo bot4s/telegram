@@ -10,8 +10,8 @@ package info.mukel.telegram.bots.v2.model
   * @param foursquareId  String	Optional. Foursquare identifier of the venue
   */
 case class Venue(
-                location: Location,
-                title: String,
-                address: String,
+                location     : Location,
+                title        : String,
+                address      : String,
                 foursquareId : Option[String] = None
                 )

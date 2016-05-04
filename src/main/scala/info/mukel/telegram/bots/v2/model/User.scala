@@ -6,7 +6,7 @@ package info.mukel.telegram.bots.v2.model
   *
   * @param id         Unique identifier for this user or bot
   * @param firstName  User‘s or bot’s first namenc
-  * @param lastName 	 Optional. User‘s or bot’s last name
+  * @param lastName 	Optional. User‘s or bot’s last name
   * @param username   Optional. User‘s or bot’s username
   */
 case class User(

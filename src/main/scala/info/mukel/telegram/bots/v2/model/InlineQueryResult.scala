@@ -23,7 +23,7 @@ package info.mukel.telegram.bots.v2.model
   *   InlineQueryResultVideo
   *   InlineQueryResultVoice
   */
-trait InlineQueryResult {
+sealed trait InlineQueryResult {
   def id : String
   def `type` : String
   def replyMarkup : Option[InlineKeyboardMarkup]
@@ -62,7 +62,8 @@ case class InlineQueryResultArticle(
 /**
   * InlineQueryResultPhoto
   *
-  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
+  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
 
   * @param type                 String	Type of the result, must be photo
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -92,7 +93,8 @@ case class InlineQueryResultPhoto(
 
 /** InlineQueryResultGif
   *
-  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
+  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -120,7 +122,9 @@ case class InlineQueryResultGif(
 
 /** InlineQueryResultMpeg4Gif
   *
-  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
+  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound).
+  * By default, this animated MPEG-4 file will be sent by the user with optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be mpeg4_gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -148,7 +152,9 @@ case class InlineQueryResultMpeg4Gif(
 
 /** InlineQueryResultVideo
   *
-  * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
+  * Represents a link to a page containing an embedded video player or a video file.
+  * By default, this video file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
   *
   * @param type	                String	Type of the result, must be video
   * @param id	                  String	Unique identifier for this result, 1-64 bytes
@@ -182,7 +188,8 @@ case class InlineQueryResultVideo(
 
 /** InlineQueryResultAudio
   *
-  * Represents a link to an mp3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
+  * Represents a link to an mp3 audio file. By default, this audio file will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
   *
   * @param type                 String	Type of the result, must be audio
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -208,7 +215,9 @@ case class InlineQueryResultAudio(
 
 /** InlineQueryResultVoice
   *
-  * Represents a link to a voice recording in an .ogg container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
+  * Represents a link to a voice recording in an .ogg container encoded with OPUS.
+  * By default, this voice recording will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
   *
   * @param type	String	Type of the result, must be voice
   * @param id	String	Unique identifier for this result, 1-64 bytes
@@ -232,8 +241,9 @@ case class InlineQueryResultVoice(
 
 /** InlineQueryResultDocument
   *
-  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
-  *
+  * Represents a link to a file. By default, this file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
+  * Currently, only .PDF and .ZIP files can be sent using this method.
   *
   * @param type	String	Type of the result, must be document
   * @param id	String	Unique identifier for this result, 1-64 bytes
@@ -265,7 +275,8 @@ case class InlineQueryResultDocument(
 
 /** InlineQueryResultLocation
   *
-  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
+  * Represents a location on a map. By default, the location will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
   *
   * @param type                 String	Type of the result, must be location
   * @param id                   String	Unique identifier for this result, 1-64 Bytes
@@ -295,7 +306,8 @@ case class InlineQueryResultLocation(
 
 /** InlineQueryResultVenue
   *
-  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
+  * Represents a venue. By default, the venue will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
   *
   * @param type                 String	Type of the result, must be venue
   * @param id                   String	Unique identifier for this result, 1-64 Bytes
@@ -329,7 +341,8 @@ case class InlineQueryResultVenue(
 
 /** InlineQueryResultContact
   *
-  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
+  * Represents a contact with a phone number. By default, this contact will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
   *
   * @param type                 String	Type of the result, must be contact
   * @param id                   String	Unique identifier for this result, 1-64 Bytes
@@ -348,7 +361,7 @@ case class InlineQueryResultContact(
                                    id                  : String,
                                    phoneNumber         : String,
                                    firstName           : String,
-                                   lastName            : String,
+                                   lastName            : Option[String] = None,
                                    replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                    inputMessageContent : Option[InputMessageContent] = None,
                                    thumbUrl            : Option[String] = None,
@@ -360,7 +373,9 @@ case class InlineQueryResultContact(
 
 /** InlineQueryResultCachedPhoto
   *
-  * Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
+  * Represents a link to a photo stored on the Telegram servers.
+  * By default, this photo will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
   *
   * @param type                 String	Type of the result, must be photo
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -383,7 +398,9 @@ case class InlineQueryResultCachedPhoto(
                                  ) extends InlineQueryResult
 
 /** InlineQueryResultCachedGif
-  * Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
+  * Represents a link to an animated GIF file stored on the Telegram servers.
+  * By default, this animated GIF file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be gif
   * @param id	String            Unique identifier for this result, 1-64 bytes
@@ -404,7 +421,9 @@ case class InlineQueryResultCachedGif(
                                  ) extends InlineQueryResult
 
 /** InlineQueryResultCachedMpeg4Gif
-  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
+  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers.
+  * By default, this animated MPEG-4 file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be mpeg4_gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -426,7 +445,9 @@ case class InlineQueryResultCachedMpeg4Gif(
 
 /** InlineQueryResultCachedSticker
   *
-  * Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
+  * Represents a link to a sticker stored on the Telegram servers.
+  * By default, this sticker will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
   *
   * @param type	String	Type of the result, must be sticker
   * @param id	String	Unique identifier for this result, 1-64 bytes
@@ -446,7 +467,10 @@ case class InlineQueryResultCachedSticker(
 
 /** InlineQueryResultCachedDocument
   *
-  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only pdf-files and zip archives can be sent using this method.
+  * Represents a link to a file stored on the Telegram servers.
+  * By default, this file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
+  * Currently, only pdf-files and zip archives can be sent using this method.
   *
   * @param type                 String	Type of the result, must be document
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -472,7 +496,9 @@ case class InlineQueryResultCachedDocument(
 
 /** InlineQueryResultCachedVideo
   *
-  * Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
+  * Represents a link to a video file stored on the Telegram servers.
+  * By default, this video file will be sent by the user with an optional caption.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
   *
   * @param type                 String	Type of the result, must be video
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -496,7 +522,9 @@ case class InlineQueryResultCachedVideo(
 
 /** InlineQueryResultCachedVoice
   *
-  * Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
+  * Represents a link to a voice message stored on the Telegram servers.
+  * By default, this voice message will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
   *
   * @param type                 String	Type of the result, must be voice
   * @param id                   String	Unique identifier for this result, 1-64 bytes
@@ -518,7 +546,9 @@ case class InlineQueryResultCachedVoice(
 
 /** InlineQueryResultCachedAudio
   *
-  * Represents a link to an mp3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
+  * Represents a link to an mp3 audio file stored on the Telegram servers.
+  * By default, this audio file will be sent by the user.
+  * Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
   *
   * @param type                 String	Type of the result, must be audio
   * @param id                   String	Unique identifier for this result, 1-64 bytes

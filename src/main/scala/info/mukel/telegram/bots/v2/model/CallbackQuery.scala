@@ -2,7 +2,9 @@ package info.mukel.telegram.bots.v2.model
 
 /** CallbackQuery
   *
-  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be presented. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be presented.
+  * This object represents an incoming callback query from a callback button in an inline keyboard.
+  * If the button that originated the query was attached to a message sent by the bot, the field message will be presented.
+  * If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be presented.
   *
   * @param id               String Unique identifier for this query
   * @param from             User Sender
@@ -13,7 +15,7 @@ package info.mukel.telegram.bots.v2.model
 case class CallbackQuery(
                         id              : String,
                         from            : User,
-                        message         : Option[Message],
-                        inlineMessageId : Option[String],
-                        data            : Option[String]
+                        message         : Option[Message] = None,
+                        inlineMessageId : Option[String] = None,
+                        data            : Option[String] = None
                         )

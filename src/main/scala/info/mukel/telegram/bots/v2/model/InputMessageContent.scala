@@ -74,4 +74,4 @@ case class InputContactMessageContent(
                                      phoneNumber : String,
                                      firstName   : String,
                                      lastName    : Option[String] = None
-                                     )
+                                     ) extends InputMessageContent
