@@ -7,7 +7,7 @@ package info.mukel.telegram.bots.v2.model
   * @param type    String	Type of the entity. One of mention (@username), hashtag, bot_command, url, email, bold (bold text), italic (italic text), code (monowidth string), pre (monowidth block), text_link (for clickable text URLs)
   * @param offset  Integer	Offset in UTF-16 code units to the start of the entity
   * @param length  Integer	Length of the entity in UTF-16 code units
-  * @param url     String	Optional. For “text_link” only, url that will be opened after user taps on the text
+  * @param url     String	Optional For “text_link” only, url that will be opened after user taps on the text
   */
 case class MessageEntity(
                         `type` : String,

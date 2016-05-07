@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.{Message, ReplyMarkup}
 
 /** editMessageReplyMarkup
@@ -18,4 +17,4 @@ case class EditMessageReplyMarkup(
                                  messageId       : Option[Long] = None,
                                  inlineMessageId : Option[String] = None,
                                  replyMarkup     : Option[ReplyMarkup] = None
-                                 ) extends ApiRequest[Either[Message, Boolean]]
+                                 ) extends ApiRequestJson[Either[Message, Boolean]]

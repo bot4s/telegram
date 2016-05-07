@@ -13,8 +13,8 @@ trait ReplyMarkup
   * Optional fields are mutually exclusive.
   *
   * @param text             String	Text of the button. If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
-  * @param requestContact   Boolean	Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
-  * @param requestLocation  Boolean	Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only
+  * @param requestContact   Boolean	Optional If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
+  * @param requestLocation  Boolean	Optional If True, the user's current location will be sent when the button is pressed. Available in private chats only
   *
   * Note: requestContact and requestLocation options will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -29,9 +29,9 @@ case class KeyboardButton(
   * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
   *
   * @param keyboard 	      Array of button rows, each represented by an Array of KeyboardButton objects
-  * @param resizeKeyboard 	Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
-  * @param oneTimeKeyboard  Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
-  * @param selective 	      Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+  * @param resizeKeyboard 	Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+  * @param oneTimeKeyboard  Optional Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
+  * @param selective 	      Optional Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   *
   * Example: A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
   */
@@ -49,7 +49,7 @@ case class ReplyKeyboardMarkup(
   * An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup).
   *
   * @param hideKeyboard  True 	Requests clients to hide the custom keyboard
-  * @param selective 	   Optional. Use this parameter if you want to hide keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+  * @param selective 	   Optional Use this parameter if you want to hide keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   *
   * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and hides keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
   */
@@ -76,9 +76,9 @@ case class InlineKeyboardMarkup(
   * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
   *
   * @param text               String	Label text on the button
-  * @param url                String	Optional. HTTP url to be opened when button is pressed
-  * @param callbackData       String	Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
-  * @param switchInlineQuery  String	Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
+  * @param url                String	Optional HTTP url to be opened when button is pressed
+  * @param callbackData       String	Optional Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
+  * @param switchInlineQuery  String	Optional If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
   *
   * Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm… actions – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
@@ -96,7 +96,7 @@ case class InlineKeyboardButton(
   * This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode.
   *
   * @param forceReply  True 	Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
-  * @param selective 	 Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+  * @param selective 	 Optional Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   *
   * Example:
   *   A poll bot for groups runs in privacy mode (only receives commands, replies to its messages and mentions). There could be two ways to create a new poll:

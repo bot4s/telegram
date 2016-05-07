@@ -1,11 +1,8 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.InlineQueryResult
 
-/** answerInlineQuery
-  *
-  * Use this method to send answers to an inline query. On success, True is returned.
+/** Use this method to send answers to an inline query. On success, True is returned.
   * No more than 50 results per query are allowed.
   *
   * @param inlineQueryId      String	Unique identifier for the answered query
@@ -24,4 +21,4 @@ case class AnswerInlineQuery(
                             nextOffset        : Option[String] = None,
                             switchPmText      : Option[String] = None,
                             switchPmParameter : Option[String] = None
-                            ) extends ApiRequest[Boolean]
+                            ) extends ApiRequestJson[Boolean]

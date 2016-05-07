@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.{InputFile, Message, ReplyMarkup}
 
 /** sendPhoto
@@ -21,4 +20,4 @@ case class SendPhoto(
                     disableNotification : Option[Boolean] = None,
                     replyToMessageId    : Option[Long] = None,
                     replyMarkup         : Option[ReplyMarkup] = None
-                    ) extends ApiRequest[Message]
+                    ) extends ApiRequestMultipart[Message]

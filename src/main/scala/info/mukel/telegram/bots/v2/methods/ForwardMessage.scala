@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.Message
 
 /** forwardMessage
@@ -17,4 +16,4 @@ case class ForwardMessage(
                          fromChatId          : Either[Long, String],
                          disableNotification : Option[Boolean] = None,
                          messageId           : Long
-                         ) extends ApiRequest[Message]
+                         ) extends ApiRequestJson[Message]

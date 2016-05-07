@@ -1,9 +1,9 @@
-package info.mukel.telegram.bots.v2
+package info.mukel.telegram.bots.v2.api
 
 /**
   * Useful implicits to reduce boilerplate.
   */
-package object methods {
+object Implicits {
   implicit def toEitherOrL[L, R](l: L) : Either[L, R] = Left(l)
   implicit def toEitherOrR[L, R](r: R) : Either[L, R] = Right(r)
 

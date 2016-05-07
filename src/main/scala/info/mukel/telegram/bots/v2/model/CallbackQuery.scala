@@ -8,8 +8,8 @@ package info.mukel.telegram.bots.v2.model
   *
   * @param id               String Unique identifier for this query
   * @param from             User Sender
-  * @param message          Message Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
-  * @param inlineMessageId  String Optional. Identifier of the message sent via the bot in inline mode, that originated the query
+  * @param message          Message Optional Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+  * @param inlineMessageId  String Optional Identifier of the message sent via the bot in inline mode, that originated the query
   * @param data             String Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field
   */
 case class CallbackQuery(
