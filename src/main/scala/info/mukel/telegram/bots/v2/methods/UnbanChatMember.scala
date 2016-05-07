@@ -1,7 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
-
 /** unbanChatMember
   *
   * Use this method to unban a previously kicked user in a supergroup.
@@ -14,4 +12,4 @@ import info.mukel.telegram.bots.v2.api.ApiRequest
 case class UnbanChatMember(
                           chatId: Either[Long, String],
                           userId: Long
-                          ) extends ApiRequest[Boolean]
+                          ) extends ApiRequestJson[Boolean]

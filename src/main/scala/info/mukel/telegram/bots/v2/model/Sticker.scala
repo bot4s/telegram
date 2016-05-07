@@ -8,8 +8,8 @@ package info.mukel.telegram.bots.v2.model
   * @param fileId    Unique identifier for this file
   * @param width     Sticker width
   * @param height    Sticker height
-  * @param thumb 	   Optional. Sticker thumbnail in .webp or .jpg format
-  * @param fileSize  Optional. File size
+  * @param thumb 	   Optional Sticker thumbnail in .webp or .jpg format
+  * @param fileSize  Optional File size
   */
 case class Sticker(
                     fileId   : String,

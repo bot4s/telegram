@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.methods.ParseMode.ParseMode
 import info.mukel.telegram.bots.v2.model.{Message, ReplyMarkup}
 
@@ -25,4 +24,4 @@ case class EditMessageText(
                           parseMode             : Option[ParseMode] = None,
                           disableWebPagePreview : Option[Boolean] = None,
                           replyMarkup           : Option[ReplyMarkup] = None
-                          ) extends ApiRequest[Either[Message, Boolean]]
+                          ) extends ApiRequestJson[Message]

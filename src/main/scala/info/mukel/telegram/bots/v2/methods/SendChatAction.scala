@@ -1,7 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
-import info.mukel.telegram.bots.v2.methods.ChatAction
 import info.mukel.telegram.bots.v2.methods.ChatAction.ChatAction
 
 /** sendChatAction
@@ -19,7 +17,7 @@ import info.mukel.telegram.bots.v2.methods.ChatAction.ChatAction
 case class SendChatAction(
                          chatId : Long,
                          action : ChatAction
-                         ) extends ApiRequest[Boolean]
+                         ) extends ApiRequestJson[Boolean]
 
 /** ChatAction
   *

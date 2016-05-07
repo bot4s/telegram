@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.File
 
 /** getFile
@@ -16,4 +15,4 @@ import info.mukel.telegram.bots.v2.model.File
   */
 case class GetFile(
                   fileId : String
-                  ) extends ApiRequest[File]
+                  ) extends ApiRequestJson[File]
