@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.InputFile
 
 /** setWebhook
@@ -22,5 +21,5 @@ import info.mukel.telegram.bots.v2.model.InputFile
 case class SetWebhook(
                      url: Option[String] = None,
                      certificate: Option[InputFile] = None
-                     ) extends ApiRequest[Boolean]
+                     ) extends ApiRequestJson[Boolean]
 

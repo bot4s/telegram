@@ -12,21 +12,11 @@ import java.io.{FileInputStream, InputStream, File => JavaFile}
   *     It is not possible to resend thumbnails.
   *     Resending a photo by file_id will send all of its sizes.
   */
-case class InputFile(name: String, content: Array[Byte]) {
+trait InputFile {
   val mimeType: String = "application/octet-stream"
 }
 
 object InputFile {
-  def apply(filePath: String): InputFile = apply(new JavaFile(filePath))
-
-  def apply(file: JavaFile): InputFile = apply(file.getName, new FileInputStream(file))
-
-  def apply(name: String, inputStream: InputStream): InputFile = {
-    val content: Array[Byte] = Iterator.continually(inputStream.read()).takeWhile(-1 !=).map(_.toByte).toArray
-    InputFile(name, content)
-  }
-}
-
-object InputFileImplicits {
-  implicit def toInputFile(file: JavaFile) : InputFile = InputFile(file)
+  case class FromFile(file: JavaFile) extends InputFile
+  case class FromFileId(fileId: String) extends InputFile
 }

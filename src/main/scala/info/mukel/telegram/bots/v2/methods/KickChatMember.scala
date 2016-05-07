@@ -1,7 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
-
 /** kickChatMember
   *
   * Use this method to kick a user from a group or a supergroup.
@@ -17,7 +15,7 @@ import info.mukel.telegram.bots.v2.api.ApiRequest
   */
 case class KickChatMember(
                          chatId: Either[Long, String],
-                         userId: Long) extends ApiRequest[Boolean]
+                         userId: Long) extends ApiRequestJson[Boolean]
 
 
 

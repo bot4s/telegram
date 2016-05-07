@@ -1,8 +1,6 @@
 package info.mukel.telegram.bots.v2.model
 
-/** File
-  *
-  * This object represents a file ready to be downloaded.
+/** This object represents a file ready to be downloaded.
   *
   * The file can be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>.
   * It is guaranteed that the link will be valid for at least 1 hour.

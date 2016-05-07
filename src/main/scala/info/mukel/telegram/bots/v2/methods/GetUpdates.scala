@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.Update
 
 /** getUpdates
@@ -19,4 +18,4 @@ case class GetUpdates(
                        offset  : Option[Long] = None,
                        limit   : Option[Int] = None,
                        timeout : Option[Int] = None
-                     ) extends ApiRequest[Array[Update]]
+                     ) extends ApiRequestJson[Array[Update]]

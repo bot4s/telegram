@@ -1,6 +1,5 @@
 package info.mukel.telegram.bots.v2.methods
 
-import info.mukel.telegram.bots.v2.api.ApiRequest
 import info.mukel.telegram.bots.v2.model.UserProfilePhotos
 
 /** getUserProfilePhotos
@@ -15,4 +14,4 @@ case class GetUserProfilePhotos(
                                userId : Long,
                                offset : Option[Int] = None,
                                limit  : Option[Int] = None
-                               ) extends ApiRequest[UserProfilePhotos]
+                               ) extends ApiRequestJson[UserProfilePhotos]

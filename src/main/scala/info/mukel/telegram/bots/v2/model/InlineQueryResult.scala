@@ -37,13 +37,13 @@ sealed trait InlineQueryResult {
   * @param id                   String	Unique identifier for this result, 1-64 Bytes
   * @param title                String	Title of the result
   * @param inputMessageContent  InputMessageContent	Content of the message to be sent
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param url                  String	Optional. URL of the result
-  * @param hideUrl              Boolean	Optional. Pass True, if you don't want the URL to be shown in the message
-  * @param description          String	Optional. Short description of the result
-  * @param thumbUrl             String	Optional. Url of the thumbnail for the result
-  * @param thumbWidth           Integer	Optional. Thumbnail width
-  * @param thumbHeight          Integer	Optional. Thumbnail height
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param url                  String	Optional URL of the result
+  * @param hideUrl              Boolean	Optional Pass True, if you don't want the URL to be shown in the message
+  * @param description          String	Optional Short description of the result
+  * @param thumbUrl             String	Optional Url of the thumbnail for the result
+  * @param thumbWidth           Integer	Optional Thumbnail width
+  * @param thumbHeight          Integer	Optional Thumbnail height
   */
 case class InlineQueryResultArticle(
                                    id                  : String,
@@ -59,23 +59,22 @@ case class InlineQueryResultArticle(
                                    `type`              : String = "article"
                                    ) extends InlineQueryResult
 
-/**
-  * InlineQueryResultPhoto
+/** Represents a link to a photo.
   *
-  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption.
+  * By default, this photo will be sent by the user with optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
-
+  *
   * @param type                 String	Type of the result, must be photo
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param photoUrl             String	A valid URL of the photo. Photo must be in jpeg format. Photo size must not exceed 5MB
   * @param thumbUrl             String	URL of the thumbnail for the photo
-  * @param photoWidth           Integer	Optional. Width of the photo
-  * @param photoHeight          Integer	Optional. Height of the photo
-  * @param title                String	Optional. Title for the result
-  * @param description          String	Optional. Short description of the result
-  * @param caption              String	Optional. Caption of the photo to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the photo
+  * @param photoWidth           Integer	Optional Width of the photo
+  * @param photoHeight          Integer	Optional Height of the photo
+  * @param title                String	Optional Title for the result
+  * @param description          String	Optional Short description of the result
+  * @param caption              String	Optional Caption of the photo to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the photo
   */
 case class InlineQueryResultPhoto(
                                  id                  : String,
@@ -91,21 +90,21 @@ case class InlineQueryResultPhoto(
                                  `type`              : String = "photo"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultGif
+/** Represents a link to an animated GIF file.
   *
-  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption.
+  * By default, this animated GIF file will be sent by the user with optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param gifUrl               String	A valid URL for the GIF file. File size must not exceed 1MB
-  * @param gifWidth             Integer	Optional. Width of the GIF
-  * @param gifHeight            Integer	Optional. Height of the GIF
+  * @param gifWidth             Integer	Optional Width of the GIF
+  * @param gifHeight            Integer	Optional Height of the GIF
   * @param thumbUrl             String	URL of the static thumbnail for the result (jpeg or gif)
-  * @param title                String	Optional. Title for the result
-  * @param caption              String	Optional. Caption of the GIF file to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the GIF animation
+  * @param title                String	Optional Title for the result
+  * @param caption              String	Optional Caption of the GIF file to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the GIF animation
   */
 case class InlineQueryResultGif(
                                id                  : String,
@@ -120,22 +119,21 @@ case class InlineQueryResultGif(
                                `type`              : String = "gif"
                                ) extends InlineQueryResult
 
-/** InlineQueryResultMpeg4Gif
+/** Represents a link to a video animation (H.264/MPEG-4 AVC video without sound).
   *
-  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound).
   * By default, this animated MPEG-4 file will be sent by the user with optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
   * @param type                 String	Type of the result, must be mpeg4_gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param mpeg4Url             String	A valid URL for the MP4 file. File size must not exceed 1MB
-  * @param mpeg4Width           Integer	Optional. Video width
-  * @param mpeg4Height          Integer	Optional. Video height
+  * @param mpeg4Width           Integer	Optional Video width
+  * @param mpeg4Height          Integer	Optional Video height
   * @param thumbUrl             String	URL of the static thumbnail (jpeg or gif) for the result
-  * @param title                String	Optional. Title for the result
-  * @param caption              String	Optional. Caption of the MPEG-4 file to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the video animation
+  * @param title                String	Optional Title for the result
+  * @param caption              String	Optional Caption of the MPEG-4 file to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the video animation
   */
 case class InlineQueryResultMpeg4Gif(
                                  id                  : String,
@@ -162,13 +160,13 @@ case class InlineQueryResultMpeg4Gif(
   * @param mimeType             String	Mime type of the content of video url, “text/html” or “video/mp4”
   * @param thumbUrl             String	URL of the thumbnail (jpeg only) for the video
   * @param title                String	Title for the result
-  * @param caption              String	Optional. Caption of the video to be sent, 0-200 characters
-  * @param videoWidth           Integer	Optional. Video width
-  * @param videoHeight          Integer	Optional. Video height
-  * @param videoDuration        Integer	Optional. Video duration in seconds
-  * @param description          String	Optional. Short description of the result
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the video
+  * @param caption              String	Optional Caption of the video to be sent, 0-200 characters
+  * @param videoWidth           Integer	Optional Video width
+  * @param videoHeight          Integer	Optional Video height
+  * @param videoDuration        Integer	Optional Video duration in seconds
+  * @param description          String	Optional Short description of the result
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the video
   */
 case class InlineQueryResultVideo(
                                  id                  : String,
@@ -195,10 +193,10 @@ case class InlineQueryResultVideo(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param audioUrl             String	A valid URL for the audio file
   * @param title                String	Title
-  * @param performer            String	Optional. Performer
-  * @param audioDuration        Integer	Optional. Audio duration in seconds
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the audio
+  * @param performer            String	Optional Performer
+  * @param audioDuration        Integer	Optional Audio duration in seconds
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the audio
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -223,9 +221,9 @@ case class InlineQueryResultAudio(
   * @param id	String	Unique identifier for this result, 1-64 bytes
   * @param voiceUrl	String	A valid URL for the voice recording
   * @param title	String	Recording title
-  * @param voiceDuration	Integer	Optional. Recording duration in seconds
-  * @param replyMarkup	InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent	InputMessageContent	Optional. Content of the message to be sent instead of the voice recording
+  * @param voiceDuration	Integer	Optional Recording duration in seconds
+  * @param replyMarkup	InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent	InputMessageContent	Optional Content of the message to be sent instead of the voice recording
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -248,15 +246,15 @@ case class InlineQueryResultVoice(
   * @param type	String	Type of the result, must be document
   * @param id	String	Unique identifier for this result, 1-64 bytes
   * @param title	String	Title for the result
-  * @param caption	String	Optional. Caption of the document to be sent, 0-200 characters
+  * @param caption	String	Optional Caption of the document to be sent, 0-200 characters
   * @param documentUrl	String	A valid URL for the file
   * @param mimeType	String	Mime type of the content of the file, either “application/pdf” or “application/zip”
-  * @param description	String	Optional. Short description of the result
-  * @param replyMarkup	InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent	InputMessageContent	Optional. Content of the message to be sent instead of the file
-  * @param thumbUrl	String	Optional. URL of the thumbnail (jpeg only) for the file
-  * @param thumbWidth	Integer	Optional. Thumbnail width
-  * @param thumbHeight	Integer	Optional. Thumbnail height
+  * @param description	String	Optional Short description of the result
+  * @param replyMarkup	InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent	InputMessageContent	Optional Content of the message to be sent instead of the file
+  * @param thumbUrl	String	Optional URL of the thumbnail (jpeg only) for the file
+  * @param thumbWidth	Integer	Optional Thumbnail width
+  * @param thumbHeight	Integer	Optional Thumbnail height
   */
 case class InlineQueryResultDocument(
                                      id                  : String,
@@ -283,11 +281,11 @@ case class InlineQueryResultDocument(
   * @param latitude             Float number	Location latitude in degrees
   * @param longitude            Float number	Location longitude in degrees
   * @param title                String	Location title
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the location
-  * @param thumbUrl             String	Optional. Url of the thumbnail for the result
-  * @param thumbWidth           Integer	Optional. Thumbnail width
-  * @param thumbHeight          Integer	Optional. Thumbnail height
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the location
+  * @param thumbUrl             String	Optional Url of the thumbnail for the result
+  * @param thumbWidth           Integer	Optional Thumbnail width
+  * @param thumbHeight          Integer	Optional Thumbnail height
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -315,12 +313,12 @@ case class InlineQueryResultLocation(
   * @param longitude            Float	Longitude of the venue location in degrees
   * @param title                String	Title of the venue
   * @param address              String	Address of the venue
-  * @param foursquareId         String	Optional. Foursquare identifier of the venue if known
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the venue
-  * @param thumbUrl             String	Optional. Url of the thumbnail for the result
-  * @param thumbWidth           Integer	Optional. Thumbnail width
-  * @param thumbHeight          Integer	Optional. Thumbnail height
+  * @param foursquareId         String	Optional Foursquare identifier of the venue if known
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the venue
+  * @param thumbUrl             String	Optional Url of the thumbnail for the result
+  * @param thumbWidth           Integer	Optional Thumbnail width
+  * @param thumbHeight          Integer	Optional Thumbnail height
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -348,12 +346,12 @@ case class InlineQueryResultVenue(
   * @param id                   String	Unique identifier for this result, 1-64 Bytes
   * @param phoneNumber          String	Contact's phone number
   * @param firstName            String	Contact's first name
-  * @param lastName             String	Optional. Contact's last name
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the contact
-  * @param thumbUrl             String	Optional. Url of the thumbnail for the result
-  * @param thumbWidth           Integer	Optional. Thumbnail width
-  * @param thumbHeight          Integer	Optional. Thumbnail height
+  * @param lastName             String	Optional Contact's last name
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the contact
+  * @param thumbUrl             String	Optional Url of the thumbnail for the result
+  * @param thumbWidth           Integer	Optional Thumbnail width
+  * @param thumbHeight          Integer	Optional Thumbnail height
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -380,11 +378,11 @@ case class InlineQueryResultContact(
   * @param type                 String	Type of the result, must be photo
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param photoFileId          String	A valid file identifier of the photo
-  * @param title                String	Optional. Title for the result
-  * @param description          String	Optional. Short description of the result
-  * @param caption              String	Optional. Caption of the photo to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the photo
+  * @param title                String	Optional Title for the result
+  * @param description          String	Optional Short description of the result
+  * @param caption              String	Optional Caption of the photo to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the photo
   */
 case class InlineQueryResultCachedPhoto(
                                    `type`              : String = "photo",
@@ -405,10 +403,10 @@ case class InlineQueryResultCachedPhoto(
   * @param type                 String	Type of the result, must be gif
   * @param id	String            Unique identifier for this result, 1-64 bytes
   * @param gifFileId            String	A valid file identifier for the GIF file
-  * @param title                String	Optional. Title for the result
-  * @param caption              String	Optional. Caption of the GIF file to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the GIF animation
+  * @param title                String	Optional Title for the result
+  * @param caption              String	Optional Caption of the GIF file to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the GIF animation
   */
 case class InlineQueryResultCachedGif(
                                    id                  : String,
@@ -428,10 +426,10 @@ case class InlineQueryResultCachedGif(
   * @param type                 String	Type of the result, must be mpeg4_gif
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param mpeg4FileId          String	A valid file identifier for the MP4 file
-  * @param title                String	Optional. Title for the result
-  * @param caption              String	Optional. Caption of the MPEG-4 file to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the video animation
+  * @param title                String	Optional Title for the result
+  * @param caption              String	Optional Caption of the MPEG-4 file to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the video animation
   */
 case class InlineQueryResultCachedMpeg4Gif(
                                        id                  : String,
@@ -452,8 +450,8 @@ case class InlineQueryResultCachedMpeg4Gif(
   * @param type	String	Type of the result, must be sticker
   * @param id	String	Unique identifier for this result, 1-64 bytes
   * @param stickerFileId	String	A valid file identifier of the sticker
-  * @param replyMarkup	InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent	InputMessageContent	Optional. Content of the message to be sent instead of the sticker
+  * @param replyMarkup	InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent	InputMessageContent	Optional Content of the message to be sent instead of the sticker
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -476,10 +474,10 @@ case class InlineQueryResultCachedSticker(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param title                String	Title for the result
   * @param documentFileId       String	A valid file identifier for the file
-  * @param description          String	Optional. Short description of the result
-  * @param caption              String	Optional. Caption of the document to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the file
+  * @param description          String	Optional Short description of the result
+  * @param caption              String	Optional Caption of the document to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the file
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -504,10 +502,10 @@ case class InlineQueryResultCachedDocument(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param videoFileId          String	A valid file identifier for the video file
   * @param title                String	Title for the result
-  * @param description          String	Optional. Short description of the result
-  * @param caption              String	Optional. Caption of the video to be sent, 0-200 characters
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the video
+  * @param description          String	Optional Short description of the result
+  * @param caption              String	Optional Caption of the video to be sent, 0-200 characters
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the video
   */
 case class InlineQueryResultCachedVideo(
                                        id                  : String,
@@ -530,8 +528,8 @@ case class InlineQueryResultCachedVideo(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param voiceFileId          String	A valid file identifier for the voice message
   * @param title                String	Voice message title
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the voice message
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the voice message
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -553,8 +551,8 @@ case class InlineQueryResultCachedVoice(
   * @param type                 String	Type of the result, must be audio
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param audioFileId          String	A valid file identifier for the audio file
-  * @param replyMarkup          InlineKeyboardMarkup	Optional. An Inline keyboard attached to the message
-  * @param inputMessageContent  InputMessageContent	Optional. Content of the message to be sent instead of the audio
+  * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the audio
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */

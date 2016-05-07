@@ -7,7 +7,7 @@ package info.mukel.telegram.bots.v2.model
   * @param fileId    Unique identifier for this file
   * @param width 	   Photo width
   * @param height 	 Photo height
-  * @param fileSize  Optional. File size
+  * @param fileSize  Optional File size
   */
 case class PhotoSize(
                       fileId   : String,
