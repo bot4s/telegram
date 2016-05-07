@@ -8,17 +8,19 @@ Telegram Bot API for Scala
 Keeping the library up to date ensuring that all the functionality works is becoming difficult, I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Version 2 planned features ([open an issue](https://github.com/mukel/telegrambot4s/issues/new) for feature request)
-  - Bot API v2 support (inline goodies)
-  - Built on top of Akka (Http)
+  - Bot API v2 support (inline goodies) DONE!
+  - Built on top of Akka DONE!
   - Custom/plugable handlers (not just limited to commands)
   - Seamless Webhook support
   - Containerization (Google App Engine, Docker)
 
 ## Version 2 current state (check branch [apiv2](https://github.com/mukel/telegrambot4s/tree/apiv2 "telegrambot4s/apiv2"))
-  - All API objects are up-to-date with the [Telegram Bot API v2](https://core.telegram.org/bots/2-0-intro)
-  - Api requests are now case-class based (check [GetMe request example](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/Test.scala))
+  - All API objects AND methods are up-to-date with the [Telegram Bot API v2](https://core.telegram.org/bots/2-0-intro)
+  - API requests are now case-class based (check [GetMe request example](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/Test.scala))
   - Fully async http client (check [TelegramApi.scala](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/api/TelegramApi.scala))
   - Dropped support for Scala 2.10 (bye bye 22 parameter limit in case classes)
+  - Polling works as it should (do not flood the server).
+  - Simple [EchoBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/EchoBot.scala) is working
 
 ## Using it from SBT
 Cross-compiled for Scala 2.11 and 2.10 
