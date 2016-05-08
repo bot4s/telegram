@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
-import info.mukel.telegram.bots.v2.api.{TelegramApiAkka, TelegramApiScalaj}
+import info.mukel.telegram.bots.v2.api.TelegramApiAkka
 import info.mukel.telegram.bots.v2.model.Update
 
 /**
