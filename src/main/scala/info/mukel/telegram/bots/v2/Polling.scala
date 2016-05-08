@@ -1,15 +1,12 @@
 package info.mukel.telegram.bots.v2
 
-
-import akka.NotUsed
-import akka.stream.SourceShape
-import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Source, ZipWith}
+import akka.stream.scaladsl.Source
 import info.mukel.telegram.bots.v2.methods.GetUpdates
 import info.mukel.telegram.bots.v2.api.Implicits._
 import info.mukel.telegram.bots.v2.model.Update
 
 import scala.concurrent.Future
-import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits._
 
 /**
   * Created by mukel on 5/4/16.
@@ -17,25 +14,25 @@ import scala.concurrent.duration._
 trait Polling {
   self: TelegramBot =>
 
-  private def UpdatesGenerator: Source[Array[Update], NotUsed] = Source.fromGraph(GraphDSL.create() { implicit b =>
-    import GraphDSL.Implicits._
-    val bcast = b.add(Broadcast[Array[Update]](2))
-    val concat = b.add(Concat[Array[Update]]())
-    val start = Source.fromFuture(Future.successful(Array.empty[Update]))
-    val zip = b.add(ZipWith((_: Unit, right: Array[Update]) => { println(right); right}))
-    val source = Source.repeat(())
-    val mapf = Flow[Array[Update]].mapAsync(1)( {
-      prevUpdates =>
-        val lastOffset = if (prevUpdates.isEmpty) 0 else prevUpdates.map(_.updateId).max
-        println(lastOffset)
-        api.request(GetUpdates(lastOffset + 1, timeout = 20))
-    })
-    source ~> zip.in0
-    zip.out ~> mapf ~> bcast
-    start ~> concat ~> zip.in1
-    concat        <~ bcast
-    SourceShape(bcast.out(1))
-  })
+  type OffsetUpdates = Future[(Long, Array[Update])]
 
-  override val updates = UpdatesGenerator.mapConcat(x => scala.collection.immutable.Seq[Update](x: _*))
+  val seed = Future.successful((0L, Array.empty[Update]))
+
+  val iterator = Iterator.iterate[OffsetUpdates](seed) {
+    _ flatMap {
+      case (prevOffset, prevUpdates) =>
+        val curOffset = prevUpdates
+          .map(_.updateId)
+          .fold(prevOffset)(_ max _)
+
+        api.request(GetUpdates(curOffset + 1, timeout = 20)) map { (curOffset, _) }
+    }
+  }
+
+  val updateGroups =
+    Source.fromIterator(() => iterator)
+      .mapAsync(1)(identity)
+      .map(_._2)
+
+  override val updates = updateGroups.mapConcat(x => scala.collection.immutable.Seq[Update](x: _*))
 }
