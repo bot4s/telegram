@@ -9,6 +9,7 @@ package info.mukel.telegram.bots.v2.model
   * @param date 	                Date the message was sent in Unix time
   * @param chat 	                User or GroupChat 	Conversation the message belongs to — user in case of a private message, GroupChat in case of a group
   * @param forwardFrom            Optional For forwarded messages, sender of the original message
+  * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
   * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field will not contain further replyToMessage fields even if it itself is a reply.
   * @param text                   Optional For text messages, the actual UTF-8 text of the message
@@ -41,6 +42,7 @@ case class Message(
                date                  : Int,
                chat                  : Chat, // User is a narrow  subset of Chat
                forwardFrom           : Option[User] = None,
+               forwardFromChat	     : Option[Chat] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                text                  : Option[String] = None,
