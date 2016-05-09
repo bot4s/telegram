@@ -71,6 +71,5 @@ case class Message(
              ) {
 
   def sender = chat.id
-
 }
 

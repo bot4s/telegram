@@ -1,5 +1,7 @@
 package info.mukel.telegram.bots.v2
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
 import info.mukel.telegram.bots.v2.methods.GetUpdates
 import info.mukel.telegram.bots.v2.api.Implicits._
@@ -25,6 +27,8 @@ trait Polling {
           .map(_.updateId)
           .fold(prevOffset)(_ max _)
 
+        // TODO: Recover from error
+
         api.request(GetUpdates(curOffset + 1, timeout = 20)) map { (curOffset, _) }
     }
   }
@@ -34,5 +38,11 @@ trait Polling {
       .mapAsync(1)(identity)
       .map(_._2)
 
-  override val updates = updateGroups.mapConcat(x => scala.collection.immutable.Seq[Update](x: _*))
+  val updates = updateGroups.mapConcat(x => scala.collection.immutable.Seq[Update](x: _*))
+
+  override def run(): Unit = {
+    implicit val system = ActorSystem()
+    implicit val materializer = ActorMaterializer()
+    updates.runForeach(handleUpdate)
+  }
 }
