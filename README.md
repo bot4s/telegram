@@ -20,7 +20,8 @@ Keeping the library up to date ensuring that all the functionality works is beco
   - Fully async http client (check [TelegramApi.scala](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/api/TelegramApi.scala))
   - Dropped support for Scala 2.10 (bye bye 22 parameter limit in case classes)
   - Polling works as it should (do not flood the server).
-  - Simple [EchoBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/EchoBot.scala) is working
+  - Added declarative command handler
+  - Sample bots are already working, check [EchoBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/EchoBot.scala) and [TestBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/TestBot.scala)
 
 ## Using it from SBT
 Cross-compiled for Scala 2.11 and 2.10 
