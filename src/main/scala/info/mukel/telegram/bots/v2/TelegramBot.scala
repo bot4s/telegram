@@ -11,11 +11,9 @@ import info.mukel.telegram.bots.v2.model._
   * Telegram Bot base
   */
 trait TelegramBot {
-
   def token: String
 
   val api = new TelegramApiAkka(token)
-  /*val updates: Source[Update, NotUsed]*/
 
   def handleUpdate(update: Update): Unit = {
     println(update)

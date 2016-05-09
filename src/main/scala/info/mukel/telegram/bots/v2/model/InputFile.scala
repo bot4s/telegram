@@ -2,6 +2,9 @@ package info.mukel.telegram.bots.v2.model
 
 import java.io.{FileInputStream, InputStream, File => JavaFile}
 
+import akka.stream.scaladsl.Source
+import akka.util.ByteString
+
 /** InputFile
   *
   * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
@@ -19,4 +22,13 @@ trait InputFile {
 object InputFile {
   case class FromFile(file: JavaFile) extends InputFile
   case class FromFileId(fileId: String) extends InputFile
+  case class FromSource(
+                         filename      : String,
+                         contentLength : Long,
+                         source        : Source[ByteString, Any]
+                       ) extends InputFile
+
+  // Not supported yet
+  case class FromContents(filename: String, contents: Array[Byte]) extends InputFile
+  case class FromByteString(filename: String, contents: ByteString) extends InputFile
 }

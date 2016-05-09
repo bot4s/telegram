@@ -7,6 +7,7 @@ import akka.http.scaladsl.model.Multipart.FormData.BodyPart
 import akka.http.scaladsl.model.{HttpEntity, _}
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshal, Unmarshaller}
 import akka.stream.ActorMaterializer
+import akka.util.ByteString
 import info.mukel.telegram.bots.v2.methods._
 import info.mukel.telegram.bots.v2.model.InputFile
 import org.json4s._
@@ -88,10 +89,27 @@ class TelegramApiAkka(token: String) {
               case InputFile.FromFile(file) =>
                 Multipart.FormData.BodyPart.fromFile(key, MediaTypes.`application/octet-stream`, file)
 
-                /* Doesn't work
-              case InputFile.FromContent(content) =>
-                Multipart.FormData.BodyPart.apply(key, HttpEntity(content))
-                */
+              case InputFile.FromSource(filename, contentLength, source) =>
+
+                Multipart.FormData.BodyPart.apply(
+                  key,
+                  HttpEntity(ContentTypes.`application/octet-stream`, contentLength, source),
+                  Map("filename" -> filename)
+                )
+
+              case InputFile.FromByteString(filename, bytes) =>
+                Multipart.FormData.BodyPart.apply(
+                  key,
+                  HttpEntity(ContentTypes.`application/octet-stream`, bytes),
+                  Map("filename" -> filename)
+                )
+              // Not tested
+              case InputFile.FromContents(filename, content) =>
+                Multipart.FormData.BodyPart.apply(
+                  key,
+                  HttpEntity(ContentTypes.`application/octet-stream`, content),
+                  Map("filename" -> filename)
+                )
             }
 
             // Fallback to JSON, probably a markup

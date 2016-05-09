@@ -45,6 +45,7 @@ trait Polling extends TelegramBot {
   private[this] val updates = updateGroups.mapConcat(x => scala.collection.immutable.Seq[Update](x: _*))
 
   override def run(): Unit = {
+
     implicit val system = ActorSystem()
     implicit val materializer = ActorMaterializer()
     updates.runForeach(handleUpdate)
