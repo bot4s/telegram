@@ -9,5 +9,5 @@ package info.mukel.telegram.bots.v2.model
   */
 case class UserProfilePhotos(
                               totalCount : Int,
-                              photos     : Array[Array[PhotoSize]]
+                              photos     : Seq[Seq[PhotoSize]]
                             )

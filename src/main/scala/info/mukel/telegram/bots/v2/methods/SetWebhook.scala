@@ -19,7 +19,7 @@ import info.mukel.telegram.bots.v2.model.InputFile
   *   3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
   */
 case class SetWebhook(
-                     url: Option[String] = None,
-                     certificate: Option[InputFile] = None
+                     url         : Option[String] = None,
+                     certificate : Option[InputFile] = None
                      ) extends ApiRequestJson[Boolean]
 

@@ -15,7 +15,7 @@ import info.mukel.telegram.bots.v2.model.InlineQueryResult
   */
 case class AnswerInlineQuery(
                             inlineQueryId     : String,
-                            results           : Array[InlineQueryResult],
+                            results           : Seq[InlineQueryResult],
                             cacheTime         : Option[Int] = None,
                             isPersonal        : Option[Boolean] = None,
                             nextOffset        : Option[String] = None,

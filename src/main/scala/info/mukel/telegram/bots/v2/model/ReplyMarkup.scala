@@ -36,7 +36,7 @@ case class KeyboardButton(
   * Example: A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
   */
 case class ReplyKeyboardMarkup(
-                                keyboard        : Array[Array[KeyboardButton]],
+                                keyboard        : Seq[Seq[KeyboardButton]],
                                 resizeKeyboard  : Option[Boolean] = None,
                                 oneTimeKeyboard : Option[Boolean] = None,
                                 selective       : Option[Boolean] = None
@@ -68,7 +68,7 @@ case class ReplyKeyboardHide(
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
   */
 case class InlineKeyboardMarkup(
-                                 inlineKeyboard: Array[Array[InlineKeyboardButton]]
+                                 inlineKeyboard: Seq[Seq[InlineKeyboardButton]]
                                ) extends ReplyMarkup
 
 /** InlineKeyboardButton

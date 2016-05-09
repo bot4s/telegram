@@ -1,9 +1,9 @@
 package info.mukel.telegram.bots.v2
 
+import info.mukel.telegram.bots.v2.api.Implicits._
 import info.mukel.telegram.bots.v2.methods.ParseMode.ParseMode
 import info.mukel.telegram.bots.v2.methods.SendMessage
-import info.mukel.telegram.bots.v2.model.{Message, Update}
-import info.mukel.telegram.bots.v2.api.Implicits._
+import info.mukel.telegram.bots.v2.model.Message
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -32,29 +32,29 @@ trait Commands extends TelegramBot {
     * Commands are case INSENSITIVE, additional parameters are NOT.
     *
     * General syntax:
-    *     /command[@BotUsername]* args*
+    * /command[@BotUsername]* args*
     *
     * Assuming cmdPrefix = '/' and cmdAt = '@' here are some usage examples:
     *
     * Example 'command':
-    *     /command arg0 arg1
+    * /command arg0 arg1
     */
   override def handleMessage(message: Message): Unit = {
-    for (text <- message.text) {
+    message.text map { text =>
       // TODO: Allow parameters with spaces e.g. /echo "Hello World"
       val tokens = text.trim split " "
       tokens match {
-        case Array(rawCmd, args @ _*) if rawCmd startsWith cmdPrefix =>
+        case Array(rawCmd, args@_*) if rawCmd startsWith cmdPrefix =>
           val cmd = rawCmd.stripPrefix(cmdPrefix).toLowerCase
           for (action <- commands.get(cmd))
             action(message)(args)
 
-          // If the command is not found ignore the message
+        // If the command is not found ignore the message
 
-        case _ => // Avoid silent exception, fallback to standard handler
+        case _ => // Avoid silent exception, fallback to previous handler
           super.handleMessage(message)
       }
-    }
+    } getOrElse (super.handleMessage(message)) // No text, fallback to previous handler
   }
 
   /**
@@ -63,11 +63,11 @@ trait Commands extends TelegramBot {
     * Handy wrapper to send text replies
     */
   def reply(text: String,
-            parseMode : Option[ParseMode] = None,
-            disableWebPagePreview : Option[Boolean] = None,
+            parseMode: Option[ParseMode] = None,
+            disableWebPagePreview: Option[Boolean] = None,
             disableNotification: Option[Boolean] = None,
             replyToMessageId: Option[Long] = None)
-            (implicit message: Message): Future[Message] = {
+           (implicit message: Message): Future[Message] = {
     api.request(SendMessage(message.chat.id, text, parseMode, disableWebPagePreview, disableNotification, replyToMessageId))
   }
 

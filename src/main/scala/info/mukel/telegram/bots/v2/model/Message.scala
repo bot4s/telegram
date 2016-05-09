@@ -46,7 +46,7 @@ case class Message(
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                text                  : Option[String] = None,
-               entities              : Option[Array[MessageEntity]] = None,
+               entities              : Option[Seq[MessageEntity]] = None,
                audio                 : Option[Audio] = None,
                document              : Option[Document] = None,
                photo                 : Option[Array[PhotoSize]] = None,
