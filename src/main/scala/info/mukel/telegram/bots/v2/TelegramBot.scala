@@ -6,6 +6,8 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
 import info.mukel.telegram.bots.v2.api.TelegramApiAkka
 import info.mukel.telegram.bots.v2.model._
+import scala.concurrent.ExecutionContext
+import java.util.concurrent.Executors
 
 /**
   * Telegram Bot base
@@ -13,10 +15,13 @@ import info.mukel.telegram.bots.v2.model._
 trait TelegramBot {
   def token: String
 
+  implicit val system = ActorSystem("telegram-bot")
+  implicit val materializer = ActorMaterializer()
+  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
+
   val api = new TelegramApiAkka(token)
 
   def handleUpdate(update: Update): Unit = {
-    println(update)
     update.message foreach (handleMessage)
     update.inlineQuery foreach (handleInlineQuery)
     update.callbackQuery foreach (handleCallbackQuery)

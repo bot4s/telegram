@@ -18,4 +18,4 @@ case class GetUpdates(
                        offset  : Option[Long] = None,
                        limit   : Option[Int] = None,
                        timeout : Option[Int] = None
-                     ) extends ApiRequestJson[Array[Update]]
+                     ) extends ApiRequestJson[Seq[Update]]
