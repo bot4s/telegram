@@ -22,7 +22,8 @@ Keeping the library up to date ensuring that all the functionality works is beco
   - Polling works as it should (do not flood the server).
   - Added declarative command handler
   - Sample bots are already working, check [EchoBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/EchoBot.scala) and [TestBot](https://github.com/mukel/telegrambot4s/blob/apiv2/src/main/scala/info/mukel/telegram/bots/v2/TestBot.scala)
-
+  - Added Webhooks support
+  
 ## Using it from SBT
 Cross-compiled for Scala 2.11 and 2.10 
 
