@@ -1,11 +1,21 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
+[![License](http://img.shields.io/:license-apache-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Telegram Bot API Wrapper for Scala
 
 100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, strongly-typed (no JSON stuff/strings), asynchronous, and transparently camelCased.
 
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
+
+## Using it from SBT
+
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.0-SNAPSHOT"
+```
+
 
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
