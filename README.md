@@ -27,22 +27,18 @@ SafeBot.run()
   
 ```
 
-## Not supported yet (but coming soon)
-  - Webhooks, self-signed certificates...
+## Not supported yet
+  - Self-signed certificates (usable, but must handle the certificates yourself) 
 
 ## Webhooks vs Polling
-Polling is by far the easiest method, and can be used locally without any additional requirements. Polling has been improved, now it doesn't flood the server, it's very fast.
-
-Using web hooks requires a server (it won't work on your laptop). Self signed certificates ~~wont work~~ are supported now since August 29th, see the API [not so recent changes](https://core.telegram.org/bots/api#recent-changes).
-Webhooks are also supported.
+Both methods are supported.
+Polling is by far the easiest method, and can be used locally without any additional requirements. Polling has been radically improved, it doesn't flood the server and it's very fast.
+Using webhooks requires a server (it won't work on your laptop). Self signed certificates ~~wont work~~ are supported now since August 29th, see the API [not so recent changes](https://core.telegram.org/bots/api#recent-changes).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
 Beside the usual ways, I've managed to run FlunkeyBot successfully on a Raspberry Pi 2, and most notably on an old Android (4.1.2) phone with a broken screen.
 
-## Built on top of Akka
-Uses Akka reactive streams to "receive" updates, really cool.
-
-## Contributions
+## Contributors
 Contributions are highly appreciated, documentation improvements/corrections, [better ways to do things](https://github.com/mukel/telegrambot4s/pull/1/files). Writing a bot using this library is also a way to contribute, I'll add a link to your bot here anytime.
 Thanks to [Andrey Romanov](https://github.com/drewnoff) and [ex0ns](https://github.com/ex0ns) for their contributions.
 
