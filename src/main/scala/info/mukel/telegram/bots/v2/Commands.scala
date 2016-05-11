@@ -17,44 +17,27 @@ trait Commands extends TelegramBot {
 
   type Action = Message => (Seq[String] => Unit)
 
-  // All commands must be preceeded by 'cmdPrefix' eg. /hello
-  val cmdPrefix = "/"
-
-  // Allows targeting specific bots eg. /hello@FlunkeyBot
-  val cmdAt = "@"
-
   private val commands = mutable.HashMap[String, Action]()
 
   /**
     * handleMessage
     *
-    * Parses messages and spawns bot commands accordingly, DOES NOT support targeting specific bots.
-    * Commands are case INSENSITIVE, additional parameters are NOT.
-    *
-    * General syntax:
-    * /command[@BotUsername]* args*
-    *
-    * Assuming cmdPrefix = '/' and cmdAt = '@' here are some usage examples:
+    * Parses messages and spawns bot commands accordingly.
+    * Commands are case-iNsEnSiTiVe.
     *
     * Example 'command':
     * /command arg0 arg1
     */
   override def handleMessage(message: Message): Unit = {
-    message.text map { text =>
-      // TODO: Allow parameters with spaces e.g. /echo "Hello World"
-      val tokens = text.trim split " "
-      tokens match {
-        case Array(rawCmd, args@_*) if rawCmd startsWith cmdPrefix =>
-          val cmd = rawCmd.stripPrefix(cmdPrefix).toLowerCase
-          for (action <- commands.get(cmd))
-            action(message)(args)
+    val accepted = for {
+      text <- message.text
+      Array(cmd, args @ _*) = text.trim.split(" ")
+      action <- commands.get(cmd.toLowerCase)
+    } yield
+      action(message)(args)
 
-        // If the command is not found ignore the message
-
-        case _ => // Avoid silent exception, fallback to previous handler
-          super.handleMessage(message)
-      }
-    } getOrElse (super.handleMessage(message)) // No text, fallback to previous handler
+    // Fallback to upper level to preserve trait stack-ability
+    accepted.getOrElse(super.handleMessage(message))
   }
 
   /**
@@ -75,7 +58,7 @@ trait Commands extends TelegramBot {
     * on
     *
     * Makes the bot able react to 'command' with the specified handler.
-    * 'action' will receive the sender (chatId) and the arguments as parameters.
+    * 'action' receives a message and the arguments as parameters.
     */
   def on(command: String)(action: Action): Unit = {
     commands += (command -> action)

@@ -15,14 +15,14 @@ object LmgtfyBot extends TestBot with Polling with Commands {
   def lmgtfyUrl(query: Seq[String]) =
     "http://lmgtfy.com/?q=" + URLEncoder.encode(query.mkString(" "), "UTF-8")
 
-  on("lmgtfy") { implicit message => args =>
+  on("/lmgtfy") { implicit message => args =>
     reply(
       lmgtfyUrl(args),
       disableWebPagePreview = true
     )
   }
 
-  on("lmgtfy2") { implicit message => args =>
+  on("/lmgtfy2") { implicit message => args =>
     val markup = InlineKeyboardMarkup(Seq(Seq(
       InlineKeyboardButton("Goto Google now!", url = lmgtfyUrl(args))
     )))
