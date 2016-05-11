@@ -1,6 +1,6 @@
 name := "telegrambot4s"
 
-version := "1.1.0-SNAPSHOT"
+version := "1.1.1-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
@@ -9,7 +9,6 @@ organization := "info.mukel"
 libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.3.0",
   "org.json4s" %% "json4s-ext" % "3.3.0",
-  "org.scalaj" %% "scalaj-http" % "2.3.0",
   "com.typesafe.akka" %% "akka-http-core" % "2.4.4",
   "com.typesafe.akka" %% "akka-http-experimental" % "2.4.4",
   "com.typesafe.akka" %% "akka-stream" % "2.4.4"
