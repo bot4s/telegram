@@ -66,9 +66,9 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
         case ApiResponse(true, Some(result), _, _) =>
           Future.successful(result)
 
-        case ApiResponse(false, _, description, errorCode) =>
+        case ApiResponse(false, _, description, Some(errorCode)) =>
           Future.failed(
-            new TelegramApiException(description.getOrElse("Invalid/empty response"))
+            TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode)
           )
 
         // case _ => // Probably a de/serialization error, just raise MatchError
