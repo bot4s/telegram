@@ -1,6 +1,7 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
-[![License](http://img.shields.io/:license-apache-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-May%206%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Telegram Bot API Wrapper for Scala
 
