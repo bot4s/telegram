@@ -23,7 +23,7 @@ libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.0-SNAPSHOT"
 ```scala
   resolvers += "jitpack" at "https://jitpack.io"
   
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "1.1.2-SNAPSHOT"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "1.1.3-SNAPSHOT"
 ```
 Make sure to specify scala version in your build file.
 
