@@ -9,5 +9,5 @@ import scala.io.Source
   */
 trait TestBot extends TelegramBot {
   override def token: String =
-    Source.fromFile("./tokens/flunkey_bot.token").getLines().next
+    Source.fromFile("./tokens/menial_bot.token").getLines().next
 }
