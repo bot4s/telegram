@@ -38,7 +38,7 @@ Then you can safely share your code and submit pull requests.
 
 object SafeBot extends TelegramBot with Polling with Commands {
   def token = Source.fromFile("./bot.token").getLines().next
-  on("hello") { implicit msg => _ =>
+  on("/hello") { implicit msg => _ =>
     reply("My token is SAFE!")
   }
 }
@@ -71,7 +71,7 @@ val helloBot = new TelegramBot with Polling with Commands {
   def token = Source.fromFile("./bot.token").getLines().next
 }
 
-helloBot.on("hello") { implicit message => _ =>
+helloBot.on("/hello") { implicit message => _ =>
   reply("Hello from Telegram!")
 }
 
@@ -85,7 +85,7 @@ Or
 
 object LmgtfyBot extends TelegramBot with Polling with Commands {
   def token = "TOKEN"
-  on("lmgtfy") { implicit message => args =>
+  on("/lmgtfy") { implicit message => args =>
     reply(
       "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8"),
       disableWebPagePreview = true
