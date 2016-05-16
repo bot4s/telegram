@@ -6,7 +6,7 @@
 
 Telegram Bot API Wrapper for Scala
 
-100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, strongly-typed (no JSON stuff/strings), asynchronous, and transparently camelCased.
+100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, inline mode, callbacks, editing, sending files, chat actions... strongly-typed (no JSON stuff/strings), asynchronous, and transparently camelCased.
 
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
@@ -37,7 +37,7 @@ Then you can safely share your code and submit pull requests.
 ```scala
 
 object SafeBot extends TelegramBot with Polling with Commands {
-  override def token = Source.fromFile("./bot.token").getLines().next
+  def token = Source.fromFile("./bot.token").getLines().next
   on("hello") { implicit msg => _ =>
     reply("My token is SAFE!")
   }
@@ -116,3 +116,5 @@ object WebhookBot extends TestBot with Webhook {
 WebhookBot.run()
   
 ```
+
+There are some additional [examples](https://github.com/mukel/telegrambot4s/tree/master/src/main/scala/info/mukel/telegram/bots/v2/examples) showing more functionality.
