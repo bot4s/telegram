@@ -15,7 +15,7 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.3"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.3-SNAPSHOT"
 ```
 
 ## Or pick latest snapshot from [Jitpack](https://jitpack.io/#sbt)
