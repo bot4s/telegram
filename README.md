@@ -15,7 +15,7 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.3"
 ```
 
 ## Or pick latest snapshot from [Jitpack](https://jitpack.io/#sbt)
@@ -23,9 +23,10 @@ libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.0-SNAPSHOT"
 ```scala
   resolvers += "jitpack" at "https://jitpack.io"
   
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "1.1.3-SNAPSHOT"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "master-SNAPSHOT"
 ```
 Make sure to specify scala version in your build file.
+You can also pull a specific any branch or tagged version from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
 # About TOKEN safety
 Please **DO NOT SHARE BOT TOKENS** in any form.
