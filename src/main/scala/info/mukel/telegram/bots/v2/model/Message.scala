@@ -12,6 +12,7 @@ package info.mukel.telegram.bots.v2.model
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
   * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field will not contain further replyToMessage fields even if it itself is a reply.
+  * @param editDate               Optional. Date the message was last edited in Unix time
   * @param text                   Optional For text messages, the actual UTF-8 text of the message
   * @param entities               Array of MessageEntity	Optional For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
   * @param audio                  Optional Message is an audio file, information about the file
@@ -36,15 +37,16 @@ package info.mukel.telegram.bots.v2.model
   * @param migrateFromChatId      Integer	Optional The supergroup has been migrated from a group with the specified identifier, not exceeding 1e13 by absolute value
   * @param pinnedMessage          Message	Optional Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
   */
-case class Message(
+case class  Message(
                messageId             : Long,
-               from                  : Option[User] = None, // This field is absent when returned from SendMessage to a channel
+               from                  : Option[User] = None, // This field is absent when returned from (SendMessage to a channel)
                date                  : Int,
-               chat                  : Chat, // User is a narrow  subset of Chat
+               chat                  : Chat,
                forwardFrom           : Option[User] = None,
                forwardFromChat	     : Option[Chat] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
+               editDate              : Option[Int] = None,
                text                  : Option[String] = None,
                entities              : Option[Seq[MessageEntity]] = None,
                audio                 : Option[Audio] = None,
