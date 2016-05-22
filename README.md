@@ -1,6 +1,6 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-May%2012%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-May%2022%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
@@ -15,7 +15,7 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.3-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.1.4-SNAPSHOT"
 ```
 
 ## Or pick latest snapshot from [Jitpack](https://jitpack.io/#sbt)
