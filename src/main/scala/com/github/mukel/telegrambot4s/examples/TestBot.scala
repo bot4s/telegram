@@ -1,7 +1,6 @@
 package com.github.mukel.telegrambot4s.examples
 
-import info.mukel.telegram.bots.v2.TelegramBot
-
+import com.github.mukel.telegrambot4s.api.TelegramBot
 import scala.io.Source
 
 /**

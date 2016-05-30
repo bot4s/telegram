@@ -2,34 +2,27 @@ package com.github.mukel.telegrambot4s.examples
 
 import java.net.URLEncoder
 
-import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import info.mukel.telegram.bots.v2.api.Implicits._
-import info.mukel.telegram.bots.v2.methods.{SendMessage, SendPhoto}
-import info.mukel.telegram.bots.v2.model._
-import info.mukel.telegram.bots.v2.{ChatActions, Commands, Polling}
+import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 /**
-  * Created by mukel on 5/9/16.
-  *
-  * Generates QR codes from text.
+  * Generates QR codes from text/url.
   */
-object QrBot extends TestBot with Polling with Commands with ChatActions {
+object QrCodesBot extends TestBot with Polling with Commands with ChatActions {
   on("/qr") { implicit message => args =>
     val url = "https://api.qrserver.com/v1/create-qr-code/?data=" +
       URLEncoder.encode(args mkString " ", "UTF-8")
     for {
       response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+      if response.status.isSuccess()
       bytes <-  Unmarshal(response).to[ByteString]
     } /* do */ {
       val photo = InputFile.FromByteString("qrcode.png", bytes)
-      uploadPhoto // hint the user
+      uploadingPhoto // hint the user
       api.request(SendPhoto(message.sender, photo))
     }
   }
-
 }

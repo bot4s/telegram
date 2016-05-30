@@ -65,7 +65,12 @@ case class ReplyKeyboardHide(
   *
   * @param inlineKeyboard	Array of Array of InlineKeyboardButton	Array of button rows, each represented by an Array of InlineKeyboardButton objects
   *
-  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
+  * Note:
+  *   This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
+  *
+  * Warning:
+  *   Inline keyboards are currently being tested and are not available in channels yet.
+  *   For now, feel free to use them in one-on-one chats or groups.
   */
 case class InlineKeyboardMarkup(
                                  inlineKeyboard: Seq[Seq[InlineKeyboardButton]]

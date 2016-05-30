@@ -9,11 +9,11 @@ import com.github.mukel.telegrambot4s.models.Message
 trait ChatActions {
   this : TelegramBot =>
   def typing(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.Typing))
-  def uploadPhoto(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadPhoto))
-  def recordVideo(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.RecordVideo))
-  def uploadVideo(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadVideo))
-  def recordAudio(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.RecordAudio))
-  def uploadAudio(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadAudio))
-  def uploadDocument(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadDocument))
-  def findLocation(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.FindLocation))
+  def uploadingPhoto(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadPhoto))
+  def recordingVideo(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.RecordVideo))
+  def uploadingVideo(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadVideo))
+  def recordingAudio(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.RecordAudio))
+  def uploadingAudio(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadAudio))
+  def uploadingDocument(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadDocument))
+  def findingLocation(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.FindLocation))
 }

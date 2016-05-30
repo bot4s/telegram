@@ -1,9 +1,6 @@
 package com.github.mukel.telegrambot4s.examples
 
-import info.mukel.telegram.bots.v2.{Commands, Polling}
-import info.mukel.telegram.bots.v2.api.Implicits._
-import info.mukel.telegram.bots.v2.model._
-import info.mukel.telegram.bots.v2.methods._
+import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 /**
   * Created by mukel on 5/11/16.

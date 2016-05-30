@@ -1,12 +1,9 @@
 package com.github.mukel.telegrambot4s.examples
 
-import info.mukel.telegram.bots.v2.methods.SendMessage
-import info.mukel.telegram.bots.v2.model.Message
-import info.mukel.telegram.bots.v2.{Commands, TelegramBot, Webhook}
-import info.mukel.telegram.bots.v2.api.Implicits._
+import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 /**
-  * Created by mukel on 5/10/16.
+  * Seamless webhooks
   */
 object WebhookBot extends TestBot with Webhook {
 
