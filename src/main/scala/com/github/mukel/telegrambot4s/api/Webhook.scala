@@ -7,9 +7,7 @@ import akka.stream.scaladsl.Sink
 
 import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
-/** Webhook
-  *
-  * Spawns a local server to receive updates.
+/** Spawns a local server to receive updates.
   * Automatically registers the webhook on run().
   */
 trait Webhook extends TelegramBot with Jsonification {

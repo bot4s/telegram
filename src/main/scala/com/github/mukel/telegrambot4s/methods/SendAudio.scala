@@ -2,9 +2,7 @@ package com.github.mukel.telegrambot4s.methods
 
 import com.github.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
 
-/** sendAudio
-  *
-  * Use this method to send audio files, if you want Telegram clients to display them in the music player.
+/** Use this method to send audio files, if you want Telegram clients to display them in the music player.
   * Your audio must be in the .mp3 format. On success, the sent Message is returned.
   * Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
   *

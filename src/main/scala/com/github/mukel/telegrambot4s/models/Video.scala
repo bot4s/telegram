@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** Video
-  *
-  * This object represents a video file.
+/** This object represents a video file.
   *
   * @param fileId    Unique identifier for this file
   * @param width     Video width as defined by sender

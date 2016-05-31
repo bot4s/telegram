@@ -3,9 +3,7 @@ package com.github.mukel.telegrambot4s.methods
 import com.github.mukel.telegrambot4s.methods.ParseMode.ParseMode
 import com.github.mukel.telegrambot4s.models.{Message, ReplyMarkup}
 
-/** editMessageText
-  *
-  * Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+/** Use this method to edit text messages sent by the bot or via the bot (for inline bots).
   * On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
   *
   * @param chatId                 Integer or String	Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)

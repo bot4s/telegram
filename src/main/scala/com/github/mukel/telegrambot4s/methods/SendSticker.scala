@@ -2,9 +2,7 @@ package com.github.mukel.telegrambot4s.methods
 
 import com.github.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
 
-/** sendSticker
-  *
-  * Use this method to send .webp stickers. On success, the sent Message is returned.
+/** Use this method to send .webp stickers. On success, the sent Message is returned.
   *
   * @param chatId              Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param sticker              InputFile or String	Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.

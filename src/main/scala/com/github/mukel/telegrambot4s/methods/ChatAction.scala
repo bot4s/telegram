@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.methods
 
-/** ChatAction
-  *
-  * Type of action to broadcast.
+/** Type of action to broadcast.
   *
   * Choose one, depending on what the user is about to receive:
   *   typing for text messages,

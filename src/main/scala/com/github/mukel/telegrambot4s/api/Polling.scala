@@ -1,13 +1,13 @@
 package com.github.mukel.telegrambot4s.api
 
 import akka.stream.scaladsl.Source
-import com.github.mukel.telegrambot4s._, models._, methods._, Implicits._
+import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 import scala.concurrent.Future
+import scala.util.{Success, Failure}
 
-/** Polling
+/** Provides updates by polling Telegram servers.
   *
-  * Provides updates by polling Telegram servers.
   * When idle, it won't flood the server, it will send at most 3 queries per minute, still
   * the responses are instantaneous.
   */
@@ -42,10 +42,10 @@ trait Polling extends TelegramBot {
   private[this] val updates = updateGroups.mapConcat(_.to[collection.immutable.Seq])
 
   override def run(): Unit = {
-    api.request(SetWebhook(None))
-      .foreach { success =>
-        if (success)
-          updates.runForeach(handleUpdate)
-      }
+    api.request(SetWebhook(None)).onComplete {
+      case Success(true) => updates.runForeach(handleUpdate)
+      case Success(false) => log.error("Webhook can't be removed")
+      case Failure(e) => log.error(e, "Something went wrong")
+    }
   }
 }

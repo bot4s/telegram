@@ -3,13 +3,13 @@ package com.github.mukel.telegrambot4s.api
 import java.util.concurrent.Executors
 
 import akka.actor.ActorSystem
+import akka.event.Logging
 import akka.stream.ActorMaterializer
 import com.github.mukel.telegrambot4s.models._
 
 import scala.concurrent.ExecutionContext
 
-/**
-  * Telegram Bot base
+/** Telegram Bot base
   */
 trait TelegramBot {
   def token: String
@@ -17,6 +17,8 @@ trait TelegramBot {
   implicit val system = ActorSystem("telegram-bot")
   implicit val materializer = ActorMaterializer()
   implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
+
+  val log = Logging.getLogger(system, this)
 
   val api = new TelegramApiAkka(token)
 

@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.methods
 
-/** ParseMode Enum
-  *
-  * Formatting options
+/** Formatting options
   *   The Bot API supports basic formatting for messages.
   *   You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages.
   *   Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.

@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** Venue
-  *
-  * This object represents a venue.
+/** This object represents a venue.
   *
   * @param location       Location	Venue location
   * @param title          String	Name of the venue

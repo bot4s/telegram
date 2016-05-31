@@ -46,8 +46,7 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
     Unmarshal(httpResponse.entity).to[ApiResponse[R]]
   }
 
-  /**
-    * Spawns a type-safe request.
+  /** Spawns a type-safe request.
     *
     * @param request
     * @tparam R The request's expected result type

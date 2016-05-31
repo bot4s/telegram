@@ -10,8 +10,7 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.{Extraction, Formats, NoTypeHints}
 
-/**
-  * Created by mukel on 5/10/16.
+/** Json support
   */
 trait Jsonification {
   implicit val formats = Serialization.formats(NoTypeHints) +
@@ -24,7 +23,6 @@ trait Jsonification {
       .forContentTypes(ContentTypes.`application/json`)
       .mapWithCharset((data, charset) => {
         val json = data.decodeString(charset.nioCharset.name)
-        println("RECEIVED JSON" + json)
         parse(json).camelizeKeys.extract[T]
       })
   }
@@ -107,5 +105,4 @@ trait Jsonification {
       }
     }
   }
-
 }

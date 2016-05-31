@@ -2,9 +2,7 @@ package com.github.mukel.telegrambot4s.methods
 
 import com.github.mukel.telegrambot4s.methods.ChatAction.ChatAction
 
-/** sendChatAction
-  *
-  * Use this method when you need to tell the user that something is happening on the bot's side.
+/** Use this method when you need to tell the user that something is happening on the bot's side.
   * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
   * Example: The ImageBot needs some time to process a request and upload the image.
   * Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo.

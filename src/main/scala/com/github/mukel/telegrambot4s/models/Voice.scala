@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** Voice
-  *
-  * This object represents a voice note.
+/** This object represents a voice note.
   *
   * @param fileId    Unique identifier for this file
   * @param duration  Duration of the audio in seconds as defined by sender

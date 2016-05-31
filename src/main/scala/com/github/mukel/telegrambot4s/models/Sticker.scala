@@ -1,9 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/**
-  * Sticker
-  *
-  * This object represents a sticker.
+/** This object represents a sticker.
   *
   * @param fileId    Unique identifier for this file
   * @param width     Sticker width

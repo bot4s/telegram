@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** Message
-  *
-  * This object represents a message.
+/** This object represents a message.
   *
   * @param messageId              Unique message identifier
   * @param from                   Sender
@@ -71,7 +69,6 @@ case class  Message(
                migrateFromChatId	   : Option[Long] = None,
                pinnedMessage         : Option[Message] = None
              ) {
-
   def sender = chat.id
 }
 

@@ -2,9 +2,7 @@ package com.github.mukel.telegrambot4s.methods
 
 import com.github.mukel.telegrambot4s.models.{Message, ReplyMarkup}
 
-/** sendLocation
-  *
-  * Use this method to send point on the map. On success, the sent Message is returned.
+/** Use this method to send point on the map. On success, the sent Message is returned.
   *
   * @param chatId               Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param latitude             Float number	Latitude of location

@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** InputMessageContent
-  *
-  * This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 4 types:
+/** This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 4 types:
   *
   * InputTextMessageContent
   * InputLocationMessageContent
@@ -12,9 +10,7 @@ package com.github.mukel.telegrambot4s.models
 sealed trait InputMessageContent
 
 
-/** InputTextMessageContent
-  *
-  * Represents the content of a text message to be sent as the result of an inline query.
+/** Represents the content of a text message to be sent as the result of an inline query.
   *
   * @param messageText            String	Text of the message to be sent, 1-4096 characters
   * @param parseMode              String	Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
@@ -26,14 +22,13 @@ case class InputTextMessageContent(
                                   disableWebPagePreview : Option[Boolean] = None
                                   ) extends InputMessageContent
 
-/** InputLocationMessageContent
+/** Represents the content of a location message to be sent as the result of an inline query.
   *
-  * Represents the content of a location message to be sent as the result of an inline query.
+  * ''Note:''
+  *   This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   *
   * @param latitude   Float	Latitude of the location in degrees
   * @param longitude  Float	Longitude of the location in degrees
-  *
-  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
 case class InputLocationMessageContent(
                                       latitude  : Double,
@@ -60,15 +55,15 @@ case class InputVenueMessageContent(
                                    foursquareId : Option[String] = None
                                    ) extends InputMessageContent
 
-/** InputContactMessageContent
+/** Represents the content of a contact message to be sent as the result of an inline query.
   *
-  * Represents the content of a contact message to be sent as the result of an inline query.
+  * ''Note:''
+  *   This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   *
   * @param phoneNumber  String	Contact's phone number
   * @param firstName    String	Contact's first name
   * @param lastName     String	Optional Contact's last name
   *
-  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
 case class InputContactMessageContent(
                                      phoneNumber : String,

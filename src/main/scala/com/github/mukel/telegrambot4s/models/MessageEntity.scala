@@ -1,8 +1,6 @@
 package com.github.mukel.telegrambot4s.models
 
-/** MessageEntity
-  *
-  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
+/** This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
   *
   * @param type    String	Type of the entity. One of mention (@username), hashtag, bot_command, url, email, bold (bold text), italic (italic text), code (monowidth string), pre (monowidth block), text_link (for clickable text URLs), text_mention (for users without usernames)
   * @param offset  Integer	Offset in UTF-16 code units to the start of the entity

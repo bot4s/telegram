@@ -5,9 +5,8 @@ import java.io.{File => JavaFile}
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 
-/** InputFile
-  *
-  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
+/** This object represents the contents of a file to be uploaded.
+  * Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
   *
   * Resending files without reuploading
   * There are two ways of sending a file (photo, sticker, audio etc.). If it‘s a new file, you can upload it using multipart/form-data. If the file is already on our servers, you don’t need to reupload it: each file object has a file_id field, you can simply pass this file_id as a parameter instead.  *
@@ -28,7 +27,6 @@ object InputFile {
                          source        : Source[ByteString, Any]
                        ) extends InputFile
 
-  // Not supported yet
-  case class FromContents(filename: String, contents: Array[Byte]) extends InputFile
   case class FromByteString(filename: String, contents: ByteString) extends InputFile
+  case class FromContents(filename: String, contents: Array[Byte]) extends InputFile
 }
