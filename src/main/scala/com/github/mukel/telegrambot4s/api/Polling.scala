@@ -27,7 +27,7 @@ trait Polling extends TelegramBot {
         api.request(GetUpdates(curOffset + 1, timeout = 20))
           .recover {
             case e: Exception =>
-              // TODO: Log error
+              log.error(e, "GetUpdates failed")
               Seq.empty[Update]
           }
           .map { (curOffset, _) }
@@ -44,8 +44,8 @@ trait Polling extends TelegramBot {
   override def run(): Unit = {
     api.request(SetWebhook(None)).onComplete {
       case Success(true) => updates.runForeach(handleUpdate)
-      case Success(false) => log.error("Webhook can't be removed")
-      case Failure(e) => log.error(e, "Something went wrong")
+      case Success(false) => log.error("Failed to clear webhook")
+      case Failure(e) => log.error(e, "Failed to clear webhook")
     }
   }
 }
