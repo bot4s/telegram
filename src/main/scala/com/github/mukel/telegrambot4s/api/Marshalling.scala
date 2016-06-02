@@ -10,9 +10,9 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.{Extraction, Formats, NoTypeHints}
 
-/** Json support
+/** Simple de/serailization for JSON and multipart API requests
   */
-trait Jsonification {
+trait Marshalling {
   implicit val formats = Serialization.formats(NoTypeHints) +
     new EnumNameSerializer(ChatAction) +
     new EnumNameSerializer(ParseMode)

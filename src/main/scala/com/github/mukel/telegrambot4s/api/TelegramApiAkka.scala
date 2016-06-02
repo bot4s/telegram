@@ -8,10 +8,14 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.github.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
 
-//import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends Jsonification {
+/** Akka-backed Telegram Bot API client
+  * Provide transparent camelCase <-> underscore_case conversions during serialization/deserialization
+  *
+  * @param token Bot token
+  */
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends Marshalling {
 
   import system.dispatcher
 
@@ -20,10 +24,6 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
   /** Extract request URL from class name.
     */
   private def getRequestUrl[R](r: ApiRequest[R]): String = apiBaseUrl + r.getClass.getSimpleName.reverse.dropWhile(_ == '$').reverse
-
-  /**
-    * Transparent camelCase <-> underscore_case conversions during serialization/deserialization
-    */
 
   private val http = Http()
 
@@ -49,7 +49,7 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
   /** Spawns a type-safe request.
     *
     * @param request
-    * @tparam R The request's expected result type
+    * @tparam R Request's expected result type
     * @return The request result wrapped in a Future (async)
     */
   def request[R: Manifest](request: ApiRequest[R]): Future[R] = {

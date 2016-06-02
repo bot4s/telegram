@@ -22,6 +22,10 @@ trait TelegramBot {
 
   val api = new TelegramApiAkka(token)
 
+  /**
+    *
+    * @param update
+    */
   def handleUpdate(update: Update): Unit = {
     update.message foreach (handleMessage)
     update.inlineQuery foreach (handleInlineQuery)

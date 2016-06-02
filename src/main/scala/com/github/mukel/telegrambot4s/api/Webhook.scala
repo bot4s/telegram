@@ -15,11 +15,11 @@ import scala.util.{Failure, Success}
 /** Spawns a local server to receive updates.
   * Automatically registers the webhook on run().
   */
-trait Webhook extends TelegramBot with Jsonification {
+trait Webhook extends TelegramBot with Marshalling {
   def port: Int
   def webhookUrl: String
 
-  private val route = pathEndOrSingleSlash {
+  private[this] val route = pathEndOrSingleSlash {
       entity(as[Update]) {
         update =>
           handleUpdate(update)

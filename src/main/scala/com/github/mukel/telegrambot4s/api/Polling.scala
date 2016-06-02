@@ -13,38 +13,44 @@ import scala.util.{Success, Failure}
   */
 trait Polling extends TelegramBot {
 
-  private[this] type OffsetUpdates = Future[(Long, Seq[Update])]
+  private[this] val updates = {
+    type OffsetUpdates = Future[(Long, Seq[Update])]
 
-  private[this] val seed = Future.successful((0L, Seq.empty[Update]))
+    val seed = Future.successful((0L, Seq.empty[Update]))
 
-  private[this] val iterator = Iterator.iterate[OffsetUpdates](seed) {
-    _ flatMap {
-      case (prevOffset, prevUpdates) =>
-        val curOffset = prevUpdates
-          .map(_.updateId)
-          .fold(prevOffset)(_ max _)
+    val iterator = Iterator.iterate[OffsetUpdates](seed) {
+      _ flatMap {
+        case (prevOffset, prevUpdates) =>
+          val curOffset = prevUpdates
+            .map(_.updateId)
+            .fold(prevOffset)(_ max _)
 
-        api.request(GetUpdates(curOffset + 1, timeout = 20))
-          .recover {
-            case e: Exception =>
-              log.error(e, "GetUpdates failed")
-              Seq.empty[Update]
-          }
-          .map { (curOffset, _) }
+          api.request(GetUpdates(curOffset + 1, timeout = 20))
+            .recover {
+              case e: Exception =>
+                log.error(e, "GetUpdates failed")
+                Seq.empty[Update]
+            }
+            .map { (curOffset, _) }
+      }
     }
+
+    val updateGroups =
+      Source.fromIterator(() => iterator)
+        .mapAsync(1)(identity)
+        .map(_._2)
+
+    /* return */ updateGroups.mapConcat(_.to[collection.immutable.Seq])
   }
-
-  private[this] val updateGroups =
-    Source.fromIterator(() => iterator)
-      .mapAsync(1)(identity)
-      .map(_._2)
-
-  private[this] val updates = updateGroups.mapConcat(_.to[collection.immutable.Seq])
 
   override def run(): Unit = {
     api.request(SetWebhook(None)).onComplete {
-      case Success(true) => updates.runForeach(handleUpdate)
-      case Success(false) => log.error("Failed to clear webhook")
+      case Success(true) =>
+        updates.runForeach(handleUpdate)
+
+      case Success(false) =>
+        log.error("Failed to clear webhook")
+
       case Failure(e) => log.error(e, "Failed to clear webhook")
     }
   }
