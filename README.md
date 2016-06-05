@@ -82,7 +82,8 @@ LmgtfyBot.run()
 #### Google TTS
 
 ```scala
-object TextToSpeechBot extends TestBot with Polling with Commands with ChatActions {
+object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
+  def token = "TOKEN"
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
   on("/speak") { implicit msg => args =>
     val text = args mkString " "
@@ -103,7 +104,8 @@ object TextToSpeechBot extends TestBot with Polling with Commands with ChatActio
 #### Using webhooks
 
 ```scala
-object WebhookBot extends TestBot with Webhook {
+object WebhookBot extends TelegramBot with Webhook {
+  def token = "TOKEN"
   def port = 8443
   def webhookUrl = "https://ed88ff73.ngrok.io"
   
