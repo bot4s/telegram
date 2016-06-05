@@ -6,34 +6,26 @@
 
 Telegram Bot API Wrapper for Scala
 
-100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api). The entire API is supported, inline mode, callbacks, editing, sending files, chat actions... strongly-typed (no JSON stuff/strings), asynchronous, and transparently camelCased.
+100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
+The full API is supported, inline queries, callbacks, editing, markups, sending files, chat actions...
+strongly-typed (no JSON stuff/strings), fully asynchronous (ont top of Akka), and transparently camelCased.
 
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
-## As SBT dependency
-
-```scala
-resolvers += Resolver.sonatypeRepo("snapshots")
-
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "1.2.0-SNAPSHOT"
-```
-
-## Or pick latest snapshot from [Jitpack](https://jitpack.io/#sbt)
+## As SBT dependency from [Jitpack](https://jitpack.io/#sbt)
 
 ```scala
   resolvers += "jitpack" at "https://jitpack.io"
   
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "master-SNAPSHOT"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.0"
 ```
 Make sure to specify scala version in your build file.
-You can also pull any branch or tagged version from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
+You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
-# About TOKEN safety
+## About TOKEN safety
 Please **DO NOT SHARE TOKENS** in any form.
 
 In order to avoid unintentional TOKEN sharing, a simple but efficient method is to store a separate file **UNTRACKED, OUTSIDE THE REPO!!!** e.g. "bot.token" and spawn your bot as follows:
-
-Then you can safely share your code and submit pull requests.
 
 ```scala
 
@@ -48,13 +40,12 @@ SafeBot.run()
   
 ```
 
-## Not supported yet
-  - Self-signed certificates (usable, but must issue certificates yourself)
-
 ## Webhooks vs Polling
-Both methods are supported.
-Polling is by far the easiest method, and can be used locally without any additional requirements. Polling has been radically improved, it doesn't flood the server and it's very fast.
-Using webhooks requires a server (it won't work on your laptop). Self signed certificates ~~wont work~~ are supported now since August 29th, see the API [not so recent changes](https://core.telegram.org/bots/api#recent-changes).
+Both methods are fully supported.
+Polling is by far the easiest method, and can be used locally without any additional requirements.
+Polling has been radically improved, it doesn't flood the server and it's very fast.
+Using webhooks requires a server (it won't work on your laptop).
+Self-signed certificates are supported, but you must issue the certificates yourself.
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
 Beside the usual ways, I've managed to run FlunkeyBot successfully on a Raspberry Pi 2, and most notably on an old Android (4.1.2) phone with a broken screen.
@@ -70,26 +61,11 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
 
 # Usage
 
-Just add `import com.github.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+Just add `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+
+#### Let me Google that for you!
 
 ```scala
-
-val helloBot = new TelegramBot with Polling with Commands {
-  def token = Source.fromFile("./bot.token").getLines().next
-}
-
-helloBot.on("/hello") { implicit message => _ =>
-  reply("Hello from Telegram!")
-}
-
-helloBot.run()
-  
-```
-
-Or
-
-```scala
-
 object LmgtfyBot extends TelegramBot with Polling with Commands {
   def token = "TOKEN"
   on("/lmgtfy") { implicit msg => args =>
@@ -101,13 +77,32 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 }
 
 LmgtfyBot.run()
-  
 ```
 
-Using webhooks
+#### Google TTS
 
 ```scala
+object TextToSpeechBot extends TestBot with Polling with Commands with ChatActions {
+  val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
+  on("/speak") { implicit msg => args =>
+    val text = args mkString " "
+    val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
+    for {
+      response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+      if response.status.isSuccess()
+      bytes <-  Unmarshal(response).to[ByteString]
+    } /* do */ {
+      uploadingAudio // hint the user
+      val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
+      api.request(SendVoice(msg.sender, voiceMp3))
+    }
+  }
+}
+```
 
+#### Using webhooks
+
+```scala
 object WebhookBot extends TestBot with Webhook {
   def port = 8443
   def webhookUrl = "https://ed88ff73.ngrok.io"
@@ -121,8 +116,6 @@ object WebhookBot extends TestBot with Webhook {
 }
 
 WebhookBot.run()
-  
 ```
 
-Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/main/scala/info/mukel/telegram/bots/v2/examples) for more functionality.
-
+Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/main/scala/info/mukel/telegrambot4s/examples) for more functionality.
