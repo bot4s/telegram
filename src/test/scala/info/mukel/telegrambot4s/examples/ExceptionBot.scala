@@ -1,8 +1,6 @@
 package info.mukel.telegrambot4s.examples
 
-import com.github.mukel.telegrambot4s._
-import info.mukel.telegrambot4s.api.{Commands, Polling, TelegramApiException}
-import info.mukel.telegrambot4s.Implicits
+import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 import scala.util.Failure
 

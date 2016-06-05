@@ -1,10 +1,6 @@
 package info.mukel.telegrambot4s.examples
 
-import com.github.mukel.telegrambot4s._
-import info.mukel.telegrambot4s.Implicits
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.methods.SendMessage
-import info.mukel.telegrambot4s.models.Message
+import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
 
 /**
   * Echo, ohcE
