@@ -118,4 +118,4 @@ object WebhookBot extends TestBot with Webhook {
 WebhookBot.run()
 ```
 
-Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/main/scala/info/mukel/telegrambot4s/examples) for more functionality.
+Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples) for more functionality.
