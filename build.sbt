@@ -1,26 +1,29 @@
 name := "telegrambot4s"
 
-version := "1.1.5-SNAPSHOT"
+version := "1.2.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
 organization := "info.mukel"
 
-val akkaV = "2.4.6"
+val akkaVersion = "2.4.6"
 
 libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.3.0",
   "org.json4s" %% "json4s-ext" % "3.3.0",
-  "com.typesafe.akka" %% "akka-http-core" % akkaV,
-  "com.typesafe.akka" %% "akka-http-experimental" % akkaV,
-  "com.typesafe.akka" %% "akka-stream" % akkaV
+  "com.typesafe.akka" %% "akka-http-core" % akkaVersion,
+  "com.typesafe.akka" %% "akka-http-experimental" % akkaVersion,
+  "com.typesafe.akka" %% "akka-stream" % akkaVersion
 )
 
+/*
+// Dropped sonatype releases
 publishTo <<= version { v: String =>
   val nexus = "https://oss.sonatype.org/"
   if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
   else Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
+*/
 
 publishMavenStyle := true
 
