@@ -12,7 +12,7 @@ import org.json4s.{Extraction, Formats, NoTypeHints}
 
 /** Simple de/serailization support for JSON and multipart API requests
   */
-trait Marshalling {
+object Marshalling {
   implicit val formats = Serialization.formats(NoTypeHints) +
     new EnumNameSerializer(ChatAction) +
     new EnumNameSerializer(ParseMode)

@@ -6,7 +6,7 @@ scalaVersion := "2.11.8"
 
 organization := "info.mukel"
 
-val akkaVersion = "2.4.6"
+val akkaVersion = "2.4.8"
 
 libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.3.0",

@@ -14,7 +14,11 @@ import scala.util.{Failure, Success}
 /** Spawns a local server to receive updates.
   * Automatically registers the webhook on run().
   */
-trait Webhook extends TelegramBot with Marshalling {
+trait Webhook {
+  this: TelegramBot =>
+
+  import Marshalling._
+
   def port: Int
   def webhookUrl: String
 
