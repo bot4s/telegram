@@ -16,8 +16,8 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 
 ```scala
   resolvers += "jitpack" at "https://jitpack.io"
-  
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.0"
+
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.1"
 ```
 Make sure to specify scala version in your build file.
 You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
@@ -37,7 +37,7 @@ object SafeBot extends TelegramBot with Polling with Commands {
 }
 
 SafeBot.run()
-  
+
 ```
 
 ## Webhooks vs Polling
@@ -108,7 +108,7 @@ object WebhookBot extends TelegramBot with Webhook {
   def token = "TOKEN"
   def port = 8443
   def webhookUrl = "https://ed88ff73.ngrok.io"
-  
+
   def toL337(s: String) = s.map("aegiost".zip("4361057").toMap.withDefault(identity))
 
   override def handleMessage(message: Message): Unit = {

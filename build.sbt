@@ -1,10 +1,12 @@
 name := "telegrambot4s"
 
-version := "1.2.0-SNAPSHOT"
+version := "1.2.1-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
 organization := "info.mukel"
+
+scalacOptions ++= Seq("-feature", "-deprecation")
 
 val akkaVersion = "2.4.8"
 

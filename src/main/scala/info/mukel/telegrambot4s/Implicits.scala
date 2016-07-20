@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s
 
+import scala.language.implicitConversions
+
 /**
   * Useful implicits to reduce boilerplate.
   */

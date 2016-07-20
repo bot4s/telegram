@@ -70,7 +70,7 @@ object Marshalling {
             // Handle files
             case _: InputFile => value match {
               case InputFile.FromFile(file) =>
-                Multipart.FormData.BodyPart.fromFile(key, MediaTypes.`application/octet-stream`, file)
+                Multipart.FormData.BodyPart.fromPath(key, MediaTypes.`application/octet-stream`, file.toPath)
 
               case InputFile.FromSource(filename, contentLength, source) =>
 
