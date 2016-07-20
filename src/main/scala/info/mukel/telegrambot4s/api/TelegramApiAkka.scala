@@ -15,8 +15,9 @@ import scala.concurrent.Future
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends Marshalling {
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) {
 
+  import Marshalling._
   import system.dispatcher
 
   private val apiBaseUrl = s"https://api.telegram.org/bot$token/"
@@ -54,6 +55,10 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
     */
   def request[R: Manifest](request: ApiRequest[R]): Future[R] = {
     toHttpRequest(request)
+      .map {x =>
+        println(x)
+        x
+      }
       .flatMap(http.singleRequest(_))
       .flatMap(toApiResponse[R])
       .flatMap {

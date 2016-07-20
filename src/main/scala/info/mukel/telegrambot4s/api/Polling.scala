@@ -13,7 +13,8 @@ import scala.util.{Failure, Success}
   * When idle, it won't flood the server, it will send at most 3 queries per minute, still
   * the responses are instantaneous.
   */
-trait Polling extends TelegramBot {
+trait Polling {
+  this: TelegramBot =>
 
   private[this] val updates = {
     type OffsetUpdates = Future[(Long, Seq[Update])]
