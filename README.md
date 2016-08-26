@@ -58,6 +58,7 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
   - [ex0ns](https://github.com/ex0ns)
   - [Kirill Lastovirya](https://github.com/kirhgoff)
   - [Maxim Cherkasov](https://github.com/rema7)
+  - [hamidr](https://github.com/hamidr)
 
 # Usage
 
@@ -99,6 +100,8 @@ object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatA
     }
   }
 }
+
+TextToSpeechBot.run()
 ```
 
 #### Using webhooks
