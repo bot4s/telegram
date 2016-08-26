@@ -21,6 +21,7 @@ trait Webhook {
 
   def port: Int
   def webhookUrl: String
+  def interfaceIp: String = "::0"
 
   private[this] val route = pathEndOrSingleSlash {
       entity(as[Update]) {
@@ -30,7 +31,7 @@ trait Webhook {
       }
     }
 
-  private[this] val bindingFuture = Http().bind("::0", port) // All IPv4/6 interfaces
+  private[this] val bindingFuture = Http().bind(interfaceIp, port) // All IPv4/6 interfaces
     .to(Sink.foreach(_.handleWith(route)))
 
   override def run(): Unit = {
