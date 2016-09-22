@@ -55,10 +55,6 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
     */
   def request[R: Manifest](request: ApiRequest[R]): Future[R] = {
     toHttpRequest(request)
-      .map {x =>
-        println(x)
-        x
-      }
       .flatMap(http.singleRequest(_))
       .flatMap(toApiResponse[R])
       .flatMap {
