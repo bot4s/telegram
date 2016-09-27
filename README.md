@@ -59,6 +59,8 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
   - [Kirill Lastovirya](https://github.com/kirhgoff)
   - [Maxim Cherkasov](https://github.com/rema7)
   - [hamidr](https://github.com/hamidr)
+  - [Onilton Maciel](https://github.com/onilton)
+
 
 # Usage
 

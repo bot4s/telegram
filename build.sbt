@@ -1,6 +1,6 @@
 name := "telegrambot4s"
 
-version := "1.2.1-SNAPSHOT"
+version := "1.2.2"
 
 scalaVersion := "2.11.8"
 
