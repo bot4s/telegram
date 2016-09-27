@@ -17,7 +17,7 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ```scala
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.1"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.2"
 ```
 Make sure to specify scala version in your build file.
 You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
