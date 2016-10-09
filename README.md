@@ -73,6 +73,39 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
 
 Just add `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
 
+## Running the examples
+
+Create a token file in the `token` subdirectory
+
+```
+mkdir tokens
+cd tokens
+echo token_from_telegram_that_looks_like_this_aghgoah:aghoahg >
+menial_bot.token
+```
+
+Get into the test console in `sbt`
+
+```
+sbt
+[info] Loading project definition from /home/jmerelo/Code/forks/telegrambot4s/project
+[info] Set current project to telegrambot4s (in build file:/home/jmerelo/Code/forks/telegrambot4s/)
+> test:console
+[info] Compiling 10 Scala sources to /home/jmerelo/Code/forks/telegrambot4s/target/scala-2.11/test-classes...
+[info] Starting scala interpreter...
+[info] 
+Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
+Type in expressions for evaluation. Or try :help.
+
+scala> import info.mukel.telegrambot4s.examples._
+import info.mukel.telegrambot4s.examples._
+
+scala> RandomBot.run()
+```
+
+(Change `RandomBot` to whatever bot you find interesting)
+
+
 #### Let me Google that for you!
 
 ```scala
