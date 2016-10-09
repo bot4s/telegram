@@ -15,11 +15,18 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ## As SBT dependency from [Jitpack](https://jitpack.io/#sbt)
 
 ```scala
+
+  scalaVersion := "2.11.7"
+  
   resolvers += "jitpack" at "https://jitpack.io"
 
   libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.2"
 ```
-Make sure to specify scala version in your build file.
+
+Make sure to specify Scala version in your build file, inserting a
+line like the first one, or you'll get by default a 2.10 Scala version
+for which this repository does not work.
+
 You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
 ## About TOKEN safety
@@ -65,6 +72,39 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
 # Usage
 
 Just add `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+
+## Running the examples
+
+Create a token file in the `token` subdirectory
+
+```
+mkdir tokens
+cd tokens
+echo token_from_telegram_that_looks_like_this_aghgoah:aghoahg >
+menial_bot.token
+```
+
+Get into the test console in `sbt`
+
+```
+sbt
+[info] Loading project definition from /home/jmerelo/Code/forks/telegrambot4s/project
+[info] Set current project to telegrambot4s (in build file:/home/jmerelo/Code/forks/telegrambot4s/)
+> test:console
+[info] Compiling 10 Scala sources to /home/jmerelo/Code/forks/telegrambot4s/target/scala-2.11/test-classes...
+[info] Starting scala interpreter...
+[info] 
+Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
+Type in expressions for evaluation. Or try :help.
+
+scala> import info.mukel.telegrambot4s.examples._
+import info.mukel.telegrambot4s.examples._
+
+scala> RandomBot.run()
+```
+
+(Change `RandomBot` to whatever bot you find interesting)
+
 
 #### Let me Google that for you!
 
