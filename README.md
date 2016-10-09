@@ -15,11 +15,18 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 ## As SBT dependency from [Jitpack](https://jitpack.io/#sbt)
 
 ```scala
+
+  scalaVersion := "2.11.7"
+  
   resolvers += "jitpack" at "https://jitpack.io"
 
   libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.2"
 ```
-Make sure to specify scala version in your build file.
+
+Make sure to specify Scala version in your build file, inserting a
+line like the first one, or you'll get by default a 2.10 Scala version
+for which this repository does not work.
+
 You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
 ## About TOKEN safety
