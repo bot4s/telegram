@@ -67,6 +67,7 @@ Creating a bot, is also a contribution, I'll add a link to your bot here anytime
   - [Maxim Cherkasov](https://github.com/rema7)
   - [hamidr](https://github.com/hamidr)
   - [Onilton Maciel](https://github.com/onilton)
+  - [Juan Julián Merelo Guervós](https://github.com/JJ)
 
 
 # Usage
