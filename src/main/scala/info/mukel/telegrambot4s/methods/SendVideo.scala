@@ -5,7 +5,7 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
 /** Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
   *
   * @param chatId               Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-  * @param video                InputFile or String	Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.
+  * @param video                InputFile or String	Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data.
   * @param duration             Integer	Optional	Duration of sent video in seconds
   * @param width                Integer	Optional	Video width
   * @param height               Integer	Optional	Video height

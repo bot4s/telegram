@@ -15,6 +15,7 @@ package info.mukel.telegrambot4s.models
   * @param entities               Array of MessageEntity	Optional For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
   * @param audio                  Optional Message is an audio file, information about the file
   * @param document               Optional Message is a general file, information about the file
+  * @param game                   Game	Optional. Message is a game, information about the game.
   * @param photo                  Optional Message is a photo, available sizes of the photo
   * @param sticker                Optional Message is a sticker, information about the sticker
   * @param video                  Optional Message is a video, information about the video
@@ -49,6 +50,7 @@ case class  Message(
                entities              : Option[Seq[MessageEntity]] = None,
                audio                 : Option[Audio] = None,
                document              : Option[Document] = None,
+               game                  : Option[Game] = None,
                photo                 : Option[Array[PhotoSize]] = None,
                sticker               : Option[Sticker] = None,
                video                 : Option[Video] = None,

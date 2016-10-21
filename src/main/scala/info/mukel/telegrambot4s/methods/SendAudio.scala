@@ -9,7 +9,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   * For sending voice messages, use the sendVoice method instead.
   *
   * @param chatId               Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-  * @param audio                InputFile or String	Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+  * @param audio                InputFile or String	Audio file to send. Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data.
+  * @param caption	            String	Optional	Audio caption, 0-200 characters
   * @param duration             Integer	Optional	Duration of the audio in seconds
   * @param performer            String	Optional	Performer
   * @param title                String	Optional	Track name
@@ -21,6 +22,7 @@ case class SendAudio(
                     chatId               : Either[Long, String],
                     audio                : Either[InputFile, String],
                     duration             : Option[Int] = None,
+                    caption              : Option[String] = None,
                     performer            : Option[String] = None,
                     title                : Option[String] = None,
                     disableNotification  : Option[Boolean] = None,

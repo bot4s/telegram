@@ -90,6 +90,21 @@ case class InlineQueryResultPhoto(
                                  `type`              : String = "photo"
                                  ) extends InlineQueryResult
 
+/** Represents a Game.
+  * @param type           String	Type of the result, must be game
+  * @param id             String	Unique identifier for this result, 1-64 bytes
+  * @param gameShortName  String	Short name of the game
+  * @param replyMarkup    InlineKeyboardMarkup	Optional. Inline keyboard attached to the message
+  *
+  * Note: This will only work in Telegram versions released after October 1, 2016. Older clients will not display any inline results if a game result is among them.
+  */
+case class InlineQueryResultGame(
+                                  `type`        : String,
+                                  id            : String,
+                                  gameShortName : String,
+                                  replyMarkup   : Option[InlineKeyboardMarkup] = None
+                                )
+
 /** Represents a link to an animated GIF file.
   *
   * By default, this animated GIF file will be sent by the user with optional caption.
@@ -193,6 +208,7 @@ case class InlineQueryResultVideo(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param audioUrl             String	A valid URL for the audio file
   * @param title                String	Title
+  * @param caption	            String	Optional. Caption, 0-200 characters
   * @param performer            String	Optional Performer
   * @param audioDuration        Integer	Optional Audio duration in seconds
   * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
@@ -204,6 +220,7 @@ case class InlineQueryResultAudio(
                                    id                  : String,
                                    audioUrl            : String,
                                    title               : Option[String] = None,
+                                   caption             : Option[String] = None,
                                    performer           : Option[String] = None,
                                    audioDuration       : Option[Int] = None,
                                    replyMarkup         : Option[InlineKeyboardMarkup] = None,
@@ -217,12 +234,13 @@ case class InlineQueryResultAudio(
   * By default, this voice recording will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
   *
-  * @param type	String	Type of the result, must be voice
-  * @param id	String	Unique identifier for this result, 1-64 bytes
-  * @param voiceUrl	String	A valid URL for the voice recording
-  * @param title	String	Recording title
-  * @param voiceDuration	Integer	Optional Recording duration in seconds
-  * @param replyMarkup	InlineKeyboardMarkup	Optional Inline keyboard attached to the message
+  * @param type                 String	Type of the result, must be voice
+  * @param id                   String	Unique identifier for this result, 1-64 bytes
+  * @param voiceUrl             String	A valid URL for the voice recording
+  * @param title                String	Recording title
+  * @param caption	            String	Optional. Caption, 0-200 characters
+  * @param voiceDuration        Integer	Optional Recording duration in seconds
+  * @param replyMarkup          InlineKeyboardMarkup	Optional Inline keyboard attached to the message
   * @param inputMessageContent	InputMessageContent	Optional Content of the message to be sent instead of the voice recording
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
@@ -231,6 +249,7 @@ case class InlineQueryResultVoice(
                                    id                  : String,
                                    voiceUrl            : String,
                                    title               : Option[String] = None,
+                                   caption             : Option[String] = None,
                                    voiceDuration       : Option[Int] = None,
                                    replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                    inputMessageContent : Option[InputMessageContent] = None,
@@ -528,6 +547,7 @@ case class InlineQueryResultCachedVideo(
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param voiceFileId          String	A valid file identifier for the voice message
   * @param title                String	Voice message title
+  * @param caption              String	Optional. Caption, 0-200 characters
   * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
   * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the voice message
   *
@@ -537,6 +557,7 @@ case class InlineQueryResultCachedVoice(
                                          id                  : String,
                                          voiceFileId         : String,
                                          title               : String,
+                                         caption             : Option[String] = None,
                                          replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                          inputMessageContent : Option[InputMessageContent] = None,
                                          `type`              : String = "voice"
@@ -551,6 +572,7 @@ case class InlineQueryResultCachedVoice(
   * @param type                 String	Type of the result, must be audio
   * @param id                   String	Unique identifier for this result, 1-64 bytes
   * @param audioFileId          String	A valid file identifier for the audio file
+  * @param caption	            String	Optional. Caption, 0-200 characters
   * @param replyMarkup          InlineKeyboardMarkup	Optional An Inline keyboard attached to the message
   * @param inputMessageContent  InputMessageContent	Optional Content of the message to be sent instead of the audio
   *
@@ -559,6 +581,7 @@ case class InlineQueryResultCachedVoice(
 case class InlineQueryResultCachedAudio(
                                          id                  : String,
                                          audioFileId         : String,
+                                         caption             : Option[String] = None,
                                          replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                          inputMessageContent : Option[InputMessageContent] = None,
                                          `type`              : String = "audio"

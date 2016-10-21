@@ -1,6 +1,6 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-May%2025%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-October%203%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
@@ -16,11 +16,11 @@ I encourage users to report any bug or broken functionality, I'll do my best to 
 
 ```scala
 
-  scalaVersion := "2.11.7"
+  scalaVersion := "2.11.8"
   
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.2.2"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v1.3.0"
 ```
 
 Make sure to specify Scala version in your build file, inserting a

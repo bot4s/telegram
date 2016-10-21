@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.Message
+
 /** Use this method to kick a user from a group or a supergroup.
   * In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
   * The bot must be an administrator in the group for this to work. Returns True on success.
@@ -13,4 +15,4 @@ package info.mukel.telegrambot4s.methods
   */
 case class KickChatMember(
                          chatId: Either[Long, String],
-                         userId: Long) extends ApiRequestJson[Boolean]
+                         userId: Long) extends ApiRequestJson[Either[Boolean, Message]]
