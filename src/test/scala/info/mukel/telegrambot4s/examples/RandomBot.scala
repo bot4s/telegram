@@ -17,4 +17,7 @@ object RandomBot extends TestBot with Polling with Commands {
       reply(Try(s.toInt).map { case n if (n > 0) => rng.nextInt(n).toString }.getOrElse("Invalid argument"))
     }
   }
+  on("/choose") { implicit msg => args =>
+    reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
+  }
 }

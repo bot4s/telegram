@@ -15,7 +15,7 @@ import scala.concurrent.Future
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) {
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler {
 
   import Marshalling._
   import system.dispatcher

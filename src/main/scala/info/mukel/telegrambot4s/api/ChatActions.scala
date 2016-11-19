@@ -7,7 +7,7 @@ import info.mukel.telegrambot4s.models.Message
   * Provides handy chat actions shortcuts
   */
 trait ChatActions {
-  this : TelegramBot =>
+  _ : BotBase =>
   def typing(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.Typing))
   def uploadingPhoto(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.UploadPhoto))
   def recordingVideo(implicit message: Message) = api.request(SendChatAction(message.sender, ChatAction.RecordVideo))

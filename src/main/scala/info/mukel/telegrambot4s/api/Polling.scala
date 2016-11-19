@@ -1,11 +1,14 @@
 package info.mukel.telegrambot4s.api
 
-import akka.stream.scaladsl.Source
+import akka.NotUsed
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.{Sink, Source}
 import info.mukel.telegrambot4s.methods.{GetUpdates, SetWebhook}
 import info.mukel.telegrambot4s.models.Update
 import info.mukel.telegrambot4s.Implicits._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 /** Provides updates by polling Telegram servers.
@@ -13,10 +16,9 @@ import scala.util.{Failure, Success}
   * When idle, it won't flood the server, it will send at most 3 queries per minute, still
   * the responses are instantaneous.
   */
-trait Polling {
-  this: TelegramBot =>
+trait Polling extends BotBase with AkkaDefaults {
 
-  private[this] val updates = {
+  private val updates: Source[Update, NotUsed] = {
     type OffsetUpdates = Future[(Long, Seq[Update])]
 
     val seed = Future.successful((0L, Seq.empty[Update]))
@@ -31,26 +33,30 @@ trait Polling {
           api.request(GetUpdates(curOffset + 1, timeout = 20))
             .recover {
               case e: Exception =>
-                log.error(e, "GetUpdates failed")
+                logger.error("GetUpdates failed", e)
                 Seq.empty[Update]
             }
             .map { (curOffset, _) }
       }
     }
 
+    val parallelism = Runtime.getRuntime().availableProcessors()
+
     val updateGroups =
       Source.fromIterator(() => iterator)
-        .mapAsync(1)(identity)
+        .mapAsync(parallelism)(identity)
         .map(_._2)
 
-    /* return */ updateGroups.mapConcat(_.to[collection.immutable.Seq])
+    updateGroups.mapConcat(_.to[collection.immutable.Seq])
   }
 
   override def run(): Unit = {
     api.request(SetWebhook(None)).onComplete {
-      case Success(true) => updates.runForeach(handleUpdate)
-      case Success(false) => log.error("Failed to clear webhook")
-      case Failure(e) => log.error(e, "Failed to clear webhook")
+      case Success(true) => updates.to(Sink.foreach(u => Future { onUpdate(u) })).run()
+      case Success(false) => logger.error("Failed to clear webhook")
+      case Failure(e) => logger.error("Failed to clear webhook", e)
     }
   }
+
+  override def shutdown(): Unit = { /* TODO */ }
 }

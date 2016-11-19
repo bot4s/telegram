@@ -10,9 +10,11 @@ import scala.concurrent.Future
 
 /** Makes a bot command-aware using a nice declarative interface
   */
-trait Commands extends TelegramBot {
+trait Commands {
+ base : BotBase =>
 
-  type Action = Message => (Seq[String] => Unit)
+  type Params = Seq[String]
+  type Action = Message => (Params => Unit)
 
   private val commands = mutable.HashMap[String, Action]()
 
@@ -22,7 +24,7 @@ trait Commands extends TelegramBot {
     * Example 'command':
     * /command arg0 arg1
     */
-  override def handleMessage(message: Message): Unit = {
+  override def onMessage(message: Message): Unit = {
     val accepted = for {
       text <- message.text
       Array(cmd, args @ _*) = text.trim.split(" ")
@@ -31,7 +33,7 @@ trait Commands extends TelegramBot {
       action(message)(args)
 
     // Fallback to upper level to preserve trait stack-ability
-    accepted.getOrElse(super.handleMessage(message))
+    accepted.getOrElse(base.onMessage(message))
   }
 
   /**
@@ -43,7 +45,7 @@ trait Commands extends TelegramBot {
             disableNotification: Option[Boolean] = None,
             replyToMessageId: Option[Long] = None)
            (implicit message: Message): Future[Message] = {
-    api.request(SendMessage(message.chat.id, text, parseMode, disableWebPagePreview, disableNotification, replyToMessageId))
+    api.request(SendMessage(message.sender, text, parseMode, disableWebPagePreview, disableNotification, replyToMessageId))
   }
 
   /** Makes the bot able react to 'command' with the specified handler.

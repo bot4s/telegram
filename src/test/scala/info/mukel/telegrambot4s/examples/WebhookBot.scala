@@ -13,8 +13,8 @@ object WebhookBot extends TestBot with Webhook {
   def toL337(s: String) =
     s.map("aegiost".zip("4361057").toMap.withDefault(identity))
 
-  override def handleMessage(message: Message): Unit = {
-    for (text <- message.text)
-      api.request(SendMessage(message.sender, toL337(text)))
+  override def onMessage(msg: Message): Unit = {
+    for (text <- msg.text)
+      api.request(SendMessage(msg.sender, toL337(text)))
   }
 }
