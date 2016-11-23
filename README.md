@@ -137,7 +137,7 @@ object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatA
       if response.status.isSuccess()
       bytes <-  Unmarshal(response).to[ByteString]
     } /* do */ {
-      uploadingAudio // hint the user
+      uploadingAudio // Hint the user
       val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
       api.request(SendVoice(msg.sender, voiceMp3))
     }
@@ -150,7 +150,7 @@ TextToSpeechBot.run()
 #### Using webhooks
 
 ```scala
-object WebhookBot extends TelegramBot with Webhook {
+object WebhookBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
   override val webhookUrl = "https://ed88ff73.ngrok.io"
@@ -159,14 +159,14 @@ object WebhookBot extends TelegramBot with Webhook {
   on("/coin") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
   on("/real") { implicit msg => _ => reply(rng.nextDouble().toString) }
   on("/dice") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
-  
+
   // /random n
   on("/random") { implicit msg => {
     case Seq(s) =>
       reply(Try(s.toInt).map { case n if (n > 0) => rng.nextInt(n).toString }.getOrElse("Invalid argument"))
     }
   }
-  
+
   // /choose Ana Bob Charles
   on("/choose") { implicit msg => args =>
     reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
