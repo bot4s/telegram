@@ -42,7 +42,10 @@ trait Polling extends BotBase with AkkaDefaults {
 
     val updateGroups =
       Source.fromIterator(() => iterator)
-        .mapAsync(parallelism)(_.map(_._2)) // flatten Future[OffsetUpdates]
+        .mapAsync(parallelism)(
+          _ map {
+            case (_, updates) => updates
+          })
 
     updateGroups.mapConcat(_.to) // unravel groups
   }

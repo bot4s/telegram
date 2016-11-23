@@ -13,7 +13,7 @@ class RandomBot(token: String) extends TestBot(token) with Polling with Commands
   on("/dice") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
   on("/random") { implicit msg => {
     case Seq(s) =>
-      reply(Try(s.toInt).map { case n if (n > 0) => rng.nextInt(n).toString }.getOrElse("Invalid argument"))
+      reply(Try(s.toInt).toOption.filter(_ > 0).map(n => rng.nextInt(n).toString).getOrElse("Invalid argument"))
     }
   }
   on("/choose") { implicit msg => args =>
