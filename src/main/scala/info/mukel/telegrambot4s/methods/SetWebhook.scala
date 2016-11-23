@@ -13,8 +13,8 @@ import info.mukel.telegrambot4s.models.InputFile
   *   1. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work.
   *   1. Ports currently supported for Webhooks: 443, 80, 88, 8443.
   *
-  * @param url          String	Optional	HTTPS url to send updates to. Use an empty string to remove webhook integration
-  * @param certificate  InputFile	Optional	Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
+  * @param url          String Optional HTTPS url to send updates to. Use an empty string to remove webhook integration
+  * @param certificate  InputFile Optional Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
   */
 case class SetWebhook(
                      url         : Option[String] = None,

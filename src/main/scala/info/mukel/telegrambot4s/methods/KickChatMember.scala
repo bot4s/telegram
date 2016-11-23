@@ -11,7 +11,7 @@ import info.mukel.telegrambot4s.models.Message
   *   Otherwise members may only be removed by the group's creator or by the member that added them.
   *
   * @param chatId  Integer or String Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
-  * @param userId  Integer	Unique identifier of the target user
+  * @param userId  Integer Unique identifier of the target user
   */
 case class KickChatMember(
                          chatId: Long Either String,

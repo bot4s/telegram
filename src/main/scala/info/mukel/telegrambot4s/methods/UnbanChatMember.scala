@@ -4,8 +4,8 @@ package info.mukel.telegrambot4s.methods
   * The user will not return to the group automatically, but will be able to join via link, etc.
   * The bot must be an administrator in the group for this to work. Returns True on success.
   *
-  * @param chatId	Integer or String	Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
-  * @param userId	Integer	Unique identifier of the target user
+  * @param chatId Integer or String Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
+  * @param userId Integer Unique identifier of the target user
   */
 case class UnbanChatMember(
                           chatId: Long Either String,

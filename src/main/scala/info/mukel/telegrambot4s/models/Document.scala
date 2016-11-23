@@ -2,8 +2,8 @@ package info.mukel.telegrambot4s.models
 
 /** This object represents a general file (as opposed to photos and audio files).
   *
-  * @param fileId 	  Unique file identifier
-  * @param thumb 	  Optional Document thumbnail as defined by sender
+  * @param fileId    Unique file identifier
+  * @param thumb    Optional Document thumbnail as defined by sender
   * @param fileName  Optional Original filename as defined by sender
   * @param mimeType  Optional MIME type of the file as defined by sender
   * @param fileSize  Optional File size

@@ -6,6 +6,7 @@ import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
+import info.mukel.telegrambot4s.api.Marshalling._
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
 
 import scala.concurrent.Future
@@ -17,7 +18,6 @@ import scala.concurrent.Future
   */
 class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler {
 
-  import Marshalling._
   import system.dispatcher
 
   private val apiBaseUrl = s"https://api.telegram.org/bot$token/"

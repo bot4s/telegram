@@ -8,6 +8,7 @@ import akka.stream.scaladsl.Sink
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
+import Marshalling._
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -17,8 +18,6 @@ import scala.util.{Failure, Success}
   */
 trait Webhook {
   _ : BotBase with AkkaDefaults =>
-
-  import Marshalling._
 
   val port: Int
   val webhookUrl: String

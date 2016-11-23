@@ -12,9 +12,9 @@ sealed trait InputMessageContent
 
 /** Represents the content of a text message to be sent as the result of an inline query.
   *
-  * @param messageText            String	Text of the message to be sent, 1-4096 characters
-  * @param parseMode              String	Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
-  * @param disableWebPagePreview  Boolean	Optional Disables link previews for links in the sent message
+  * @param messageText            String Text of the message to be sent, 1-4096 characters
+  * @param parseMode              String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+  * @param disableWebPagePreview  Boolean Optional Disables link previews for links in the sent message
   */
 case class InputTextMessageContent(
                                   messageText           : String,
@@ -27,8 +27,8 @@ case class InputTextMessageContent(
   * ''Note:''
   *   This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   *
-  * @param latitude   Float	Latitude of the location in degrees
-  * @param longitude  Float	Longitude of the location in degrees
+  * @param latitude   Float Latitude of the location in degrees
+  * @param longitude  Float Longitude of the location in degrees
   */
 case class InputLocationMessageContent(
                                       latitude  : Double,
@@ -39,11 +39,11 @@ case class InputLocationMessageContent(
   *
   * Represents the content of a venue message to be sent as the result of an inline query.
   *
-  * @param latitude      Float	Latitude of the venue in degrees
-  * @param longitude     Float	Longitude of the venue in degrees
-  * @param title         String	Name of the venue
-  * @param address       String	Address of the venue
-  * @param foursquareId  String	Optional Foursquare identifier of the venue, if known
+  * @param latitude      Float Latitude of the venue in degrees
+  * @param longitude     Float Longitude of the venue in degrees
+  * @param title         String Name of the venue
+  * @param address       String Address of the venue
+  * @param foursquareId  String Optional Foursquare identifier of the venue, if known
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
@@ -60,9 +60,9 @@ case class InputVenueMessageContent(
   * ''Note:''
   *   This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   *
-  * @param phoneNumber  String	Contact's phone number
-  * @param firstName    String	Contact's first name
-  * @param lastName     String	Optional Contact's last name
+  * @param phoneNumber  String Contact's phone number
+  * @param firstName    String Contact's first name
+  * @param lastName     String Optional Contact's last name
   *
   */
 case class InputContactMessageContent(

@@ -8,9 +8,9 @@ package info.mukel.telegrambot4s.models
   * @param from             User Sender
   * @param message          Message Optional Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
   * @param inlineMessageId  String Optional Identifier of the message sent via the bot in inline mode, that originated the query
-  * @param chatInstance     String	Identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
-  * @param data	String      Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
-  * @param gameShortName    String	Optional. Short name of a Game to be returned, serves as the unique identifier for the game
+  * @param chatInstance     String Identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
+  * @param data String      Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
+  * @param gameShortName    String Optional. Short name of a Game to be returned, serves as the unique identifier for the game
   */
 case class CallbackQuery(
                         id              : String,

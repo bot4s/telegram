@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.api
 
-import akka.http.scaladsl.marshalling.{Marshaller, MultipartMarshallers, _}
+import akka.http.scaladsl.marshalling.MultipartMarshallers._
+import akka.http.scaladsl.marshalling.{Marshaller, _}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
 import info.mukel.telegrambot4s.methods.{ApiRequestJson, ApiRequestMultipart, ChatAction, ParseMode}
@@ -10,7 +11,7 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.{Extraction, Formats, NoTypeHints}
 
-/** Simple de/serailization support for JSON and multipart API requests
+/** De/serailization support for JSON and multipart API requests
   */
 object Marshalling {
   implicit val formats = Serialization.formats(NoTypeHints) +
@@ -41,7 +42,7 @@ object Marshalling {
   })
 
   implicit def underscore_case_multipart_marshaller[T]: ToEntityMarshaller[ApiRequestMultipart[T]] = {
-    import MultipartMarshallers._
+
     Marshaller.combined {
       case caseClass: Product => {
 

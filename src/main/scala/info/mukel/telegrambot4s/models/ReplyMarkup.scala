@@ -13,9 +13,9 @@ trait ReplyMarkup
   * ''Note:''
   *   requestContact and requestLocation options will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   *
-  * @param text             String	Text of the button. If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
-  * @param requestContact   Boolean	Optional If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
-  * @param requestLocation  Boolean	Optional If True, the user's current location will be sent when the button is pressed. Available in private chats only
+  * @param text             String Text of the button. If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
+  * @param requestContact   Boolean Optional If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
+  * @param requestLocation  Boolean Optional If True, the user's current location will be sent when the button is pressed. Available in private chats only
   */
 case class KeyboardButton(
                          text: String,
@@ -28,10 +28,10 @@ case class KeyboardButton(
   * ''Example:''
   *   A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
   *
-  * @param keyboard 	      Array of button rows, each represented by an Array of KeyboardButton objects
-  * @param resizeKeyboard 	Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+  * @param keyboard        Array of button rows, each represented by an Array of KeyboardButton objects
+  * @param resizeKeyboard  Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
   * @param oneTimeKeyboard  Optional Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
-  * @param selective 	      Optional Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+  * @param selective        Optional Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   */
 case class ReplyKeyboardMarkup(
                                 keyboard        : Seq[Seq[KeyboardButton]],
@@ -42,8 +42,8 @@ case class ReplyKeyboardMarkup(
 
 /** Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup).
   *
-  * @param removeKeyboard  True	Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
-  * @param selective	     Boolean	Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+  * @param removeKeyboard  True Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
+  * @param selective      Boolean Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
   *
   * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
   */
@@ -64,7 +64,7 @@ case class ReplyKeyboardRemove(
   *   Inline keyboards are currently being tested and are not available in channels yet.
   *   For now, feel free to use them in one-on-one chats or groups.
   *
-  * @param inlineKeyboard	Array of Array of InlineKeyboardButton	Array of button rows, each represented by an Array of InlineKeyboardButton objects
+  * @param inlineKeyboard Array of Array of InlineKeyboardButton Array of button rows, each represented by an Array of InlineKeyboardButton objects
   */
 case class InlineKeyboardMarkup(
                                  inlineKeyboard: Seq[Seq[InlineKeyboardButton]]
@@ -76,12 +76,12 @@ case class InlineKeyboardMarkup(
   *   This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm… actions – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
   *   This will only work in Telegram versions released after 9 April, 2016. Older clients will display unsupported message.
   *
-  * @param text               String	Label text on the button
-  * @param url                String	Optional HTTP url to be opened when button is pressed
-  * @param callbackData       String	Optional Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
-  * @param switchInlineQuery  String	Optional If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
-  * @param switchInlineQueryCurrentChat	String	Optional. If set, pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting something from multiple options.
-  * @param callbackGame       CallbackGame	Optional. Description of the game that will be launched when the user presses the button.
+  * @param text               String Label text on the button
+  * @param url                String Optional HTTP url to be opened when button is pressed
+  * @param callbackData       String Optional Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
+  * @param switchInlineQuery  String Optional If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
+  * @param switchInlineQueryCurrentChat String Optional. If set, pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted. This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting something from multiple options.
+  * @param callbackGame       CallbackGame Optional. Description of the game that will be launched when the user presses the button.
 
 NOTE: This type of button must always be the first button in the first row.
   */
@@ -104,8 +104,8 @@ case class InlineKeyboardButton(
   *
   * The last option is definitely more attractive. And if you use ForceReply in your bot‘s questions, it will receive the user’s answers even if it only receives replies, commands and mentions — without any extra work for the user.
   *
-  * @param forceReply  True 	Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
-  * @param selective 	 Optional Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+  * @param forceReply  True  Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
+  * @param selective   Optional Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   */
 case class ForceReply(
                        forceReply : Boolean,

@@ -7,9 +7,9 @@ package info.mukel.telegrambot4s.models
   * @param message            Optional New incoming message of any kind — text, photo, sticker, etc.
   * @param editedMessage      Optional. New version of a message that is known to the bot and was edited
   * @param channelPost        Message Optional. New incoming channel post of any kind — text, photo, sticker, etc.
-  * @param editedChannelPost  Message	Optional. New version of a channel post that is known to the bot and was edited
-  * @param inlineQuery        InlineQuery	Optional New incoming inline query
-  * @param chosenInlineResult ChosenInlineResult	Optional The result of a inline query that was chosen by a user and sent to their chat partner
+  * @param editedChannelPost  Message Optional. New version of a channel post that is known to the bot and was edited
+  * @param inlineQuery        InlineQuery Optional New incoming inline query
+  * @param chosenInlineResult ChosenInlineResult Optional The result of a inline query that was chosen by a user and sent to their chat partner
   * @param callbackQuery      Optional New incoming callback query
   */
 case class Update(
