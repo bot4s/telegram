@@ -2,12 +2,15 @@ package info.mukel.telegrambot4s.examples
 
 import java.net.URLEncoder
 
-import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
+import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.methods._
+import info.mukel.telegrambot4s.models._
 
 /**
   * Let me Google that for you!
   */
-object LmgtfyBot extends TestBot with Polling with Commands {
+class LmgtfyBot(token: String) extends TestBot(token) with Polling with Commands {
   def lmgtfyUrl(query: Seq[String]) =
     "http://lmgtfy.com/?q=" + URLEncoder.encode(query.mkString(" "), "UTF-8")
 
@@ -19,6 +22,6 @@ object LmgtfyBot extends TestBot with Polling with Commands {
     val markup = InlineKeyboardMarkup(Seq(Seq(
       InlineKeyboardButton("Goto Google now!", url = lmgtfyUrl(args))
     )))
-    api.request(SendMessage(msg.sender, "Let me Google that for you!", replyMarkup = markup))
+    request(SendMessage(msg.sender, "Let me Google that for you!", replyMarkup = markup))
   }
 }

@@ -1,14 +1,11 @@
 package info.mukel.telegrambot4s.api
 
 import akka.NotUsed
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Sink, Source}
 import info.mukel.telegrambot4s.methods.{GetUpdates, SetWebhook}
 import info.mukel.telegrambot4s.models.Update
-import info.mukel.telegrambot4s.Implicits._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 /** Provides updates by polling Telegram servers.
@@ -18,25 +15,26 @@ import scala.util.{Failure, Success}
   */
 trait Polling extends BotBase with AkkaDefaults {
 
+  val pollingInterval: Int = 20
+
   private val updates: Source[Update, NotUsed] = {
-    type OffsetUpdates = Future[(Long, Seq[Update])]
+    type Offset = Long
+    type Updates = Seq[Update]
+    type OffsetUpdates = Future[(Offset, Updates)]
 
-    val seed = Future.successful((0L, Seq.empty[Update]))
+    val seed: OffsetUpdates = Future.successful((0L, Seq.empty[Update]))
 
-    val iterator = Iterator.iterate[OffsetUpdates](seed) {
+    val iterator = Iterator.iterate(seed) {
       _ flatMap {
-        case (prevOffset, prevUpdates) =>
-          val curOffset = prevUpdates
-            .map(_.updateId)
-            .fold(prevOffset)(_ max _)
-
-          api.request(GetUpdates(curOffset + 1, timeout = 20))
+        case (offset, updates) =>
+          val maxOffset = updates.map(_.updateId).fold(offset)(_ max _)
+          request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval)))
             .recover {
-              case e: Exception =>
+              case e: Throwable =>
                 logger.error("GetUpdates failed", e)
                 Seq.empty[Update]
             }
-            .map { (curOffset, _) }
+            .map { (maxOffset, _) }
       }
     }
 
@@ -44,19 +42,27 @@ trait Polling extends BotBase with AkkaDefaults {
 
     val updateGroups =
       Source.fromIterator(() => iterator)
-        .mapAsync(parallelism)(identity)
-        .map(_._2)
+        .mapAsync(parallelism)(_.map(_._2)) // flatten Future[OffsetUpdates]
 
-    updateGroups.mapConcat(_.to[collection.immutable.Seq])
+    updateGroups.mapConcat(_.to) // unravel groups
   }
 
   override def run(): Unit = {
-    api.request(SetWebhook(None)).onComplete {
-      case Success(true) => updates.to(Sink.foreach(u => Future { onUpdate(u) })).run()
-      case Success(false) => logger.error("Failed to clear webhook")
-      case Failure(e) => logger.error("Failed to clear webhook", e)
-    }
+    request(SetWebhook(None))
+      .onComplete {
+        case Success(true) =>
+          updates
+            .to(Sink.foreach(u => {logger.debug(u.toString()); Future { onUpdate(u) }}))
+            .run()
+
+        case Success(false) =>
+          logger.error("Failed to clear webhook")
+        case Failure(e) =>
+          logger.error("Failed to clear webhook", e)
+      }
   }
 
-  override def shutdown(): Unit = { /* TODO */ }
+  override def shutdown(): Future[_] = {
+    system.terminate()
+  }
 }

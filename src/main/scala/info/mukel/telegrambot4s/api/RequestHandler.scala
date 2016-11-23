@@ -12,5 +12,5 @@ abstract class RequestHandler {
     * @tparam R Request's expected result type
     * @return The request result wrapped in a Future (async)
     */
-  def request[R: Manifest](request: ApiRequest[R]): Future[R]
+  def apply[R: Manifest](request: ApiRequest[R]): Future[R]
 }

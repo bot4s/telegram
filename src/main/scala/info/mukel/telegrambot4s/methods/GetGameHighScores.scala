@@ -13,7 +13,7 @@ import info.mukel.telegrambot4s.models.GameHighScore
   */
 case class GetGameHighScores(
                             userId          : Long,
-                            chatId          : Option[Either[Long, String]] = None,
+                            chatId          : Option[Long Either String] = None,
                             messageId       : Option[Long] = None,
                             inlineMessageId : Option[String] = None
-                            ) extends ApiRequestJson[Array[GameHighScore]]
+                            ) extends ApiRequestJson[Seq[GameHighScore]]

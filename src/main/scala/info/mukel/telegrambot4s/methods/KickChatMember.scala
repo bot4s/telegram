@@ -14,5 +14,5 @@ import info.mukel.telegrambot4s.models.Message
   * @param userId  Integer	Unique identifier of the target user
   */
 case class KickChatMember(
-                         chatId: Either[Long, String],
-                         userId: Long) extends ApiRequestJson[Either[Boolean, Message]]
+                         chatId: Long Either String,
+                         userId: Long) extends ApiRequestJson[Message Either Boolean]

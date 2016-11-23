@@ -8,6 +8,7 @@ package info.mukel.telegrambot4s.models
   * @param chat 	                User or GroupChat 	Conversation the message belongs to — user in case of a private message, GroupChat in case of a group
   * @param forwardFrom            Optional For forwarded messages, sender of the original message
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
+  * @param forwardFromMessageId   Integer	Optional. For forwarded channel posts, identifier of the original message in the channel
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
   * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field will not contain further replyToMessage fields even if it itself is a reply.
   * @param editDate               Optional. Date the message was last edited in Unix time
@@ -43,6 +44,7 @@ case class  Message(
                chat                  : Chat,
                forwardFrom           : Option[User] = None,
                forwardFromChat	     : Option[Chat] = None,
+               forwardFromMessageId  : Option[Long] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                editDate              : Option[Int] = None,

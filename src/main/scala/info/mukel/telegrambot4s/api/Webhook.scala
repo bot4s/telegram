@@ -1,20 +1,18 @@
 package info.mukel.telegrambot4s.api
 
-import akka.NotUsed
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.Http.IncomingConnection
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
-import akka.stream.{KillSwitches, OverflowStrategy, UniqueKillSwitch}
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.http.scaladsl.server.Route
+import akka.stream.scaladsl.Sink
+import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
-import info.mukel.telegrambot4s.Implicits._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-/** Spawns a local server to receive updates.
+/** Spawns a server to receive updates.
   * Automatically registers the webhook on run().
   */
 trait Webhook {
@@ -22,45 +20,45 @@ trait Webhook {
 
   import Marshalling._
 
-  def port: Int
-  def webhookUrl: String
-  def interfaceIp: String = "::0"
+  val port: Int
+  val webhookUrl: String
+  val interfaceIp: String = "::0"
 
-  private[this] val route = pathEndOrSingleSlash {
-      entity(as[Update]) {
-        update =>
-          // Handle updates on its own execution context.
-          Future {
-            onUpdate(update)
-          }
-          complete(StatusCodes.OK)
-      }
-    }
-
-  private val bindingFuture = Http().bind(interfaceIp, port)
-
-  private var killSwitch: UniqueKillSwitch = _
-
-  override def run(): Unit = {
-    api.request(SetWebhook(webhookUrl)).onComplete {
-      case Success(true) =>
-
-        val source = bindingFuture
-        val sink = Sink.foreach[IncomingConnection](_.handleWith(route))
-
-        val (switch, done) =
-          source.
-            viaMat(KillSwitches.single)(Keep.right).
-            toMat(sink)(Keep.both).run()
-
-        killSwitch = switch
-
-      case Success(false) => logger.error("Failed to clear webhook")
-      case Failure(e) => logger.error("Failed to clear webhook", e)
+  private val route = pathEndOrSingleSlash {
+    entity(as[Update]) {
+      update =>
+        Future {
+          onUpdate(update)
+        }
+        complete(StatusCodes.OK)
     }
   }
 
-  override def shutdown(): Unit = {
-    killSwitch.shutdown()
+  private val requestHandler: HttpRequest => Future[HttpResponse] = Route.asyncHandler(route)
+
+  private lazy val bindingFuture: Future[Http.ServerBinding] = {
+    Http()
+      .bind(interfaceIp, port)
+      .to(Sink.foreach(_ handleWithAsyncHandler requestHandler))
+      .run()
+  }
+
+  override def run(): Unit = {
+    request(SetWebhook(webhookUrl))
+      .onComplete {
+        case Success(true) =>
+          logger.info(s"start on $interfaceIp:$port")
+          bindingFuture // spawn lazy
+        case Success(false) =>
+          logger.error("Failed to set webhook")
+        case Failure(e) =>
+          logger.error("Failed to set webhook", e)
+      }
+  }
+
+  override def shutdown(): Future[_] = {
+    bindingFuture
+      .flatMap(_.unbind())
+      .flatMap(_ => system.terminate())
   }
 }

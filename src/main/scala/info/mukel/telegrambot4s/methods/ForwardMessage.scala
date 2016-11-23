@@ -10,8 +10,8 @@ import info.mukel.telegrambot4s.models.Message
   * @param messageId	Integer	Unique message identifier
   */
 case class ForwardMessage(
-                         chatId              : Either[Long, String],
-                         fromChatId          : Either[Long, String],
+                         chatId              : Long Either String,
+                         fromChatId          : Long Either String,
                          disableNotification : Option[Boolean] = None,
                          messageId           : Long
                          ) extends ApiRequestJson[Message]

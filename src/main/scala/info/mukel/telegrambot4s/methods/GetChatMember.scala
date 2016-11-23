@@ -8,6 +8,6 @@ import info.mukel.telegrambot4s.models.ChatMember
   * @param userId	Integer	Unique identifier of the target user
   */
 case class GetChatMember(
-                          chatId : Either[Long, String],
+                          chatId : Long Either String,
                           userId : Long
                         ) extends ApiRequestJson[ChatMember]

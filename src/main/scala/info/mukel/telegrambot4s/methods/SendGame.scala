@@ -11,7 +11,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * @param replyMarkup          InlineKeyboardMarkup	Optional	A JSON-serialized object for an inline keyboard. If empty, one ‘Play game_title’ button will be shown. If not empty, the first button must launch the game.
   */
 case class SendGame(
-                     chatId              : Either[Long, String],
+                     chatId              : Long Either String,
                      gameShortName       : String,
                      disableNotification : Option[Boolean] = None,
                      replyToMessageId    : Option[Long] = None,

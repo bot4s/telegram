@@ -7,4 +7,4 @@ import info.mukel.telegrambot4s.models.Chat
   *
   * @param chatId	Integer or String	Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
   */
-case class GetChat(chatId: Either[Long, String]) extends ApiRequestJson[Chat]
+case class GetChat(chatId: Long Either String) extends ApiRequestJson[Chat]

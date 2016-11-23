@@ -13,7 +13,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply	Optional	Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
   */
 case class SendContact(
-                      chatId              : Either[Long, String],
+                      chatId              : Long Either String,
                       phoneNumber         : String,
                       firstName           : String,
                       lastName            : Option[String] = None,

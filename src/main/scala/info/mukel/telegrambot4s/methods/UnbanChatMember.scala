@@ -8,6 +8,6 @@ package info.mukel.telegrambot4s.methods
   * @param userId	Integer	Unique identifier of the target user
   */
 case class UnbanChatMember(
-                          chatId: Either[Long, String],
+                          chatId: Long Either String,
                           userId: Long
                           ) extends ApiRequestJson[Boolean]

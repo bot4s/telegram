@@ -53,7 +53,7 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
     * @tparam R Request's expected result type
     * @return The request result wrapped in a Future (async)
     */
-  def request[R: Manifest](request: ApiRequest[R]): Future[R] = {
+  override def apply[R: Manifest](request: ApiRequest[R]): Future[R] = {
     toHttpRequest(request)
       .flatMap(http.singleRequest(_))
       .flatMap(toApiResponse[R])

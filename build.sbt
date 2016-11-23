@@ -14,6 +14,7 @@ val json4sVersion = "3.5.0"
 val scalaTestVersion = "3.0.0"
 val scalaCheckVersion = "1.13.4"
 val scalaLoggingVersion = "3.5.0"
+val logbackVersion = "1.1.7"
 
 libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % json4sVersion,
@@ -27,7 +28,7 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
 
   "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
-  "org.slf4j" % "slf4j-api" % "1.7.21"
+  "ch.qos.logback" % "logback-classic" % logbackVersion
 )
 
 publishMavenStyle := true

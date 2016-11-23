@@ -4,4 +4,4 @@ package info.mukel.telegrambot4s.methods
   *
   * @param chatId	Integer or String	Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
   */
-case class GetChatMembersCount(chatId: Either[Long, String]) extends ApiRequestJson[Int]
+case class GetChatMembersCount(chatId: Long Either String) extends ApiRequestJson[Int]

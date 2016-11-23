@@ -11,8 +11,8 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * @param replyMarkup      InlineKeyboardMarkup	Optional	A JSON-serialized object for an inline keyboard.
   */
 case class EditMessageReplyMarkup(
-                                 chatId          : Option[Either[Long, String]] = None,
+                                 chatId          : Option[Long Either String] = None,
                                  messageId       : Option[Long] = None,
                                  inlineMessageId : Option[String] = None,
                                  replyMarkup     : Option[ReplyMarkup] = None
-                                 ) extends ApiRequestJson[Either[Message, Boolean]]
+                                 ) extends ApiRequestJson[Message Either Boolean]

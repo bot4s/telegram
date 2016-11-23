@@ -15,8 +15,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply	Optional	Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendVideo(
-                      chatId              : Either[Long, String],
-                      video               : Either[InputFile, String],
+                      chatId              : Long Either String,
+                      video               : InputFile Either String,
                       duration            : Option[Int] = None,
                       width               : Option[Int] = None,
                       height              : Option[Int] = None,

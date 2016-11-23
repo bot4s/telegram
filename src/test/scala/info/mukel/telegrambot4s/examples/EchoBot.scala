@@ -1,13 +1,16 @@
 package info.mukel.telegrambot4s.examples
 
-import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
+import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.methods._
+import info.mukel.telegrambot4s.models._
 
 /**
   * Echo, ohcE
   */
-object EchoBot extends TestBot with Polling {
+class EchoBot(token: String) extends TestBot(token) with Polling {
   override def onMessage(msg: Message): Unit = {
     for (text <- msg.text)
-      api.request(SendMessage(msg.chat.id, text.reverse))
+      request(SendMessage(msg.sender, text.reverse))
   }
 }
