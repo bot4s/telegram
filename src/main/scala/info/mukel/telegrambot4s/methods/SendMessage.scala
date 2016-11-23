@@ -8,7 +8,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   *
   * ==Formatting options==
   *   The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages. Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
-  *   Note that Telegram clients will display an alert to the user before opening an inline link (‘Open this link?’ together with the full URL).
+  *   Note that Telegram clients will display an alert to the user before opening an inline link ('Open this link?' together with the full URL).
   *
   * ===Markdown style===
   *   To use this mode, pass Markdown in the parse_mode field when using sendMessage. Use the following syntax in your message:

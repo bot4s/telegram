@@ -6,7 +6,7 @@ import info.mukel.telegrambot4s.models.InputFile
   * Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update.
   * In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
   * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>.
-  * Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
+  * Since nobody else knows your bot's token, you can be pretty sure it's us.
   *
   * ''Notes''
   *   1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.

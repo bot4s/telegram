@@ -8,7 +8,7 @@ package info.mukel.telegrambot4s.models
   * @param username   String Optional Username, for private chats and channels if available
   * @param firstName  String Optional First name of the other party in a private chat
   * @param lastName   String Optional Last name of the other party in a private chat
-  * @param allMembersAreAdministrators  Boolean Optional. True if a group has ‘All Members Are Admins’ enabled.
+  * @param allMembersAreAdministrators  Boolean Optional. True if a group has 'All Members Are Admins' enabled.
   */
 case class Chat(
                  id        : Long,

@@ -5,7 +5,7 @@ package info.mukel.telegrambot4s.models
   * @param messageId              Unique message identifier
   * @param from                   Sender
   * @param date                   Date the message was sent in Unix time
-  * @param chat                   User or GroupChat  Conversation the message belongs to — user in case of a private message, GroupChat in case of a group
+  * @param chat                   User or GroupChat  Conversation the message belongs to - user in case of a private message, GroupChat in case of a group
   * @param forwardFrom            Optional For forwarded messages, sender of the original message
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardFromMessageId   Integer Optional. For forwarded channel posts, identifier of the original message in the channel
