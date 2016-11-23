@@ -172,7 +172,7 @@ case class InlineQueryResultMpeg4Gif(
   * @param type                 String Type of the result, must be video
   * @param id                   String Unique identifier for this result, 1-64 bytes
   * @param videoUrl             String A valid URL for the embedded video player or video file
-  * @param mimeType             String Mime type of the content of video url, “text/html” or “video/mp4”
+  * @param mimeType             String Mime type of the content of video url, "text/html" or "video/mp4"
   * @param thumbUrl             String URL of the thumbnail (jpeg only) for the video
   * @param title                String Title for the result
   * @param caption              String Optional Caption of the video to be sent, 0-200 characters
@@ -267,7 +267,7 @@ case class InlineQueryResultVoice(
   * @param title String Title for the result
   * @param caption String Optional Caption of the document to be sent, 0-200 characters
   * @param documentUrl String A valid URL for the file
-  * @param mimeType String Mime type of the content of the file, either “application/pdf” or “application/zip”
+  * @param mimeType String Mime type of the content of the file, either "application/pdf" or "application/zip"
   * @param description String Optional Short description of the result
   * @param replyMarkup InlineKeyboardMarkup Optional Inline keyboard attached to the message
   * @param inputMessageContent InputMessageContent Optional Content of the message to be sent instead of the file
@@ -280,7 +280,7 @@ case class InlineQueryResultDocument(
                                      title               : String,
                                      caption             : Option[String] = None,
                                      documentUrl         : Option[String] = None,
-                                     mimeType            : String, // either “application/pdf” or “application/zip”
+                                     mimeType            : String, // either "application/pdf" or "application/zip"
                                      description         : Option[String] = None,
                                      replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                      inputMessageContent : Option[InputMessageContent] = None,
@@ -572,7 +572,7 @@ case class InlineQueryResultCachedVoice(
   * @param type                 String Type of the result, must be audio
   * @param id                   String Unique identifier for this result, 1-64 bytes
   * @param audioFileId          String A valid file identifier for the audio file
-  * @param caption             String Optional. Caption, 0-200 characters
+  * @param caption              String Optional. Caption, 0-200 characters
   * @param replyMarkup          InlineKeyboardMarkup Optional An Inline keyboard attached to the message
   * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the audio
   *
