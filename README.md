@@ -27,7 +27,7 @@ Add to your `build.sbt` file:
 
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.0"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.1"
 ```
 
 Make sure to specify Scala version in your build file, inserting a
