@@ -18,13 +18,18 @@ trait Commands extends BotBase {
   private val commands = mutable.HashMap[String, Action]()
 
   /** Parses messages and runs bot commands accordingly.
-    * Commands are case-iNsEnSiTiVe.
+    * Commands are case-iNsEnSiTiVe and the bot's name is stripped off.
     */
   override def onMessage(message: Message): Unit = {
+    def cleanCmd(cmd: String): String = {
+      val cmdEnd = if (cmd.contains('@')) cmd.indexOf('@') else cmd.length
+      cmd.substring(0, cmdEnd).toLowerCase
+    }
+
     val accepted = for {
       text <- message.text
       Array(cmd, args @ _*) = text.trim.split(" ")
-      action <- commands.get(cmd.toLowerCase)
+      action <- commands.get(cleanCmd(cmd))
     } yield
       action(message)(args)
 
