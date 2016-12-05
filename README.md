@@ -1,5 +1,6 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
 [![Telegram API](https://img.shields.io/badge/Telegram%20API-November%2021%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
@@ -26,7 +27,7 @@ Add to your `build.sbt` file:
 
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.0"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.1"
 ```
 
 Make sure to specify Scala version in your build file, inserting a
@@ -136,7 +137,7 @@ object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatA
       if response.status.isSuccess()
       bytes <-  Unmarshal(response).to[ByteString]
     } /* do */ {
-      uploadingAudio // hint the user
+      uploadingAudio // Hint the user
       val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
       api.request(SendVoice(msg.sender, voiceMp3))
     }
@@ -149,7 +150,7 @@ TextToSpeechBot.run()
 #### Using webhooks
 
 ```scala
-object WebhookBot extends TelegramBot with Webhook {
+object WebhookBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
   override val webhookUrl = "https://ed88ff73.ngrok.io"
@@ -158,14 +159,14 @@ object WebhookBot extends TelegramBot with Webhook {
   on("/coin") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
   on("/real") { implicit msg => _ => reply(rng.nextDouble().toString) }
   on("/dice") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
-  
+
   // /random n
   on("/random") { implicit msg => {
     case Seq(s) =>
       reply(Try(s.toInt).map { case n if (n > 0) => rng.nextInt(n).toString }.getOrElse("Invalid argument"))
     }
   }
-  
+
   // /choose Ana Bob Charles
   on("/choose") { implicit msg => args =>
     reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
