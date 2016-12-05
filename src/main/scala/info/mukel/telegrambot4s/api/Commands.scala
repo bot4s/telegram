@@ -20,7 +20,7 @@ trait Commands extends BotBase {
   /** Parses messages and runs bot commands accordingly.
     * Commands are case-iNsEnSiTiVe.
     */
-  override def onMessage(message: Message): Unit = {
+  abstract override def onMessage(message: Message): Unit = {
     val accepted = for {
       text <- message.text
       Array(cmd, args @ _*) = text.trim.split(" ")

@@ -28,7 +28,8 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
 
   "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
-  "ch.qos.logback" % "logback-classic" % logbackVersion
+  "ch.qos.logback" % "logback-classic" % logbackVersion,
+  "com.typesafe.play" %% "play-json" % "2.5.9"
 )
 
 publishMavenStyle := true
