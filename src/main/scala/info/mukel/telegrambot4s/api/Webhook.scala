@@ -26,9 +26,14 @@ trait Webhook {
   private val route = pathEndOrSingleSlash {
     entity(as[Update]) {
       update =>
-        Future {
+
+        try {
           onUpdate(update)
+        } catch {
+          case e: Exception =>
+            logger.error("Caught exception in update handler", e)
         }
+
         complete(StatusCodes.OK)
     }
   }

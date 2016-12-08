@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ResponseParameters
+
 /** Telegram Bot API Response object
   *
   * The response contains a JSON object. If 'ok' equals true, the request was successful and the result of the query can be found in the 'result' field.
@@ -16,5 +18,6 @@ case class ApiResponse[R](
                            ok          : Boolean,
                            result      : Option[R] = None,
                            description : Option[String] = None,
-                           errorCode   : Option[Int] = None
+                           errorCode   : Option[Int] = None,
+                           parameters  : Option[ResponseParameters] = None
                          )

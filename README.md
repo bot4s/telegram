@@ -1,13 +1,13 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-November%2021%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-December%204%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
 Telegram Bot API Wrapper for Scala
 
-100% idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
+Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 The full API is supported, inline queries, callbacks, editing messages, games, custom markups, uploading files, chat actions...
 while being strongly-typed (no JSON strings), fully asynchronous (on top of Akka), and transparently camelCased.
 
@@ -27,7 +27,7 @@ Add to your `build.sbt` file:
 
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.1"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.2"
 ```
 
 Make sure to specify Scala version in your build file, inserting a
@@ -78,6 +78,7 @@ Creating a bot is also a contribution, I'll add a link to your bot here anytime.
   - [Maxim Cherkasov](https://github.com/rema7)
   - [Onilton Maciel](https://github.com/onilton)
   - [Pedro Larroy](https://github.com/larroy)
+  - [reimai](https://github.com/reimai)
 
 # Usage
 Just add `scala import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.

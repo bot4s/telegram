@@ -14,8 +14,10 @@ trait Commands extends BotBase {
 
   type Params = Seq[String]
   type Action = Message => (Params => Unit)
+  type Description = Option[String]
+  type Command = (Description, Action)
 
-  private val commands = mutable.HashMap[String, Action]()
+  private val commands = mutable.HashMap[String, Command]()
 
   /** Parses messages and runs bot commands accordingly.
     * Commands are case-iNsEnSiTiVe and the bot's name is stripped off.
@@ -30,7 +32,7 @@ trait Commands extends BotBase {
     val accepted = for {
       text <- message.text
       Array(cmd, args @ _*) = text.trim.split(" ")
-      action <- commands.get(cleanCmd(cmd))
+      (_, action) <- commands.get(cleanCmd(cmd))
     } yield
       action(message)(args)
 
@@ -64,8 +66,27 @@ trait Commands extends BotBase {
 
   /** Makes the bot able react to 'command' with the specified handler.
     * 'action' receives a message and the arguments as parameters.
+    *
+    * @param description Provides insights about the command functioning,
     */
-  def on(command: String)(action: Action): Unit = {
-    commands += (command -> action)
+  def on(command: String, description: Option[String] = None)(action: Action): Unit = {
+    commands += (command -> (description, action))
+  }
+
+  /** Simple auto-generated help command.
+    */
+  on("/help") { implicit msg => _ =>
+
+    val help =
+      for {
+        (trigger, cmd) <- commands
+        description = cmd._1.getOrElse("no description")
+      } yield
+        s"$trigger - $description"
+
+    if (help.isEmpty)
+      reply("No commands registered.")
+    else
+      reply(help mkString "\n")
   }
 }

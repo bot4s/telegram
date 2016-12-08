@@ -18,9 +18,9 @@ trait ReplyMarkup
   * @param requestLocation  Boolean Optional If True, the user's current location will be sent when the button is pressed. Available in private chats only
   */
 case class KeyboardButton(
-                         text: String,
-                         requestContact: Option[Boolean] = None,
-                         requestLocation: Option[Boolean] = None
+                         text            : String,
+                         requestContact  : Option[Boolean] = None,
+                         requestLocation : Option[Boolean] = None
                          )
 
 /** This object represents a custom keyboard with reply options (see Introduction to bots for details and com.github.mukel.telegrambot4s.examples).
@@ -108,6 +108,6 @@ case class InlineKeyboardButton(
   * @param selective   Optional Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
   */
 case class ForceReply(
-                       forceReply : Boolean,
+                       forceReply : Boolean = true,
                        selective  : Option[Boolean] = None
                      ) extends ReplyMarkup

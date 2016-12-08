@@ -6,6 +6,7 @@ import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
+import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.api.Marshalling._
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
 
@@ -16,7 +17,7 @@ import scala.concurrent.Future
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler {
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with StrictLogging {
 
   import system.dispatcher
 
@@ -58,13 +59,13 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
       .flatMap(http.singleRequest(_))
       .flatMap(toApiResponse[R])
       .flatMap {
-        case ApiResponse(true, Some(result), _, _) =>
+        case ApiResponse(true, Some(result), _, _, _) =>
           Future.successful(result)
 
-        case ApiResponse(false, _, description, Some(errorCode)) =>
-          Future.failed(
-            TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode)
-          )
+        case ApiResponse(false, _, description, Some(errorCode), parameters) =>
+          val e = TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode, None, parameters)
+          logger.error("Telegram API exception", e)
+          Future.failed(e)
 
         // case _ => // Probably a de/serialization error, just raise MatchError
       }

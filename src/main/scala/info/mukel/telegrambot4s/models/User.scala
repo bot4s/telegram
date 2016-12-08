@@ -8,7 +8,7 @@ package info.mukel.telegrambot4s.models
   * @param username   Optional User's or bot's username
   */
 case class User(
-                 id        : Long,
+                 id        : Int,
                  firstName : String,
                  lastName  : Option[String] = None,
                  username  : Option[String] = None

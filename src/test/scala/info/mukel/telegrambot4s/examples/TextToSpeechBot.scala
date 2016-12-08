@@ -17,7 +17,7 @@ import info.mukel.telegrambot4s.models._
   */
 class TextToSpeechBot(token: String) extends TestBot(token) with Polling with Commands with ChatActions {
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
-  on("/speak") { implicit msg => args =>
+  on("/speak", "transform arguments into sound") { implicit msg => args =>
     val text = args mkString " "
     val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
     for {

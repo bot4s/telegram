@@ -38,13 +38,13 @@ package info.mukel.telegrambot4s.models
   * @param pinnedMessage          Message Optional Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
   */
 case class  Message(
-               messageId             : Long,
-               from                  : Option[User] = None, // This field is absent when returned from (SendMessage to a channel)
+               messageId             : Int,
+               from                  : Option[User] = None,
                date                  : Int,
                chat                  : Chat,
                forwardFrom           : Option[User] = None,
-               forwardFromChat      : Option[Chat] = None,
-               forwardFromMessageId  : Option[Long] = None,
+               forwardFromChat       : Option[Chat] = None,
+               forwardFromMessageId  : Option[Int] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                editDate              : Option[Int] = None,

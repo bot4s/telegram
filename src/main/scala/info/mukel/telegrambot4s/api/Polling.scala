@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import akka.NotUsed
 import akka.stream.scaladsl.{Sink, Source}
-import info.mukel.telegrambot4s.methods.{GetUpdates, SetWebhook}
+import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates, SetWebhook}
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
@@ -30,7 +30,7 @@ trait Polling extends BotBase with AkkaDefaults {
           val maxOffset = updates.map(_.updateId).fold(offset)(_ max _)
           request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval)))
             .recover {
-              case e: Throwable =>
+              case e: Exception =>
                 logger.error("GetUpdates failed", e)
                 Seq.empty[Update]
             }
@@ -51,11 +51,18 @@ trait Polling extends BotBase with AkkaDefaults {
   }
 
   override def run(): Unit = {
-    request(SetWebhook(None))
+    request(DeleteWebhook)
       .onComplete {
         case Success(true) =>
           updates
-            .to(Sink.foreach(u => {logger.debug(u.toString()); Future { onUpdate(u) }}))
+            .to(Sink.foreach( update => {
+              try {
+                onUpdate(update)
+              } catch {
+                case e: Exception =>
+                  logger.error("Caught exception in update handler", e)
+              }
+            })) // sync
             .run()
 
         case Success(false) =>

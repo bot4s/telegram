@@ -14,7 +14,7 @@ class LmgtfyBot(token: String) extends TestBot(token) with Polling with Commands
   def lmgtfyUrl(query: Seq[String]) =
     "http://lmgtfy.com/?q=" + URLEncoder.encode(query.mkString(" "), "UTF-8")
 
-  on("/lmgtfy") { implicit msg => args =>
+  on("/lmgtfy", "Generates Google search links for posting in forums and communities.") { implicit msg => args =>
     reply(lmgtfyUrl(args), disableWebPagePreview = true)
   }
 

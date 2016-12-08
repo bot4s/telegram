@@ -15,7 +15,7 @@ import info.mukel.telegrambot4s.models._
 class DogeBot(token: String)
   extends TestBot(token) with Polling with Commands with ChatActions {
 
-  on("/doge") { implicit msg =>
+  on("/doge", "generates doge meme with given terms") { implicit msg =>
     args =>
       val url = "http://dogr.io/" + (args mkString "/") + ".png?split=false"
 

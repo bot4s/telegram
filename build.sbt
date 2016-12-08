@@ -1,6 +1,6 @@
 name := "telegrambot4s"
 
-version := "1.3.0"
+version := "2.0.2"
 
 scalaVersion := "2.11.8"
 
@@ -8,35 +8,34 @@ organization := "info.mukel"
 
 scalacOptions ++= Seq("-feature", "-deprecation")
 
-val akkaVersion = "2.4.12"
-val akkaHttpVersion = "2.4.11"
-val json4sVersion = "3.5.0"
-val scalaTestVersion = "3.0.0"
-val scalaCheckVersion = "1.13.4"
+val akkaVersion         = "2.4.14"
+val akkaHttpVersion     = "10.0.0"
+val json4sVersion       = "3.5.0"
+val scalaTestVersion    = "3.0.0"
+val scalaCheckVersion   = "1.13.4"
 val scalaLoggingVersion = "3.5.0"
-val logbackVersion = "1.1.7"
+val logbackVersion      = "1.1.7"
 
 libraryDependencies ++= Seq(
-  "org.json4s" %% "json4s-jackson" % json4sVersion,
-  "org.json4s" %% "json4s-ext"     % json4sVersion,
-
-  "com.typesafe.akka" %% "akka-http-core"         % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-http-experimental" % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-stream"            % akkaVersion,
-
-  "org.scalatest"  %% "scalatest"  % scalaTestVersion  % "test",
-  "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
-
-  "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
-  "ch.qos.logback" % "logback-classic" % logbackVersion,
-  "com.typesafe.play" %% "play-json" % "2.5.9"
+  "org.json4s"                 %% "json4s-jackson" % json4sVersion,
+  "org.json4s"                 %% "json4s-ext"     % json4sVersion,
+  "com.typesafe.akka"          %% "akka-http-core" % akkaHttpVersion,
+  "com.typesafe.akka"          %% "akka-http"      % akkaHttpVersion,
+  "com.typesafe.akka"          %% "akka-stream"    % akkaVersion,
+  "org.scalatest"              %% "scalatest"      % scalaTestVersion % "test",
+  "org.scalacheck"             %% "scalacheck"     % scalaCheckVersion % "test",
+  "com.typesafe.scala-logging" %% "scala-logging"  % scalaLoggingVersion,
+  "ch.qos.logback"             % "logback-classic" % logbackVersion,
+  "com.typesafe.play"          %% "play-json"      % "2.5.9"
 )
 
 publishMavenStyle := true
 
 publishArtifact in Test := false
 
-pomIncludeRepository := { x => false }
+pomIncludeRepository := { x =>
+  false
+}
 
 pomExtra := (
   <url>https://github.com/mukel/telegrambot4s</url>
