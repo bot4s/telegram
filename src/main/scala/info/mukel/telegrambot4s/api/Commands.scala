@@ -70,7 +70,7 @@ trait Commands extends BotBase {
     * @param description Provides insights about the command functioning,
     */
   def on(command: String, description: Option[String] = None)(action: Action): Unit = {
-    commands += (command -> (description, action))
+    commands.+=((command, (description, action)))
   }
 
   /** Simple auto-generated help command.

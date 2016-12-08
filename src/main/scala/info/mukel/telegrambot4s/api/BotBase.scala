@@ -10,8 +10,7 @@ import scala.concurrent.Future
   * The token is declared as a non-val to avoid initialization conflicts.
   * For a val-like token consider the following:
   * {{
-  *   lazy val lazyToken = ...
-  *   def token = lazyToken
+  *   lazy val token = ...
   * }}
   */
 trait BotBase {

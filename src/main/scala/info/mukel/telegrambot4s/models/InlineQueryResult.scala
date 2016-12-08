@@ -1,8 +1,8 @@
 package info.mukel.telegrambot4s.models
 
-/** InlineQueryResult
+/** This object represents one result of an inline query.
+  * Telegram clients currently support results of the following 19 types:
   *
-  * This object represents one result of an inline query. Telegram clients currently support results of the following 19 types:
   *   InlineQueryResultCachedAudio
   *   InlineQueryResultCachedDocument
   *   InlineQueryResultCachedGif
@@ -24,14 +24,12 @@ package info.mukel.telegrambot4s.models
   *   InlineQueryResultVoice
   */
 sealed trait InlineQueryResult {
-  def id : String
-  def `type` : String
+  def id          : String
+  def `type`      : String
   def replyMarkup : Option[InlineKeyboardMarkup]
 }
 
-/** InlineQueryResultArticle
-  *
-  * Represents a link to an article or web page.
+/** Represents a link to an article or web page.
   *
   * @param type                 String Type of the result, must be article
   * @param id                   String Unique identifier for this result, 1-64 Bytes
@@ -91,12 +89,15 @@ case class InlineQueryResultPhoto(
                                  ) extends InlineQueryResult
 
 /** Represents a Game.
+  *
   * @param type           String Type of the result, must be game
   * @param id             String Unique identifier for this result, 1-64 bytes
   * @param gameShortName  String Short name of the game
   * @param replyMarkup    InlineKeyboardMarkup Optional. Inline keyboard attached to the message
   *
-  * Note: This will only work in Telegram versions released after October 1, 2016. Older clients will not display any inline results if a game result is among them.
+  * Note:
+  *   This will only work in Telegram versions released after October 1, 2016.
+  *   Older clients will not display any inline results if a game result is among them.
   */
 case class InlineQueryResultGame(
                                   `type`        : String,
@@ -163,9 +164,8 @@ case class InlineQueryResultMpeg4Gif(
                                  `type`              : String = "mpeg4_gif"
                                ) extends InlineQueryResult
 
-/** InlineQueryResultVideo
+/** Represents a link to a page containing an embedded video player or a video file.
   *
-  * Represents a link to a page containing an embedded video player or a video file.
   * By default, this video file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
   *
@@ -199,16 +199,15 @@ case class InlineQueryResultVideo(
                                  `type`              : String = "video"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultAudio
+/** Represents a link to an mp3 audio file. By default, this audio file will be sent by the user.
   *
-  * Represents a link to an mp3 audio file. By default, this audio file will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
   *
   * @param type                 String Type of the result, must be audio
   * @param id                   String Unique identifier for this result, 1-64 bytes
   * @param audioUrl             String A valid URL for the audio file
   * @param title                String Title
-  * @param caption             String Optional. Caption, 0-200 characters
+  * @param caption              String Optional. Caption, 0-200 characters
   * @param performer            String Optional Performer
   * @param audioDuration        Integer Optional Audio duration in seconds
   * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
@@ -228,9 +227,8 @@ case class InlineQueryResultAudio(
                                    `type`              : String = "audio"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultVoice
+/** Represents a link to a voice recording in an .ogg container encoded with OPUS.
   *
-  * Represents a link to a voice recording in an .ogg container encoded with OPUS.
   * By default, this voice recording will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
   *
@@ -238,7 +236,7 @@ case class InlineQueryResultAudio(
   * @param id                   String Unique identifier for this result, 1-64 bytes
   * @param voiceUrl             String A valid URL for the voice recording
   * @param title                String Recording title
-  * @param caption             String Optional. Caption, 0-200 characters
+  * @param caption              String Optional. Caption, 0-200 characters
   * @param voiceDuration        Integer Optional Recording duration in seconds
   * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
   * @param inputMessageContent InputMessageContent Optional Content of the message to be sent instead of the voice recording
@@ -256,24 +254,24 @@ case class InlineQueryResultVoice(
                                    `type`              : String = "voice"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultDocument
+/** Represents a link to a file.
   *
-  * Represents a link to a file. By default, this file will be sent by the user with an optional caption.
+  * By default, this file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
   * Currently, only .PDF and .ZIP files can be sent using this method.
   *
-  * @param type String Type of the result, must be document
-  * @param id String Unique identifier for this result, 1-64 bytes
-  * @param title String Title for the result
-  * @param caption String Optional Caption of the document to be sent, 0-200 characters
-  * @param documentUrl String A valid URL for the file
-  * @param mimeType String Mime type of the content of the file, either "application/pdf" or "application/zip"
-  * @param description String Optional Short description of the result
-  * @param replyMarkup InlineKeyboardMarkup Optional Inline keyboard attached to the message
-  * @param inputMessageContent InputMessageContent Optional Content of the message to be sent instead of the file
-  * @param thumbUrl String Optional URL of the thumbnail (jpeg only) for the file
-  * @param thumbWidth Integer Optional Thumbnail width
-  * @param thumbHeight Integer Optional Thumbnail height
+  * @param type                 String Type of the result, must be document
+  * @param id                   String Unique identifier for this result, 1-64 bytes
+  * @param title                String Title for the result
+  * @param caption              String Optional Caption of the document to be sent, 0-200 characters
+  * @param documentUrl          String A valid URL for the file
+  * @param mimeType             String Mime type of the content of the file, either "application/pdf" or "application/zip"
+  * @param description          String Optional Short description of the result
+  * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
+  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the file
+  * @param thumbUrl             String Optional URL of the thumbnail (jpeg only) for the file
+  * @param thumbWidth           Integer Optional Thumbnail width
+  * @param thumbHeight          Integer Optional Thumbnail height
   */
 case class InlineQueryResultDocument(
                                      id                  : String,
@@ -290,9 +288,9 @@ case class InlineQueryResultDocument(
                                      `type`              : String = "document"
                                    ) extends InlineQueryResult
 
-/** InlineQueryResultLocation
+/** Represents a location on a map.
   *
-  * Represents a location on a map. By default, the location will be sent by the user.
+  * By default, the location will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
   *
   * @param type                 String Type of the result, must be location
@@ -321,9 +319,9 @@ case class InlineQueryResultLocation(
                                     `type`              : String = "location"
                                     ) extends InlineQueryResult
 
-/** InlineQueryResultVenue
+/** Represents a venue.
   *
-  * Represents a venue. By default, the venue will be sent by the user.
+  * By default, the venue will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
   *
   * @param type                 String Type of the result, must be venue
@@ -356,9 +354,9 @@ case class InlineQueryResultVenue(
                                  `type`              : String = "venue"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultContact
+/** Represents a contact with a phone number.
   *
-  * Represents a contact with a phone number. By default, this contact will be sent by the user.
+  * By default, this contact will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
   *
   * @param type                 String Type of the result, must be contact
@@ -388,9 +386,8 @@ case class InlineQueryResultContact(
                                  ) extends InlineQueryResult
 
 
-/** InlineQueryResultCachedPhoto
+/** Represents a link to a photo stored on the Telegram servers.
   *
-  * Represents a link to a photo stored on the Telegram servers.
   * By default, this photo will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
   *
@@ -414,8 +411,8 @@ case class InlineQueryResultCachedPhoto(
                                    `type`              : String = "photo"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultCachedGif
-  * Represents a link to an animated GIF file stored on the Telegram servers.
+/** Represents a link to an animated GIF file stored on the Telegram servers.
+  *
   * By default, this animated GIF file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
   *
@@ -437,8 +434,8 @@ case class InlineQueryResultCachedGif(
                                    `type`              : String = "gif"
                                  ) extends InlineQueryResult
 
-/** InlineQueryResultCachedMpeg4Gif
-  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers.
+/** Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers.
+  *
   * By default, this animated MPEG-4 file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
   *
@@ -460,9 +457,8 @@ case class InlineQueryResultCachedMpeg4Gif(
                                        `type`              : String = "mpeg4_gif"
                                      ) extends InlineQueryResult
 
-/** InlineQueryResultCachedSticker
+/** Represents a link to a sticker stored on the Telegram servers.
   *
-  * Represents a link to a sticker stored on the Telegram servers.
   * By default, this sticker will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
   *
@@ -482,9 +478,8 @@ case class InlineQueryResultCachedSticker(
                                            `type`              : String = "sticker"
                                          ) extends InlineQueryResult
 
-/** InlineQueryResultCachedDocument
+/** Represents a link to a file stored on the Telegram servers.
   *
-  * Represents a link to a file stored on the Telegram servers.
   * By default, this file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
   * Currently, only pdf-files and zip archives can be sent using this method.
@@ -511,9 +506,8 @@ case class InlineQueryResultCachedDocument(
                                          `type`              : String = "document"
                                        ) extends InlineQueryResult
 
-/** InlineQueryResultCachedVideo
+/** Represents a link to a video file stored on the Telegram servers.
   *
-  * Represents a link to a video file stored on the Telegram servers.
   * By default, this video file will be sent by the user with an optional caption.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
   *
@@ -563,9 +557,8 @@ case class InlineQueryResultCachedVoice(
                                          `type`              : String = "voice"
                                        ) extends InlineQueryResult
 
-/** InlineQueryResultCachedAudio
+/** Represents a link to an mp3 audio file stored on the Telegram servers.
   *
-  * Represents a link to an mp3 audio file stored on the Telegram servers.
   * By default, this audio file will be sent by the user.
   * Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
   *

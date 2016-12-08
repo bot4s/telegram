@@ -1,8 +1,6 @@
 package info.mukel.telegrambot4s.models
 
-/** PhotoSize
-  *
-  * This object represents one size of a photo or a file / sticker thumbnail.
+/** This object represents one size of a photo or a file / sticker thumbnail.
   *
   * @param fileId    Unique identifier for this file
   * @param width     Photo width

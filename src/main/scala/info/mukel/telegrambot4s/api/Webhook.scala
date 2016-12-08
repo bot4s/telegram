@@ -5,10 +5,9 @@ import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.scaladsl.Sink
-import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.Marshalling._
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
-import Marshalling._
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}

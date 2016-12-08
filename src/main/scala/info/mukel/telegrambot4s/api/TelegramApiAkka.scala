@@ -67,7 +67,10 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
           logger.error("Telegram API exception", e)
           Future.failed(e)
 
-        // case _ => // Probably a de/serialization error, just raise MatchError
+        case _ =>
+          val msg = "Error on request reponse"
+          logger.error(msg)
+          Future.failed(new Exception(msg))
       }
   }
 }

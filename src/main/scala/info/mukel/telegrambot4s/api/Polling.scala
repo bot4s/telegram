@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import akka.NotUsed
 import akka.stream.scaladsl.{Sink, Source}
-import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates, SetWebhook}
+import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future

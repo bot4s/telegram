@@ -5,15 +5,18 @@ package info.mukel.telegrambot4s.models
   * @param messageId              Unique message identifier
   * @param from                   Sender
   * @param date                   Date the message was sent in Unix time
-  * @param chat                   User or GroupChat  Conversation the message belongs to - user in case of a private message, GroupChat in case of a group
+  * @param chat                   User or GroupChat  Conversation the message belongs to - user in case of a
+  *                               private message, GroupChat in case of a group
   * @param forwardFrom            Optional For forwarded messages, sender of the original message
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardFromMessageId   Integer Optional. For forwarded channel posts, identifier of the original message in the channel
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
-  * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field will not contain further replyToMessage fields even if it itself is a reply.
+  * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field
+  *                               will not contain further replyToMessage fields even if it itself is a reply.
   * @param editDate               Optional. Date the message was last edited in Unix time
   * @param text                   Optional For text messages, the actual UTF-8 text of the message
-  * @param entities               Array of MessageEntity Optional For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
+  * @param entities               Array of MessageEntity Optional For text messages, special entities like usernames,
+  *                               URLs, bot commands, etc. that appear in the text
   * @param audio                  Optional Message is an audio file, information about the file
   * @param document               Optional Message is a general file, information about the file
   * @param game                   Game Optional. Message is a game, information about the game.
@@ -33,9 +36,12 @@ package info.mukel.telegrambot4s.models
   * @param groupChatCreated       Optional Informs that the group has been created
   * @param supergroupChatCreated  True Optional Service message: the supergroup has been created
   * @param channelChatCreated     True Optional Service message: the channel has been created
-  * @param migrateToChatId        Integer Optional The group has been migrated to a supergroup with the specified identifier, not exceeding 1e13 by absolute value
-  * @param migrateFromChatId      Integer Optional The supergroup has been migrated from a group with the specified identifier, not exceeding 1e13 by absolute value
-  * @param pinnedMessage          Message Optional Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+  * @param migrateToChatId        Integer Optional The group has been migrated to a supergroup with the specified
+  *                               identifier, not exceeding 1e13 by absolute value
+  * @param migrateFromChatId      Integer Optional The supergroup has been migrated from a group with the specified
+  *                               identifier, not exceeding 1e13 by absolute value
+  * @param pinnedMessage          Message Optional Specified message was pinned. Note that the Message object in this
+  *                               field will not contain further reply_to_message fields even if it is itself a reply.
   */
 case class  Message(
                messageId             : Int,
@@ -69,8 +75,8 @@ case class  Message(
                groupChatCreated      : Option[Boolean] = None,
                supergroupChatCreated : Option[Boolean] = None,
                channelChatCreated    : Option[Boolean] = None,
-               migrateToChatId      : Option[Long] = None,
-               migrateFromChatId    : Option[Long] = None,
+               migrateToChatId       : Option[Long] = None,
+               migrateFromChatId     : Option[Long] = None,
                pinnedMessage         : Option[Message] = None
              ) {
   def sender = chat.id

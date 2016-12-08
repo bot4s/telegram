@@ -1,11 +1,13 @@
 import sbt._
 import Keys._
 import com.typesafe.sbt.SbtPgp.autoImport._
+import com.typesafe.sbt.GitPlugin.autoImport._
+import com.typesafe.sbt.{GitBranchPrompt, GitVersioning}
 import sbtrelease._
 
 object BuildSettings {
   val buildOrganization = "info.mukel"
-  val buildVersion      = "2.0.2"
+  val buildVersion      = "2.0.2-SNAPSHOT"
   val buildScalaVersion = "2.12.1"
   val buildCrossScalaVersions = Seq("2.11.8", "2.12.1")
 
@@ -61,19 +63,20 @@ object Dependencies {
   val scalaLoggingVersion = "3.5.0"
   val logbackVersion      = "1.1.7"
 
-  val akkaActor = "com.typesafe.akka" %% "akka-actor"     % akkaVersion
-  val akkaHttp  = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+  val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
+  val akkaHttp  = "com.typesafe.akka" %% "akka-http"  % akkaHttpVersion
 
-  val json4s = "org.json4s" %% "json4s-jackson" % json4sVersion
+  val json4s    = "org.json4s" %% "json4s-jackson" % json4sVersion
+  val json4sExt = "org.json4s" %% "json4s-ext"     % json4sVersion
 
-  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging"  % scalaLoggingVersion
+  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
   val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
-  
-  val scalatest  = "org.scalatest"  %% "scalatest"  % scalaTestVersion  % "test"
+
+  val scalatest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
   val scalacheck = "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
 
   val akkaDependencies = Seq(akkaActor, akkaHttp)
-  val miscDependencies = Seq(json4s, scalaLogging, logback)
+  val miscDependencies = Seq(json4s, json4sExt, scalaLogging, logback)
   val testDependencies = Seq(scalatest, scalacheck)
 
   val allDependencies = akkaDependencies ++ miscDependencies ++ testDependencies
@@ -86,6 +89,7 @@ object TelegramBot4s extends Build {
 
   lazy val telegramBot4s =
     Project ("telegrambot4s", file("."))
+      .enablePlugins ( GitVersioning, GitBranchPrompt )
       .settings ( buildSettings : _* )
       .settings ( resolvers ++= Seq(typesafeRepo) )
       .settings ( libraryDependencies ++= Dependencies.allDependencies )

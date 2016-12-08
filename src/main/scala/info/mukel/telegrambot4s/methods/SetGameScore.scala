@@ -16,7 +16,6 @@ import info.mukel.telegrambot4s.models.Message
   * @param chatId             Integer or String Optional Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
   * @param messageId          Integer Optional Required if inline_message_id is not specified. Unique identifier of the sent message
   * @param inlineMessageId    String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
-  * @param editMessage        Boolean Optional Pass True, if the game message should be automatically edited to include the current scoreboard
   */
 case class SetGameScore(
                        userId             : Long,
@@ -25,8 +24,5 @@ case class SetGameScore(
                        disableEditMessage : Option[Boolean] = None,
                        chatId             : Option[Long Either String] = None,
                        messageId          : Option[Long] = None,
-                       inlineMessageId    : Option[String] = None,
-
-                       @deprecated("use disableEditMessage", "2.3")
-                       editMessage        : Option[Boolean] = None
+                       inlineMessageId    : Option[String] = None
                        ) extends ApiRequestJson[Boolean Either Message]

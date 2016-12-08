@@ -11,16 +11,22 @@ Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bot
 The full API is supported, inline queries, callbacks, editing messages, games, custom markups, uploading files, chat actions...
 while being strongly-typed (no JSON strings), fully asynchronous (on top of Akka), and transparently camelCased.
 
+Cross-compiled to Scala 2.11 and 2.12.
+
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Planned features
-  - Scala 2.12 support
   - Per-user synchronous requests
-  - Sonatype releases
   - [Request feature here](https://github.com/mukel/telegrambot4s/issues/new)
 
-## Quick-start [Jitpack](https://jitpack.io/#sbt)
+## Quick-start
 
+Add to your `build.sbt` file:
+```scala
+  libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.0.2"
+```
+
+### [Jitpack](https://jitpack.io/#sbt)
 Add to your `build.sbt` file:
 ```scala
   scalaVersion := "2.11.8"
