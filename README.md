@@ -16,20 +16,22 @@ Cross-compiled to Scala 2.11 and 2.12.
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Planned features
-  - Per-user synchronous requests
+  - FSM handlers
+  - Per-user synchronous requests (coming soon)
   - [Request feature here](https://github.com/mukel/telegrambot4s/issues/new)
 
 ## Quick-start
-
 Add to your `build.sbt` file:
 ```scala
-  libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.0.2"
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.0.2-SNAPSHOT"
 ```
 
-### [Jitpack](https://jitpack.io/#sbt)
+### [Jitpack (Deprecated)](https://jitpack.io/#sbt)
 Add to your `build.sbt` file:
 ```scala
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.11.8" // or 2.12.1
 
   resolvers += "jitpack" at "https://jitpack.io"
 
