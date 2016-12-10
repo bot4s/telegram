@@ -7,7 +7,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.typesafe.scalalogging.StrictLogging
-import info.mukel.telegrambot4s.api.Marshalling._
+import info.mukel.telegrambot4s.marshalling.HttpMarshalling._
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
 
 import scala.concurrent.Future
@@ -30,18 +30,11 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
   private val http = Http()
 
   def toHttpRequest[R: Manifest](r: ApiRequest[R]): Future[HttpRequest] = {
-    val requestEntity = r match {
-      case multipartRequest: ApiRequestMultipart[R] =>
-        Marshal(multipartRequest).to[RequestEntity]
-
-      case jsonRequest: ApiRequestJson[R] =>
-        Marshal(jsonRequest).to[RequestEntity]
-    }
-
-    requestEntity map {
-      re =>
-        HttpRequest(HttpMethods.POST, Uri(getRequestUrl(r)), entity = re)
-    }
+    Marshal(r).to[RequestEntity]
+      .map {
+        re =>
+          HttpRequest(HttpMethods.POST, Uri(getRequestUrl(r)), entity = re)
+      }
   }
 
   private def toApiResponse[R: Manifest](httpResponse: HttpResponse): Future[ApiResponse[R]] = {

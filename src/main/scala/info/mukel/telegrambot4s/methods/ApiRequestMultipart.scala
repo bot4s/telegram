@@ -6,4 +6,4 @@ package info.mukel.telegrambot4s.methods
   *
   * Request will be serialized as multipart/form-data
   */
-trait ApiRequestMultipart[R] extends ApiRequest[R]
+trait ApiRequestMultipart[R] extends ApiRequest[R] with Product

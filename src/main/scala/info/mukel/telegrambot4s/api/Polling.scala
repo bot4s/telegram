@@ -52,21 +52,21 @@ trait Polling extends BotBase with AkkaDefaults {
 
   override def run(): Unit = {
     request(DeleteWebhook)
-      .onComplete {
+        .onComplete {
         case Success(true) =>
           updates
-            .to(Sink.foreach( update => {
-              try {
-                onUpdate(update)
-              } catch {
-                case e: Exception =>
-                  logger.error("Caught exception in update handler", e)
-              }
-            })) // sync
+            .to(Sink.foreach(
+              update =>
+                try onUpdate(update) catch {
+                  case e: Exception =>
+                    logger.error("Caught exception in update handler", e)
+                }
+              )) // sync
             .run()
 
         case Success(false) =>
           logger.error("Failed to clear webhook")
+
         case Failure(e) =>
           logger.error("Failed to clear webhook", e)
       }

@@ -25,7 +25,7 @@ class QrCodesBot(token: String) extends TestBot(token) with Polling with Command
       if response.status.isSuccess()
       bytes <- Unmarshal(response).to[ByteString]
     } /* do */ {
-      val photo = InputFile.FromByteString("qrcode.png", bytes)
+      val photo = InputFile("qrcode.png", bytes)
       uploadingPhoto // Hint the user
       request(SendPhoto(message.sender, photo))
     }

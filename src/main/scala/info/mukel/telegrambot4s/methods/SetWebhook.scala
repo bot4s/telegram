@@ -31,4 +31,4 @@ case class SetWebhook(
     certificate: Option[InputFile] = None,
     maxConnections: Option[Int] = None,
     allowedUpdates: Option[Seq[String]] = None
-) extends ApiRequestJson[Boolean]
+) extends ApiRequestMultipart[Boolean]

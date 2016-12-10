@@ -1,10 +1,5 @@
 package info.mukel.telegrambot4s.models
 
-import java.io.{File => JavaFile}
-
-import akka.stream.scaladsl.Source
-import akka.util.ByteString
-
 /** This object represents the contents of a file to be uploaded.
   * Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
   *
@@ -14,19 +9,16 @@ import akka.util.ByteString
   *     It is not possible to resend thumbnails.
   *     Resending a photo by file_id will send all of its sizes.
   */
-trait InputFile {
-  val mimeType: String = "application/octet-stream"
-}
+sealed trait InputFile
 
 object InputFile {
-  case class FromFile(file: JavaFile) extends InputFile
-  case class FromFileId(fileId: String) extends InputFile
-  case class FromSource(
-                         filename      : String,
-                         contentLength : Long,
-                         source        : Source[ByteString, Any]
-                       ) extends InputFile
+  private[telegrambot4s] final case class FileId(fileId: String) extends InputFile
+  private[telegrambot4s] final case class Path(path: java.nio.file.Path) extends InputFile
+  private[telegrambot4s] final case class Contents(filename: String, contents: Array[Byte]) extends InputFile
+  private[telegrambot4s] final case class ByteString(filename: String, contents: akka.util.ByteString) extends InputFile
 
-  case class FromByteString(filename: String, contents: ByteString) extends InputFile
-  case class FromContents(filename: String, contents: Array[Byte]) extends InputFile
+  def apply(fileId: String): InputFile = FileId(fileId)
+  def apply(path: java.nio.file.Path): InputFile = Path(path)
+  def apply(filename: String, contents: Array[Byte]): InputFile = Contents(filename, contents)
+  def apply(filename: String, contents: akka.util.ByteString): InputFile = ByteString(filename, contents)
 }

@@ -24,7 +24,7 @@ class DogeBot(token: String)
         if res.status.isSuccess()
         bytes <- Unmarshal(res).to[ByteString]
       } /* do */ {
-        val photo = InputFile.FromByteString("doge.png", bytes)
+        val photo = InputFile("doge.png", bytes)
         uploadingPhoto // Hint the user
         request(SendPhoto(msg.sender, photo))
       }

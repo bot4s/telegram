@@ -26,7 +26,7 @@ class TextToSpeechBot(token: String) extends TestBot(token) with Polling with Co
       bytes <-  Unmarshal(response).to[ByteString]
     } /* do */ {
       uploadingAudio // hint the user
-      val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
+      val voiceMp3 = InputFile("voice.mp3", bytes)
       request(SendVoice(msg.sender, voiceMp3))
     }
   }
