@@ -6,9 +6,8 @@ import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
-import com.typesafe.scalalogging.StrictLogging
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling._
-import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
+import info.mukel.telegrambot4s.marshalling.HttpMarshalling
+import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.Future
 
@@ -17,9 +16,9 @@ import scala.concurrent.Future
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with StrictLogging {
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with HttpMarshalling {
 
-  import system.dispatcher
+  //import system.dispatcher
 
   private val apiBaseUrl = s"https://api.telegram.org/bot$token/"
 
@@ -61,7 +60,7 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
           Future.failed(e)
 
         case _ =>
-          val msg = "Error on request reponse"
+          val msg = "Error on request response"
           logger.error(msg)
           Future.failed(new Exception(msg))
       }

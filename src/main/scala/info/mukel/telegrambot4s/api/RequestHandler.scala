@@ -1,11 +1,12 @@
 package info.mukel.telegrambot4s.api
 
+import com.typesafe.scalalogging.LazyLogging
 import info.mukel.telegrambot4s.methods.ApiRequest
 
 import scala.concurrent.Future
 
 
-abstract class RequestHandler {
+abstract class RequestHandler extends LazyLogging {
   /** Spawns a type-safe request.
     *
     * @param request

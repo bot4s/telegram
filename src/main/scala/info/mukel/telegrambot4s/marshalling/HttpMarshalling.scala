@@ -3,30 +3,33 @@ package info.mukel.telegrambot4s.marshalling
 import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
+import info.mukel.telegrambot4s.api.RequestHandler
 import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models.InputFile
+import info.mukel.telegrambot4s.models.{InputFile, ReplyMarkup}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.{Extraction, NoTypeHints}
 
 /**
-  * De/serailization support for JSON and multipart API requests
+  * De/serialization support for JSON and multipart API requests
   */
-object HttpMarshalling {
+trait HttpMarshalling {
+  this : RequestHandler =>
 
   implicit val formats = Serialization.formats(NoTypeHints) +
     new EnumNameSerializer(ChatAction) +
     new EnumNameSerializer(ParseMode)
 
+  def toJson[T: Manifest](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))
+
+  def fromJson[T: Manifest](json: String): T = parse(json).camelizeKeys.extract[T]
+
   implicit def camelCaseJsonUnmarshaller[T : Manifest]: FromEntityUnmarshaller[T] = {
     Unmarshaller
       .stringUnmarshaller
       .forContentTypes(ContentTypes.`application/json`)
-      .map(
-        json =>
-          parse(json).camelizeKeys.extract[T]
-      )
+      .map(fromJson)
   }
 
   private def camelToUnderscores(name: String): String = "[A-Z\\d]".r.replaceAllIn(name, { m =>
@@ -38,8 +41,7 @@ object HttpMarshalling {
     Marshaller.strict {
       // JSON-only request
       case request: ApiRequestJson[T] =>
-        val json = compact(render(Extraction.decompose(request).underscoreKeys))
-        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, json))
+        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, toJson(request)))
 
       // Request with file payload
       case request: ApiRequestMultipart[T] => {
@@ -76,15 +78,18 @@ object HttpMarshalling {
                 Multipart.FormData.BodyPart.fromPath(k, MediaTypes.`application/octet-stream`, path)
 
             case InputFile.ByteString(filename, bytes) =>
-                Multipart.FormData.BodyPart.apply(k, HttpEntity(MediaTypes.`application/octet-stream`, bytes),
+                Multipart.FormData.BodyPart(k, HttpEntity(MediaTypes.`application/octet-stream`, bytes),
                   Map("filename" -> filename))
 
             case InputFile.Contents(filename, contents) =>
-                Multipart.FormData.BodyPart.apply(k, HttpEntity(ContentTypes.`application/octet-stream`, contents),
+                Multipart.FormData.BodyPart(k, HttpEntity(ContentTypes.`application/octet-stream`, contents),
                   Map("filename" -> filename))
 
-            // enums?
+            case rm : ReplyMarkup =>
+              Multipart.FormData.BodyPart(k, HttpEntity(toJson(rm)))
+
             case other =>
+              logger.error(s"Unexpected value in multipart request: ($k -> $other)")
               Multipart.FormData.BodyPart(k, HttpEntity(other.toString))
           }
         }
