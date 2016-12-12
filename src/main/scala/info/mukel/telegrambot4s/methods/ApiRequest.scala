@@ -17,4 +17,8 @@ package info.mukel.telegrambot4s.methods
   *
   * @tparam R Expected result type.
   */
-trait ApiRequest[R]
+trait ApiRequest[R] {
+  /** Extract request URL from class name.
+    */
+  def methodName: String = getClass.getSimpleName.reverse.dropWhile(_ == '$').reverse
+}

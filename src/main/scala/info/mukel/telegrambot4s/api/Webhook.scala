@@ -5,6 +5,7 @@ import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.scaladsl.Sink
+import info.mukel.telegrambot4s.marshalling.HttpMarshalling
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
 
@@ -16,6 +17,8 @@ import scala.util.{Failure, Success}
   */
 trait Webhook {
   _ : BotBase with AkkaDefaults =>
+
+  import HttpMarshalling._
 
   val port: Int
   val webhookUrl: String

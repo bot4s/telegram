@@ -3,6 +3,7 @@ package info.mukel.telegrambot4s.marshalling
 import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
+import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.api.RequestHandler
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models.{InputFile, ReplyMarkup}
@@ -14,14 +15,13 @@ import org.json4s.{Extraction, NoTypeHints}
 /**
   * De/serialization support for JSON and multipart API requests
   */
-trait HttpMarshalling {
-  this : RequestHandler =>
+object HttpMarshalling extends StrictLogging {
 
   implicit val formats = Serialization.formats(NoTypeHints) +
     new EnumNameSerializer(ChatAction) +
     new EnumNameSerializer(ParseMode)
 
-  def toJson[T: Manifest](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))
+  def toJson[T](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))
 
   def fromJson[T: Manifest](json: String): T = parse(json).camelizeKeys.extract[T]
 
@@ -29,7 +29,7 @@ trait HttpMarshalling {
     Unmarshaller
       .stringUnmarshaller
       .forContentTypes(ContentTypes.`application/json`)
-      .map(fromJson)
+      .map(fromJson[T])
   }
 
   private def camelToUnderscores(name: String): String = "[A-Z\\d]".r.replaceAllIn(name, { m =>
@@ -41,7 +41,7 @@ trait HttpMarshalling {
     Marshaller.strict {
       // JSON-only request
       case request: ApiRequestJson[T] =>
-        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, toJson(request)))
+        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, toJson[ApiRequestJson[_]](request)))
 
       // Request with file payload
       case request: ApiRequestMultipart[T] => {

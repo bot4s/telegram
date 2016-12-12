@@ -9,5 +9,5 @@ trait LiveEnvironment {
   _ : BotBase with AkkaDefaults =>
 
   override val logger = Logger[LiveEnvironment]
-  override val request = new TelegramApiAkka(token)
+  override val request = new HttpClientQueued(token) //new TelegramApiAkka(token)
 }

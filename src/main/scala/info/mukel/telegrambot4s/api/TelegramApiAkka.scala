@@ -1,38 +1,38 @@
 package info.mukel.telegrambot4s.api
 
+import java.util.concurrent.Executors
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
+import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.marshalling.HttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /** Akka-backed Telegram Bot API client
   * Provide transparent camelCase <-> underscore_case conversions during serialization/deserialization
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with HttpMarshalling {
+class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with StrictLogging {
 
-  //import system.dispatcher
+  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
+  import HttpMarshalling._
 
   private val apiBaseUrl = s"https://api.telegram.org/bot$token/"
 
-  /** Extract request URL from class name.
-    */
-  private def getRequestUrl[R](r: ApiRequest[R]): String = apiBaseUrl + r.getClass.getSimpleName.reverse.dropWhile(_ == '$').reverse
-
   private val http = Http()
 
-  def toHttpRequest[R: Manifest](r: ApiRequest[R]): Future[HttpRequest] = {
+  private def toHttpRequest[R: Manifest](r: ApiRequest[R]): Future[HttpRequest] = {
     Marshal(r).to[RequestEntity]
       .map {
         re =>
-          HttpRequest(HttpMethods.POST, Uri(getRequestUrl(r)), entity = re)
+          HttpRequest(HttpMethods.POST, Uri(apiBaseUrl + r.methodName), entity = re)
       }
   }
 

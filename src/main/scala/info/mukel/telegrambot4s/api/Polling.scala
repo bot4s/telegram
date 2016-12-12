@@ -55,14 +55,13 @@ trait Polling extends BotBase with AkkaDefaults {
         .onComplete {
         case Success(true) =>
           updates
-            .to(Sink.foreach(
+            .runForeach(
               update =>
                 try onUpdate(update) catch {
                   case e: Exception =>
                     logger.error("Caught exception in update handler", e)
                 }
-              )) // sync
-            .run()
+              ) // sync
 
         case Success(false) =>
           logger.error("Failed to clear webhook")
