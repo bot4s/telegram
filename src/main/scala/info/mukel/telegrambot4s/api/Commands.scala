@@ -12,32 +12,51 @@ import scala.concurrent.Future
   */
 trait Commands extends BotBase {
 
-  type Params = Seq[String]
-  type Action = Message => (Params => Unit)
-  type Description = Option[String]
-  type Command = (Description, Action)
+  type Args = Seq[String]
+  type Action = Message => Unit
+  type ActionWithArgs = Message => Args => Unit
+  type Handler = Either[Action, ActionWithArgs]
+  type Description = String
+  type Command = (Description, Handler)
+  type Filter = Message => Boolean
 
-  private val commands = mutable.HashMap[String, Command]()
+  val NoHelpAvailable = "no description"
+
+  private val commands = mutable.Map[Filter, Command]()
+
+  private object Command {
+    def unapply(text: String): Option[(String, Args)] = {
+      val Array(cmd, args @ _*) = text.trim.split(" ")
+      Some((cmd, args))
+    }
+  }
 
   /** Parses messages and runs bot commands accordingly.
     * Commands are case-iNsEnSiTiVe and the bot's name is stripped off.
     */
   abstract override def onMessage(message: Message): Unit = {
 
-    def cleanCmd(cmd: String): String = {
-      val cmdEnd = if (cmd.contains('@')) cmd.indexOf('@') else cmd.length
-      cmd.substring(0, cmdEnd).toLowerCase
+    for {
+      (filter, (_, action)) <- commands
+      if filter(message)
+    } /* do */ {
+      action match {
+        case Left(a) => // Action
+          a(message)
+
+        case Right(a) => // ActionWithArgs
+          for {
+            Command(_, args) <- message.text
+          } /* do */ {
+            a(message)(args)
+          }
+
+        case _ => logger.error("Unknown command handler type")
+      }
     }
 
-    val accepted = for {
-      text <- message.text
-      Array(cmd, args @ _*) = text.trim.split(" ")
-      (_, action) <- commands.get(cleanCmd(cmd))
-    } yield
-      action(message)(args)
-
     // Fallback to upper level to preserve trait stack-ability
-    accepted.getOrElse(super.onMessage(message))
+    super.onMessage(message)
   }
 
   /**
@@ -64,29 +83,49 @@ trait Commands extends BotBase {
     )
   }
 
+  private def cleanCmd(cmd: String): String = {
+    val cmdEnd = if (cmd.contains('@')) cmd.indexOf('@') else cmd.length
+    cmd.substring(0, cmdEnd).toLowerCase
+  }
+
   /** Makes the bot able react to 'command' with the specified handler.
     * 'action' receives a message and the arguments as parameters.
     *
-    * @param description Provides insights about the command functioning,
+    * @param description Provides insights about the command functioning.
     */
-  def on(command: String, description: Option[String] = None)(action: Action): Unit = {
-    commands.+=((command, (description, action)))
+  def on(command: String, description: String)(actionWithArgs: ActionWithArgs): Unit = {
+
+    val f: Filter = { msg: Message =>
+      val matches = for {
+        Command(cmd, _) <- msg.text
+      } yield
+        cleanCmd(cmd) == command
+
+      matches.getOrElse(false)
+    }
+
+    commands += ((f, (s"$command - $description", actionWithArgs)))
   }
+
+  def on(command: String)(actionWithArgs: ActionWithArgs): Unit =
+    on(command, NoHelpAvailable)(actionWithArgs)
+
+  def on(filter: Filter, description: String)(action: Action): Unit = {
+    commands += ((filter, (description, action)))
+  }
+
+  def on(filter: Filter)(action: Action): Unit = on(filter, NoHelpAvailable)(action)
 
   /** Simple auto-generated help command.
     */
-  on("/help") { implicit msg => _ =>
-
+  on("/help", "description of available commands") { implicit msg => _ =>
     val help =
       for {
-        (trigger, cmd) <- commands
-        description = cmd._1.getOrElse("no description")
+        (_, (description, _)) <- commands
+        if description.nonEmpty
       } yield
-        s"$trigger - $description"
+        description
 
-    if (help.isEmpty)
-      reply("No commands registered.")
-    else
-      reply(help mkString "\n")
+    reply(help mkString "\n")
   }
 }
