@@ -100,11 +100,11 @@ case class InlineQueryResultPhoto(
   *   Older clients will not display any inline results if a game result is among them.
   */
 case class InlineQueryResultGame(
-                                  `type`        : String,
                                   id            : String,
                                   gameShortName : String,
-                                  replyMarkup   : Option[InlineKeyboardMarkup] = None
-                                )
+                                  replyMarkup   : Option[InlineKeyboardMarkup] = None,
+                                  `type`        : String = "game"
+                                ) extends InlineQueryResult
 
 /** Represents a link to an animated GIF file.
   *

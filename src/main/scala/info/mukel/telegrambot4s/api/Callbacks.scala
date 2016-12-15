@@ -14,10 +14,21 @@ trait Callbacks extends BotBase {
 
   private val handlers = mutable.Map[Filter, Action]()
 
+  /** Filters callbacks based on a tag (to avoid collision).
+    * Process callbacks starting with 'tag'.
+    *
+    * @param tag Tag
+    * @param action Method to process the filtered callback query.
+    */
   def onCallbackWithTag(tag: String)(action: Action): Unit = {
     onCallback(_.data.map(_.startsWith(tag)).getOrElse(false))(action)
   }
 
+  /** Generic callbacks filtering (to avoid collision).
+    *
+    * @param filter A filter should not have side effects, and should be fast (no DB requests).
+    * @param action Method to process the filtered callback query.
+    */
   def onCallback(filter: Filter)(action: Action): Unit = {
     handlers += ((filter, action))
   }

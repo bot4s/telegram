@@ -19,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
   *
   * @param token Bot token
   */
-class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with StrictLogging {
+class TelegramClientAkka(token: String)(implicit system: ActorSystem, materializer: Materializer) extends RequestHandler with StrictLogging {
 
   implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
   import HttpMarshalling._
@@ -50,6 +50,10 @@ class TelegramApiAkka(token: String)(implicit system: ActorSystem, materializer:
     toHttpRequest(request)
       .flatMap(http.singleRequest(_))
       .flatMap(toApiResponse[R])
+      .map { response =>
+        logger.debug(response.toString)
+        response
+      }
       .flatMap {
         case ApiResponse(true, Some(result), _, _, _) =>
           Future.successful(result)

@@ -13,4 +13,13 @@ object Implicits {
   implicit def toOptionEitherRight[L, R](r: R) : Option[Either[L, R]] = Option(Right(r))
 
   implicit def toOption[T](v: T) : Option[T] = Option(v)
+
+  implicit class MarkdownString(s: String) {
+    def bold = s"*$s*"
+    def italic = s"_${s}_"
+    def urlWithAlt(alt: String) = s"[$alt]($s)"
+    def altWithUrl(url: String) = s"[$s]($url)"
+    def inlineCode = s"`$s`"
+    def blockCode(language: String = "text") = s"```$language\n$s\n```"
+  }
 }
