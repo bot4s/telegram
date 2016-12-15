@@ -1,16 +1,18 @@
 package info.mukel.telegrambot4s.api
 
+import info.mukel.telegrambot4s.methods.AnswerCallbackQuery
 import info.mukel.telegrambot4s.models.CallbackQuery
 
 import scala.collection.mutable
+import scala.concurrent.Future
 
 /**
   * Abstraction for callbacks, allowing to filter events by tag.
   */
 trait Callbacks extends BotBase {
 
-  type Filter = CallbackQuery => Boolean
-  type Action = CallbackQuery => Unit
+  private type Filter = CallbackQuery => Boolean
+  private type Action = CallbackQuery => Unit
 
   private val handlers = mutable.Map[Filter, Action]()
 
@@ -41,5 +43,13 @@ trait Callbacks extends BotBase {
       action(callbackQuery)
 
     super.onCallbackQuery(callbackQuery)
+  }
+
+  def ackCallback(text: Option[String] = None,
+          showAlert: Option[Boolean] = None,
+          url: Option[String] = None,
+          cacheTime: Option[Int] = None)
+         (implicit callbackQuery: CallbackQuery): Future[Boolean] = {
+    request(AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime))
   }
 }

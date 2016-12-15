@@ -20,7 +20,7 @@ package info.mukel.telegrambot4s.methods
 case class AnswerCallbackQuery(
                                 callbackQueryId : String,
                                 text            : Option[String] = None,
-                                showAlert       : Option[String] = None,
+                                showAlert       : Option[Boolean] = None,
                                 url             : Option[String] = None,
                                 cacheTime       : Option[Int] = None
                               ) extends ApiRequestJson[Boolean]

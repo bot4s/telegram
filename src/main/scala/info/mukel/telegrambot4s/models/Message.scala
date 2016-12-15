@@ -44,7 +44,7 @@ package info.mukel.telegrambot4s.models
   *                               field will not contain further reply_to_message fields even if it is itself a reply.
   */
 case class  Message(
-               messageId             : Int,
+               messageId             : Long,
                from                  : Option[User] = None,
                date                  : Int,
                chat                  : Chat,

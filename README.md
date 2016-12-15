@@ -16,7 +16,7 @@ Cross-compiled to Scala 2.11 and 2.12.
 I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Planned features
-  - FSM handlers
+  - FSM handlers (on the works)
   - Per-user synchronous requests (coming soon)
   - [Request feature here](https://github.com/mukel/telegrambot4s/issues/new)
 
@@ -25,7 +25,7 @@ Add to your `build.sbt` file:
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.0.2-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.1.0-SNAPSHOT"
 ```
 
 ### [Jitpack (Deprecated)](https://jitpack.io/#sbt)
@@ -35,7 +35,7 @@ Add to your `build.sbt` file:
 
   resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.0.2"
+  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.1.0"
 ```
 
 Make sure to specify Scala version in your build file, inserting a
@@ -52,7 +52,7 @@ In order to avoid unintentional token sharing, store tokens in an un-tracked fil
 ```scala
 
 object SafeBot extends TelegramBot with Polling with Commands {
-  def token = Source.fromFile("bot.token").getLines().next
+  lazy val token = Source.fromFile("bot.token").getLines().mkString
   on("/hello") { implicit msg => _ =>
     reply("My token is SAFE!")
   }
@@ -148,7 +148,7 @@ object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatA
     } /* do */ {
       uploadingAudio // Hint the user
       val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
-      api.request(SendVoice(msg.sender, voiceMp3))
+      request(SendVoice(msg.sender, voiceMp3))
     }
   }
 }

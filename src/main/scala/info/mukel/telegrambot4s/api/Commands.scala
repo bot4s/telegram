@@ -12,13 +12,13 @@ import scala.concurrent.Future
   */
 trait Commands extends BotBase {
 
-  type Args = Seq[String]
-  type Action = Message => Unit
-  type ActionWithArgs = Message => Args => Unit
-  type Handler = Either[Action, ActionWithArgs]
-  type Description = String
-  type Command = (Description, Handler)
-  type Filter = Message => Boolean
+  private type Args = Seq[String]
+  private type Action = Message => Unit
+  private type ActionWithArgs = Message => Args => Unit
+  private type Handler = Either[Action, ActionWithArgs]
+  private type Description = String
+  private type Command = (Description, Handler)
+  private type Filter = Message => Boolean
 
   val NoHelpAvailable = "no description"
 
