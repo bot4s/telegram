@@ -7,7 +7,7 @@ import sbtrelease._
 
 object BuildSettings {
   val buildOrganization = "info.mukel"
-  val buildVersion      = "2.0.2-SNAPSHOT"
+  val buildVersion      = "2.1.0-SNAPSHOT"
   val buildScalaVersion = "2.12.1"
   val buildCrossScalaVersions = Seq("2.11.8", "2.12.1")
 
