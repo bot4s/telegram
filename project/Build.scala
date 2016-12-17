@@ -70,7 +70,7 @@ object Dependencies {
   val json4sExt = "org.json4s" %% "json4s-ext"     % json4sVersion
 
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
-  val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
+  val logback = "ch.qos.logback" % "logback-classic" % logbackVersion % "test"
 
   val scalatest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
   val scalacheck = "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
