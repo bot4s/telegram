@@ -1,5 +1,9 @@
 package info.mukel.telegrambot4s
 
+import info.mukel.telegrambot4s.api.RequestHandler
+import info.mukel.telegrambot4s.methods.ApiRequest
+
+import scala.concurrent.Future
 import scala.language.implicitConversions
 
 /**
@@ -21,5 +25,14 @@ object Implicits {
     def altWithUrl(url: String) = s"[$s]($url)"
     def inlineCode = s"`$s`"
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
+  }
+
+  implicit class TaggedString(s: String) {
+    def prefixTag(tag: String) = tag + s
+    def untag(tag: String) = s.stripPrefix(tag)
+  }
+
+  implicit class SuffixRequests[R: Manifest](r: ApiRequest[R]) {
+    def request(implicit client: RequestHandler): Future[R] = client(r)
   }
 }

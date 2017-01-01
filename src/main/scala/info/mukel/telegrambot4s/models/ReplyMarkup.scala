@@ -112,8 +112,8 @@ case class InlineKeyboardMarkup(
   */
 case class InlineKeyboardButton(
                                text              : String,
-                               url               : Option[String] = None,
                                callbackData      : Option[String] = None,
+                               url               : Option[String] = None,
                                switchInlineQuery : Option[String] = None,
                                switchInlineQueryCurrentChat : Option[String] = None,
                                callbackGame      : Option[CallbackGame] = None
