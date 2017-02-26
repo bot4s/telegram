@@ -55,8 +55,8 @@ object Resolvers {
 
 object Dependencies {
 
-  val akkaVersion         = "2.4.14"
-  val akkaHttpVersion     = "10.0.0"
+  val akkaVersion         = "2.4.17"
+  val akkaHttpVersion     = "10.0.4"
   val json4sVersion       = "3.5.0"
   val scalaTestVersion    = "3.0.0"
   val scalaCheckVersion   = "1.13.4"
