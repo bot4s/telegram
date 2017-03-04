@@ -83,10 +83,7 @@ trait Commands extends BotBase {
     )
   }
 
-  private def cleanCmd(cmd: String): String = {
-    val cmdEnd = if (cmd.contains('@')) cmd.indexOf('@') else cmd.length
-    cmd.substring(0, cmdEnd).toLowerCase
-  }
+  private def cleanCmd(cmd: String): String = cmd.takeWhile(_ != '@').toLowerCase
 
   /** Makes the bot able react to 'command' with the specified handler.
     * 'action' receives a message and the arguments as parameters.
