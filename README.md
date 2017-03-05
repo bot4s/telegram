@@ -31,11 +31,11 @@ libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.1.0-SNAPSHOT"
 ### [Jitpack (Deprecated)](https://jitpack.io/#sbt)
 Add to your `build.sbt` file:
 ```scala
-  scalaVersion := "2.11.8" // or 2.12.1
+scalaVersion := "2.11.8" // or 2.12.1
 
-  resolvers += "jitpack" at "https://jitpack.io"
+resolvers += "jitpack" at "https://jitpack.io"
 
-  libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "v2.1.0"
+libraryDependencies += "com.github.mukel" % "telegrambot4s" % "v2.0.1"
 ```
 
 Make sure to specify Scala version in your build file, inserting a
