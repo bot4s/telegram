@@ -5,8 +5,6 @@ import info.mukel.telegrambot4s.api.{Callbacks, Commands, Polling}
 import info.mukel.telegrambot4s.methods.EditMessageReplyMarkup
 import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMarkup}
 
-import scala.util.Try
-
 /**
   * Show how to use callbacks, and it's shortcomings.
   * @param token Bot's token.
@@ -14,12 +12,14 @@ import scala.util.Try
 class CallbacksBot(token: String) extends TestBot(token) with Polling with Commands with Callbacks {
   val TAG = "COUNTER_TAG"
 
+  def tag = prefixTag(TAG) _
+
   var requestCount = 0
 
   def markupCounter(n: Int) = {
     requestCount += 1
-    InlineKeyboardMarkup(Seq(Seq(InlineKeyboardButton(s"Press me!!!\n$n - $requestCount",
-      callbackData = s"$TAG$n"))))
+    InlineKeyboardMarkup(InlineKeyboardButton(s"Press me!!!\n$n - $requestCount",
+      callbackData = tag(n.toString)))
   }
 
   on("/counter") { implicit msg => _ =>
@@ -28,17 +28,19 @@ class CallbacksBot(token: String) extends TestBot(token) with Polling with Comma
 
   onCallbackWithTag(TAG) { implicit cbq =>
     // Notification only shown to the user who pressed the button.
-    ackCallback(cbq.from.firstName + ", you pressed the button!")
+    ackCallback(cbq.from.firstName + " pressed the button!")
+    // Or just ackCallback()
 
     for {
-      data <- cbq.data.map(_.stripPrefix(TAG))
+      data <- cbq.data
+      Extractor.Int(n) = data
       msg <- cbq.message
-      n <- Try(data.toInt).toOption
     } /* do */ {
-      request(EditMessageReplyMarkup(
-        msg.chat.id,
-        msg.messageId,
-        replyMarkup = markupCounter(n + 1)))
+      request(
+        EditMessageReplyMarkup(
+          msg.source, // msg.chat.id
+          msg.messageId,
+          replyMarkup = markupCounter(n + 1)))
     }
   }
 }

@@ -78,7 +78,12 @@ case class  Message(
                migrateToChatId       : Option[Long] = None,
                migrateFromChatId     : Option[Long] = None,
                pinnedMessage         : Option[Message] = None
+
              ) {
-  def sender = chat.id
+
+  def source = chat.id
+
+  @deprecated("Use .source instead", "telegrambo4s 2.0.1")
+  def sender = source
 }
 

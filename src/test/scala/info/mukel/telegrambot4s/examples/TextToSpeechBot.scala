@@ -27,7 +27,7 @@ class TextToSpeechBot(token: String) extends TestBot(token) with Polling with Co
     } /* do */ {
       uploadingAudio // hint the user
       val voiceMp3 = InputFile("voice.mp3", bytes)
-      request(SendVoice(msg.sender, voiceMp3))
+      request(SendVoice(msg.source, voiceMp3))
     }
   }
 }

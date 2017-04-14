@@ -16,7 +16,9 @@ import scala.concurrent.Future
 trait BotBase {
   def token: String
   val logger: Logger
-  val request: RequestHandler
+  val client: RequestHandler
+
+  def request = client
 
   /** Dispatch updates to specialized handlers.
     * Incoming update can be a message, inline query, callback query of inline result stat.

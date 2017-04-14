@@ -47,7 +47,7 @@ trait PerChatRequests extends ActorBroker with Commands with AkkaDefaults {
   class Worker extends Actor {
     def receive = {
       case m : Message =>
-        request(SendMessage(m.sender, self.toString))
+        request(SendMessage(m.source, self.toString))
 
       case _ =>
     }

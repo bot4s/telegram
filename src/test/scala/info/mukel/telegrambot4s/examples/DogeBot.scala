@@ -10,7 +10,7 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 
 /**
-  * Such Telegram, many bots, so Dogesome
+  * Such Telegram, many bots, so Dogesome.
   */
 class DogeBot(token: String)
   extends TestBot(token) with Polling with Commands with ChatActions {
@@ -26,7 +26,7 @@ class DogeBot(token: String)
       } /* do */ {
         val photo = InputFile("doge.png", bytes)
         uploadingPhoto // Hint the user
-        request(SendPhoto(msg.sender, photo))
+        request(SendPhoto(msg.source, photo))
       }
   }
 }

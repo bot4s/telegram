@@ -15,7 +15,7 @@ import scala.util.{Failure, Success}
   */
 trait Polling extends BotBase with AkkaDefaults {
 
-  val pollingInterval: Int = 20
+  val pollingInterval: Int = 30
 
   private val updates: Source[Update, NotUsed] = {
     type Offset = Long

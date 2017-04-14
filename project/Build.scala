@@ -7,7 +7,7 @@ import sbtrelease._
 
 object BuildSettings {
   val buildOrganization = "info.mukel"
-  val buildVersion      = "2.1.0-SNAPSHOT"
+  val buildVersion      = "2.2.0-SNAPSHOT"
   val buildScalaVersion = "2.12.1"
   val buildCrossScalaVersions = Seq("2.11.8", "2.12.1")
 
@@ -56,7 +56,7 @@ object Resolvers {
 object Dependencies {
 
   val akkaVersion         = "2.4.17"
-  val akkaHttpVersion     = "10.0.4"
+  val akkaHttpVersion     = "10.0.5"
   val json4sVersion       = "3.5.0"
   val scalaTestVersion    = "3.0.0"
   val scalaCheckVersion   = "1.13.4"

@@ -25,24 +25,24 @@ Add to your `build.sbt` file:
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.1.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
 ```
 
-### [Jitpack (Deprecated)](https://jitpack.io/#sbt)
-Add to your `build.sbt` file:
+### [Jitpack](https://jitpack.io/#sbt)
+To pull directly from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
+
 ```scala
 scalaVersion := "2.11.8" // or 2.12.1
 
 resolvers += "jitpack" at "https://jitpack.io"
 
-libraryDependencies += "com.github.mukel" % "telegrambot4s" % "v2.0.1"
+libraryDependencies += "com.github.mukel" % "telegrambot4s" % "master-SNAPSHOT"
 ```
 
-Make sure to specify Scala version in your build file, inserting a
-line like the first one, or you'll get by default a 2.10 Scala version
-for which this repository does not work.
+**When using Jitpack, make sure to specify Scala version in your build**, inserting a
+line like the first one, or Jitpack will default to Scala 2.10 which is unsupported.
 
-You can also pull any branch or release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
+You can also pull any branch or previous release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
 ## Leaking bot tokens
 **Do not expose tokens unintentionally.**
@@ -52,6 +52,8 @@ In order to avoid unintentional token sharing, store tokens in an un-tracked fil
 ```scala
 
 object SafeBot extends TelegramBot with Polling with Commands {
+  // Use 'def' or 'lazy val' for the token.
+  // Using val may/will lead to initialization order issues. 
   lazy val token = Source.fromFile("bot.token").getLines().mkString
   on("/hello") { implicit msg => _ =>
     reply("My token is SAFE!")
@@ -67,7 +69,6 @@ Both methods are fully supported.
 Polling is the easiest method; it can be used locally without any additional requirements.
 Polling has been radically improved, it doesn't flood the server and it's very fast.
 Using webhooks requires a server (it won't work on your laptop).
-Self-signed certificates are also supported, but you must issue the certificates yourself.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
@@ -76,11 +77,13 @@ and most notably on an old Android (4.1.2) phone with a broken screen.
 
 ## Contributors
 Contributions are highly appreciated, documentation improvements/corrections, [idiomatic Scala](https://github.com/mukel/telegrambot4s/pull/1/files), [bug reports](https://github.com/mukel/telegrambot4s/issues/8), even feature requests.
-Creating a bot is also a contribution, I'll add a link to your bot here anytime.
+
+  - [Alexey Alekhin](https://github.com/laughedelic)
   - [Andrey Romanov](https://github.com/drewnoff)
   - [Dmitry Kurinskiy](https://github.com/alari)
   - [ex0ns](https://github.com/ex0ns)
   - [hamidr](https://github.com/hamidr)
+  - [hugemane](https://github.com/hugemane)
   - [Juan Julián Merelo Guervós](https://github.com/JJ)
   - [Kirill Lastovirya](https://github.com/kirhgoff)
   - [Maxim Cherkasov](https://github.com/rema7)
@@ -89,7 +92,7 @@ Creating a bot is also a contribution, I'll add a link to your bot here anytime.
   - [reimai](https://github.com/reimai)
 
 # Usage
-Just add `scala import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
 
 ## Running the examples
 
@@ -112,7 +115,29 @@ import info.mukel.telegrambot4s.examples._
 scala> new RandomBot("TOKEN_HERE").run()
 ```
 
-Change `RandomBot` to whatever bot you find interesting.
+Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples).
+
+
+# Custom extensions
+
+It's pretty easy augment bots with custom DSL-ish shortcuts; e.g.
+this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/AuthenticationBot.scala)
+sample.
+
+```scala
+  on("/secret") { implicit msg => _ =>
+    authenticatedOrElse {
+      admin =>
+        reply(
+          s"""${admin.firstName}:
+             |The answer to life the universe and everything is 42.
+             |You can /logout now.""".stripMargin)
+    } /* or else */ {
+      user =>
+        reply(s"${user.firstName}, you must /login first.")
+    }
+  }
+```
 
 
 #### Let me Google that for you!
@@ -120,7 +145,7 @@ Change `RandomBot` to whatever bot you find interesting.
 ```scala
 object LmgtfyBot extends TelegramBot with Polling with Commands {
   def token = "TOKEN"
-  
+
   on("/lmgtfy") { implicit msg => args =>
     reply(
       "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8"),
@@ -163,21 +188,21 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
   override val webhookUrl = "https://ed88ff73.ngrok.io"
+  
+  import info.mukel.telegrambot4s.Implicits._
   val rng = new Random(System.currentTimeMillis())
-
-  on("/coin") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
-  on("/real") { implicit msg => _ => reply(rng.nextDouble().toString) }
-  on("/dice") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
-
-  // /random n
-  on("/random") { implicit msg => {
-    case Seq(s) =>
-      reply(Try(s.toInt).map { case n if (n > 0) => rng.nextInt(n).toString }.getOrElse("Invalid argument"))
+  on("/coin", "head or tail") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
+  on("/real", "real number in [0, 1]") { implicit msg => _ => reply(rng.nextDouble().toString) }
+  on("/die", "classic die [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
+  on("/dice", "throw two classic dice [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
+  on("/random", "integer in [0, n)") { implicit msg => {
+    case Seq(Extractor.Int(n)) if n > 0 =>
+      reply(rng.nextInt(n).toString)
+    case _ =>
+      reply("Invalid argumentヽ(ಠ_ಠ)ノ")
     }
   }
-
-  // /choose Ana Bob Charles
-  on("/choose") { implicit msg => args =>
+  on("/choose", "randomly picks one of the arguments") { implicit msg => args =>
     reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
   }
 }

@@ -27,7 +27,7 @@ class QrCodesBot(token: String) extends TestBot(token) with Polling with Command
     } /* do */ {
       val photo = InputFile("qrcode.png", bytes)
       uploadingPhoto // Hint the user
-      request(SendPhoto(message.sender, photo))
+      request(SendPhoto(message.source, photo))
     }
   }
 }

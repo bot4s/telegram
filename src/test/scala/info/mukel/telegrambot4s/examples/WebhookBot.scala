@@ -12,6 +12,7 @@ import info.mukel.telegrambot4s.models._
 
 /**
   * Webhook-backed JS calculator.
+  * To test Webhooks locally, use an SSH tunnel or ngrok.
   */
 class WebhookBot(token: String) extends TestBot(token) with Webhook {
 
@@ -28,7 +29,7 @@ class WebhookBot(token: String) extends TestBot(token) with Webhook {
         if res.status.isSuccess()
         result <- Unmarshal(res).to[String]
       } /* do */ {
-        request(SendMessage(msg.sender, result))
+        request(SendMessage(msg.source, result))
       }
     }
   }

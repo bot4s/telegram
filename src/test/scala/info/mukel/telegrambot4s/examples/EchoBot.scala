@@ -11,6 +11,6 @@ import info.mukel.telegrambot4s.models._
 class EchoBot(token: String) extends TestBot(token) with Polling {
   override def onMessage(msg: Message): Unit = {
     for (text <- msg.text)
-      request(SendMessage(msg.sender, text.reverse))
+      request(SendMessage(msg.source, text.reverse))
   }
 }
