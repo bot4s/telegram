@@ -10,7 +10,8 @@ import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.util.control.NonFatal
+import scala.util.{Failure, Success, Try}
 
 /** Spawns a server to receive updates.
   * Automatically registers the webhook on run().
@@ -27,11 +28,10 @@ trait Webhook {
   private val route = pathEndOrSingleSlash {
     entity(as[Update]) {
       update =>
-
         try {
           onUpdate(update)
         } catch {
-          case e: Exception =>
+          case NonFatal(e) =>
             logger.error("Caught exception in update handler", e)
         }
 

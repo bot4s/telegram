@@ -4,7 +4,6 @@ import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshall
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
 import com.typesafe.scalalogging.StrictLogging
-import info.mukel.telegrambot4s.api.RequestHandler
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models.{InputFile, ReplyMarkup}
 import org.json4s.ext.EnumNameSerializer

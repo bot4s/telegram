@@ -5,10 +5,12 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
+![logo](logo-bw.png)
+
 Telegram Bot API Wrapper for Scala
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
-The full API is supported, inline queries, callbacks, editing messages, games, custom markups, uploading files, chat actions...
+The full API is supported, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
 while being strongly-typed (no JSON strings), fully asynchronous (on top of Akka), and transparently camelCased.
 
 Cross-compiled to Scala 2.11 and 2.12.
@@ -25,11 +27,12 @@ Add to your `build.sbt` file:
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.2.0-SNAPSHOT"
 ```
 
 ### [Jitpack](https://jitpack.io/#sbt)
-To pull directly from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
+I find Jitpack quite convenient, even if I don't support it.
+To pull the latest and greatest from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
 
 ```scala
 scalaVersion := "2.11.8" // or 2.12.1
@@ -47,17 +50,19 @@ You can also pull any branch or previous release from Jitpack, [check it out](ht
 ## Leaking bot tokens
 **Do not expose tokens unintentionally.**
 
-In order to avoid unintentional token sharing, store tokens in an un-tracked file e.g. "bot.token" as follows:
+In order to avoid unintentional token sharing, do as follows:
 
 ```scala
 
 object SafeBot extends TelegramBot with Polling with Commands {
-  // Use 'def' or 'lazy val' for the token.
-  // Using val may/will lead to initialization order issues. 
-  lazy val token = Source.fromFile("bot.token").getLines().mkString
-  on("/hello") { implicit msg => _ =>
-    reply("My token is SAFE!")
-  }
+  // Use 'def' or 'lazy val' for the token, using a plain 'val' may/will
+  // lead to initialization order issues.
+  // Fetch the token from an environment variable or file.
+  lazy val token = scala.util.Properties
+    .envOrNone("BOT_TOKEN")
+    .getOrElse(Source.fromFile("bot.token").getLines().mkString)
+
+  on("/hello") { implicit msg => _ => reply("My token is SAFE!") }
 }
 
 SafeBot.run()
@@ -67,13 +72,14 @@ SafeBot.run()
 ## Webhooks vs Polling
 Both methods are fully supported.
 Polling is the easiest method; it can be used locally without any additional requirements.
-Polling has been radically improved, it doesn't flood the server and it's very fast.
+Polling has been radically improved, it doesn't flood the server and it's pretty fast.
 Using webhooks requires a server (it won't work on your laptop).
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
-Beside the usual ways, I've managed to run some bots successfully on a Raspberry Pi 2,
+Beside the usual ways, I've managed to use the library on a Raspberry Pi 2,
 and most notably on an old Android (4.1.2) phone with a broken screen.
+It's also possible to docker-ized.
 
 ## Contributors
 Contributions are highly appreciated, documentation improvements/corrections, [idiomatic Scala](https://github.com/mukel/telegrambot4s/pull/1/files), [bug reports](https://github.com/mukel/telegrambot4s/issues/8), even feature requests.
@@ -93,6 +99,13 @@ Contributions are highly appreciated, documentation improvements/corrections, [i
 
 # Usage
 Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+ 
+## Reducing boilerplate
+Implicits are provided to reduce the boilerplate when dealing with the API;
+think seamless Option[T] and Either[L,R] conversion.
+Be aware that most examples need the implicits to compile.
+
+```import info.mukel.telegrambot4s.Implicits._```
 
 ## Running the examples
 
@@ -120,7 +133,7 @@ Change `RandomBot` to whatever bot you find interesting [here](https://github.co
 
 # Custom extensions
 
-It's pretty easy augment bots with custom DSL-ish shortcuts; e.g.
+It's rather easy augment bots with custom DSL-ish shortcuts; e.g.
 this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/AuthenticationBot.scala)
 sample.
 
@@ -130,7 +143,7 @@ sample.
       admin =>
         reply(
           s"""${admin.firstName}:
-             |The answer to life the universe and everything is 42.
+             |The answer to life the universe and everything: 42.
              |You can /logout now.""".stripMargin)
     } /* or else */ {
       user =>
@@ -148,7 +161,7 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 
   on("/lmgtfy") { implicit msg => args =>
     reply(
-      "http://lmgtfy.com/?q=" + URLEncoder.encode(args mkString " ", "UTF-8"),
+      "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
       disableWebPagePreview = true
     )
   }

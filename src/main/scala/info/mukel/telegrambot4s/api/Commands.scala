@@ -5,8 +5,23 @@ import scala.collection.mutable
 
 /**
   * Makes a bot command-aware using a nice declarative interface.
+  * Adds an auto-generated "/help" command to list all declared commands with the given description.
+  * Commands without provide description will not be listed.
   */
-trait Commands extends Actions {
+trait Commands extends VanillaCommands {
+  on("/help", "list available commands") { implicit msg => _ =>
+    val help = for ((cmd, desc) <- commands)
+      yield
+        s"$cmd - $desc"
+    reply(help mkString "\n")
+  }
+}
+
+/**
+  * Makes a bot command-aware using a nice declarative interface.
+  * Does NOT include the auto-generated "/help" command.
+  */
+trait VanillaCommands extends Actions {
 
   private type Args = Seq[String]
   private type ActionWithArgs = Message => Args => Unit
@@ -57,17 +72,4 @@ trait Commands extends Actions {
     */
   def on(command: String)(actionWithArgs: ActionWithArgs): Unit =
     when(commandFilter(command))(commandAction(actionWithArgs))
-}
-
-trait CommandsHelp {
-  _ : Commands =>
-  /**
-    * Simple auto-generated help command.
-    */
-  on("/help", "list available commands") { implicit msg => _ =>
-    val help = for ((cmd, desc) <- commands)
-      yield
-        s"/$cmd - $desc"
-    reply(help mkString "\n")
-  }
 }

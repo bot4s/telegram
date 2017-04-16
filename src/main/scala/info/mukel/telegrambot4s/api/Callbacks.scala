@@ -69,10 +69,16 @@ trait Callbacks extends BotBase {
     request(AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime))
   }
 
+ /**
+   * Helper to tag 'callbackData' in inline markups.
+   * Usage:
+   *  def tag = prefixTag("MY_TAG") _
+   *
+   *  ... callbackData = tag("some data")
+   */
   def prefixTag(tag: String)(s: String) = tag + s
 
-  private def untag(tag: String)(action: CallbackQueryAction)(implicit callbackQuery: CallbackQuery) = {
-    cbq: CallbackQuery =>
-      action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))
+  private def untag(tag: String)(action: CallbackQueryAction)(implicit cbq: CallbackQuery) = {
+    action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))
   }
 }

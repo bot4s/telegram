@@ -7,10 +7,11 @@ import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+import scala.util.control.NonFatal
 
 /** Provides updates by polling Telegram servers.
   *
-  * When idle, it won't flood the server, it will send at most 3 queries per minute, still
+  * When idle, it won't flood the server, it will send at most 2 queries per minute, still
   * the responses are instantaneous.
   */
 trait Polling extends BotBase with AkkaDefaults {
@@ -30,7 +31,7 @@ trait Polling extends BotBase with AkkaDefaults {
           val maxOffset = updates.map(_.updateId).fold(offset)(_ max _)
           request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval)))
             .recover {
-              case e: Exception =>
+              case NonFatal(e) =>
                 logger.error("GetUpdates failed", e)
                 Seq.empty[Update]
             }
@@ -51,14 +52,15 @@ trait Polling extends BotBase with AkkaDefaults {
   }
 
   override def run(): Unit = {
-    request(DeleteWebhook)
-        .onComplete {
+    request(DeleteWebhook).onComplete {
         case Success(true) =>
           updates
             .runForeach(
               update =>
-                try onUpdate(update) catch {
-                  case e: Exception =>
+                try
+                  onUpdate(update)
+                catch {
+                  case NonFatal(e) =>
                     logger.error("Caught exception in update handler", e)
                 }
               ) // sync
