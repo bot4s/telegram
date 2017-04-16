@@ -5,9 +5,10 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
-![logo](logo-bw.png)
+<p align="center">
+  <img src="logo-bw.png" title="Telegram">
+</p>
 
-Telegram Bot API Wrapper for Scala
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 The full API is supported, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
@@ -31,8 +32,8 @@ libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.2.0-SNAPSHOT"
 ```
 
 ### [Jitpack](https://jitpack.io/#sbt)
-I find Jitpack quite convenient, even if I don't support it.
-To pull the latest and greatest from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
+I find Jitpack quite convenient, even if I don't officially support it.
+To pull the _latest and greatest_ directly from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
 
 ```scala
 scalaVersion := "2.11.8" // or 2.12.1
@@ -79,7 +80,7 @@ For a comprehensive reference check [Marvin's Patent Pending Guide to All Things
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
 Beside the usual ways, I've managed to use the library on a Raspberry Pi 2,
 and most notably on an old Android (4.1.2) phone with a broken screen.
-It's also possible to docker-ized.
+It's also possible to docker-ize a bot.
 
 ## Contributors
 Contributions are highly appreciated, documentation improvements/corrections, [idiomatic Scala](https://github.com/mukel/telegrambot4s/pull/1/files), [bug reports](https://github.com/mukel/telegrambot4s/issues/8), even feature requests.
@@ -101,8 +102,8 @@ Contributions are highly appreciated, documentation improvements/corrections, [i
 Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
  
 ## Reducing boilerplate
-Implicits are provided to reduce the boilerplate when dealing with the API;
-think seamless Option[T] and Either[L,R] conversion.
+Implicits are provided to reduce boilerplate when dealing with the API;
+think seamless Option[T] and Either[L,R] conversions.
 Be aware that most examples need the implicits to compile.
 
 ```import info.mukel.telegrambot4s.Implicits._```
@@ -131,27 +132,7 @@ scala> new RandomBot("TOKEN_HERE").run()
 Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples).
 
 
-# Custom extensions
-
-It's rather easy augment bots with custom DSL-ish shortcuts; e.g.
-this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/AuthenticationBot.scala)
-sample.
-
-```scala
-  on("/secret") { implicit msg => _ =>
-    authenticatedOrElse {
-      admin =>
-        reply(
-          s"""${admin.firstName}:
-             |The answer to life the universe and everything: 42.
-             |You can /logout now.""".stripMargin)
-    } /* or else */ {
-      user =>
-        reply(s"${user.firstName}, you must /login first.")
-    }
-  }
-```
-
+## Examples
 
 #### Let me Google that for you!
 
@@ -221,6 +202,28 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
 }
 
 WebhookBot.run()
+```
+
+#### Custom extensions
+
+It's rather easy to augment your bot with custom DSL-ish shortcuts; e.g.
+this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/AuthenticationBot.scala)
+example.
+
+```scala
+  ...
+  on("/secret") { implicit msg => _ =>
+    authenticatedOrElse {
+      admin =>
+        reply(
+          s"""${admin.firstName}:
+             |The answer to life the universe and everything: 42.
+             |You can /logout now.""".stripMargin)
+    } /* or else */ {
+      user =>
+        reply(s"${user.firstName}, you must /login first.")
+    }
+  }
 ```
 
 Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples) for more functionality.
