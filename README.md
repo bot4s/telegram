@@ -40,7 +40,7 @@ scalaVersion := "2.11.8" // or 2.12.1
 
 resolvers += "jitpack" at "https://jitpack.io"
 
-libraryDependencies += "com.github.mukel" % "telegrambot4s" % "master-SNAPSHOT"
+libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "master-SNAPSHOT"
 ```
 
 **When using Jitpack, make sure to specify Scala version in your build**, inserting a
