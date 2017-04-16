@@ -7,7 +7,7 @@ import sbtrelease._
 
 object BuildSettings {
   val buildOrganization = "info.mukel"
-  val buildVersion      = "2.2.0-SNAPSHOT"
+  val buildVersion      = "2.2.1-SNAPSHOT"
   val buildScalaVersion = "2.12.1"
   val buildCrossScalaVersions = Seq("2.11.8", "2.12.1")
 
@@ -74,11 +74,10 @@ object Dependencies {
 
   val scalatest = "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
   val scalacheck = "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
-  val scalacheckShapeless = "com.github.alexarchambault" %% "scalacheck-shapeless_1.13" % "1.1.5" % "test"
 
   val akkaDependencies = Seq(akkaActor, akkaHttp)
   val miscDependencies = Seq(json4s, json4sExt, scalaLogging, logback)
-  val testDependencies = Seq(scalatest, scalacheck, scalacheckShapeless)
+  val testDependencies = Seq(scalatest, scalacheck)
 
   val allDependencies = akkaDependencies ++ miscDependencies ++ testDependencies
 }
