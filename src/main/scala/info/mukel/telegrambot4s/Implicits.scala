@@ -22,7 +22,7 @@ object Implicits {
   implicit def toSeqSeqKeyboardButtonSeq(skb: Seq[KeyboardButton]): Seq[Seq[KeyboardButton]] = Seq(skb)
 
   implicit def toSeqSeqInlineKeyboardButton(ikb: InlineKeyboardButton): Seq[Seq[InlineKeyboardButton]] = Seq(Seq(ikb))
-  implicit def toSeqSeqInlineKeyboardButtonSeq(sikb: Seq[InlineKeyboardButton]): Seq[Seq[InlineKeyboardButton]] = Seq(sikb)
+  implicit def toSeqSeqInlineKeyboardButtonSeq(sikb: Seq[InlineKeyboardButton]): Seq[Seq[InlineKeyboardButton]] = sikb.map(Seq(_))
 
   implicit def toOption[T](v: T) : Option[T] = Option(v)
 
