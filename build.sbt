@@ -1,6 +1,5 @@
 name := "telegrambot4s"
 organization       := "info.mukel"
-version            := "2.2.1-SNAPSHOT"
 
 scalaVersion       := "2.12.1"
 crossScalaVersions := Seq("2.11.8", "2.12.1")
