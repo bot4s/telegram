@@ -14,7 +14,9 @@ scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
   "-Xfatal-warnings",
-  "-Xlint:_"
+  "-Xlint:_",
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code"
 )
 
 resolvers += Resolver.typesafeRepo("releases")
@@ -27,6 +29,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0",
   "ch.qos.logback"             %  "logback-classic" % "1.1.7" % "test"
 )
+
+releaseCrossBuild := true
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
 publishMavenStyle := true
 
