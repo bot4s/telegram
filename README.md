@@ -8,8 +8,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
 [![Telegram API](https://img.shields.io/badge/Telegram%20API-December%204%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Jitpack Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
-[![Maven Central](https://img.shields.io/maven-central/v/info.mukel.telegrambot4s/apache-maven.svg)]()
+[![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 The full API is supported, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
@@ -104,7 +103,7 @@ Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
  
 ## Reducing boilerplate
 Implicits are provided to reduce boilerplate when dealing with the API;
-think seamless ```Option[T]``` and ```Either[L,R]``` conversions.
+think seamless Option[T] and Either[L,R] conversions.
 Be aware that most examples need the implicits to compile.
 
 ```import info.mukel.telegrambot4s.Implicits._```
@@ -186,10 +185,18 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
   
   import info.mukel.telegrambot4s.Implicits._
   val rng = new Random(System.currentTimeMillis())
-  on("/coin", "head or tail") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
-  on("/real", "real number in [0, 1]") { implicit msg => _ => reply(rng.nextDouble().toString) }
-  on("/die", "classic die [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
-  on("/dice", "throw two classic dice [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
+  on("/coin", "head or tail") { implicit msg => _ =>
+    reply(if (rng.nextBoolean()) "Head!" else "Tail!")
+  }
+  on("/real", "real number in [0, 1]") { implicit msg => _ =>
+    reply(rng.nextDouble().toString)
+  }
+  on("/die", "classic die [1 .. 6]") { implicit msg => _ =>
+    reply((rng.nextInt(6) + 1).toString)
+  }
+  on("/dice", "throw two classic dice [1 .. 6]") { implicit msg => _ =>
+    reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1))
+  }
   on("/random", "integer in [0, n)") { implicit msg => {
     case Seq(Extractor.Int(n)) if n > 0 =>
       reply(rng.nextInt(n).toString)
@@ -197,8 +204,9 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
       reply("Invalid argumentヽ(ಠ_ಠ)ノ")
     }
   }
-  on("/choose", "randomly picks one of the arguments") { implicit msg => args =>
-    reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
+  on("/choose", "randomly picks one of the arguments") {
+    implicit msg => args =>
+      reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
   }
 }
 
