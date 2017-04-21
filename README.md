@@ -8,7 +8,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
 [![Telegram API](https://img.shields.io/badge/Telegram%20API-December%204%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
+[![Jitpack Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
+[![Maven Central](https://img.shields.io/maven-central/v/info.mukel.telegrambot4s/apache-maven.svg)]()
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 The full API is supported, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
@@ -103,7 +104,7 @@ Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._
  
 ## Reducing boilerplate
 Implicits are provided to reduce boilerplate when dealing with the API;
-think seamless Option[T] and Either[L,R] conversions.
+think seamless ```Option[T]``` and ```Either[L,R]``` conversions.
 Be aware that most examples need the implicits to compile.
 
 ```import info.mukel.telegrambot4s.Implicits._```
