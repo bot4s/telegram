@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.models
 
+import info.mukel.telegrambot4s.methods.ParseMode
+
 /** This object represents the content of a message to be sent as a result of an inline query.
   *
   * Telegram clients currently support the following 4 types:
@@ -20,7 +22,7 @@ sealed trait InputMessageContent
   */
 case class InputTextMessageContent(
                                   messageText           : String,
-                                  parseMode             : Option[String] = None,
+                                  parseMode             : Option[ParseMode.ParseMode] = None,
                                   disableWebPagePreview : Option[Boolean] = None
                                   ) extends InputMessageContent
 
