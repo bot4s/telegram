@@ -1,7 +1,5 @@
 package info.mukel.telegrambot4s.api
 
-import java.util.concurrent.Executors
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshalling._

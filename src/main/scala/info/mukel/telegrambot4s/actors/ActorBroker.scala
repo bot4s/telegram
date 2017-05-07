@@ -1,8 +1,8 @@
 package info.mukel.telegrambot4s.actors
 
-import akka.actor.{Actor, ActorRef, Props, Terminated}
-import info.mukel.telegrambot4s.api.{AkkaDefaults, BotBase, Commands}
-import info.mukel.telegrambot4s.models.{Message, Update}
+import akka.actor.ActorRef
+import info.mukel.telegrambot4s.api.BotBase
+import info.mukel.telegrambot4s.models.Update
 
 /**
   * Provides bare-bones harness for per-chat FSM handlers.

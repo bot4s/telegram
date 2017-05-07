@@ -16,8 +16,8 @@ import info.mukel.telegrambot4s.models._
   */
 class WebhookBot(token: String) extends TestBot(token) with Webhook {
 
-  val port = 8443
-  val webhookUrl = "https://a11385d9.ngrok.io"
+  val port = 8080
+  val webhookUrl = "https://88c444ab.ngrok.io"
 
   val baseUrl = "http://api.mathjs.org/v1/?expr="
 
@@ -29,6 +29,7 @@ class WebhookBot(token: String) extends TestBot(token) with Webhook {
         if res.status.isSuccess()
         result <- Unmarshal(res).to[String]
       } /* do */ {
+        println(result)
         request(SendMessage(msg.source, result))
       }
     }

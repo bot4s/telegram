@@ -54,7 +54,6 @@ class HttpClientQueued(token: String)(implicit system: ActorSystem, materializer
     */
   override def apply[R: Manifest](request: ApiRequest[R]): Future[R] = {
     val promise = Promise[HttpResponse]
-    val rp = request -> promise
 
     val response = queue.offer((request, promise)).flatMap {
       case Enqueued => promise.future.flatMap(r => toApiResponse[R](r))

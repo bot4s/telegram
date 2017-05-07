@@ -15,7 +15,7 @@ import info.mukel.telegrambot4s.models._
   * Generates QR codes from text/url.
   */
 class QrCodesBot(token: String) extends TestBot(token) with Polling with Commands with ChatActions {
-  on("/qr", "QR-encodes arguments (text)") { implicit message => args =>
+  on("/qr", "QR-encodes arguments (text)") { implicit msg => args =>
 
     val url = "https://api.qrserver.com/v1/create-qr-code/?data=" +
       URLEncoder.encode(args mkString " ", "UTF-8")
@@ -27,7 +27,7 @@ class QrCodesBot(token: String) extends TestBot(token) with Polling with Command
     } /* do */ {
       val photo = InputFile("qrcode.png", bytes)
       uploadingPhoto // Hint the user
-      request(SendPhoto(message.source, photo))
+      request(SendPhoto(msg.source, photo))
     }
   }
 }

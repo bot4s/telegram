@@ -1,20 +1,21 @@
 package info.mukel.telegrambot4s.api
 
 import akka.NotUsed
-import akka.stream.scaladsl.{Sink, Source}
+import akka.stream.scaladsl.Source
 import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 import scala.util.control.NonFatal
+import scala.util.{Failure, Success}
 
 /** Provides updates by polling Telegram servers.
   *
-  * When idle, it won't flood the server, it will send at most 2 queries per minute, still
-  * the responses are instantaneous.
+  * When idle, it won't flood the server, the default polling interval is set to 30  seconds,
+  * still the responses are instantaneous.
   */
-trait Polling extends BotBase with AkkaDefaults {
+trait Polling {
+  _ :  BotBase with AkkaImplicits =>
 
   val pollingInterval: Int = 30
 
@@ -73,7 +74,7 @@ trait Polling extends BotBase with AkkaDefaults {
       }
   }
 
-  override def shutdown(): Future[_] = {
-    system.terminate()
+  override def shutdown(): Future[Unit] = {
+    system.terminate() map (_ => ())
   }
 }

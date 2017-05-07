@@ -1,8 +1,8 @@
 name := "telegrambot4s"
 organization       := "info.mukel"
 
-scalaVersion       := "2.12.1"
-crossScalaVersions := Seq("2.11.8", "2.12.1")
+scalaVersion       := "2.12.2"
+crossScalaVersions := Seq("2.11.8", "2.12.2")
 
 licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 homepage := Some(url("https://github.com/mukel/telegrambot4s"))
@@ -21,7 +21,7 @@ scalacOptions ++= Seq(
 resolvers += Resolver.typesafeRepo("releases")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"          %% "akka-actor"      % "2.4.17",
+  "com.typesafe.akka"          %% "akka-actor"      % "2.4.18",
   "com.typesafe.akka"          %% "akka-http"       % "10.0.5",
   "org.json4s"                 %% "json4s-jackson"  % "3.5.0",
   "org.json4s"                 %% "json4s-ext"      % "3.5.0",
@@ -35,7 +35,7 @@ releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
 publishMavenStyle := true
 
-publishTo          := {
+publishTo := {
   val nexus = "https://oss.sonatype.org/"
   if (isSnapshot.value)
     Some("snapshots" at nexus + "content/repositories/snapshots")
