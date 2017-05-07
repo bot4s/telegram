@@ -26,7 +26,9 @@ libraryDependencies ++= Seq(
   "org.json4s"                 %% "json4s-jackson"  % "3.5.0",
   "org.json4s"                 %% "json4s-ext"      % "3.5.0",
   "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0",
-  "ch.qos.logback"             %  "logback-classic" % "1.1.7" % "test"
+  "ch.qos.logback"             %  "logback-classic" % "1.1.7"   % "test",
+  "org.scalatest"              %% "scalatest"       % "3.0.1"   % "test",
+  "org.scalamock"              %% "scalamock-scalatest-support" % "3.5.0" % Test
 )
 
 releaseCrossBuild := true
