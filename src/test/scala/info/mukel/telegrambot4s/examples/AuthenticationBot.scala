@@ -3,7 +3,7 @@ package info.mukel.telegrambot4s.examples
 import info.mukel.telegrambot4s.api.{Commands, Polling}
 import info.mukel.telegrambot4s.models.{Message, User}
 
-class AuthenticationBot(token: String) extends TestBot(token) with Polling with Commands with SillyAuthentication {
+class AuthenticationBot(token: String) extends ExampleBot(token) with Polling with Commands with SillyAuthentication {
 
   on("/login") { implicit msg => _ =>
     msg.from.foreach(login)

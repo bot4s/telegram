@@ -7,7 +7,7 @@ import scala.util.Failure
 /**
   * Shows exception handling
   */
-class ExceptionBot(token: String) extends TestBot(token) with Polling with Commands {
+class ExceptionBot(token: String) extends ExampleBot(token) with Polling with Commands {
   on("/hello") { implicit msg => _ =>
     reply("Hey there") onComplete {
       case Failure(tex: TelegramApiException) =>

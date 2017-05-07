@@ -20,7 +20,7 @@ trait SingleActorBroker extends ActorBroker with AkkaDefaults {
   override val broker = Some(system.actorOf(Props(new Broker), "broker"))
 }
 
-class BotWithBroker(token: String) extends TestBot(token) with Polling with Commands with SingleActorBroker {
+class BotWithBroker(token: String) extends ExampleBot(token) with Polling with Commands with SingleActorBroker {
   // Commands work as usual, the dispatching mechanism is just an extension point for complex use cases (FSM, per-chat requests)
   on("/hello") { implicit msg => _ =>
     reply("Hello World!")

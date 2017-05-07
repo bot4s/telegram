@@ -35,6 +35,10 @@ object Implicits {
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
   }
 
+  implicit class OptionWrapper[T](opt: Option[T]) {
+    def ?== (t: T): Boolean = opt.contains(t)
+  }
+
   implicit class SuffixRequests[R: Manifest](r: ApiRequest[R]) {
     def request(implicit client: RequestHandler): Future[R] = client(r)
   }

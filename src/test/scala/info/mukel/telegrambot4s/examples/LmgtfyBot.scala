@@ -9,7 +9,7 @@ import info.mukel.telegrambot4s.models._
 /**
   * Let me Google that for you!
   */
-class LmgtfyBot(token: String) extends TestBot(token) with Polling with Commands {
+class LmgtfyBot(token: String) extends ExampleBot(token) with Polling with Commands {
   def lmgtfyUrl(query: Seq[String]) =
     "http://lmgtfy.com/?q=" + URLEncoder.encode(query.mkString(" "), "UTF-8")
 

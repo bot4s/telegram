@@ -33,14 +33,14 @@ trait VanillaCommands extends Actions {
     def unapply(msg: Message): Option[(String, Args)] = {
       for {
         text <- msg.text
-        Array(cmd, args @ _*) = text.trim.split(" ")
+        Array(cmd, args @ _*) = text.trim.split("\\s").filter(_.nonEmpty)
       } yield
         (cmd -> args)
     }
   }
 
   private def commandFilter(command: String): MessageFilter = {
-    case CommandMessage(cmd, _) if cleanCmd(cmd) == command => true
+    case CommandMessage(cmd, _) if cleanCmd(cmd) == command.toLowerCase => true
     case _ => false
   }
 
@@ -70,6 +70,11 @@ trait VanillaCommands extends Actions {
     * @param command         Command, should include the "/" prefix, e.g. "/command"
     * @param actionWithArgs  Handler, receives the incoming message and the command's arguments.
     */
-  def on(command: String)(actionWithArgs: ActionWithArgs): Unit =
+  def on(command: String)(actionWithArgs: ActionWithArgs): Unit = {
+    require(noWhitespace(command), "Commands must not contain whitespaces")
     when(commandFilter(command))(commandAction(actionWithArgs))
+  }
+
+  private def noWhitespace(s: String): Boolean =
+    "\\s".r.findFirstIn(s).isEmpty
 }

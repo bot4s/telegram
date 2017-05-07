@@ -13,7 +13,7 @@ import info.mukel.telegrambot4s.models._
   * Such Telegram, many bots, so Dogesome.
   */
 class DogeBot(token: String)
-  extends TestBot(token) with Polling with Commands with ChatActions {
+  extends ExampleBot(token) with Polling with Commands with ChatActions {
 
   on("/doge", "generates doge meme with given terms") { implicit msg =>
     args =>

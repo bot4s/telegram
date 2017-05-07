@@ -14,7 +14,7 @@ import info.mukel.telegrambot4s.models._
   * Webhook-backed JS calculator.
   * To test Webhooks locally, use an SSH tunnel or ngrok.
   */
-class WebhookBot(token: String) extends TestBot(token) with Webhook {
+class WebhookBot(token: String) extends ExampleBot(token) with Webhook {
 
   val port = 8080
   val webhookUrl = "https://88c444ab.ngrok.io"

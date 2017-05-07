@@ -9,7 +9,7 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMark
   * Show how to use callbacks, and it's shortcomings.
   * @param token Bot's token.
   */
-class CallbacksBot(token: String) extends TestBot(token) with Polling with Commands with Callbacks {
+class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Commands with Callbacks {
   val TAG = "COUNTER_TAG"
 
   def tag = prefixTag(TAG) _

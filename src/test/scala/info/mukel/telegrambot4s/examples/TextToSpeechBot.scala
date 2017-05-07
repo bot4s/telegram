@@ -15,7 +15,7 @@ import info.mukel.telegrambot4s.models._
   *
   * Google will rightfully block your IP in case of abuse.
   */
-class TextToSpeechBot(token: String) extends TestBot(token) with Polling with Commands with ChatActions {
+class TextToSpeechBot(token: String) extends ExampleBot(token) with Polling with Commands with ChatActions {
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
   on("/speak", "transform arguments into sound") { implicit msg => args =>
     val text = args mkString " "

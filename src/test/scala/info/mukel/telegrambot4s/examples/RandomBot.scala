@@ -6,7 +6,7 @@ import scala.util.Random
 
 /** Generates random values.
   */
-class RandomBot(token: String) extends TestBot(token) with Polling with Commands {
+class RandomBot(token: String) extends ExampleBot(token) with Polling with Commands {
   import info.mukel.telegrambot4s.Implicits._
   val rng = new Random(System.currentTimeMillis())
   on("/coin", "head or tail") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }

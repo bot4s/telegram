@@ -11,4 +11,4 @@ import info.mukel.telegrambot4s.api.TelegramBot
   *
   * @param token Bot's token.
   */
-abstract class TestBot(val token: String) extends TelegramBot
+abstract class ExampleBot(val token: String) extends TelegramBot
