@@ -73,20 +73,4 @@ class CommandsSuite extends FlatSpec with MockFactory {
     f.handlerHelloWorld.expects(*, *).never()
     f.bot.onMessage(m)
   }
-
-  it should "only handle the first command" in {
-    val f = new Fixture
-    val m = msg("/hello /helloWorld ")
-    f.handlerHello.expects(m, Seq("/helloWorld")).once()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(m)
-  }
-
-  it should "only handle the first command" in {
-    val f = new Fixture
-    val m = msg("/hello /helloWorld ")
-    f.handlerHello.expects(m, Seq("/helloWorld")).once()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(m)
-  }
 }
