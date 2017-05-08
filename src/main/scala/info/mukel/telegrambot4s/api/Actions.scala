@@ -13,10 +13,10 @@ import scala.concurrent.Future
   */
 trait Actions extends BotBase {
 
-  type Action = Message => Unit
+  type MessageAction = Message => Unit
   type MessageFilter = Message => Boolean
 
-  private val actions = mutable.ArrayBuffer[(MessageFilter, Action)]()
+  private val actions = mutable.ArrayBuffer[(MessageFilter, MessageAction)]()
 
   abstract override def onMessage(msg: Message): Unit = {
     for {
@@ -37,7 +37,7 @@ trait Actions extends BotBase {
     *
     * @param action Action to perform if the incoming message pass the filter.
     */
-  def when(filter: MessageFilter)(action: Action): Unit = {
+  def when(filter: MessageFilter)(action: MessageAction): Unit = {
     actions += (filter -> action)
   }
 

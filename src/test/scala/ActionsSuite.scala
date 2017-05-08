@@ -3,7 +3,7 @@ import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.{Actions, BotBase, Commands, RequestHandler}
 import info.mukel.telegrambot4s.models.{Chat, Message}
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.FunSuite
+import org.scalatest.FlatSpec
 
 import scala.concurrent.Future
 
@@ -19,7 +19,7 @@ class TestBot extends BotBase with TestEnvironment with Actions with Commands {
   def shutdown(): Future[Unit] = { Future.successful(()) }
 }
 
-class ActionSuite extends FunSuite with MockFactory {
+class ActionSuite extends FlatSpec with MockFactory {
 
   val helloMsg = Message(0, chat = Chat(0, "private"), date = 0, text = "hello")
   val noHelloMsg = helloMsg.copy(text = "Bye bye!")
@@ -29,13 +29,13 @@ class ActionSuite extends FunSuite with MockFactory {
     val bot = new TestBot { when(_.text ?== "hello")(handler) }
   }
 
-  test("Action filter ignores non-match") {
+  "An action filter " should "ignore non-matches" in {
     val f = new Fixture
     f.handler.expects(*).never()
     f.bot.onMessage(noHelloMsg)
   }
 
-  test("Action filter accepts match") {
+  it should "accept matches" in {
     val f = new Fixture
     f.handler.expects(helloMsg).returning(()).once()
     f.bot.onMessage(helloMsg)
