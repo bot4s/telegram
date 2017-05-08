@@ -12,7 +12,7 @@ package info.mukel.telegrambot4s.models
   */
 case class Chat(
                  id        : Long,
-                 `type`    : String,
+                 `type`    : ChatType.ChatType,
                  title     : Option[String] = None,
                  username  : Option[String] = None,
                  firstName : Option[String] = None,

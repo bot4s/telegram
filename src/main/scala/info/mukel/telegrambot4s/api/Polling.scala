@@ -55,8 +55,10 @@ trait Polling {
   override def run(): Unit = {
     request(DeleteWebhook).onComplete {
         case Success(true) =>
+          logger.info(s"Starting bot; polling interval = $pollingInterval")
+
           updates
-            .runForeach(
+            .runForeach {
               update =>
                 try
                   onUpdate(update)
@@ -64,7 +66,7 @@ trait Polling {
                   case NonFatal(e) =>
                     logger.error("Caught exception in update handler", e)
                 }
-              ) // sync
+            } // sync
 
         case Success(false) =>
           logger.error("Failed to clear webhook")
@@ -75,6 +77,7 @@ trait Polling {
   }
 
   override def shutdown(): Future[Unit] = {
+    logger.info("Shutdown bot (polling)")
     system.terminate() map (_ => ())
   }
 }

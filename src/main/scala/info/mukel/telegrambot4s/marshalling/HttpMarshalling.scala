@@ -5,7 +5,7 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
 import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models.{InputFile, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatType, InputFile, ReplyMarkup}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
@@ -18,7 +18,8 @@ object HttpMarshalling extends StrictLogging {
 
   implicit val formats = Serialization.formats(NoTypeHints) +
     new EnumNameSerializer(ChatAction) +
-    new EnumNameSerializer(ParseMode)
+    new EnumNameSerializer(ParseMode) +
+    new EnumNameSerializer(ChatType)
 
   def toJson[T](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))
 

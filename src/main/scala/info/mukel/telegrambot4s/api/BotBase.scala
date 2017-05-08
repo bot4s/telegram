@@ -26,6 +26,16 @@ trait BotBase {
     * @param u Incoming update.
     */
   def onUpdate(u: Update): Unit = {
+
+    require(Seq(
+      u.message,
+      u.inlineQuery,
+      u.callbackQuery,
+      u.chosenInlineResult,
+      u.channelPost,
+      u.editedChannelPost).count(_.nonEmpty) == 1,
+      "Received empty update")
+
     u.message.foreach(onMessage)
     u.inlineQuery.foreach(onInlineQuery)
     u.callbackQuery.foreach(onCallbackQuery)

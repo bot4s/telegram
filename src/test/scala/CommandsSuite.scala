@@ -1,13 +1,13 @@
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.CommandParser
-import info.mukel.telegrambot4s.models.{Chat, Message}
+import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
 class CommandsSuite extends FlatSpec with MockFactory {
 
   def msg(text: String): Message =
-    Message(0, chat = Chat(0, "private"), date = 0, text = text)
+    Message(0, chat = Chat(0, ChatType.Private), date = 0, text = text)
 
   class Fixture {
     val handlerHello = mockFunction[Message, Seq[String], Unit]

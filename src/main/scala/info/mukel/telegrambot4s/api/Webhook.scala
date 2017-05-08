@@ -43,9 +43,7 @@ trait Webhook extends WebRoutes {
   override def run(): Unit = {
     request(SetWebhook(webhookUrl))
       .onComplete {
-        case Success(true) =>
-          logger.info(s"start on $interfaceIp:$port")
-          super.run()
+        case Success(true) => super.run() // Spawn WebRoute
         case Success(false) =>
           logger.error("Failed to set webhook")
         case Failure(e) =>

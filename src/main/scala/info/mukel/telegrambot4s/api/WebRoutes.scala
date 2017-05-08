@@ -28,6 +28,7 @@ trait WebRoutes extends BotBase with AkkaImplicits with Directives {
   }
 
   def shutdown(): Future[Unit] = {
+    logger.info(s"Shutting down $interfaceIp:$port")
     for {
       b <- bindingFuture
       _ <- b.unbind()
