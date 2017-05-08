@@ -146,7 +146,9 @@ object CommandParser {
         msgText <- msg.text
         // Remove heading whitespace, including newlines
         text = msgText.dropWhile(_.isWhitespace)
-        Array(firstSegment, wholeLineArgs @ _ *) = text.split("(?m)$")
+        if text.nonEmpty
+        // firstSegment is tokenized using the "default" method
+        Array(firstSegment, wholeLineArgs @ _ *) = text.split("\\R")
         Array(cmd, args @ _*) = firstSegment.trim.split("\\s+").filter(_.nonEmpty)
       } yield
         cmd -> (args ++ wholeLineArgs)

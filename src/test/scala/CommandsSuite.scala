@@ -1,4 +1,5 @@
 import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.CommandParser
 import info.mukel.telegrambot4s.models.{Chat, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -71,6 +72,24 @@ class CommandsSuite extends FlatSpec with MockFactory {
     val m = msg("/hello /helloWorld ")
     f.handlerHello.expects(m, Seq("/helloWorld")).once()
     f.handlerHelloWorld.expects(*, *).never()
+    f.bot.onMessage(m)
+  }
+
+  "Hybrid parser" should "parse whole line arguments" in {
+    val f = new Fixture
+    val m = msg(
+      """
+        |  /hybrid arg1 arg2  arg3
+        |this is arg4
+        |
+        |and arg5""".stripMargin)
+
+    val handlerHybrid = mockFunction[Message, Seq[String], Unit]
+    handlerHybrid.expects(m, Seq("arg1", "arg2", "arg3", "this is arg4", "", "and arg5")).once()
+
+    f.handlerHello.expects(*, *).never()
+    f.handlerHelloWorld.expects(*, *).never()
+    f.bot.on("/hybrid", parser = CommandParser.Hybrid)(handlerHybrid.curried)
     f.bot.onMessage(m)
   }
 }
