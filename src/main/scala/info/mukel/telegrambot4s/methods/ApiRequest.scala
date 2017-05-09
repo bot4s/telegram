@@ -1,8 +1,11 @@
 package info.mukel.telegrambot4s.methods
 
+import java.util.UUID
+
 /** Base type for API requests
   *
-  * All queries to the Telegram Bot API must be served over HTTPS and need to be presented in this form: https://api.telegram.org/bot<token>/METHOD_NAME. Like this for example
+  * All queries to the Telegram Bot API must be served over HTTPS and need to be presented
+  * in this form: https://api.telegram.org/bot<token>/METHOD_NAME. Like this for example
   *
   * https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getMe
   *
@@ -21,4 +24,9 @@ trait ApiRequest[R] {
   /** Extract request URL from class name.
     */
   def methodName: String = getClass.getSimpleName.reverse.dropWhile(_ == '$').reverse
+
+  /**
+    * Request unique identifier.
+    */
+  val uuid = UUID.randomUUID()
 }

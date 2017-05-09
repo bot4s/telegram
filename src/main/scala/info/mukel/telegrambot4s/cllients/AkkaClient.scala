@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.api
+package info.mukel.telegrambot4s.cllients
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -7,6 +7,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.typesafe.scalalogging.StrictLogging
+import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
 import info.mukel.telegrambot4s.marshalling.HttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
@@ -17,7 +18,7 @@ import scala.concurrent.{ExecutionContext, Future}
   *
   * @param token Bot token
   */
-class TelegramClientAkka(token: String)(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
+class AkkaClient(token: String)(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
 
   import HttpMarshalling._
 
