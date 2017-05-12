@@ -52,6 +52,6 @@ trait BotBase {
   def onChannelPost(message: Message): Unit = {}
   def onEditedChannelPost(message: Message): Unit = {}
 
-  def run(): Unit
-  def shutdown(): Future[Unit]
+  def run(): Unit = {}
+  def shutdown(): Future[Unit] = { Future.successful(()) }
 }

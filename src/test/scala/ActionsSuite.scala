@@ -15,8 +15,7 @@ trait TestEnvironment {
 
 class TestBot extends BotBase with TestEnvironment with Actions with Commands {
   def token = "token"
-  def run(): Unit = {}
-  def shutdown(): Future[Unit] = { Future.successful(()) }
+  override def shutdown(): Future[Unit] = { Future.successful(()) }
 }
 
 class ActionSuite extends FlatSpec with MockFactory {
