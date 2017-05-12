@@ -52,7 +52,7 @@ trait Polling {
     updateGroups.mapConcat(_.to) // unravel groups
   }
 
-  override def run(): Unit = {
+  abstract override def run(): Unit = {
     request(DeleteWebhook).onComplete {
         case Success(true) =>
           logger.info(s"Starting bot; polling interval = $pollingInterval")
@@ -76,7 +76,7 @@ trait Polling {
       }
   }
 
-  override def shutdown(): Future[Unit] = {
+  abstract override def shutdown(): Future[Unit] = {
     logger.info("Shutdown bot (polling)")
     system.terminate() map (_ => ())
   }

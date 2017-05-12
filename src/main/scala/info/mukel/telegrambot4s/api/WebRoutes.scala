@@ -16,7 +16,7 @@ trait WebRoutes extends BotBase with AkkaImplicits with Directives {
 
   private var bindingFuture: Future[Http.ServerBinding] = _
 
-  override def run(): Unit = {
+  abstract override def run(): Unit = {
     super.run()
     bindingFuture = Http().bindAndHandle(routes, interfaceIp, port)
     bindingFuture.foreach { _ =>
@@ -28,7 +28,7 @@ trait WebRoutes extends BotBase with AkkaImplicits with Directives {
     }
   }
 
-  override def shutdown(): Future[Unit] = {
+  abstract override def shutdown(): Future[Unit] = {
     val f = for {
       b <- bindingFuture
       _ <- b.unbind()
