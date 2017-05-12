@@ -34,6 +34,38 @@ releaseCrossBuild := true
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
+lazy val updateVersionInReadme = ReleaseStep(action = st => {
+  val extracted = Project.extract(st)
+  val projectVersion = extracted.get(Keys.version)
+
+  println(s"Updating project version to $projectVersion in the README")
+  Process(Seq("sed", "-i", "", "-E", "-e", s"""s/"info.mukel" %% "telegrambot4s" % ".*"/"info.mukel" %% "telegrambot4s" % "$projectVersion"/g""", "README.md")).!
+
+  println("Committing README.md")
+  Process(Seq("git", "commit", "README.md", "-m", s"Update project version in README to $projectVersion")).!
+
+  st
+})
+
+commands += Command.command("update-version-in-readme")(updateVersionInReadme)
+
+import sbtrelease.ReleaseStateTransformations._
+
+releaseProcess := Seq(
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  updateVersionInReadme,
+  tagRelease,
+  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
+
 publishMavenStyle := true
 
 publishTo := {
