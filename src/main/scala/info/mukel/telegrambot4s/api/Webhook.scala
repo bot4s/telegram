@@ -14,6 +14,8 @@ import scala.util.{Failure, Success}
 trait Webhook extends WebRoutes {
   _ : BotBase with AkkaImplicits =>
 
+  import akka.http.scaladsl.server.Directives._
+
   import HttpMarshalling._
 
   /** URL for the webhook.    *

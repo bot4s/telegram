@@ -7,7 +7,9 @@ import akka.http.scaladsl.server.{Directives, Route}
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 
-trait WebRoutes extends BotBase with AkkaImplicits with Directives {
+trait WebRoutes extends BotBase with AkkaImplicits {
+
+  import Directives._
 
   val port: Int
   val interfaceIp: String = "::0"
