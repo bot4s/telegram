@@ -14,8 +14,7 @@ import scala.util.{Failure, Success}
   * When idle, it won't flood the server, the default polling interval is set to 30  seconds,
   * still the responses are instantaneous.
   */
-trait Polling {
-  _ :  BotBase with AkkaImplicits =>
+trait Polling extends BotBase with AkkaImplicits {
 
   val pollingInterval: Int = 30
 
@@ -53,10 +52,14 @@ trait Polling {
   }
 
   abstract override def run(): Unit = {
+    super.run()
     request(DeleteWebhook).onComplete {
         case Success(true) =>
-          logger.info(s"Starting bot; polling interval = $pollingInterval")
+          logger.info(s"Starting polling: interval = $pollingInterval")
 
+          // Updates are executed synchronously by default to preserve order.
+          // To make the it async, just wrap the update handler in a Future
+          // or mix AsyncUpdates.
           updates
             .runForeach {
               update =>
@@ -66,7 +69,7 @@ trait Polling {
                   case NonFatal(e) =>
                     logger.error("Caught exception in update handler", e)
                 }
-            } // sync
+            }
 
         case Success(false) =>
           logger.error("Failed to clear webhook")
@@ -77,7 +80,10 @@ trait Polling {
   }
 
   abstract override def shutdown(): Future[Unit] = {
-    logger.info("Shutdown bot (polling)")
-    system.terminate() map (_ => ())
+    super.shutdown().transformWith {
+      _ /* regardless of the success/failure */ =>
+        logger.info("Shutting down polling")
+        system.terminate() map (_ => ())
+    }
   }
 }

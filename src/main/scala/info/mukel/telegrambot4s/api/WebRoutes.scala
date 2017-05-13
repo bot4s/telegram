@@ -1,11 +1,10 @@
 package info.mukel.telegrambot4s.api
 
 import akka.http.scaladsl.Http
-
 import akka.http.scaladsl.server.{Directives, Route}
 
-import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 trait WebRoutes extends BotBase with AkkaImplicits {
 
@@ -31,14 +30,14 @@ trait WebRoutes extends BotBase with AkkaImplicits {
   }
 
   abstract override def shutdown(): Future[Unit] = {
-    val f = for {
-      b <- bindingFuture
-      _ <- b.unbind()
-      t <- system.terminate()
-    } yield ()
-
-    Future.sequence(Seq(super.shutdown(), f))
-      .map(_ => ())
+    super.shutdown().transformWith {
+      _ =>
+        for {
+          b <- bindingFuture
+          _ <- b.unbind()
+          t <- system.terminate()
+        } yield ()
+    }
   }
 }
 
