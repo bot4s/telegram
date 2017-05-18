@@ -1,9 +1,12 @@
 package info.mukel.telegrambot4s.examples
 
-import info.mukel.telegrambot4s.api.{Commands, Polling, WebRoutes, Webhook}
+import info.mukel.telegrambot4s.api.{Commands, Polling, WebRoutes}
 
 /**
-  * Created by mukel on 5/12/17.
+  * Showcases the ability to run Polling and WebRoutes at the same time.
+  * Check http://localhost:8080 on your local browser.
+  * It provides a simple way to add custom endpoints for authentication, games
+  * and even serving entire websites.
   */
 class PollingWithWebRoutes(token: String) extends ExampleBot(token) with Polling with WebRoutes with Commands {
   override val port: Int = 8080
@@ -16,6 +19,6 @@ class PollingWithWebRoutes(token: String) extends ExampleBot(token) with Polling
   }
 
   override def routes = pathEndOrSingleSlash {
-    complete("La tecnica es la tecnica")
+    complete("I'm running...")
   } ~ super.routes
 }
