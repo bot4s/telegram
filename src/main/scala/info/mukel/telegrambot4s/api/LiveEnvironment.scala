@@ -10,5 +10,5 @@ trait LiveEnvironment extends AkkaDefaults {
   _ : BotBase =>
 
   override val logger = Logger(getClass)
-  override val client = new AkkaClient(token)
+  override val client: RequestHandler = new AkkaClient(token)
 }
