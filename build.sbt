@@ -30,6 +30,10 @@ libraryDependencies ++= Seq(
   "org.scalamock"              %% "scalamock-scalatest-support" % "3.5.0" % Test
 )
 
+fork := true
+cancelable in Global := true
+parallelExecution in Test := false
+
 releaseCrossBuild := true
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
