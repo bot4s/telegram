@@ -16,4 +16,7 @@ case class GetGameHighScores(
                             chatId          : Option[Long Either String] = None,
                             messageId       : Option[Long] = None,
                             inlineMessageId : Option[String] = None
-                            ) extends ApiRequestJson[Seq[GameHighScore]]
+                            ) extends ApiRequestJson[Seq[GameHighScore]] {
+
+
+}

@@ -1,5 +1,7 @@
+package info.mukel.telegrambot4s.api
+
+import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.CommandParser
 import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -12,7 +14,10 @@ class CommandsSuite extends FlatSpec with MockFactory {
   class Fixture {
     val handlerHello = mockFunction[Message, Seq[String], Unit]
     val handlerHelloWorld = mockFunction[Message, Seq[String], Unit]
-    val bot = new TestBot {
+    val bot = new BotBase with Commands {
+      val client: RequestHandler = null
+      val logger = Logger(getClass)
+      def token = "token"
       on("/hello")(handlerHello.curried)
       on("/helloWorld")(handlerHelloWorld.curried)
     }

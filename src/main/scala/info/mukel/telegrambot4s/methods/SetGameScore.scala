@@ -25,4 +25,14 @@ case class SetGameScore(
                        chatId             : Option[Long Either String] = None,
                        messageId          : Option[Long] = None,
                        inlineMessageId    : Option[String] = None
-                       ) extends ApiRequestJson[Boolean Either Message]
+                       ) extends ApiRequestJson[Boolean Either Message] {
+
+  if (inlineMessageId.isEmpty) {
+    require(chatId.isDefined, "Required if inlineMessageId is not specified")
+    require(messageId.isDefined, "Required if inlineMessageId is not specified")
+  }
+
+  if (chatId.isEmpty && messageId.isEmpty)
+    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}
+
