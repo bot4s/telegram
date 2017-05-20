@@ -6,17 +6,13 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-December%204%2C%202016-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.0)%20May%2018%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
-The full API is supported, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
+The full API is supported; payments, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
 while being strongly-typed (no JSON strings), fully asynchronous (on top of Akka), and transparently camelCased.
-
-Cross-compiled to Scala 2.11 and 2.12.
-
-I encourage users to report any bug or broken functionality, I'll do my best to give proper support in a reasonable time frame.
 
 ## Planned features
   - FSM handlers (on the works)
@@ -28,7 +24,7 @@ Add to your `build.sbt` file:
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.2.8-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
 ```
 
 ### [Jitpack](https://jitpack.io/#sbt)
@@ -43,8 +39,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "master-SNAPSHOT"
 ```
 
-**When using Jitpack, make sure to specify Scala version in your build**, inserting a
-line like the first one, or Jitpack will default to Scala 2.10 which is unsupported.
+**When using Jitpack, make sure to specify Scala version in your build** or Jitpack will default to Scala 2.10 which is unsupported.
 
 You can also pull any branch or previous release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
