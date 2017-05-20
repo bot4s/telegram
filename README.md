@@ -24,7 +24,7 @@ Add to your `build.sbt` file:
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.9.0-SNAPSHOT"
 ```
 
 ### [Jitpack](https://jitpack.io/#sbt)
