@@ -22,4 +22,13 @@ case class EditMessageText(
                           parseMode             : Option[ParseMode] = None,
                           disableWebPagePreview : Option[Boolean] = None,
                           replyMarkup           : Option[ReplyMarkup] = None
-                          ) extends ApiRequestJson[Message]
+                          ) extends ApiRequestJson[Message] {
+
+  if (inlineMessageId.isEmpty) {
+    require(chatId.isDefined, "Required if inlineMessageId is not specified")
+    require(messageId.isDefined, "Required if inlineMessageId is not specified")
+  }
+
+  if (chatId.isEmpty && messageId.isEmpty)
+    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}

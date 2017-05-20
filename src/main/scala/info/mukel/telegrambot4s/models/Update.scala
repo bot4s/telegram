@@ -13,6 +13,8 @@ package info.mukel.telegrambot4s.models
   * @param inlineQuery         InlineQuery Optional New incoming inline query
   * @param chosenInlineResult  ChosenInlineResult Optional The result of a inline query that was chosen by a user and sent to their chat partner
   * @param callbackQuery       Optional New incoming callback query
+  * @param shippingQuery       ShippingQuery	Optional. New incoming shipping query. Only for invoices with flexible price
+  * @param preCheckoutQuery    PreCheckoutQuery	Optional. New incoming pre-checkout query. Contains full information about checkout
   */
 case class Update(
                    updateId           : Long,
@@ -22,5 +24,22 @@ case class Update(
                    editedChannelPost  : Option[Message] = None,
                    inlineQuery        : Option[InlineQuery] = None,
                    chosenInlineResult : Option[ChosenInlineResult] = None,
-                   callbackQuery      : Option[CallbackQuery] = None
-                 )
+                   callbackQuery      : Option[CallbackQuery] = None,
+                   shippingQuery      : Option[ShippingQuery] = None,
+                   preCheckoutQuery   : Option[PreCheckoutQuery] = None
+                 ) {
+
+  require(
+    Seq[Option[_]](
+      message,
+      editedMessage,
+      channelPost,
+      editedChannelPost,
+      inlineQuery,
+      chosenInlineResult,
+      callbackQuery,
+      shippingQuery,
+      preCheckoutQuery
+    ).count(_.isDefined) == 1
+  )
+}

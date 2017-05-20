@@ -17,4 +17,13 @@ case class EditMessageCaption(
                                inlineMessageId       : Option[Long] = None,
                                caption               : Option[String] = None,
                                replyMarkup           : Option[ReplyMarkup] = None
-                             ) extends ApiRequestJson[Message Either Boolean]
+                             ) extends ApiRequestJson[Message Either Boolean] {
+
+  if (inlineMessageId.isEmpty) {
+    require(chatId.isDefined, "Required if inlineMessageId is not specified")
+    require(messageId.isDefined, "Required if inlineMessageId is not specified")
+  }
+
+  if (chatId.isEmpty && messageId.isEmpty)
+    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}

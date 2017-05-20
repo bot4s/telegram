@@ -24,11 +24,13 @@ package info.mukel.telegrambot4s.models
   * @param sticker                Optional Message is a sticker, information about the sticker
   * @param video                  Optional Message is a video, information about the video
   * @param voice                  Optional Message is a voice message, information about the file
+  * @param videoNote              Optional Message is a video note, information about the video message
+  * @param newChatMembers         Array of User Optional. New members that were added to the group or supergroup and
+  *                               information about them (the bot itself may be one of these members)
   * @param caption                Optional Caption for the photo or video
   * @param contact                Optional Message is a shared contact, information about the contact
   * @param location               Optional Message is a shared location, information about the location
   * @param venue                  Venue Optional Message is a venue, information about the venue
-  * @param newChatMember          Optional A new member was added to the group, information about them (this member may be bot itself)
   * @param leftChatMember         Optional A member was removed from the group, information about them (this member may be bot itself)
   * @param newChatTitle           Optional A group title was changed to this value
   * @param newChatPhoto           Optional A group photo was change to this value
@@ -42,6 +44,8 @@ package info.mukel.telegrambot4s.models
   *                               identifier, not exceeding 1e13 by absolute value
   * @param pinnedMessage          Message Optional Specified message was pinned. Note that the Message object in this
   *                               field will not contain further reply_to_message fields even if it is itself a reply.
+  *
+  * @param successfulPayment      Optional. Message is a service message about a successful payment, information about the payment.
   */
 case class  Message(
                messageId             : Long,
@@ -63,11 +67,13 @@ case class  Message(
                sticker               : Option[Sticker] = None,
                video                 : Option[Video] = None,
                voice                 : Option[Voice] = None,
+               videoNote             : Option[VideoNote] = None,
+               newChatMembers        : Option[Array[User]] = None,
                caption               : Option[String] = None,
                contact               : Option[Contact] = None,
                location              : Option[Location] = None,
                venue                 : Option[Venue] = None,
-               newChatMember         : Option[User] = None,
+
                leftChatMember        : Option[User] = None,
                newChatTitle          : Option[String] = None,
                newChatPhoto          : Option[Seq[PhotoSize]] = None,
@@ -77,9 +83,9 @@ case class  Message(
                channelChatCreated    : Option[Boolean] = None,
                migrateToChatId       : Option[Long] = None,
                migrateFromChatId     : Option[Long] = None,
-               pinnedMessage         : Option[Message] = None
-
-             ) {
+               pinnedMessage         : Option[Message] = None,
+               successfulPayment : Option[SuccessfulPayment] = None
+                   ) {
 
   def source = chat.id
 

@@ -8,7 +8,8 @@ package info.mukel.telegrambot4s.methods
   *   record_video or upload_video for videos,
   *   record_audio or upload_audio for audio files,
   *   upload_document for general files,
-  *   find_location for location data.
+  *   find_location for location data,
+  *   record_video_note or upload_video_note for video notes.
   */
 object ChatAction extends Enumeration {
   type ChatAction = Value
@@ -20,4 +21,6 @@ object ChatAction extends Enumeration {
   val UploadAudio = Value("upload_audio")
   val UploadDocument = Value("upload_document")
   val FindLocation = Value("find_location")
+  val RecordVideoNote = Value("record_video_note")
+  val UploadVideoNote = Value("upload_video_note")
 }

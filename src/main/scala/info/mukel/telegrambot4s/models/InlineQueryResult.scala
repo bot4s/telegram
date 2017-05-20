@@ -116,6 +116,7 @@ case class InlineQueryResultGame(
   * @param gifUrl               String A valid URL for the GIF file. File size must not exceed 1MB
   * @param gifWidth             Integer Optional Width of the GIF
   * @param gifHeight            Integer Optional Height of the GIF
+  * @param gifDuration          Integer	Optional. Duration of the GIF
   * @param thumbUrl             String URL of the static thumbnail for the result (jpeg or gif)
   * @param title                String Optional Title for the result
   * @param caption              String Optional Caption of the GIF file to be sent, 0-200 characters
@@ -127,6 +128,7 @@ case class InlineQueryResultGif(
                                gifUrl              : String,
                                gifWidth            : Option[Int] = None,
                                gifHeight           : Option[Int] = None,
+                               gifDuration         : Option[Int] = None,
                                thumbUrl            : String,
                                title               : Option[String] = None,
                                caption             : Option[String] = None,
@@ -145,6 +147,7 @@ case class InlineQueryResultGif(
   * @param mpeg4Url             String A valid URL for the MP4 file. File size must not exceed 1MB
   * @param mpeg4Width           Integer Optional Video width
   * @param mpeg4Height          Integer Optional Video height
+  * @param mpeg4Duration	      Integer Optional. Video duration
   * @param thumbUrl             String URL of the static thumbnail (jpeg or gif) for the result
   * @param title                String Optional Title for the result
   * @param caption              String Optional Caption of the MPEG-4 file to be sent, 0-200 characters
@@ -156,6 +159,7 @@ case class InlineQueryResultMpeg4Gif(
                                  mpeg4Url            : String,
                                  mpeg4Width          : Option[Int] = None,
                                  mpeg4Height         : Option[Int] = None,
+                                 mpeg4Duration       : Option[Int] = None,
                                  thumbUrl            : String,
                                  title               : Option[String] = None,
                                  caption             : Option[String] = None,

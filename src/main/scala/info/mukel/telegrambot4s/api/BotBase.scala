@@ -26,31 +26,34 @@ trait BotBase {
     * @param u Incoming update.
     */
   def onUpdate(u: Update): Unit = {
-
-    require(Seq(
-      u.message,
-      u.inlineQuery,
-      u.callbackQuery,
-      u.chosenInlineResult,
-      u.channelPost,
-      u.editedChannelPost).count(_.nonEmpty) == 1,
-      "Received empty update")
-
     u.message.foreach(onMessage)
-    u.inlineQuery.foreach(onInlineQuery)
-    u.callbackQuery.foreach(onCallbackQuery)
-    u.chosenInlineResult.foreach(onChosenInlineResult)
+    u.editedMessage.foreach(onEditedMessage)
+
     u.channelPost.foreach(onChannelPost)
     u.editedChannelPost.foreach(onEditedChannelPost)
+
+    u.inlineQuery.foreach(onInlineQuery)
+    u.chosenInlineResult.foreach(onChosenInlineResult)
+
+    u.callbackQuery.foreach(onCallbackQuery)
+
+    u.shippingQuery.foreach(onShippingQuery)
+    u.preCheckoutQuery.foreach(onPreCheckoutQuery)
   }
 
   def onMessage(message: Message): Unit = {}
-  def onInlineQuery(inlineQuery: InlineQuery): Unit = {}
-  def onCallbackQuery(callbackQuery: CallbackQuery): Unit = {}
-  def onChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {}
+  def onEditedMessage(editedMessage: Message): Unit = {}
 
   def onChannelPost(message: Message): Unit = {}
   def onEditedChannelPost(message: Message): Unit = {}
+
+  def onInlineQuery(inlineQuery: InlineQuery): Unit = {}
+  def onChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {}
+
+  def onCallbackQuery(callbackQuery: CallbackQuery): Unit = {}
+
+  def onShippingQuery(shippingQuery: ShippingQuery): Unit = {}
+  def onPreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): Unit = {}
 
   def run(): Unit = {}
   def shutdown(): Future[Unit] = { Future.successful(()) }
