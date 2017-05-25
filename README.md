@@ -8,48 +8,24 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
 [![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.0)%20May%2018%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Release](https://jitpack.io/v/mukel/telegrambot4s.svg)](https://jitpack.io/#mukel/telegrambot4s)
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
-The full API is supported; payments, inline queries, callbacks, edit messages, games, custom markups, uploading files, chat actions...
-while being strongly-typed (no JSON strings), fully asynchronous (on top of Akka), and transparently camelCased.
 
-## Planned features
-  - FSM handlers (on the works)
-  - Per-user synchronous requests (coming soon)
-  - [Request feature here](https://github.com/mukel/telegrambot4s/issues/new)
+The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, chat actions...
+while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
-resolvers += Resolver.sonatypeRepo("snapshots")
-
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.9.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.9.1"
 ```
-
-### [Jitpack](https://jitpack.io/#sbt)
-I find Jitpack quite convenient, even if I don't officially support it.
-To pull the _latest and greatest_ directly from master (maybe unstable/breaking changes to the API), add to your `build.sbt` file
-
-```scala
-scalaVersion := "2.11.8" // or 2.12.1
-
-resolvers += "jitpack" at "https://jitpack.io"
-
-libraryDependencies += "com.github.mukel" %% "telegrambot4s" % "master-SNAPSHOT"
-```
-
-**When using Jitpack, make sure to specify Scala version in your build** or Jitpack will default to Scala 2.10 which is unsupported.
-
-You can also pull any branch or previous release from Jitpack, [check it out](https://jitpack.io/#mukel/telegrambot4s).
 
 ## Leaking bot tokens
 **Do not expose tokens unintentionally.**
 
-In order to avoid unintentional token sharing, do as follows:
+Here's an example that avoids _unintentional_ token sharing:
 
 ```scala
-
 object SafeBot extends TelegramBot with Polling with Commands {
   // Use 'def' or 'lazy val' for the token, using a plain 'val' may/will
   // lead to initialization order issues.
@@ -62,15 +38,18 @@ object SafeBot extends TelegramBot with Polling with Commands {
 }
 
 SafeBot.run()
-
 ```
 
 ## Webhooks vs Polling
 Both methods are fully supported.
-Polling is the easiest method; it can be used locally without any additional requirements.
-Polling has been radically improved, it doesn't flood the server and it's pretty fast.
+Polling is the easiest method; it can be used locally without any additional requirements. It has been radically improved, doesn't flood the server (like other libraries do) and it's pretty fast.
+
 Using webhooks requires a server (it won't work on your laptop).
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
+
+## Payments
+Payments are supported; refer to [official payments documetation](https://core.telegram.org/bots/payments) for details.
+I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
 Beside the usual ways, I've managed to use the library on a Raspberry Pi 2,
@@ -101,7 +80,7 @@ Implicits are provided to reduce boilerplate when dealing with the API;
 think seamless Option[T] and Either[L,R] conversions.
 Be aware that most examples need the implicits to compile.
 
-```import info.mukel.telegrambot4s.Implicits._```
+`import info.mukel.telegrambot4s.Implicits._`
 
 ## Running the examples
 
