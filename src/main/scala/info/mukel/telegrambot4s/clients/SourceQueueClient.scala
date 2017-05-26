@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.cllients
+package info.mukel.telegrambot4s.clients
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -23,7 +23,7 @@ class SourceQueueClient(token: String, telegramHost: String = "api.telegram.org"
 
   import HttpMarshalling._
 
-  val availableProcessors = Runtime.getRuntime().availableProcessors()
+  private val availableProcessors = Runtime.getRuntime().availableProcessors()
 
   private lazy val pool = Http().cachedHostConnectionPoolHttps[Promise[HttpResponse]](host = telegramHost)
 

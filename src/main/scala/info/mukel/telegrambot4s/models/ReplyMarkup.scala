@@ -4,7 +4,7 @@ package info.mukel.telegrambot4s.models
   *
   * Base for custom (keyboard) markups.
   */
-trait ReplyMarkup
+sealed trait ReplyMarkup
 
 /** This object represents one button of the reply keyboard.
   * For simple text buttons String can be used instead of this object to specify text of the button.
@@ -25,7 +25,30 @@ case class KeyboardButton(
                          text            : String,
                          requestContact  : Option[Boolean] = None,
                          requestLocation : Option[Boolean] = None
-                         )
+                         ) {
+
+  require(requestContact.isEmpty || requestLocation.isEmpty,
+    "Optional fields are mutually exclusive")
+}
+
+/**
+  * Type-safe buttons.
+  */
+object KeyboardButton {
+  /**
+    * The user's phone number will be sent as a contact when the button is pressed.
+    * Available in private chats only
+    */
+  def requestLocation(text: String): KeyboardButton =
+    KeyboardButton(text, requestLocation = Some(true))
+
+  /**
+    * The user's current location will be sent when the button is pressed.
+    * Available in private chats only.
+    */
+  def requestContact(text: String): KeyboardButton =
+    KeyboardButton(text, requestContact = Some(true))
+}
 
 /** This object represents a custom keyboard with reply options (see Introduction to bots for details and telegrambot4s.examples).
   *
@@ -87,7 +110,8 @@ case class InlineKeyboardMarkup(
                                  inlineKeyboard: Seq[Seq[InlineKeyboardButton]]
                                ) extends ReplyMarkup
 
-/** This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
+/** This object represents one button of an inline keyboard.
+  * You must use exactly one of the optional fields.
   *
   * ''Notes:''
   *   This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it.
@@ -117,7 +141,61 @@ case class InlineKeyboardButton(
                                switchInlineQuery : Option[String] = None,
                                switchInlineQueryCurrentChat : Option[String] = None,
                                callbackGame      : Option[CallbackGame] = None
-                               ) extends ReplyMarkup
+                               ) extends ReplyMarkup {
+  require(
+    Seq[Option[_]](
+      callbackData,
+      url,
+      switchInlineQuery,
+      switchInlineQueryCurrentChat,
+      callbackGame
+    ).count(_.isDefined) == 1,
+    "You must use exactly one of the optional fields")
+}
+
+/**
+  * Type-safe inline buttons.
+  */
+object InlineKeyboardButton {
+
+  /**
+    * Interactive button that will send a callback.
+    * @param cbd Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
+    */
+  def callbackData(text: String, cbd: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, callbackData = Some(cbd))
+
+  /**
+    * Button that opens an URL.
+    * @param url HTTP url to be opened when button is pressed
+    */
+  def url(text: String, url: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, url = Some(url))
+
+  /**
+    * @param cbg Description of the game that will be launched when the user presses the button.
+    */
+  def callbackGame(text: String, cbg: CallbackGame): InlineKeyboardButton =
+    InlineKeyboardButton(text, callbackGame = Some(cbg))
+
+  /**
+    * Pressing the button will prompt the user to select one of their chats,
+    * open that chat and insert the bot's username and the specified inline query in the input field.
+    * Can be empty, in which case just the bot's username will be inserted.
+    */
+  def switchInlineQuery(text: String, siq: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, switchInlineQuery = Some(siq))
+
+  /**
+    * Pressing the button will insert the bot's username and the
+    * specified inline query in the current chat's input field.
+    * Can be empty, in which case only the bot's username will be inserted.
+    * This offers a quick way for the user to open your bot in inline mode in the same chat -
+    * good for selecting something from multiple options.
+    */
+  def switchInlineQueryCurrentChat(text: String, siqcc: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, switchInlineQueryCurrentChat = Some(siqcc))
+}
 
 /** Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the
   * user has selected the bot's message and tapped 'Reply').

@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.cllients
+package info.mukel.telegrambot4s.clients
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -19,7 +19,7 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
                           (implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext)
   extends RequestHandler with StrictLogging {
 
-  val flow = Http().outgoingConnectionHttps(telegramHost)
+  private val flow = Http().outgoingConnectionHttps(telegramHost)
 
   import HttpMarshalling._
 

@@ -1,7 +1,7 @@
 package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.cllients.AkkaClient
+import info.mukel.telegrambot4s.clients.AkkaClient
 
 /**
   * 'Live' layer (network + logging), backed by Akka-Http for bots.

@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.cllients
+package info.mukel.telegrambot4s.clients
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -18,11 +18,11 @@ import scala.concurrent.{ExecutionContext, Future}
   *
   * @param token Bot token
   */
-class AkkaClient(token: String)(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
+class AkkaClient(token: String, telegramHost: String = "api.telegram.org")(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
 
   import HttpMarshalling._
 
-  private val apiBaseUrl = s"https://api.telegram.org/bot$token/"
+  private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
   private val http = Http()
 

@@ -11,7 +11,7 @@ package info.mukel.telegrambot4s.models
   * @param inlineMessageId  String Optional Identifier of the message sent via the bot in inline mode, that originated the query
   * @param chatInstance     String Identifier, uniquely corresponding to the chat to which the message with the callback button was sent.
   *                         Useful for high scores in games.
-  * @param data String      Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
+  * @param data             String Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
   * @param gameShortName    String Optional. Short name of a Game to be returned, serves as the unique identifier for the game
   *
   * NOTE:
