@@ -8,6 +8,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
 [![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.0)%20May%2018%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12)
+[![JitPack](https://jitpack.io/v/info.mukel/telegrambot4s.svg)](https://jitpack.io/#info.mukel/telegrambot4s)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
@@ -141,8 +142,8 @@ object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatA
       bytes <-  Unmarshal(response).to[ByteString]
     } /* do */ {
       uploadingAudio // Hint the user
-      val voiceMp3 = InputFile.FromByteString("voice.mp3", bytes)
-      request(SendVoice(msg.sender, voiceMp3))
+      val voiceMp3 = InputFile("voice.mp3", bytes)
+      request(SendVoice(msg.source, voiceMp3))
     }
   }
 }

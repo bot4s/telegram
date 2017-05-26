@@ -13,13 +13,14 @@ class LmgtfyBot(token: String) extends ExampleBot(token) with Polling with Comma
   def lmgtfyUrl(query: Seq[String]) =
     "http://lmgtfy.com/?q=" + URLEncoder.encode(query.mkString(" "), "UTF-8")
 
-  on("/lmgtfy", "Generates Google search links for posting/trolling in forums and communities.") { implicit msg => args =>
-    reply(lmgtfyUrl(args), disableWebPagePreview = true)
+  on("/lmgtfy", "Generates Google search links for posting/trolling in forums and communities.") {
+    implicit msg => args =>
+      reply(lmgtfyUrl(args), disableWebPagePreview = true)
   }
 
   on("/lmgtfy2") { implicit msg => args =>
     val singleButtonMarkup = InlineKeyboardMarkup(
-      InlineKeyboardButton("Google it now!", url = lmgtfyUrl(args)))
+      InlineKeyboardButton.url("Google it now!", lmgtfyUrl(args)))
 
     reply("Let me Google that for you!",
       replyMarkup = singleButtonMarkup)

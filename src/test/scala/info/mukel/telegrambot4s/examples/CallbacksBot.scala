@@ -18,8 +18,10 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
 
   def markupCounter(n: Int) = {
     requestCount += 1
-    InlineKeyboardMarkup(InlineKeyboardButton(s"Press me!!!\n$n - $requestCount",
-      callbackData = tag(n.toString)))
+    InlineKeyboardMarkup(
+      InlineKeyboardButton.callbackData(
+        s"Press me!!!\n$n - $requestCount",
+        tag(n.toString)))
   }
 
   on("/counter") { implicit msg => _ =>
