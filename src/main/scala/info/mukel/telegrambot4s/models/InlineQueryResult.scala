@@ -222,7 +222,7 @@ case class InlineQueryResultVideo(
 case class InlineQueryResultAudio(
                                    id                  : String,
                                    audioUrl            : String,
-                                   title               : Option[String] = None,
+                                   title               : String,
                                    caption             : Option[String] = None,
                                    performer           : Option[String] = None,
                                    audioDuration       : Option[Int] = None,
@@ -243,14 +243,14 @@ case class InlineQueryResultAudio(
   * @param caption              String Optional. Caption, 0-200 characters
   * @param voiceDuration        Integer Optional Recording duration in seconds
   * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
-  * @param inputMessageContent InputMessageContent Optional Content of the message to be sent instead of the voice recording
+  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the voice recording
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
 case class InlineQueryResultVoice(
                                    id                  : String,
                                    voiceUrl            : String,
-                                   title               : Option[String] = None,
+                                   title               : String,
                                    caption             : Option[String] = None,
                                    voiceDuration       : Option[Int] = None,
                                    replyMarkup         : Option[InlineKeyboardMarkup] = None,
