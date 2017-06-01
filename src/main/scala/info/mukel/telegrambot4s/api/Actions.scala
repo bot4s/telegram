@@ -16,15 +16,16 @@ trait Actions extends BotBase {
   type MessageAction = Message => Unit
   type MessageFilter = Message => Boolean
 
-  private val actions = mutable.ArrayBuffer[(MessageFilter, MessageAction)]()
+  private val actions = mutable.ArrayBuffer[MessageAction]()
+
+  private def wrapFilteredAction(filter: MessageFilter, action: MessageAction): MessageAction = {
+    msg => if (filter(msg)) action(msg)
+  }
 
   abstract override def onMessage(msg: Message): Unit = {
-    for {
-      (filter, action) <- actions
-      if filter(msg)
-    } /* do */ {
+    for (action <- actions)
       action(msg)
-    }
+
     // Fallback to upper level to preserve trait stack-ability
     super.onMessage(msg)
   }
@@ -33,12 +34,16 @@ trait Actions extends BotBase {
     * Filter incoming messages and triggers custom actions.
     *
     * @param filter Message predicate, should not have side effects; every incoming message will be tested,
-    *               so it must be as cheap as possible.
+    *               it must be as cheap as possible.
     *
     * @param action Action to perform if the incoming message pass the filter.
     */
   def when(filter: MessageFilter)(action: MessageAction): Unit = {
-    actions += (filter -> action)
+    actions += wrapFilteredAction(filter, action)
+  }
+
+  def foreachMessage(action: MessageAction): Unit = {
+    actions += action
   }
 
   /**

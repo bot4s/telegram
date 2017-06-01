@@ -29,7 +29,7 @@ trait Polling extends BotBase with AkkaImplicits {
       _ flatMap {
         case (offset, updates) =>
           val maxOffset = updates.map(_.updateId).fold(offset)(_ max _)
-          request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval)))
+          request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval), allowedUpdates = allowedUpdates))
             .recover {
               case NonFatal(e) =>
                 logger.error("GetUpdates failed", e)

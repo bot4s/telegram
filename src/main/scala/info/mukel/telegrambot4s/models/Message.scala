@@ -84,7 +84,7 @@ case class  Message(
                migrateToChatId       : Option[Long] = None,
                migrateFromChatId     : Option[Long] = None,
                pinnedMessage         : Option[Message] = None,
-               successfulPayment : Option[SuccessfulPayment] = None
+               successfulPayment     : Option[SuccessfulPayment] = None
                    ) {
 
   def source = chat.id

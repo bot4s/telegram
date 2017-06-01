@@ -43,7 +43,7 @@ trait Webhook extends WebRoutes {
   abstract override val routes =  webhookRoute ~ super.routes
 
   abstract override def run(): Unit = {
-    request(SetWebhook(webhookUrl))
+    request(SetWebhook(webhookUrl, allowedUpdates = allowedUpdates))
       .onComplete {
         case Success(true) => super.run() // Spawn WebRoute
         case Success(false) =>

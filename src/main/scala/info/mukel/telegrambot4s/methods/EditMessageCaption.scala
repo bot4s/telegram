@@ -14,7 +14,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
 case class EditMessageCaption(
                                chatId                : Option[Long Either String] = None,
                                messageId             : Option[Long] = None,
-                               inlineMessageId       : Option[Long] = None,
+                               inlineMessageId       : Option[String] = None,
                                caption               : Option[String] = None,
                                replyMarkup           : Option[ReplyMarkup] = None
                              ) extends ApiRequestJson[Message Either Boolean] {

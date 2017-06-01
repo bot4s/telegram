@@ -140,7 +140,8 @@ case class InlineKeyboardButton(
                                url               : Option[String] = None,
                                switchInlineQuery : Option[String] = None,
                                switchInlineQueryCurrentChat : Option[String] = None,
-                               callbackGame      : Option[CallbackGame] = None
+                               callbackGame      : Option[CallbackGame] = None,
+                               pay               : Option[Boolean] = None
                                ) extends ReplyMarkup {
   require(
     Seq[Option[_]](
@@ -148,7 +149,8 @@ case class InlineKeyboardButton(
       url,
       switchInlineQuery,
       switchInlineQueryCurrentChat,
-      callbackGame
+      callbackGame,
+      pay
     ).count(_.isDefined) == 1,
     "You must use exactly one of the optional fields")
 }
@@ -195,6 +197,14 @@ object InlineKeyboardButton {
     */
   def switchInlineQueryCurrentChat(text: String, siqcc: String): InlineKeyboardButton =
     InlineKeyboardButton(text, switchInlineQueryCurrentChat = Some(siqcc))
+
+  /**
+    * Pay button.
+    * NOTE:
+    *   This type of button must always be the first button in the first row.
+    */
+  def pay(text: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, pay = Some(true))
 }
 
 /** Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the

@@ -21,7 +21,9 @@ object HttpMarshalling extends StrictLogging {
     new EnumNameSerializer(ParseMode) +
     new EnumNameSerializer(ChatType) +
     new EnumNameSerializer(Currency) +
-    new EnumNameSerializer(Country)
+    new EnumNameSerializer(Country) +
+    new EnumNameSerializer(UpdateType) +
+    new EnumNameSerializer(MessageEntityType)
   )
 
   def toJson[T](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))

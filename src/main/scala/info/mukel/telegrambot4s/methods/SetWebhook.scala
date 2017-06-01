@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
 import info.mukel.telegrambot4s.models.InputFile
+import info.mukel.telegrambot4s.models.UpdateType.UpdateType
 
 /** Use this method to specify a url and receive incoming updates via an outgoing webhook.
   * Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update.
@@ -30,5 +31,5 @@ case class SetWebhook(
     url: String,
     certificate: Option[InputFile] = None,
     maxConnections: Option[Int] = None,
-    allowedUpdates: Option[Seq[String]] = None
+    allowedUpdates: Option[Seq[UpdateType]] = None
 ) extends ApiRequestMultipart[Boolean]

@@ -14,6 +14,6 @@ case class ChosenInlineResult(
                                resultId        : String,
                                from            : User,
                                location        : Option[Location] = None,
-                               inlineMessageId : Option[Long] = None,
+                               inlineMessageId : Option[String] = None,
                                query           : String
                              )

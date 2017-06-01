@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.models
 
+import info.mukel.telegrambot4s.models.MessageEntityType.MessageEntityType
+
 /** This object represents one special entity in a text message.
   *
   * For example, hashtags, usernames, URLs, etc.
@@ -14,7 +16,7 @@ package info.mukel.telegrambot4s.models
   * @param user    User Optional. For "text_mention" only, the mentioned user
   */
 case class MessageEntity(
-                        `type` : String,
+                        `type` : MessageEntityType,
                         offset : Int,
                         length : Int,
                         url    : Option[String] = None,

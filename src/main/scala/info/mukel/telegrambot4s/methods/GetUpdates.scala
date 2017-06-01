@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
 import info.mukel.telegrambot4s.models.Update
+import info.mukel.telegrambot4s.models.UpdateType.UpdateType
 
 /** Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
   *
@@ -22,5 +23,5 @@ case class GetUpdates(
                        offset         : Option[Long] = None,
                        limit          : Option[Int] = None,
                        timeout        : Option[Int] = None,
-                       allowedUpdates : Option[Seq[String]] = None
+                       allowedUpdates : Option[Seq[UpdateType]] = None
                      ) extends ApiRequestJson[Seq[Update]]

@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
+import info.mukel.telegrambot4s.models.UpdateType.UpdateType
 import info.mukel.telegrambot4s.models._
 
 import scala.concurrent.Future
@@ -19,6 +20,9 @@ trait BotBase {
   val client: RequestHandler
 
   def request = client
+
+  // Allow all updates by default
+  def allowedUpdates: Option[Seq[UpdateType]] = None
 
   /** Dispatch updates to specialized handlers.
     * Incoming update can be a message, inline query, callback query of inline result stat.
