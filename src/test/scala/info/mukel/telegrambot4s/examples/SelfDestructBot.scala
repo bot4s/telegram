@@ -1,52 +1,65 @@
 package info.mukel.telegrambot4s.examples
 
+import java.time.Instant
+
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api._
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling
 import info.mukel.telegrambot4s.methods._
+import info.mukel.telegrambot4s.models.UpdateType.Filters._
 import info.mukel.telegrambot4s.models._
+
 import scala.concurrent.duration._
 
 /**
   * Send self-destructing messages.
   * Ported from: https://github.com/Pitasi/selfdestructbot
   */
-class SelfDestructBot(token: String) extends ExampleBot(token) with Polling with Callbacks {
+class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
 
-  import UpdateType.Filters._
   override def allowedUpdates = InlineUpdates ++ CallbackUpdates
 
-  override def onCallbackQuery(callbackQuery: CallbackQuery): Unit = {
-    super.onCallbackQuery(callbackQuery)
+  val timeouts = Seq(3, 5, 10, 30)
 
-    request(AnswerCallbackQuery(callbackQuery.id,
-      s"X seconds remaining."))
+  def now = Instant.now().getEpochSecond
+
+  def button(t: Long) = InlineKeyboardButton.callbackData("⏳ left?", t+"")
+
+  def buildResult(timeout: Int, msg: String): InlineQueryResult = {
+    InlineQueryResultArticle(s"$timeout", s"$timeout seconds",
+      inputMessageContent = InputTextMessageContent(msg),
+      description = s"Message will be deleted in $timeout seconds",
+      replyMarkup = InlineKeyboardMarkup(button(now)))
   }
 
-  override def onChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {
-    super.onChosenInlineResult(chosenInlineResult)
-    system.scheduler.scheduleOnce(chosenInlineResult.resultId.toInt.seconds) {
+  override def onCallbackQuery(cbq: CallbackQuery): Unit = {
+    // super.onCallbackQuery(cbq)
+    val left = cbq.data.map(_.toLong - now).getOrElse(-1L)
+    request(AnswerCallbackQuery(cbq.id, s"$left seconds remaining.", cacheTime = 0))
+  }
+
+  override def onChosenInlineResult(result: ChosenInlineResult): Unit = {
+    // super.onChosenInlineResult(result)
+
+    val delay = result.resultId.toInt
+    request(EditMessageReplyMarkup(
+      inlineMessageId = result.inlineMessageId,
+      replyMarkup = InlineKeyboardMarkup(button(now + delay))))
+
+    system.scheduler.scheduleOnce(delay.seconds) {
       request(EditMessageText(
-        text = "[ expired ]",
-        inlineMessageId = chosenInlineResult.inlineMessageId))
+        text = "⌛ Expired",
+        inlineMessageId = result.inlineMessageId))
     }
   }
 
-  override def onInlineQuery(inlineQuery: InlineQuery): Unit = {
-    super.onInlineQuery(inlineQuery)
+  override def onInlineQuery(q: InlineQuery): Unit = {
+    // super.onInlineQuery(q)
 
-    def buildResult(timeout: Int, msg: String): InlineQueryResult = {
-      val btn = InlineKeyboardButton.callbackData("ℹ️️ Info", s"$timeout")
-      InlineQueryResultArticle(
-        timeout.toString,
-        s"$timeout seconds",
-        inputMessageContent = InputTextMessageContent(msg),
-        description = s"Message will be deleted in $timeout seconds",
-        replyMarkup = InlineKeyboardMarkup(btn))
-    }
+    val results = if (q.query.isEmpty)
+      Seq.empty
+    else
+      timeouts.map(buildResult(_, q.query))
 
-    val results = Seq(3, 5, 10, 30) map (buildResult(_, inlineQuery.query))
-    println(HttpMarshalling.toJson(AnswerInlineQuery(inlineQuery.id, results, 1)))
-    request(AnswerInlineQuery(inlineQuery.id, results, 1))
+    request(AnswerInlineQuery(q.id, results, 5))
   }
 }
