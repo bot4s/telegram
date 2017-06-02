@@ -9,14 +9,20 @@ import info.mukel.telegrambot4s.models._
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
-import org.json4s.{Extraction, NoTypeHints}
+import org.json4s.{DefaultFormats, Extraction, Formats, NoTypeHints}
 
 /**
   * De/serialization support for JSON and multipart API requests
   */
 object HttpMarshalling extends StrictLogging {
 
-  implicit val formats = (Serialization.formats(NoTypeHints) +
+  implicit val formats: Formats = (
+    new Formats {
+      val dateFormat = DefaultFormats.lossless.dateFormat
+      override val typeHints = NoTypeHints
+      // Throws MappingException if Option[_] cannot be parsed.
+      override def strictOptionParsing: Boolean = true
+    } +
     new EnumNameSerializer(ChatAction) +
     new EnumNameSerializer(ParseMode) +
     new EnumNameSerializer(ChatType) +
