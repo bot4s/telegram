@@ -11,10 +11,14 @@ import scala.concurrent.Future
   */
 trait Callbacks extends BotBase {
 
-  private type CallbackQueryFilter = CallbackQuery => Boolean
-  private type CallbackQueryAction = CallbackQuery => Unit
+  private type CallbackQueryFilter = Filter[CallbackQuery]
+  private type CallbackQueryAction = Action[CallbackQuery]
 
-  private val handlers = mutable.ArrayBuffer[(CallbackQueryFilter, CallbackQueryAction)]()
+  private val actions = mutable.ArrayBuffer[CallbackQueryAction]()
+
+  private def wrapFilteredAction(filter: CallbackQueryFilter, action: CallbackQueryAction): CallbackQueryAction = {
+    msg => if (filter(msg)) action(msg)
+  }
 
   /** Filters callbacks based on a tag (to avoid collision).
     * The tag is stripped from the CallbackQuery object when passed to the handler.
@@ -35,13 +39,20 @@ trait Callbacks extends BotBase {
     * @param action Method to process the filtered callback query.
     */
   def onCallback(filter: CallbackQueryFilter)(action: CallbackQueryAction): Unit = {
-    handlers += ((filter, action))
+    actions += wrapFilteredAction(filter, action)
+  }
+
+  /**
+    * Executes 'action' for every incoming callback query.
+    */
+  def foreachCallbackQuery(action: CallbackQueryAction): Unit = {
+    actions += action
   }
 
   abstract override def onCallbackQuery(callbackQuery: CallbackQuery): Unit = {
-    for ((filter, action) <- handlers if filter(callbackQuery)) {
+    for (action <- actions)
       action(callbackQuery)
-    }
+
     // Preserve trait stack-ability.
     super.onCallbackQuery(callbackQuery)
   }
