@@ -13,9 +13,6 @@ import scala.concurrent.Future
   */
 trait Actions extends BotBase {
 
-  type MessageAction = Message => Unit
-  type MessageFilter = Message => Boolean
-
   private val actions = mutable.ArrayBuffer[MessageAction]()
 
   private def wrapFilteredAction(filter: MessageFilter, action: MessageAction): MessageAction = {
@@ -42,6 +39,9 @@ trait Actions extends BotBase {
     actions += wrapFilteredAction(filter, action)
   }
 
+  /**
+    * Executes 'action' for every incoming message.
+    */
   def foreachMessage(action: MessageAction): Unit = {
     actions += action
   }
