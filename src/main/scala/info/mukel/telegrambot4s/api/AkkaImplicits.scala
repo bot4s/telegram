@@ -8,9 +8,9 @@ import akka.stream.ActorMaterializer
 import scala.concurrent.ExecutionContext
 
 trait AkkaImplicits {
-  implicit val system: ActorSystem //  = ActorSystem()
-  implicit val materializer: ActorMaterializer // = ActorMaterializer()
-  implicit val ec: ExecutionContext //  = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
+  implicit val system: ActorSystem
+  implicit val materializer: ActorMaterializer
+  implicit val ec: ExecutionContext
 }
 
 trait AkkaDefaults extends AkkaImplicits {
