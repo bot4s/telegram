@@ -8,7 +8,6 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods._
-import org.json4s.jackson.Serialization
 import org.json4s.{DefaultFormats, Extraction, Formats, NoTypeHints}
 
 /**
