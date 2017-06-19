@@ -3,7 +3,7 @@ package info.mukel.telegrambot4s.api
 import info.mukel.telegrambot4s.methods.{ChatAction, SendChatAction}
 import info.mukel.telegrambot4s.models.Message
 
-/** Provides handy chat actions shortcuts
+/** Provides handy chat actions shortcuts.
   */
 trait ChatActions {
   _ : BotBase =>

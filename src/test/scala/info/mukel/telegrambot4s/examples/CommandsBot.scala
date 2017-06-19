@@ -1,7 +1,9 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.Implicits.{Extractor => $}
-import info.mukel.telegrambot4s.api.{BetterCommands, Polling, RegexCommands}
+import info.mukel.telegrambot4s.api.declarative.{BetterCommands, RegexCommands}
+import info.mukel.telegrambot4s.api.Polling
+
 import scala.concurrent.duration._
 
 /**
@@ -30,11 +32,11 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // Also using Symbols; the "/" prefix is added by default.
-  // Note that non-ascii commands are not clickable.
   on('привет) { implicit msg =>
     reply("\uD83C\uDDF7\uD83C\uDDFA")
   }
 
+  // Note that non-ascii commands are not clickable.
   on('こんにちは :: '你好 :: '안녕하세요 :: Nil) { implicit msg =>
     reply("Hello from Asia?")
   }

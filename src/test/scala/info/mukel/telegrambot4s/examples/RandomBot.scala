@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.api.declarative.Commands
 
 import scala.util.Random
 
@@ -11,7 +12,12 @@ class RandomBot(token: String) extends ExampleBot(token) with Polling with Comma
   val rng = new Random(System.currentTimeMillis())
   on("/coin", "head or tail") { implicit msg => _ => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
   on("/real", "real number in [0, 1]") { implicit msg => _ => reply(rng.nextDouble().toString) }
-  on("/die", "classic die [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1).toString) }
+
+  on("/die", "classic die [1 .. 6]") {
+    implicit msg => _ =>
+      reply((rng.nextInt(6) + 1).toString)
+  }
+
   on("/dice", "throw two classic dice [1 .. 6]") { implicit msg => _ => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
   on("/random", "integer in [0, n)") { implicit msg => {
     case Seq(Extractor.Int(n)) if n > 0 =>

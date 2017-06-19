@@ -1,5 +1,6 @@
-package info.mukel.telegrambot4s.api
+package info.mukel.telegrambot4s.api.declarative
 
+import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.methods.AnswerCallbackQuery
 import info.mukel.telegrambot4s.models.CallbackQuery
 
@@ -7,18 +8,11 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 /**
-  * Abstraction for callbacks, allowing to filter calback-query events by tag.
+  * Abstraction for callbacks, allowing to filter callback-query events by tag.
   */
 trait Callbacks extends BotBase {
 
-  private type CallbackQueryFilter = Filter[CallbackQuery]
-  private type CallbackQueryAction = Action[CallbackQuery]
-
   private val actions = mutable.ArrayBuffer[CallbackQueryAction]()
-
-  private def wrapFilteredAction(filter: CallbackQueryFilter, action: CallbackQueryAction): CallbackQueryAction = {
-    msg => if (filter(msg)) action(msg)
-  }
 
   /** Filters callbacks based on a tag (to avoid collision).
     * The tag is stripped from the CallbackQuery object when passed to the handler.
@@ -27,7 +21,7 @@ trait Callbacks extends BotBase {
     * @param action Handler to process the filtered callback query.
     */
   def onCallbackWithTag(tag: String)(action: CallbackQueryAction): Unit = {
-    onCallback(_.data.map(_.startsWith(tag)).getOrElse(false)) {
+    whenCallbackQuery(_.data.exists(_.startsWith(tag))) {
       implicit cbq =>
         untag(tag)(action)
     }
@@ -38,23 +32,23 @@ trait Callbacks extends BotBase {
     * @param filter A filter should not have side effects, and should be fast (no DB requests).
     * @param action Method to process the filtered callback query.
     */
-  def onCallback(filter: CallbackQueryFilter)(action: CallbackQueryAction): Unit = {
+  def whenCallbackQuery(filter: CallbackQueryFilter)(action: CallbackQueryAction): Unit = {
     actions += wrapFilteredAction(filter, action)
   }
 
   /**
     * Executes 'action' for every incoming callback query.
     */
-  def foreachCallbackQuery(action: CallbackQueryAction): Unit = {
+  def onCallbackQuery(action: CallbackQueryAction): Unit = {
     actions += action
   }
 
-  abstract override def onCallbackQuery(callbackQuery: CallbackQuery): Unit = {
+  abstract override def receiveCallbackQuery(callbackQuery: CallbackQuery): Unit = {
     for (action <- actions)
       action(callbackQuery)
 
     // Preserve trait stack-ability.
-    super.onCallbackQuery(callbackQuery)
+    super.receiveCallbackQuery(callbackQuery)
   }
 
   /**
@@ -72,20 +66,23 @@ trait Callbacks extends BotBase {
     *
     * @return A future containing the result of the AnswerCallbackQuery request.
     */
-  def ackCallback(text: Option[String] = None,
-          showAlert: Option[Boolean] = None,
-          url: Option[String] = None,
-          cacheTime: Option[Int] = None)
-         (implicit callbackQuery: CallbackQuery): Future[Boolean] = {
+  def ackCallback(text         : Option[String] = None,
+                  showAlert    : Option[Boolean] = None,
+                  url          : Option[String] = None,
+                  cacheTime    : Option[Int] = None)
+                 (implicit callbackQuery: CallbackQuery): Future[Boolean] = {
     request(AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime))
   }
 
  /**
    * Helper to tag 'callbackData' in inline markups.
    * Usage:
-   *  def tag = prefixTag("MY_TAG") _
    *
-   *  ... callbackData = tag("some data")
+   * {{{
+   *   def tag = prefixTag("MY_TAG") _
+   *
+   *   ... callbackData = tag("some data")
+   * }}}
    */
   def prefixTag(tag: String)(s: String) = tag + s
 

@@ -19,8 +19,8 @@ class SpotifyBot(token: String) extends ExampleBot(token) with Polling {
 
   val limit = 20
 
-  override def onInlineQuery(inlineQuery: InlineQuery): Unit = {
-    super.onInlineQuery(inlineQuery)
+  override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
+    super.receiveInlineQuery(inlineQuery)
     val query = inlineQuery.query
     val offset = Extractor.Int.unapply(inlineQuery.offset).getOrElse(0)
 

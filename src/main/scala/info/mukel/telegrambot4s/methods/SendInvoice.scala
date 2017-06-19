@@ -7,26 +7,26 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Mess
   * Use this method to send invoices.
   * On success, the sent Message is returned.
   *
-  * @param chatId               Integer	Yes	Unique identifier for the target private chat
-  * @param title                String	Yes	Product name
-  * @param description          String	Yes	Product description
-  * @param payload              String	Yes	Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-  * @param providerToken        String	Yes	Payments provider token, obtained via Botfather
-  * @param startParameter       String	Yes	Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
-  * @param currency             String	Yes	Three-letter ISO 4217 currency code, see more on currencies
-  * @param prices               Array of LabeledPrice	Yes	Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
-  * @param photoUrl             String	Optional	URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
-  * @param photoSize            Integer	Optional	Photo size
-  * @param photoWidth           Integer	Optional	Photo width
-  * @param photoHeight          Integer	Optional	Photo height
-  * @param needName             Bool	Optional	Pass True, if you require the user's full name to complete the order
-  * @param needPhoneNumber      Boolean	Optional	Pass True, if you require the user's phone number to complete the order
-  * @param needEmail            Bool	Optional	Pass True, if you require the user's email to complete the order
-  * @param needShippingAddress  Boolean	Optional	Pass True, if you require the user's shipping address to complete the order
-  * @param isFlexible           Boolean	Optional	Pass True, if the final price depends on the shipping method
-  * @param disableNotification  Boolean	Optional	Sends the message silently. Users will receive a notification with no sound.
-  * @param replyToMessageId     Integer	Optional	If the message is a reply, ID of the original message
-  * @param replyMarkup          InlineKeyboardMarkup	Optional	A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
+  * @param chatId               Integer Yes Unique identifier for the target private chat
+  * @param title                String Yes Product name
+  * @param description          String Yes Product description
+  * @param payload              String Yes Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+  * @param providerToken        String Yes Payments provider token, obtained via Botfather
+  * @param startParameter       String Yes Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+  * @param currency             String Yes Three-letter ISO 4217 currency code, see more on currencies
+  * @param prices               Array of LabeledPrice Yes Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+  * @param photoUrl             String Optional URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+  * @param photoSize            Integer Optional Photo size
+  * @param photoWidth           Integer Optional Photo width
+  * @param photoHeight          Integer Optional Photo height
+  * @param needName             Bool Optional Pass True, if you require the user's full name to complete the order
+  * @param needPhoneNumber      Boolean Optional Pass True, if you require the user's phone number to complete the order
+  * @param needEmail            Bool Optional Pass True, if you require the user's email to complete the order
+  * @param needShippingAddress  Boolean Optional Pass True, if you require the user's shipping address to complete the order
+  * @param isFlexible           Boolean Optional Pass True, if the final price depends on the shipping method
+  * @param disableNotification  Boolean Optional Sends the message silently. Users will receive a notification with no sound.
+  * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
+  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
   */
 case class SendInvoice(
                       chatId              : Long,

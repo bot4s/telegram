@@ -21,7 +21,7 @@ class WebhookBot(token: String) extends ExampleBot(token) with Webhook {
 
   val baseUrl = "http://api.mathjs.org/v1/?expr="
 
-  override def onMessage(msg: Message): Unit = {
+  override def receiveMessage(msg: Message): Unit = {
     for (text <- msg.text) {
       val url = baseUrl + URLEncoder.encode(text, "UTF-8")
       for {

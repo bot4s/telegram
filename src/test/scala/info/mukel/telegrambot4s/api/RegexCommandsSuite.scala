@@ -2,6 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.declarative.RegexCommands
 import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -26,9 +27,9 @@ class RegexCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Seq[String], Unit]
     handler.expects(*, *).twice()
     f.bot.onRegex("""/pepe|/cojo""".r)(handler.curried)
-    f.bot.onMessage(msg("/cocou"))
-    f.bot.onMessage(msg("  /pepe  "))
-    f.bot.onMessage(msg("/cojo"))
+    f.bot.receiveMessage(msg("/cocou"))
+    f.bot.receiveMessage(msg("  /pepe  "))
+    f.bot.receiveMessage(msg("/cojo"))
   }
 
   it should "pass regex groups" in {
@@ -36,6 +37,6 @@ class RegexCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Seq[String], Unit]
     handler.expects(*, Seq("1234")).once()
     f.bot.onRegex("""/cmd ([0-9]+)""".r)(handler.curried)
-    f.bot.onMessage(msg("/cmd 1234"))
+    f.bot.receiveMessage(msg("/cmd 1234"))
   }
 }

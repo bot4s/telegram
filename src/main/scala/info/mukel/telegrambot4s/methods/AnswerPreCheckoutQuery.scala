@@ -8,11 +8,11 @@ package info.mukel.telegrambot4s.methods
   * Note:
   *   The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
   *
-  * @param preCheckoutQueryId  String	Yes	Unique identifier for the query to be answered
-  * @param ok                  Boolean	Yes	Specify True if everything is alright (goods are available, etc.)
+  * @param preCheckoutQueryId  String Yes Unique identifier for the query to be answered
+  * @param ok                  Boolean Yes Specify True if everything is alright (goods are available, etc.)
   *                            and the bot is ready to proceed with the order.
   *                            Use False if there are any problems.
-  * @param errorMessage        String	Optional	Required if ok is False.
+  * @param errorMessage        String Optional Required if ok is False.
   *                            Error message in human readable form that explains the reason for failure to proceed with the checkout
   *                            (e.g.
   *                              "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details.

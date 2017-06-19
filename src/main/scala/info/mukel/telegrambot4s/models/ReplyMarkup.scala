@@ -10,7 +10,7 @@ sealed trait ReplyMarkup
   * For simple text buttons String can be used instead of this object to specify text of the button.
   * Optional fields are mutually exclusive.
   *
-  * ''Note:''
+  * '''Note:'''
   *   requestContact and requestLocation options will only work in Telegram versions released after 9 April, 2016.
   *   Older clients will ignore them.
   *
@@ -32,12 +32,17 @@ case class KeyboardButton(
 }
 
 /**
-  * Type-safe buttons.
+  * Preferred (safe) way to instantiate [[KeyboardButton]].
+  *
+  * {{{
+  *   KeyBoardButton.requestLocation("Share location")
+  *   KeyBoardButton.requestContact("Share contact")
+  * }}}
   */
 object KeyboardButton {
   /**
     * The user's phone number will be sent as a contact when the button is pressed.
-    * Available in private chats only
+    * Available in private chats only.
     */
   def requestLocation(text: String): KeyboardButton =
     KeyboardButton(text, requestLocation = Some(true))
@@ -156,7 +161,12 @@ case class InlineKeyboardButton(
 }
 
 /**
-  * Type-safe inline buttons.
+  * Preferred (safe) way to instantiate [[InlineKeyboardButton]].
+  *
+  * {{{
+  *   InlineKeyboardButton.callbackData("1990", "#1")
+  *   InlineKeyboardButton.url("Google Google", "http://lmgtfy.com/?q=Google")
+  * }}}
   */
 object InlineKeyboardButton {
 
@@ -175,10 +185,11 @@ object InlineKeyboardButton {
     InlineKeyboardButton(text, url = Some(url))
 
   /**
-    * @param cbg Description of the game that will be launched when the user presses the button.
+    * '''Note:'''
+    *   This type of button must always be the first button in the first row.
     */
-  def callbackGame(text: String, cbg: CallbackGame): InlineKeyboardButton =
-    InlineKeyboardButton(text, callbackGame = Some(cbg))
+  def callbackGame(text: String): InlineKeyboardButton =
+    InlineKeyboardButton(text, callbackGame = Some(CallbackGamePlaceHolder))
 
   /**
     * Pressing the button will prompt the user to select one of their chats,
@@ -200,7 +211,7 @@ object InlineKeyboardButton {
 
   /**
     * Pay button.
-    * NOTE:
+    * '''Note:'''
     *   This type of button must always be the first button in the first row.
     */
   def pay(text: String): InlineKeyboardButton =
@@ -211,7 +222,7 @@ object InlineKeyboardButton {
   * user has selected the bot's message and tapped 'Reply').
   * This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode.
   *
-  * ''Example:''
+  * '''Example:'''
   *   A poll bot for groups runs in privacy mode (only receives commands, replies to its messages and mentions).
   *   There could be two ways to create a new poll:
   *   Explain the user how to send a command with parameters (e.g. /newpoll question answer1 answer2).

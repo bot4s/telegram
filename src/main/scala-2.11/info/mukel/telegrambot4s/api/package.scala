@@ -1,9 +1,11 @@
 package info.mukel.telegrambot4s
 
+import info.mukel.telegrambot4s.api.declarative.ApiTypes
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-package object api extends ApiTypes {
+package object api {
 
   /**
     * Future.transformWith for Scala 2.11

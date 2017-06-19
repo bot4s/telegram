@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.examples
 
-import info.mukel.telegrambot4s.api.{Commands, Polling}
+import info.mukel.telegrambot4s.api.Polling
+import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.models.Message
 
 /**

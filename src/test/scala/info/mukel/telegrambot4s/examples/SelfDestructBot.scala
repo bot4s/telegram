@@ -31,13 +31,13 @@ class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
       replyMarkup = InlineKeyboardMarkup(button(now)))
   }
 
-  override def onCallbackQuery(cbq: CallbackQuery): Unit = {
+  override def receiveCallbackQuery(cbq: CallbackQuery): Unit = {
     // super.onCallbackQuery(cbq)
     val left = cbq.data.map(_.toLong - now).getOrElse(-1L)
     request(AnswerCallbackQuery(cbq.id, s"$left seconds remaining.", cacheTime = 0))
   }
 
-  override def onChosenInlineResult(result: ChosenInlineResult): Unit = {
+  override def receiveChosenInlineResult(result: ChosenInlineResult): Unit = {
     // super.onChosenInlineResult(result)
 
     val delay = result.resultId.toInt
@@ -52,7 +52,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
     }
   }
 
-  override def onInlineQuery(q: InlineQuery): Unit = {
+  override def receiveInlineQuery(q: InlineQuery): Unit = {
     // super.onInlineQuery(q)
 
     val results = if (q.query.isEmpty)

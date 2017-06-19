@@ -11,8 +11,8 @@ trait ActorBroker extends BotBase {
 
   def broker: Option[ActorRef]
 
-  override def onUpdate(u: Update): Unit = {
+  override def receiveUpdate(u: Update): Unit = {
     broker.foreach(_ ! u)
-    super.onUpdate(u)
+    super.receiveUpdate(u)
   }
 }

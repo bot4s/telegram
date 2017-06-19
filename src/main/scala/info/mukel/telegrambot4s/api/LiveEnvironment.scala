@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.clients.AkkaClient
 
 /**
-  * 'Live' layer (network + logging), backed by Akka-Http for bots.
+  * 'Live' layer (network + logging), backed by Akka-Http.
   */
 trait LiveEnvironment extends AkkaDefaults {
   _ : BotBase =>

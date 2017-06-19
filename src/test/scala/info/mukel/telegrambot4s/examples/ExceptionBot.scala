@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.api.declarative.Commands
 
 import scala.util.Failure
 

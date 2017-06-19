@@ -1,5 +1,6 @@
-package info.mukel.telegrambot4s.api
+package info.mukel.telegrambot4s.api.declarative
 
+import info.mukel.telegrambot4s.api.{MessageAction, MessageFilter}
 import info.mukel.telegrambot4s.models.Message
 
 import scala.collection.mutable
@@ -22,7 +23,7 @@ trait Commands extends VanillaCommands {
   * Makes a bot command-aware using a nice declarative interface.
   * Does NOT include the auto-generated "/help" command.
   */
-trait VanillaCommands extends Actions {
+trait VanillaCommands extends Messages {
 
   private type Args = Seq[String]
   private type MessageActionWithArgs = Message => Args => Unit
@@ -57,7 +58,7 @@ trait VanillaCommands extends Actions {
     require(noWhitespace(command),
       "Commands must not contain whitespaces")
 
-    when(commandFilter(command, parser))(commandAction(actionWithArgs, parser))
+    whenMessage(commandFilter(command, parser))(commandAction(actionWithArgs, parser))
 
     if (description.ne(null))
       commands += (command -> description)

@@ -23,7 +23,7 @@ class SourceQueueClient(token: String, telegramHost: String = "api.telegram.org"
 
   import HttpMarshalling._
 
-  private val availableProcessors = Runtime.getRuntime().availableProcessors()
+  private val availableProcessors = Runtime.getRuntime.availableProcessors()
 
   private lazy val pool = Http().cachedHostConnectionPoolHttps[Promise[HttpResponse]](host = telegramHost)
 

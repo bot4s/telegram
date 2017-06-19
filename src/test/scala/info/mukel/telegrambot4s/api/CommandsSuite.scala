@@ -2,6 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.declarative.{CommandParser, Commands}
 import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -29,19 +30,19 @@ class CommandsSuite extends FlatSpec with MockFactory {
     val f = new Fixture
     f.handlerHello.expects(*, *).never()
     f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(msg("/cocou"))
+    f.bot.receiveMessage(msg("/cocou"))
   }
 
   it should "match the whole command" in {
     val f = new Fixture
     f.handlerHello.expects(*, *).never()
     f.handlerHelloWorld.expects(*, *).once()
-    f.bot.onMessage(msg("/helloW"))
-    f.bot.onMessage(msg("/hell"))
-    f.bot.onMessage(msg("/helloWor"))
-    f.bot.onMessage(msg("/elloWorld"))
+    f.bot.receiveMessage(msg("/helloW"))
+    f.bot.receiveMessage(msg("/hell"))
+    f.bot.receiveMessage(msg("/helloWor"))
+    f.bot.receiveMessage(msg("/elloWorld"))
     // Match.
-    f.bot.onMessage(msg("/helloWorld"))
+    f.bot.receiveMessage(msg("/helloWorld"))
   }
 
   it should "be case insensitive" in {
@@ -51,7 +52,7 @@ class CommandsSuite extends FlatSpec with MockFactory {
     f.handlerHello.expects(*, *).repeat(helloVariants.size)
     helloVariants foreach {
       hello =>
-        f.bot.onMessage(msg(hello))
+        f.bot.receiveMessage(msg(hello))
     }
   }
 
@@ -61,7 +62,7 @@ class CommandsSuite extends FlatSpec with MockFactory {
     val m = msg("  /hello@TargetBot  " + args.mkString(" "))
     f.handlerHello.expects(m, args).once()
     f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(m)
+    f.bot.receiveMessage(m)
   }
 
   it should "ignore heading/trailing whitespace" in {
@@ -69,7 +70,7 @@ class CommandsSuite extends FlatSpec with MockFactory {
     val m = msg("\t  \n /hello    \t \n  ")
     f.handlerHello.expects(m, Seq()).once()
     f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(m)
+    f.bot.receiveMessage(m)
   }
 
   it should "only handle the first command" in {
@@ -77,7 +78,7 @@ class CommandsSuite extends FlatSpec with MockFactory {
     val m = msg("/hello /helloWorld ")
     f.handlerHello.expects(m, Seq("/helloWorld")).once()
     f.handlerHelloWorld.expects(*, *).never()
-    f.bot.onMessage(m)
+    f.bot.receiveMessage(m)
   }
 
   "Hybrid parser" should "parse whole line arguments" in {
@@ -95,6 +96,6 @@ class CommandsSuite extends FlatSpec with MockFactory {
     f.handlerHello.expects(*, *).never()
     f.handlerHelloWorld.expects(*, *).never()
     f.bot.on("/hybrid", parser = CommandParser.Hybrid)(handlerHybrid.curried)
-    f.bot.onMessage(m)
+    f.bot.receiveMessage(m)
   }
 }

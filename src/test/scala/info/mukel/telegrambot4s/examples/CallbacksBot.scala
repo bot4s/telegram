@@ -1,7 +1,8 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.{Callbacks, Commands, Polling}
+import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
+import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.methods.EditMessageReplyMarkup
 import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMarkup}
 

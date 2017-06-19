@@ -5,9 +5,9 @@ import scala.concurrent.Future
 
 /**
   * Asynchronify update handlers.
-  * It affects all handlers since all of them are called by onUpdate directly.
+  * It affects all handlers since all of them are called by receiveUpdate directly.
   * Mix it last.
   */
 trait AsyncUpdates extends BotBase with AkkaImplicits {
-  abstract override def onUpdate(u: Update): Unit = Future(super.onUpdate(u))
+  abstract override def receiveUpdate(u: Update): Unit = Future(super.receiveUpdate(u))
 }

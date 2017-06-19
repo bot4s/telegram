@@ -17,7 +17,7 @@ trait AkkaDefaults extends AkkaImplicits {
   implicit val system: ActorSystem = ActorSystem()
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  private val availableProcessors = Runtime.getRuntime().availableProcessors()
+  private val availableProcessors = Runtime.getRuntime.availableProcessors()
 
   implicit val ec: ExecutionContext =
     ExecutionContext.fromExecutor(Executors.newFixedThreadPool(availableProcessors * 2 + 1))

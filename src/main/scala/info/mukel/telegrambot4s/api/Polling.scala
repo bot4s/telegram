@@ -6,8 +6,10 @@ import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
+import scala.concurrent.duration.FiniteDuration
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
+import scala.concurrent.duration._
 
 /** Provides updates by polling Telegram servers.
   *
@@ -16,7 +18,11 @@ import scala.util.{Failure, Success}
   */
 trait Polling extends BotBase with AkkaImplicits {
 
-  val pollingInterval: Int = 30
+  /**
+    * Defines long-polling request interval, by default 30 seconds.
+    * @return
+    */
+  def pollingInterval: Int = 30
 
   private val updates: Source[Update, NotUsed] = {
     type Offset = Long
@@ -39,7 +45,7 @@ trait Polling extends BotBase with AkkaImplicits {
       }
     }
 
-    val parallelism = Runtime.getRuntime().availableProcessors()
+    val parallelism = Runtime.getRuntime.availableProcessors()
 
     val updateGroups =
       Source.fromIterator(() => iterator)
@@ -58,13 +64,13 @@ trait Polling extends BotBase with AkkaImplicits {
           logger.info(s"Starting polling: interval = $pollingInterval")
 
           // Updates are executed synchronously by default to preserve order.
-          // To make the it async, just wrap the update handler in a Future
+          // To make it async, just wrap the update handler in a Future
           // or mix AsyncUpdates.
           updates
             .runForeach {
               update =>
                 try
-                  onUpdate(update)
+                  receiveUpdate(update)
                 catch {
                   case NonFatal(e) =>
                     logger.error("Caught exception in update handler", e)

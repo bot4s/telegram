@@ -11,7 +11,7 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.{DefaultFormats, Extraction, Formats, NoTypeHints}
 
 /**
-  * De/serialization support for JSON and multipart API requests
+  * De/serialization support for JSON and multipart API requests.
   */
 object HttpMarshalling extends StrictLogging {
 
@@ -26,7 +26,7 @@ object HttpMarshalling extends StrictLogging {
     new EnumNameSerializer(ParseMode) +
     new EnumNameSerializer(ChatType) +
     new EnumNameSerializer(Currency) +
-    new EnumNameSerializer(Country) +
+    new EnumNameSerializer(CountryCode) +
     new EnumNameSerializer(UpdateType) +
     new EnumNameSerializer(MessageEntityType)
   )

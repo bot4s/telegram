@@ -10,8 +10,8 @@ package info.mukel.telegrambot4s.methods
   * (other types of service messages may only be removed by the group creator).
   * In channels, bots can only remove their own messages. Returns True on success.
 
-  * @param chatId     Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-  * @param messageId  Integer	Identifier of the message to delete
+  * @param chatId     Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+  * @param messageId  Integer Identifier of the message to delete
   */
 case class DeleteMessage(
                           chatId    : Long Either String,

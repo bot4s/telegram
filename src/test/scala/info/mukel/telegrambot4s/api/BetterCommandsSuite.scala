@@ -2,6 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.declarative.BetterCommands
 import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -29,7 +30,7 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val f = new Fixture
     f.handlerHello.expects(*).never()
     f.handlerHelloWorld.expects(*).never()
-    f.bot.onMessage(msg("/cocou"))
+    f.bot.receiveMessage(msg("/cocou"))
   }
 
   it should "match string command" in {
@@ -37,7 +38,7 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Unit]
     handler.expects(*).once()
     f.bot.on("/cmd")(handler)
-    f.bot.onMessage(msg("/cmd"))
+    f.bot.receiveMessage(msg("/cmd"))
   }
 
   it should "match String command sequence" in {
@@ -45,9 +46,9 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Unit]
     handler.expects(*).twice()
     f.bot.on("/a" :: "/b" :: Nil)(handler)
-    f.bot.onMessage(msg("/a"))
-    f.bot.onMessage(msg("/b"))
-    f.bot.onMessage(msg("/c"))
+    f.bot.receiveMessage(msg("/a"))
+    f.bot.receiveMessage(msg("/b"))
+    f.bot.receiveMessage(msg("/c"))
   }
 
   it should "match Symbol command" in {
@@ -55,7 +56,7 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Unit]
     handler.expects(*).once()
     f.bot.on('cmd)(handler)
-    f.bot.onMessage(msg("/cmd"))
+    f.bot.receiveMessage(msg("/cmd"))
   }
 
   it should "match Symbol command sequence" in {
@@ -63,9 +64,9 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val handler = mockFunction[Message, Unit]
     handler.expects(*).twice()
     f.bot.on('a :: 'b :: Nil)(handler)
-    f.bot.onMessage(msg("/a"))
-    f.bot.onMessage(msg("/b"))
-    f.bot.onMessage(msg("/c"))
+    f.bot.receiveMessage(msg("/a"))
+    f.bot.receiveMessage(msg("/b"))
+    f.bot.receiveMessage(msg("/c"))
   }
 
   it should "support @sender suffix" in {
@@ -74,7 +75,7 @@ class BetterCommandsSuite extends FlatSpec with MockFactory {
     val m = msg("  /hello@TargetBot  " + args.mkString(" "))
     f.handlerHello.expects(m).once()
     f.handlerHelloWorld.expects(*).never()
-    f.bot.onMessage(m)
+    f.bot.receiveMessage(m)
   }
 
   it should "match using statements" in {

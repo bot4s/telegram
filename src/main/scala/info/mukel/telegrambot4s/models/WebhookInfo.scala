@@ -9,9 +9,9 @@ package info.mukel.telegrambot4s.models
   * @param lastErrorMessage      Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
   */
 case class WebhookInfo(
-                      url : String,
-                      hasCustomCertificate: Boolean,
-                      pendingUpdateCount: Int,
-                      lastErrorDate: Option[Int] = None,
-                      lastErrorMessage: Option[String] = None
+                      url                  : String,
+                      hasCustomCertificate : Boolean,
+                      pendingUpdateCount   : Int,
+                      lastErrorDate        : Option[Int] = None,
+                      lastErrorMessage     : Option[String] = None
                       )
