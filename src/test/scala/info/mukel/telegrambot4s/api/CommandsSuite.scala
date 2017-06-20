@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.api
 
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.declarative.{CommandParser, Commands}
+import info.mukel.telegrambot4s.api.declarative.BetterCommands
 import info.mukel.telegrambot4s.models.{Chat, ChatType, Message}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -12,90 +12,67 @@ class CommandsSuite extends FlatSpec with MockFactory {
   def msg(text: String): Message =
     Message(0, chat = Chat(0, ChatType.Private), date = 0, text = text)
 
-  class Fixture {
-    val handlerHello = mockFunction[Message, Seq[String], Unit]
-    val handlerHelloWorld = mockFunction[Message, Seq[String], Unit]
-    val bot = new BotBase with Commands {
+  trait Fixture {
+    val handlerHello = mockFunction[Message, Unit]
+    val handlerHelloWorld = mockFunction[Message, Unit]
+
+    val bot = new BotBase with BetterCommands {
       val client: RequestHandler = null
       val logger = Logger(getClass)
       def token = "token"
-      on("/hello")(handlerHello.curried)
-      on("/helloWorld")(handlerHelloWorld.curried)
+      on("/hello")(handlerHello)
+      on("/helloWorld")(handlerHelloWorld)
     }
   }
 
   behavior of "Commands"
 
-  it should "ignore non-declared commands" in {
-    val f = new Fixture
-    f.handlerHello.expects(*, *).never()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.receiveMessage(msg("/cocou"))
+  it should "ignore non-declared commands" in new Fixture {
+    handlerHello.expects(*).never()
+    handlerHelloWorld.expects(*).never()
+    bot.receiveMessage(msg("/cocou"))
   }
 
-  it should "match the whole command" in {
-    val f = new Fixture
-    f.handlerHello.expects(*, *).never()
-    f.handlerHelloWorld.expects(*, *).once()
-    f.bot.receiveMessage(msg("/helloW"))
-    f.bot.receiveMessage(msg("/hell"))
-    f.bot.receiveMessage(msg("/helloWor"))
-    f.bot.receiveMessage(msg("/elloWorld"))
+  it should "match the whole command" in new Fixture {
+    handlerHello.expects(*).never()
+    handlerHelloWorld.expects(*).once()
+    bot.receiveMessage(msg("/helloW"))
+    bot.receiveMessage(msg("/hell"))
+    bot.receiveMessage(msg("/helloWor"))
+    bot.receiveMessage(msg("/elloWorld"))
     // Match.
-    f.bot.receiveMessage(msg("/helloWorld"))
+    bot.receiveMessage(msg("/helloWorld"))
   }
 
-  it should "be case insensitive" in {
-    val f = new Fixture
+  it should "be case insensitive" in new Fixture {
     val helloVariants = Seq("/hello", "/HELLO", "/Hello", "/hELlO")
-    f.handlerHelloWorld.expects(*, *).never()
-    f.handlerHello.expects(*, *).repeat(helloVariants.size)
+    handlerHelloWorld.expects(*).never()
+    handlerHello.expects(*).repeat(helloVariants.size)
     helloVariants foreach {
       hello =>
-        f.bot.receiveMessage(msg(hello))
+        bot.receiveMessage(msg(hello))
     }
   }
 
-  it should "support @sender suffix" in {
-    val f = new Fixture
+  it should "support @sender suffix" in new Fixture {
     val args = Seq("arg1", "arg2")
     val m = msg("  /hello@TargetBot  " + args.mkString(" "))
-    f.handlerHello.expects(m, args).once()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.receiveMessage(m)
+    handlerHello.expects(m).once()
+    handlerHelloWorld.expects(*).never()
+    bot.receiveMessage(m)
   }
 
-  it should "ignore heading/trailing whitespace" in {
-    val f = new Fixture
+  it should "ignore heading/trailing whitespace" in new Fixture {
     val m = msg("\t  \n /hello    \t \n  ")
-    f.handlerHello.expects(m, Seq()).once()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.receiveMessage(m)
+    handlerHello.expects(m).once()
+    handlerHelloWorld.expects(*).never()
+    bot.receiveMessage(m)
   }
 
-  it should "only handle the first command" in {
-    val f = new Fixture
+  it should "only handle the first command" in new Fixture {
     val m = msg("/hello /helloWorld ")
-    f.handlerHello.expects(m, Seq("/helloWorld")).once()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.receiveMessage(m)
-  }
-
-  "Hybrid parser" should "parse whole line arguments" in {
-    val f = new Fixture
-    val m = msg(
-      """
-        |  /hybrid arg1 arg2  arg3
-        |this is arg4
-        |
-        |and arg5""".stripMargin)
-
-    val handlerHybrid = mockFunction[Message, Seq[String], Unit]
-    handlerHybrid.expects(m, Seq("arg1", "arg2", "arg3", "this is arg4", "", "and arg5")).once()
-
-    f.handlerHello.expects(*, *).never()
-    f.handlerHelloWorld.expects(*, *).never()
-    f.bot.on("/hybrid", parser = CommandParser.Hybrid)(handlerHybrid.curried)
-    f.bot.receiveMessage(m)
+    handlerHello.expects(m).once()
+    handlerHelloWorld.expects(*).never()
+    bot.receiveMessage(m)
   }
 }

@@ -1,8 +1,8 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.Implicits.{Extractor => $}
-import info.mukel.telegrambot4s.api.declarative.{BetterCommands, RegexCommands}
 import info.mukel.telegrambot4s.api.Polling
+import info.mukel.telegrambot4s.api.declarative.BetterCommands
 
 import scala.concurrent.duration._
 
@@ -14,7 +14,7 @@ import scala.concurrent.duration._
   * @param token Bot's token.
   */
 class CommandsBot(token: String) extends ExampleBot(token)
-  with Polling with BetterCommands with RegexCommands {
+  with Polling with BetterCommands {
 
   // String commands.
   on("/hello") { implicit msg =>

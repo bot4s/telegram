@@ -2,6 +2,7 @@ package info.mukel.telegrambot4s.api
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
+import scala.util.Failure
 
 /**
   * Asynchronify update handlers.
@@ -9,5 +10,10 @@ import scala.concurrent.Future
   * Mix it last.
   */
 trait AsyncUpdates extends BotBase with AkkaImplicits {
-  abstract override def receiveUpdate(u: Update): Unit = Future(super.receiveUpdate(u))
+  abstract override def receiveUpdate(u: Update): Unit = {
+    Future(super.receiveUpdate(u)).onComplete {
+      case Failure(e) => logger.error("Exception in update handler", e)
+      case _ =>
+    }
+  }
 }

@@ -22,7 +22,7 @@ trait BotBase {
   val logger: Logger
   val client: RequestHandler
 
-  def request = client
+  def request: RequestHandler = client
 
   /**
     * Allowed updates. See [[info.mukel.telegrambot4s.models.UpdateType.Filters]].

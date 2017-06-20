@@ -8,7 +8,7 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 /**
-  * Abstraction for callbacks, allowing to filter callback-query events by tag.
+  * Declarative interface for callbacks; allows filtering callback-query events by tag.
   */
 trait Callbacks extends BotBase {
 
@@ -22,8 +22,8 @@ trait Callbacks extends BotBase {
     */
   def onCallbackWithTag(tag: String)(action: CallbackQueryAction): Unit = {
     whenCallbackQuery(_.data.exists(_.startsWith(tag))) {
-      implicit cbq =>
-        untag(tag)(action)
+      cbq =>
+        untag(tag)(action)(cbq)
     }
   }
 
@@ -84,7 +84,7 @@ trait Callbacks extends BotBase {
    *   ... callbackData = tag("some data")
    * }}}
    */
-  def prefixTag(tag: String)(s: String) = tag + s
+  def prefixTag(tag: String)(s: String): String = tag + s
 
   private def untag(tag: String)(action: CallbackQueryAction)(implicit cbq: CallbackQuery) = {
     action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))

@@ -20,9 +20,9 @@ import info.mukel.telegrambot4s.models.UpdateType.UpdateType
   *
   * Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
   *
-  * Notes
+  * '''Notes'''
   *   1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
-  *   2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work.
+  *   2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter.
   *   3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
   *
   * NEW! If you're having any trouble setting up webhooks, please check out this [[https://core.telegram.org/bots/webhooks amazing guide to Webhooks]].

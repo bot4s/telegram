@@ -40,7 +40,7 @@ object Implicits {
   }
 
   implicit class SuffixRequests[R: Manifest](r: ApiRequest[R]) {
-    def request(implicit client: RequestHandler): Future[R] = client(r)
+    def request(implicit reqHandler: RequestHandler): Future[R] = reqHandler(r)
   }
 
   object Extractor {

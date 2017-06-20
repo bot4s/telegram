@@ -1,16 +1,15 @@
 package info.mukel.telegrambot4s.api.declarative
 
-import info.mukel.telegrambot4s.api._
 import info.mukel.telegrambot4s.models.Message
 
 import scala.language.implicitConversions
 
 trait BetterCommands extends Messages {
   /**
-    * Makes the bot able react to 'command' with the specified handler.
+    * React to /commands with the specified action
     *
     * @example {{{
-    *   on('echo) { ... }
+    *   on('echo) { msg => ... }
     *   on('hello :: 'hi :: 'hey :: Nil) { ... }
     *   on(Seq("/beer", "/beers")) { ... }
     * }}}

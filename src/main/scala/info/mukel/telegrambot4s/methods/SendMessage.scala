@@ -7,7 +7,8 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * On success, the sent Message is returned.
   *
   * ==Formatting options==
-  *   The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages. Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
+  *   The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages.
+  *   Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
   *   Note that Telegram clients will display an alert to the user before opening an inline link ('Open this link?' together with the full URL).
   *
   * ===Markdown style===
@@ -26,7 +27,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   *   <code>inline fixed-width code</code>
   *   <pre>pre-formatted fixed-width code block</pre>
   *
-  * ''Please note:''
+  * '''Please note:'''
   *
   *   Only the tags mentioned above are currently supported.
   *   Tags must not be nested.
@@ -38,9 +39,12 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * @param text                   String Text of the message to be sent
   * @param parseMode              String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
   * @param disableWebPagePreview  Boolean Optional Disables link previews for links in this message
-  * @param disableNotification    Boolean Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+  * @param disableNotification    Boolean Optional Sends the message silently.
+  *                               iOS users will not receive a notification, Android users will receive a notification with no sound.
   * @param replyToMessageId       Integer Optional If the message is a reply, ID of the original message
-  * @param replyMarkup            InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply Optional Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
+  * @param replyMarkup            InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply Optional Additional interface options.
+  *                               A JSON-serialized object for an inline keyboard, custom reply keyboard,
+  *                               instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendMessage(
                  chatId                : Long Either String,

@@ -189,7 +189,7 @@ object InlineKeyboardButton {
     *   This type of button must always be the first button in the first row.
     */
   def callbackGame(text: String): InlineKeyboardButton =
-    InlineKeyboardButton(text, callbackGame = Some(CallbackGamePlaceHolder))
+    InlineKeyboardButton(text, callbackGame = Some(CallbackGame))
 
   /**
     * Pressing the button will prompt the user to select one of their chats,

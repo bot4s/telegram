@@ -1,7 +1,5 @@
 package info.mukel.telegrambot4s
 
-import info.mukel.telegrambot4s.api.declarative.ApiTypes
-
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 

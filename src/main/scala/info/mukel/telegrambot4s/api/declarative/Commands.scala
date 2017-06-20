@@ -1,6 +1,5 @@
 package info.mukel.telegrambot4s.api.declarative
 
-import info.mukel.telegrambot4s.api.{MessageAction, MessageFilter}
 import info.mukel.telegrambot4s.models.Message
 
 import scala.collection.mutable
@@ -10,7 +9,7 @@ import scala.collection.mutable
   * Adds an auto-generated "/help" command to list all declared commands with the given description.
   * Commands without provided description will not be listed.
   */
-trait Commands extends VanillaCommands {
+@deprecated trait Commands extends VanillaCommands {
   on("/help", "list available commands") { implicit msg => _ =>
     val help = for ((cmd, desc) <- commands)
       yield
@@ -23,7 +22,7 @@ trait Commands extends VanillaCommands {
   * Makes a bot command-aware using a nice declarative interface.
   * Does NOT include the auto-generated "/help" command.
   */
-trait VanillaCommands extends Messages {
+@deprecated trait VanillaCommands extends Messages {
 
   private type Args = Seq[String]
   private type MessageActionWithArgs = Message => Args => Unit

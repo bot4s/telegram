@@ -6,10 +6,8 @@ import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
 
 import scala.concurrent.Future
-import scala.concurrent.duration.FiniteDuration
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
-import scala.concurrent.duration._
 
 /** Provides updates by polling Telegram servers.
   *

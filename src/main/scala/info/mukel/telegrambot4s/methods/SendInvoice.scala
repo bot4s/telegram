@@ -15,7 +15,9 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Mess
   * @param startParameter       String Yes Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
   * @param currency             String Yes Three-letter ISO 4217 currency code, see more on currencies
   * @param prices               Array of LabeledPrice Yes Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
-  * @param photoUrl             String Optional URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+  * @param photoUrl             String Optional URL of the product photo for the invoice.
+  *                             Can be a photo of the goods or a marketing image for a service.
+  *                             People like it better when they see what they are paying for.
   * @param photoSize            Integer Optional Photo size
   * @param photoWidth           Integer Optional Photo width
   * @param photoHeight          Integer Optional Photo height
@@ -26,7 +28,9 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Mess
   * @param isFlexible           Boolean Optional Pass True, if the final price depends on the shipping method
   * @param disableNotification  Boolean Optional Sends the message silently. Users will receive a notification with no sound.
   * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
-  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
+  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
+  *                             If empty, one 'Pay total price' button will be shown.
+  *                             If not empty, the first button must be a Pay button.
   */
 case class SendInvoice(
                       chatId              : Long,

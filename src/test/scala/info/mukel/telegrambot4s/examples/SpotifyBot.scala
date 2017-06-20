@@ -24,7 +24,7 @@ class SpotifyBot(token: String) extends ExampleBot(token) with Polling {
     val query = inlineQuery.query
     val offset = Extractor.Int.unapply(inlineQuery.offset).getOrElse(0)
 
-    val url = s"https://api.spotify.com/v1/search?type=track&limit=$limit&offset=$offset&q=${URLEncoder.encode(query)}"
+    val url = s"https://api.spotify.com/v1/search?type=track&limit=$limit&offset=$offset&q=${URLEncoder.encode(query, "UTF-8")}"
 
     for {
       response <- Http().singleRequest(HttpRequest(uri = Uri(url)))

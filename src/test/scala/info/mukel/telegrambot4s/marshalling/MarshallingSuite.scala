@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.marshalling
 
-import info.mukel.telegrambot4s.models.CountryCode.Country
+import info.mukel.telegrambot4s.models.CountryCode.{Country, CountryCode}
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models._
 import org.scalamock.scalatest.MockFactory
@@ -16,7 +16,7 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers {
   }
 
   it should "correctly parse Country (Chile)" in {
-    val parsedCountry = HttpMarshalling.fromJson[Country](""" "CL" """)
+    val parsedCountry = HttpMarshalling.fromJson[CountryCode](""" "CL" """)
     parsedCountry should === (CountryCode.CL)
     parsedCountry.englishName should === (CountryCode.CL.englishName)
   }

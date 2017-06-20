@@ -4,4 +4,4 @@ package info.mukel.telegrambot4s.models
   */
 sealed trait CallbackGame
 
-object CallbackGamePlaceHolder extends CallbackGame
+object CallbackGame extends CallbackGame
