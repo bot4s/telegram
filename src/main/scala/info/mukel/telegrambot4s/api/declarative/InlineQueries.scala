@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.methods.AnswerInlineQuery
-import info.mukel.telegrambot4s.models.{InlineQuery, InlineQueryResult}
+import info.mukel.telegrambot4s.models.{ChosenInlineResult, InlineQuery, InlineQueryResult}
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -14,6 +14,7 @@ import scala.util.matching.Regex
 trait InlineQueries extends BotBase {
 
   private val inlineQueryActions = mutable.ArrayBuffer[InlineQueryAction]()
+  private val chosenInlineResultActions = mutable.ArrayBuffer[ChosenInlineResultAction]()
 
   /** Generic filtering for inline queries.
     *
@@ -29,6 +30,24 @@ trait InlineQueries extends BotBase {
     */
   def onInlineQuery(action: InlineQueryAction): Unit = {
     inlineQueryActions += action
+  }
+
+  /**
+    * Executes 'action' for every inline result.
+    * * See [[https://core.telegram.org/bots/inline#collecting-feedback]]
+    */
+  def onChosenInlineResult(action: Action[ChosenInlineResult]): Unit = {
+    chosenInlineResultActions += action
+  }
+
+  /** Generic filtering for inline results.
+    * See [[https://core.telegram.org/bots/inline#collecting-feedback]]
+    *
+    * @param filter A filter should not have side effects.
+    * @param action Action to process the filtered result.
+    */
+  def whenChosenInlineResult(filter: ChosenInlineResultFilter)(action: ChosenInlineResultAction): Unit = {
+    chosenInlineResultActions += wrapFilteredAction(filter, action)
   }
 
   /**
@@ -56,6 +75,14 @@ trait InlineQueries extends BotBase {
     super.receiveInlineQuery(inlineQuery)
   }
 
+  abstract override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {
+    for (action <- chosenInlineResultActions)
+      action(chosenInlineResult)
+
+    // Preserve trait stack-ability.
+    super.receiveChosenInlineResult(chosenInlineResult)
+  }
+
   /** Use this method to send answers to an inline query. On success, True is returned.
     * No more than 50 results per query are allowed.
     *
@@ -75,7 +102,7 @@ trait InlineQueries extends BotBase {
                     switchPmParameter : Option[String] = None)
                  (implicit inlineQuery: InlineQuery): Future[Boolean] = {
     request(
-      AnswerInlineQuery(inlineQuery.id,results, cacheTime, isPersonal,
+      AnswerInlineQuery(inlineQuery.id, results, cacheTime, isPersonal,
         nextOffset, switchPmParameter, switchPmParameter))
   }
 }

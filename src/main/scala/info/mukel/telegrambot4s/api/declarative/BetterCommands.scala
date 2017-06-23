@@ -2,19 +2,28 @@ package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.models.Message
 
-import scala.language.implicitConversions
-
 trait BetterCommands extends Messages {
   /**
     * React to /commands with the specified action
     *
     * @example {{{
-    *   on('echo) { msg => ... }
+    *   on('echo) { implicit msg => ... }
     *   on('hello :: 'hi :: 'hey :: Nil) { ... }
     *   on(Seq("/beer", "/beers")) { ... }
     * }}}
     */
-  def on(magnet: CommandMagnet[this.type]): magnet.Result = magnet(this)
+  def onCommand[T : ToCommand](c: T)(action: MessageAction): Unit = {
+    val commands = implicitly[ToCommand[T]].apply(c)
+
+    onMessage { implicit msg =>
+      using(textTokens) { tokens =>
+        val cmd = tokens.head
+        val cleanCmd = cmd.trim.stripPrefix(ToCommand.CommandPrefix).takeWhile('@' != _).toLowerCase
+        if (commands.exists(_.toLowerCase == cleanCmd))
+          action(msg)
+      }
+    }
+  }
 
   /**
     * Tokenize message text.
@@ -38,7 +47,7 @@ trait BetterCommands extends Messages {
     *   }
     * }}}
     */
-  def using[T](extractor: Message => Option[T])(actionT: Action[T])(implicit msg: Message): Unit = {
+  def using[T](extractor: Extractor[Message, T])(actionT: Action[T])(implicit msg: Message): Unit = {
     extractor(msg).foreach(actionT)
   }
 
@@ -59,33 +68,23 @@ trait BetterCommands extends Messages {
   }
 }
 
-sealed trait CommandMagnet[Context] {
-  type Result
-  def apply(ctx: Context): Result
+trait ToCommand[-T] {
+  def apply(t: T): Seq[String]
 }
 
-object CommandMagnet {
-
-  implicit def fromStrings[Context <: Messages](commands: Seq[String]) =
-    new CommandMagnet[Context] {
-      type Result = Action[MessageAction]
-
-      def apply(ctx: Context): Result = {
-        action =>
-          ctx.onMessage { msg =>
-            for (text <- msg.text) {
-              val Array(cmd, args @ _ *) = text.trim.split("\\s+")
-              val cleanCmd = cmd.takeWhile('@' != _).toLowerCase
-              if (commands.exists(_.toLowerCase == cleanCmd))
-                action(msg)
-            }
-          }
-      }
-    }
-
-  implicit def fromString[Context <: Messages](command: String) = fromStrings[Context](Seq(command))
-
-  implicit def fromSymbol[Context <: Messages](sym: Symbol) = fromSymbols[Context](Seq(sym))
-
-  implicit def fromSymbols[Context <: Messages](syms: Seq[Symbol]) = fromStrings[Context](syms.map("/" + _.name))
+object ToCommand {
+  val CommandPrefix = "/"
+  implicit object stringToCommand extends ToCommand[String] {
+    def apply(s: String): Seq[String] = stringsToCommand(Seq(s))
+  }
+  implicit object stringsToCommand extends ToCommand[Seq[String]] {
+    def apply(s: Seq[String]): Seq[String] = s.map(_.stripPrefix(CommandPrefix))
+  }
+  implicit object symbolToCommand extends ToCommand[Symbol] {
+    def apply(s: Symbol): Seq[String] = stringToCommand(s.name)
+  }
+  implicit object symbolsToCommand extends ToCommand[Seq[Symbol]] {
+    def apply(s: Seq[Symbol]): Seq[String] = stringsToCommand(s.map(_.name))
+  }
 }
+

@@ -1,9 +1,10 @@
 package info.mukel.telegrambot4s.examples
-/*
+
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import info.mukel.telegrambot4s.api.{BetterCommands, Polling}
+import info.mukel.telegrambot4s.api.Polling
+import info.mukel.telegrambot4s.api.declarative.BetterCommands
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -12,14 +13,14 @@ import org.json4s.jackson.JsonMethods._
   */
 class CovfefeBot(token: String) extends ExampleBot(token) with Polling with BetterCommands {
 
-  on("/start") { implicit msg =>
+  onCommand("/start") { implicit msg =>
     reply(
       """Make texting great again!
         |Use /covfefe to get a Trump quote.
       """.stripMargin)
   }
 
-  on("/covfefe", "Random Trump quote") { implicit msg =>
+  onCommand("/covfefe") { implicit msg =>
     val url = "https://api.whatdoestrumpthink.com/api/v1/quotes/random"
     for {
       response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
@@ -35,4 +36,3 @@ class CovfefeBot(token: String) extends ExampleBot(token) with Polling with Bett
     }
   }
 }
-*/

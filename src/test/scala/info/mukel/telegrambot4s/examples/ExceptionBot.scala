@@ -1,15 +1,15 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.api._
-import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api.declarative.BetterCommands
 
 import scala.util.Failure
 
 /**
   * Shows exception handling
   */
-class ExceptionBot(token: String) extends ExampleBot(token) with Polling with Commands {
-  on("/hello") { implicit msg => _ =>
+class ExceptionBot(token: String) extends ExampleBot(token) with Polling with BetterCommands {
+  onCommand("/hello") { implicit msg =>
     reply("Hey there") onComplete {
       case Failure(tex: TelegramApiException) =>
         tex.errorCode match {

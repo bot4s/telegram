@@ -17,13 +17,13 @@ class CommandsBot(token: String) extends ExampleBot(token)
   with Polling with BetterCommands {
 
   // String commands.
-  on("/hello") { implicit msg =>
+  onCommand("/hello") { implicit msg =>
     reply("Hello America!")
   }
 
   // Several commands can share the same handler.
   // Shows the 'using' extension to extract information from messages.
-  on("/hallo" :: "/bonjour" :: "/ciao" :: "/hola" :: Nil) {
+  onCommand("/hallo" :: "/bonjour" :: "/ciao" :: "/hola" :: Nil) {
     implicit msg =>
       using(_.from) { // sender
         user =>
@@ -32,27 +32,27 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // Also using Symbols; the "/" prefix is added by default.
-  on('привет) { implicit msg =>
+  onCommand('привет) { implicit msg =>
     reply("\uD83C\uDDF7\uD83C\uDDFA")
   }
 
   // Note that non-ascii commands are not clickable.
-  on('こんにちは :: '你好 :: '안녕하세요 :: Nil) { implicit msg =>
+  onCommand('こんにちは :: '你好 :: '안녕하세요 :: Nil) { implicit msg =>
     reply("Hello from Asia?")
   }
 
   // Different spellings + emoji commands.
 
-  on("/metro" :: "/métro" :: "/🚇" :: Nil) { implicit msg =>
+  onCommand("/metro" :: "/métro" :: "/🚇" :: Nil) { implicit msg =>
       reply("Metro schedule bla bla...")
   }
 
-  on("/beer" :: "/beers" :: "/🍺" :: "/🍻" :: Nil) { implicit msg =>
+  onCommand("/beer" :: "/beers" :: "/🍺" :: "/🍻" :: Nil) { implicit msg =>
     reply("Beer menu bla bla...")
   }
 
   // withArgs extracts command arguments.
-  on('echo) { implicit msg =>
+  onCommand('echo) { implicit msg =>
     withArgs {
       args =>
         reply(args.mkString(" "))
@@ -60,7 +60,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // withArgs with pattern matching.
-  on("/inc") { implicit msg =>
+  onCommand("/inc") { implicit msg =>
     withArgs {
       case Seq($.Int(i)) =>
         reply("" + (i+1))

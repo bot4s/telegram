@@ -12,7 +12,7 @@ import scala.concurrent.Future
   */
 trait Callbacks extends BotBase {
 
-  private val actions = mutable.ArrayBuffer[CallbackQueryAction]()
+  private val callbackActions = mutable.ArrayBuffer[CallbackQueryAction]()
 
   /** Filters callbacks based on a tag (to avoid collision).
     * The tag is stripped from the CallbackQuery object when passed to the handler.
@@ -33,18 +33,18 @@ trait Callbacks extends BotBase {
     * @param action Method to process the filtered callback query.
     */
   def whenCallbackQuery(filter: CallbackQueryFilter)(action: CallbackQueryAction): Unit = {
-    actions += wrapFilteredAction(filter, action)
+    callbackActions += wrapFilteredAction(filter, action)
   }
 
   /**
     * Executes 'action' for every incoming callback query.
     */
   def onCallbackQuery(action: CallbackQueryAction): Unit = {
-    actions += action
+    callbackActions += action
   }
 
   abstract override def receiveCallbackQuery(callbackQuery: CallbackQuery): Unit = {
-    for (action <- actions)
+    for (action <- callbackActions)
       action(callbackQuery)
 
     // Preserve trait stack-ability.

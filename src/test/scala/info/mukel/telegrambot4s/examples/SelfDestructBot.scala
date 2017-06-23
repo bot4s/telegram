@@ -4,6 +4,7 @@ import java.time.Instant
 
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.api.declarative.{Callbacks, InlineQueries}
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models.UpdateType.Filters._
 import info.mukel.telegrambot4s.models._
@@ -14,7 +15,7 @@ import scala.concurrent.duration._
   * Send self-destructing messages.
   * Ported from: https://github.com/Pitasi/selfdestructbot
   */
-class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
+class SelfDestructBot(token: String) extends ExampleBot(token) with Polling with InlineQueries with Callbacks {
 
   override def allowedUpdates = InlineUpdates ++ CallbackUpdates
 
@@ -31,10 +32,10 @@ class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
       replyMarkup = InlineKeyboardMarkup(button(now)))
   }
 
-  override def receiveCallbackQuery(cbq: CallbackQuery): Unit = {
-    // super.onCallbackQuery(cbq)
-    val left = cbq.data.map(_.toLong - now).getOrElse(-1L)
-    request(AnswerCallbackQuery(cbq.id, s"$left seconds remaining.", cacheTime = 0))
+  onCallbackQuery {
+    implicit cbq =>
+      val left = cbq.data.map(_.toLong - now).getOrElse(-1L)
+      ackCallback(s"$left seconds remaining.", cacheTime = 0)
   }
 
   override def receiveChosenInlineResult(result: ChosenInlineResult): Unit = {
@@ -52,14 +53,11 @@ class SelfDestructBot(token: String) extends ExampleBot(token) with Polling {
     }
   }
 
-  override def receiveInlineQuery(q: InlineQuery): Unit = {
-    // super.onInlineQuery(q)
-
+  onInlineQuery { implicit q =>
     val results = if (q.query.isEmpty)
       Seq.empty
     else
       timeouts.map(buildResult(_, q.query))
-
-    request(AnswerInlineQuery(q.id, results, 5))
+    answerInlineQuery(results, 5)
   }
 }

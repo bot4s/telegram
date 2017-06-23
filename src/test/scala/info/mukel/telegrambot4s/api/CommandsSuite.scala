@@ -20,8 +20,8 @@ class CommandsSuite extends FlatSpec with MockFactory {
       val client: RequestHandler = null
       val logger = Logger(getClass)
       def token = "token"
-      on("/hello")(handlerHello)
-      on("/helloWorld")(handlerHelloWorld)
+      onCommand("/hello")(handlerHello)
+      onCommand("/helloWorld")(handlerHelloWorld)
     }
   }
 

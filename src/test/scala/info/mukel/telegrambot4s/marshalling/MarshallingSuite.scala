@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.marshalling
 
-import info.mukel.telegrambot4s.models.CountryCode.{Country, CountryCode}
+import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models._
 import org.scalamock.scalatest.MockFactory

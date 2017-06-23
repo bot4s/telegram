@@ -1,22 +1,22 @@
 package info.mukel.telegrambot4s.examples
 
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api._
+import info.mukel.telegrambot4s.api.declarative._
 import info.mukel.telegrambot4s.models.{Message, User}
 
-class AuthenticationBot(token: String) extends ExampleBot(token) with Polling with Commands with SillyAuthentication {
+class AuthenticationBot(token: String) extends ExampleBot(token) with Polling with BetterCommands with SillyAuthentication {
 
-  on("/login") { implicit msg => _ =>
+  onCommand("/login") { implicit msg =>
     msg.from.foreach(login)
     reply("Now you have access to /secret." )
   }
 
-  on("/logout") { implicit msg => _ =>
+  onCommand("/logout") { implicit msg =>
     msg.from.foreach(logout)
     reply("You cannot access /secret anymore. Bye bye!" )
   }
 
-  on("/secret") { implicit msg => _ =>
+  onCommand("/secret") { implicit msg =>
     authenticatedOrElse {
       admin =>
         reply(
@@ -33,7 +33,7 @@ class AuthenticationBot(token: String) extends ExampleBot(token) with Polling wi
 /**
   * Extension to add a simple authentication filter.
   */
-trait SillyAuthentication extends Commands {
+trait SillyAuthentication {
   val allowed = scala.collection.mutable.Set[Int]()
 
   def atomic[T](f: => T): T = allowed.synchronized { f }
@@ -41,7 +41,7 @@ trait SillyAuthentication extends Commands {
   def logout(user: User) = atomic { allowed -= user.id }
   def isAuthenticated(user: User): Boolean = atomic { allowed.contains(user.id) }
 
-  def authenticatedOrElse(ok: User => Unit)(noAccess: User => Unit)(implicit msg: Message): Unit = {
+  def authenticatedOrElse(ok: Action[User])(noAccess: Action[User])(implicit msg: Message): Unit = {
     msg.from.foreach {
       user =>
         if (isAuthenticated(user))
@@ -51,7 +51,7 @@ trait SillyAuthentication extends Commands {
     }
   }
 
-  def authenticated(ok: User => Unit)(implicit msg: Message): Unit = {
+  def authenticated(ok: Action[User])(implicit msg: Message): Unit = {
     msg.from.foreach {
       user =>
         if (isAuthenticated(user))
