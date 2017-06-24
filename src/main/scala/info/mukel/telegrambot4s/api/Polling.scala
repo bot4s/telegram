@@ -14,7 +14,9 @@ import scala.util.{Failure, Success}
   * When idle, it won't flood the server, the default polling interval is set to 30  seconds,
   * still the responses are instantaneous.
   */
-trait Polling extends BotBase with AkkaImplicits {
+trait Polling extends BotBase with AkkaImplicits with BotExecutionContext {
+
+  protected val __lock__ = 0
 
   /**
     * Defines long-polling request interval, by default 30 seconds.

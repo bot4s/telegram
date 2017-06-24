@@ -2,156 +2,85 @@ package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.models.Message
 
-import scala.collection.mutable
+trait Commands extends Messages {
 
-/**
-  * Makes a bot command-aware using a nice declarative interface.
-  * Adds an auto-generated "/help" command to list all declared commands with the given description.
-  * Commands without provided description will not be listed.
-  */
-@deprecated trait Commands extends VanillaCommands {
-  on("/help", "list available commands") { implicit msg => _ =>
-    val help = for ((cmd, desc) <- commands)
-      yield
-        s"$cmd - $desc"
-    reply(help mkString "\n")
-  }
-}
-
-/**
-  * Makes a bot command-aware using a nice declarative interface.
-  * Does NOT include the auto-generated "/help" command.
-  */
-@deprecated trait VanillaCommands extends Messages {
-
-  private type Args = Seq[String]
-  private type MessageActionWithArgs = Message => Args => Unit
-
-  // command -> description
-  private[api] val commands = mutable.Map[String, String]()
-
-  private def commandFilter(command: String, parser: CommandParser): MessageFilter = {
-    case parser(rawCommand, _)
-      if parser.matchCommands(rawCommand, command) => true
-    case _ => false
-  }
-
-  private def commandAction(actionWithArgs: MessageActionWithArgs, parser: CommandParser): MessageAction  = {
-    case msg @ parser(_, args) => actionWithArgs(msg)(args)
-    case _ =>
-  }
+  import info.mukel.telegrambot4s.api.Extractors._
 
   /**
-    * Makes the bot able react to 'command' with the specified handler.
+    * React to /commands with the specified action
     *
-    * @param command         Command, should include the "/" prefix, e.g. "/command"
-    * @param description     Provides a brief insight about the command functioning.
-    *                        Hidden (null) by default.
-    * @param actionWithArgs  Handler, receives the incoming message and the command's arguments.
+    * @example {{{
+    *   on('echo) { implicit msg => ... }
+    *   on('hello :: 'hi :: 'hey :: Nil) { ... }
+    *   on(Seq("/beer", "/beers")) { ... }
+    * }}}
     */
-  def on(command: String, description: String = null, parser: CommandParser = CommandParser.Default)
-        (actionWithArgs: MessageActionWithArgs): Unit = {
+  def onCommand[T : ToCommand](c: T)(action: MessageAction): Unit = {
+    val variants = implicitly[ToCommand[T]].apply(c)
 
-    def noWhitespace(s: String): Boolean = "\\s".r.findFirstIn(s).isEmpty
-
-    require(noWhitespace(command),
-      "Commands must not contain whitespaces")
-
-    whenMessage(commandFilter(command, parser))(commandAction(actionWithArgs, parser))
-
-    if (description.ne(null))
-      commands += (command -> description)
-  }
-}
-
-/**
-  * Bindings for custom command parsers.
-  * Command parsers extract a command and arguments from a message.
-  * This is intended for very specific use cases:
-  *   e.g. Embedding arguments in commands /cmd-123 -> /cmd 123
-  *
-  * The 'default' command parser will satisfy most common use cases.
-  */
-trait CommandParser {
-  type Args = Seq[String]
-  type CommandWithArgs = (String, Args)
-
-  /** Extractor to get commands and arguments from Messages.
-    *
-    * @param msg Message
-    * @return command -> args pair extracted from the Message,
-    *         or None if no command was found.
-    */
-  def unapply(msg: Message): Option[CommandWithArgs]
-
-  /**
-    * Commands can arrive with mixed casing, with a @sender suffix.
-    * This methods is responsible for matching commands.
-    * Commands are case insensitive.
-    *
-    * @param fromParser Raw command give from parser
-    * @param target     Command to test
-    * @return           true if the commands are the same, false otherwise.
-    */
-  def matchCommands(fromParser: String, target: String): Boolean =
-    removeSender(fromParser).toLowerCase == target.toLowerCase
-
-  private def removeSender(cmd: String): String =
-    cmd.takeWhile(_ != '@')
-}
-
-object CommandParser {
-
-  /**
-    * Command is the first 'token'.
-    * Remaining tokens (arguments) are separated by spaces.
-    */
-  object Default extends CommandParser {
-    def unapply(msg: Message): Option[CommandWithArgs] = {
-      for {
-        text <- msg.text
-        Array(cmd, args @ _*) = text.trim.split("\\s+").filter(_.nonEmpty)
-      } yield
-        (cmd -> args)
+    onMessage { implicit msg =>
+      using(textTokens) { tokens =>
+        val cmd = tokens.head
+        val cleanCmd = cmd.trim.stripPrefix(ToCommand.CommandPrefix).takeWhile('@' != _).toLowerCase
+        if (variants.exists(_.toLowerCase == cleanCmd))
+          action(msg)
+      }
     }
   }
 
   /**
-    * One argument per line.
+    * Generic extractor for messages.
+    *
+    * @example {{{
+    *   on('hello) { implicit msg =>
+    *     using(_.from) {
+    *       user =>
+    *         reply(s"Hello ${user.firstName}!")
+    *     }
+    *   }
+    * }}}
     */
-  object WholeLineArguments extends CommandParser {
-    def unapply(msg: Message): Option[CommandWithArgs] = {
-      for {
-        msgText <- msg.text
-        // Remove heading whitespace, including newlines
-        text = msgText.dropWhile(_.isWhitespace)
-        Array(line0, args @ _ *) = text.split("(?m)$")
-        (cmd, arg0) = line0.span(!_.isWhitespace)
-      } yield
-        cmd -> (arg0 +: args)
-    }
+  def using[T](extractor: Extractor[Message, T])(actionT: Action[T])(implicit msg: Message): Unit = {
+    extractor(msg).foreach(actionT)
   }
 
   /**
-    * First line is tokenized by spaces like Default.
-    * Remaining lines are passed as arguments.
-    * e.g.
-    *   /command arg1 arg2
-    *   this is arg3
-    *   and then arg4
+    * Extract command arguments from the message's text; if present.
+    * The first token, the /command, is dropped.
+    *
+    * @example {{{
+    *   on('echo) { implicit msg =>
+    *     withArgs { args =>
+    *       reply(args.mkString(" "))
+    *     }
+    *   }
+    * }}}
     */
-  object Hybrid extends CommandParser {
-    def unapply(msg: Message): Option[CommandWithArgs] = {
-      for {
-        msgText <- msg.text
-        // Remove heading whitespace, including newlines
-        text = msgText.dropWhile(_.isWhitespace)
-        if text.nonEmpty
-        // firstSegment is tokenized using the "default" method
-        Array(firstSegment, wholeLineArgs @ _ *) = text.split("\\R")
-        Array(cmd, args @ _*) = firstSegment.trim.split("\\s+").filter(_.nonEmpty)
-      } yield
-        cmd -> (args ++ wholeLineArgs)
-    }
+  def withArgs(action: Action[Args])(implicit msg: Message): Unit = {
+    using(commandArguments)(action)
+  }
+}
+
+trait ToCommand[-T] {
+  def apply(t: T): Seq[String]
+}
+
+object ToCommand {
+  val CommandPrefix = "/"
+
+  implicit object stringToCommand extends ToCommand[String] {
+    def apply(s: String): Seq[String] = stringsToCommand(Seq(s))
+  }
+
+  implicit object stringsToCommand extends ToCommand[Seq[String]] {
+    def apply(s: Seq[String]): Seq[String] = s.map(_.stripPrefix(CommandPrefix))
+  }
+
+  implicit object symbolToCommand extends ToCommand[Symbol] {
+    def apply(s: Symbol): Seq[String] = stringToCommand(s.name)
+  }
+
+  implicit object symbolsToCommand extends ToCommand[Seq[Symbol]] {
+    def apply(s: Seq[Symbol]): Seq[String] = stringsToCommand(s.map(_.name))
   }
 }

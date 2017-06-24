@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.api
 
-import info.mukel.telegrambot4s.api.declarative.{InlineQueries, Messages}
+import info.mukel.telegrambot4s.api.declarative.RegexCommands
 import info.mukel.telegrambot4s.models.Message
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -9,7 +9,7 @@ class RegexCommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[Message, Seq[String], Unit]
-    val bot = new TestBot with Messages with InlineQueries
+    val bot = new TestBot with RegexCommands
   }
 
   behavior of "RegexCommands"

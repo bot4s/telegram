@@ -15,7 +15,10 @@ import scala.concurrent.duration._
   * Send self-destructing messages.
   * Ported from: https://github.com/Pitasi/selfdestructbot
   */
-class SelfDestructBot(token: String) extends ExampleBot(token) with Polling with InlineQueries with Callbacks {
+class SelfDestructBot(token: String) extends ExampleBot(token)
+  with Polling
+  with InlineQueries
+  with Callbacks {
 
   override def allowedUpdates = InlineUpdates ++ CallbackUpdates
 

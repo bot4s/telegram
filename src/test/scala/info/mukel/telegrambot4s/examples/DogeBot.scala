@@ -13,11 +13,13 @@ import info.mukel.telegrambot4s.models._
 /**
   * Such Telegram, many bots, so Dogesome.
   */
-class DogeBot(token: String)
-  extends ExampleBot(token) with Polling with Commands with ChatActions {
+class DogeBot(token: String) extends ExampleBot(token)
+  with Polling
+  with Commands
+  with ChatActions {
 
-  on("/doge", "generates doge meme with given terms") { implicit msg =>
-    args =>
+  onCommand("/doge") { implicit msg =>
+    withArgs { args =>
       val url = "http://dogr.io/" + (args mkString "/") + ".png?split=false"
 
       for {
@@ -29,5 +31,6 @@ class DogeBot(token: String)
         uploadingPhoto // Hint the user
         request(SendPhoto(msg.source, photo))
       }
+    }
   }
 }

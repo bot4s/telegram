@@ -12,14 +12,6 @@ trait Updates extends BotBase {
 
   private val updateActions = mutable.ArrayBuffer[UpdateAction]()
 
-  abstract override def receiveUpdate(update: Update): Unit = {
-    for (action <- updateActions)
-      action(update)
-
-    // Fallback to upper level to preserve trait stack-ability
-    super.receiveUpdate(update)
-  }
-
   /**
     * Filter incoming updates and triggers custom actions.
     *
@@ -37,5 +29,13 @@ trait Updates extends BotBase {
     */
   def onUpdate(action: UpdateAction): Unit = {
     updateActions += action
+  }
+
+  abstract override def receiveUpdate(update: Update): Unit = {
+    for (action <- updateActions)
+      action(update)
+
+    // Fallback to upper level to preserve trait stack-ability
+    super.receiveUpdate(update)
   }
 }

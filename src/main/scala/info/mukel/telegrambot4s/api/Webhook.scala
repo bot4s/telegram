@@ -14,7 +14,9 @@ import scala.util.{Failure, Success}
   * Automatically registers the webhook on run().
   */
 trait Webhook extends WebRoutes {
-  _ : BotBase with AkkaImplicits =>
+  _ : BotBase with AkkaImplicits with BotExecutionContext =>
+
+  protected val __lock__ = 0
 
   import HttpMarshalling._
   import akka.http.scaladsl.server.Directives._

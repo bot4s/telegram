@@ -3,7 +3,7 @@ package info.mukel.telegrambot4s.api.declarative
 /**
   * Declarative interface.
   */
-trait Declarative extends Updates
+trait DeclarativeApi extends Updates
   with Messages
   with ChannelPosts
   with Callbacks

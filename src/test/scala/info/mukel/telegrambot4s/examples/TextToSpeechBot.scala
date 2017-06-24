@@ -16,19 +16,26 @@ import info.mukel.telegrambot4s.models._
   *
   * Google will rightfully block your IP in case of abuse.
   */
-class TextToSpeechBot(token: String) extends ExampleBot(token) with Polling with Commands with ChatActions {
+class TextToSpeechBot(token: String) extends ExampleBot(token)
+  with Polling
+  with Commands
+  with ChatActions {
+
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
-  on("/speak", "transform arguments into sound") { implicit msg => args =>
-    val text = args mkString " "
-    val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
-    for {
-      response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
-      if response.status.isSuccess()
-      bytes <-  Unmarshal(response).to[ByteString]
-    } /* do */ {
-      uploadingAudio // hint the user
-      val voiceMp3 = InputFile("voice.mp3", bytes)
-      request(SendVoice(msg.source, voiceMp3))
+
+  onCommand("/speak") { implicit msg =>
+    withArgs { args =>
+      val text = args mkString " "
+      val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
+      for {
+        response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+        if response.status.isSuccess()
+        bytes <- Unmarshal(response).to[ByteString]
+      } /* do */ {
+        uploadingAudio // hint the user
+        val voiceMp3 = InputFile("voice.mp3", bytes)
+        request(SendVoice(msg.source, voiceMp3))
+      }
     }
   }
 }

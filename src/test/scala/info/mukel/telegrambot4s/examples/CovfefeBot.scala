@@ -4,14 +4,14 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.BetterCommands
+import info.mukel.telegrambot4s.api.declarative.Commands
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 /**
   * CovfefeBot
   */
-class CovfefeBot(token: String) extends ExampleBot(token) with Polling with BetterCommands {
+class CovfefeBot(token: String) extends ExampleBot(token) with Polling with Commands {
 
   onCommand("/start") { implicit msg =>
     reply(

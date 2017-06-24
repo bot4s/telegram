@@ -1,15 +1,11 @@
 package info.mukel.telegrambot4s
 
-import info.mukel.telegrambot4s.api.RequestHandler
-import info.mukel.telegrambot4s.methods.ApiRequest
 import info.mukel.telegrambot4s.models.{InlineKeyboardButton, KeyboardButton}
 
-import scala.concurrent.Future
 import scala.language.implicitConversions
-import scala.util.Try
 
 /**
-  * Useful implicits to reduce boilerplate.
+  * Useful/scary implicits to reduce boilerplate.
   */
 object Implicits {
   implicit def toEitherLeft [L, R](l: L) : Either[L, R] = Left(l)
@@ -33,20 +29,5 @@ object Implicits {
     def altWithUrl(url: String) = s"[$s]($url)"
     def inlineCode = s"`$s`"
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
-  }
-
-  implicit class OptionWrapper[T](opt: Option[T]) {
-    def ?== (t: T): Boolean = opt.contains(t)
-  }
-
-  implicit class SuffixRequests[R: Manifest](r: ApiRequest[R]) {
-    def request(implicit reqHandler: RequestHandler): Future[R] = reqHandler(r)
-  }
-
-  object Extractor {
-    object Int { def unapply(s: String) = Try(s.toInt).toOption }
-    object Long { def unapply(s: String) = Try(s.toLong).toOption }
-    object Double { def unapply(s: String) = Try(s.toDouble).toOption }
-    object Float { def unapply(s: String) = Try(s.toFloat).toOption }
   }
 }

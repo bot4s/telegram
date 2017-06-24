@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.api
 
-import info.mukel.telegrambot4s.api.declarative.InlineQueries
+import info.mukel.telegrambot4s.api.declarative.{InlineQueries, RegexCommands}
 import info.mukel.telegrambot4s.models.{InlineQuery, Update}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -9,7 +9,7 @@ class InlineQueriesSuite extends FlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[InlineQuery, Unit]
-    val bot = new TestBot with InlineQueries
+    val bot = new TestBot with InlineQueries with RegexCommands
   }
 
   "Inline query filter" should "accept matches" in new Fixture {

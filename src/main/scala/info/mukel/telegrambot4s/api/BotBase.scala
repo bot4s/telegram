@@ -6,7 +6,7 @@ import info.mukel.telegrambot4s.models._
 
 import scala.concurrent.Future
 
-/** Bare-bones bot callback-like interface, stackable.
+/** Bare-bones base interface for bots.
   *
   * The token must be declared as a non-val to avoid initialization issues.
   * Consider using a lazy val instead as following:

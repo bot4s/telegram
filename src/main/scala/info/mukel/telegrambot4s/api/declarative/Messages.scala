@@ -8,7 +8,6 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
 
 import scala.collection.mutable
 import scala.concurrent.Future
-import scala.util.matching.Regex
 
 /**
   * Declarative helpers for processing incoming messages.
@@ -17,22 +16,6 @@ trait Messages extends BotBase {
 
   private val messageActions = mutable.ArrayBuffer[MessageAction]()
   private val editedMessageActions = mutable.ArrayBuffer[MessageAction]()
-
-  abstract override def receiveMessage(msg: Message): Unit = {
-    for (action <- messageActions)
-      action(msg)
-
-    // Fallback to upper level to preserve trait stack-ability
-    super.receiveMessage(msg)
-  }
-
-  abstract override def receiveEditedMessage(msg: Message): Unit = {
-    for (action <- editedMessageActions)
-      action(msg)
-
-    // Fallback to upper level to preserve trait stack-ability
-    super.receiveMessage(msg)
-  }
 
   /**
     * Filter incoming messages and triggers custom actions.
@@ -70,27 +53,6 @@ trait Messages extends BotBase {
     */
   def onEditedMessage(action: MessageAction): Unit = {
     editedMessageActions += action
-  }
-
-  /**
-    * Filter messages using a regular expression.
-    * Captured groups are passed along with the message to the handler.
-    * The message's text is trimmed before applying the regex, no need to take care of leading/trailing spaces.
-    *
-    * '''Warning:'''
-    *   Absent optional groups won't be ignored, `null` will be passed instead.
-    *
-    * {{{
-    *   onRegex("""/vote([0-9])""".r) {
-    *     implicit msg => args =>
-    *       reply("Voted: " + args)
-    *   }
-    * }}}
-    */
-  def onRegex(r: Regex)(actionWithArgs: MessageActionWithArgs): Unit = {
-    onMessage { msg =>
-      msg.text.map(_.trim).collect { case r(args @ _*) => actionWithArgs(msg)(args) }
-    }
   }
 
   /**
@@ -134,5 +96,21 @@ trait Messages extends BotBase {
         replyMarkup
       )
     )
+  }
+
+  abstract override def receiveMessage(msg: Message): Unit = {
+    for (action <- messageActions)
+      action(msg)
+
+    // Fallback to upper level to preserve trait stack-ability
+    super.receiveMessage(msg)
+  }
+
+  abstract override def receiveEditedMessage(msg: Message): Unit = {
+    for (action <- editedMessageActions)
+      action(msg)
+
+    // Fallback to upper level to preserve trait stack-ability
+    super.receiveEditedMessage(msg)
   }
 }

@@ -1,8 +1,8 @@
 package info.mukel.telegrambot4s.examples
 
 import info.mukel.telegrambot4s.Implicits._
+import info.mukel.telegrambot4s.api.{Extractors, Polling}
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
-import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.methods.EditMessageReplyMarkup
 import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMarkup}
 
@@ -10,7 +10,11 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMark
   * Show how to use callbacks, and it's shortcomings.
   * @param token Bot's token.
   */
-class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Commands with Callbacks {
+class CallbacksBot(token: String) extends ExampleBot(token)
+  with Polling
+  with Commands
+  with Callbacks {
+
   val TAG = "COUNTER_TAG"
 
   def tag = prefixTag(TAG) _
@@ -25,7 +29,7 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
         tag(n.toString)))
   }
 
-  on("/counter") { implicit msg => _ =>
+  onCommand("/counter") { implicit msg =>
     reply("Press to increment!", replyMarkup = markupCounter(0))
   }
 
@@ -36,7 +40,7 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
 
     for {
       data <- cbq.data
-      Extractor.Int(n) = data
+      Extractors.Int(n) = data
       msg <- cbq.message
     } /* do */ {
       request(

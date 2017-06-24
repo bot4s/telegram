@@ -14,7 +14,7 @@ package info.mukel.telegrambot4s.models
   * @param data             String Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
   * @param gameShortName    String Optional. Short name of a Game to be returned, serves as the unique identifier for the game
   *
-  * NOTE:
+  * '''Note:'''
   *   After the user presses an inline button, Telegram clients will display a progress bar until you call answerCallbackQuery.
   *   It is, therefore, necessary to react by calling answerCallbackQuery even if no notification to the user
   *   is needed (e.g., without specifying any of the optional parameters).

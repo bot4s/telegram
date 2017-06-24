@@ -9,7 +9,7 @@ import info.mukel.telegrambot4s.models.Message
   * @param token Bot's token.
   */
 class StatefulBot(token: String) extends ExampleBot(token) with Polling with Commands with PerChatState[Int] {
-  on("/inc", "shows and increment chat counter") { implicit msg => _ =>
+  onCommand("/inc") { implicit msg =>
     withChatState { s =>
       val n = s.getOrElse(0)
       setChatState(n+1)

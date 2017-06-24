@@ -9,7 +9,7 @@ import scala.util.Failure
   * It affects all handlers since all of them are called by receiveUpdate directly.
   * Mix it last.
   */
-trait AsyncUpdates extends BotBase with AkkaImplicits {
+trait AsyncUpdates extends BotBase with AkkaImplicits with BotExecutionContext {
   abstract override def receiveUpdate(u: Update): Unit = {
     Future(super.receiveUpdate(u)).onComplete {
       case Failure(e) => logger.error("Exception in update handler", e)

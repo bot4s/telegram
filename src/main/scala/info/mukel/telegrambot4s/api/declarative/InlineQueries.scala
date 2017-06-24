@@ -6,7 +6,6 @@ import info.mukel.telegrambot4s.models.{ChosenInlineResult, InlineQuery, InlineQ
 
 import scala.collection.mutable
 import scala.concurrent.Future
-import scala.util.matching.Regex
 
 /**
   * Declarative interface for processing inline queries.
@@ -50,39 +49,6 @@ trait InlineQueries extends BotBase {
     chosenInlineResultActions += wrapFilteredAction(filter, action)
   }
 
-  /**
-    * Filter inline queries messages using a regular expression.
-    * Captured groups are passed along with the message to the handler.
-    * The query's is trimmed before applying the regex, no need to take care of leading/trailing spaces.
-    *
-    * '''Warning:'''
-    *   Absent optional groups won't be ignored, `null` will be passed instead.
-    */
-  def onRegexInline(r: Regex)(actionWithArgs: InlineQueryActionWithArgs): Unit = {
-    onInlineQuery { iq =>
-      iq.query.trim match {
-        case r(args @ _*) => actionWithArgs(iq)(args)
-        case _ =>
-      }
-    }
-  }
-
-  abstract override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
-    for (action <- inlineQueryActions)
-      action(inlineQuery)
-
-    // Preserve trait stack-ability.
-    super.receiveInlineQuery(inlineQuery)
-  }
-
-  abstract override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {
-    for (action <- chosenInlineResultActions)
-      action(chosenInlineResult)
-
-    // Preserve trait stack-ability.
-    super.receiveChosenInlineResult(chosenInlineResult)
-  }
-
   /** Use this method to send answers to an inline query. On success, True is returned.
     * No more than 50 results per query are allowed.
     *
@@ -104,5 +70,21 @@ trait InlineQueries extends BotBase {
     request(
       AnswerInlineQuery(inlineQuery.id, results, cacheTime, isPersonal,
         nextOffset, switchPmParameter, switchPmParameter))
+  }
+
+  abstract override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
+    for (action <- inlineQueryActions)
+      action(inlineQuery)
+
+    // Preserve trait stack-ability.
+    super.receiveInlineQuery(inlineQuery)
+  }
+
+  abstract override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {
+    for (action <- chosenInlineResultActions)
+      action(chosenInlineResult)
+
+    // Preserve trait stack-ability.
+    super.receiveChosenInlineResult(chosenInlineResult)
   }
 }

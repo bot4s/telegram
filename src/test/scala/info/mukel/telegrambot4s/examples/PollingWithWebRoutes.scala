@@ -9,15 +9,18 @@ import info.mukel.telegrambot4s.api.{Polling, WebRoutes}
   * It provides a simple way to add custom endpoints for authentication, games
   * and even serving entire websites.
   */
-class PollingWithWebRoutes(token: String) extends ExampleBot(token) with Polling with WebRoutes with Commands {
+class PollingWithWebRoutes(token: String) extends ExampleBot(token)
+  with Polling
+  with WebRoutes
+  with Commands {
+
   override val port: Int = 8080
 
-  import akka.http.scaladsl.server.Directives._
-
-  on("/hello", "Say hello") {
-    implicit  msg => _ =>
-      reply("Hello")
+  onCommand("/hello") { implicit  msg =>
+    reply("Hello")
   }
+
+  import akka.http.scaladsl.server.Directives._
 
   override def routes = pathEndOrSingleSlash {
     complete("I'm running...")
