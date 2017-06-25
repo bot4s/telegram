@@ -31,12 +31,12 @@ Here's an example that avoids _unintentional_ token sharing:
 object SafeBot extends TelegramBot with Polling with Commands {
   // Use 'def' or 'lazy val' for the token, using a plain 'val' may/will
   // lead to initialization order issues.
-  // Fetch the token from an environment variable or file.
+  // Fetch the token from an environment variable or untracked file.
   lazy val token = scala.util.Properties
     .envOrNone("BOT_TOKEN")
     .getOrElse(Source.fromFile("bot.token").getLines().mkString)
 
-  on("/hello") { implicit msg => _ => reply("My token is SAFE!") }
+  onCommand("/hello") { implicit msg => reply("My token is SAFE!") }
 }
 
 SafeBot.run()
@@ -116,11 +116,13 @@ Change `RandomBot` to whatever bot you find interesting [here](https://github.co
 object LmgtfyBot extends TelegramBot with Polling with Commands {
   def token = "TOKEN"
 
-  on("/lmgtfy") { implicit msg => args =>
-    reply(
-      "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
-      disableWebPagePreview = true
-    )
+  onCommand("/lmgtfy") { implicit msg =>
+    withArgs { args =>
+      reply(
+        "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
+        disableWebPagePreview = true
+      )
+    }
   }
 }
 
@@ -133,17 +135,19 @@ LmgtfyBot.run()
 object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
   def token = "TOKEN"
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
-  on("/speak") { implicit msg => args =>
-    val text = args mkString " "
-    val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
-    for {
-      response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
-      if response.status.isSuccess()
-      bytes <-  Unmarshal(response).to[ByteString]
-    } /* do */ {
-      uploadingAudio // Hint the user
-      val voiceMp3 = InputFile("voice.mp3", bytes)
-      request(SendVoice(msg.source, voiceMp3))
+  onCommand("/speak") { implicit msg =>
+    withArgs { args =>
+      val text = args mkString " "
+      val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
+      for {
+        response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+        if response.status.isSuccess()
+        bytes <-  Unmarshal(response).to[ByteString]
+      } /* do */ {
+        uploadingAudio // Hint the user
+        val voiceMp3 = InputFile("voice.mp3", bytes)
+        request(SendVoice(msg.source, voiceMp3))
+      }
     }
   }
 }
@@ -161,28 +165,22 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
   
   import info.mukel.telegrambot4s.Implicits._
   val rng = new Random(System.currentTimeMillis())
-  on("/coin", "head or tail") { implicit msg => _ =>
-    reply(if (rng.nextBoolean()) "Head!" else "Tail!")
-  }
-  on("/real", "real number in [0, 1]") { implicit msg => _ =>
-    reply(rng.nextDouble().toString)
-  }
-  on("/die", "classic die [1 .. 6]") { implicit msg => _ =>
-    reply((rng.nextInt(6) + 1).toString)
-  }
-  on("/dice", "throw two classic dice [1 .. 6]") { implicit msg => _ =>
-    reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1))
-  }
-  on("/random", "integer in [0, n)") { implicit msg => {
-    case Seq(Extractor.Int(n)) if n > 0 =>
-      reply(rng.nextInt(n).toString)
-    case _ =>
-      reply("Invalid argumentヽ(ಠ_ಠ)ノ")
+  onCommand("/coin") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
+  onCommand("/real") { implicit msg => reply(rng.nextDouble().toString) }
+  onCommand("/die") { implicit msg => reply((rng.nextInt(6) + 1).toString) }
+  onCommand("/dice") { implicit msg => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
+  onCommand("/random") { implicit msg =>
+    withArgs {
+      case Seq(Extractor.Int(n)) if n > 0 =>
+        reply(rng.nextInt(n).toString)
+      case _ =>
+        reply("Invalid argumentヽ(ಠ_ಠ)ノ")
     }
   }
-  on("/choose", "randomly picks one of the arguments") {
-    implicit msg => args =>
+  onCommand("/choose") { implicit msg =>
+    withArgs { args =>  
       reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
+    }
   }
 }
 
@@ -197,7 +195,7 @@ example.
 
 ```scala
   ...
-  on("/secret") { implicit msg => _ =>
+  onCommand("/secret") { implicit msg =>
     authenticatedOrElse {
       admin =>
         reply(

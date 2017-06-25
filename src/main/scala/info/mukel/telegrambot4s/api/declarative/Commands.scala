@@ -2,17 +2,24 @@ package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.models.Message
 
+/**
+  * Provides a declarative interface to define commands.
+  */
 trait Commands extends Messages {
 
   import info.mukel.telegrambot4s.api.Extractors._
 
   /**
-    * React to /commands with the specified action
+    * React to /commands with the specified action.
+    * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
+    * Accepts a "string", a 'symbol, or a sequence of strings or symbols.
     *
     * @example {{{
-    *   on('echo) { implicit msg => ... }
-    *   on('hello :: 'hi :: 'hey :: Nil) { ... }
-    *   on(Seq("/beer", "/beers")) { ... }
+    *   onCommand("/command") { implicit msg => ... }
+    *   onCommand("command") { implicit msg => ... }
+    *   onCommand('echo) { implicit msg => ... }
+    *   onCommand('hi :: 'hello :: 'hey :: Nil) { implicit msg => ... }
+    *   onCommand(Seq("/adieu", "/bye", Nil)) { implicit msg => ... }
     * }}}
     */
   def onCommand[T : ToCommand](c: T)(action: MessageAction): Unit = {
@@ -21,9 +28,12 @@ trait Commands extends Messages {
     onMessage { implicit msg =>
       using(textTokens) { tokens =>
         val cmd = tokens.head
-        val cleanCmd = cmd.trim.stripPrefix(ToCommand.CommandPrefix).takeWhile('@' != _).toLowerCase
-        if (variants.exists(_.toLowerCase == cleanCmd))
-          action(msg)
+        // Filter only commands
+        if (cmd.startsWith(ToCommand.CommandPrefix)) {
+          val target = ToCommand.cleanCommand(cmd)
+          if (variants.contains(target))
+            action(msg)
+        }
       }
     }
   }
@@ -68,12 +78,15 @@ trait ToCommand[-T] {
 object ToCommand {
   val CommandPrefix = "/"
 
+  def cleanCommand(cmd: String): String =
+    cmd.trim.stripPrefix(CommandPrefix).takeWhile('@' != _).toLowerCase
+
   implicit object stringToCommand extends ToCommand[String] {
     def apply(s: String): Seq[String] = stringsToCommand(Seq(s))
   }
 
   implicit object stringsToCommand extends ToCommand[Seq[String]] {
-    def apply(s: Seq[String]): Seq[String] = s.map(_.stripPrefix(CommandPrefix))
+    def apply(s: Seq[String]): Seq[String] = s.map(cleanCommand)
   }
 
   implicit object symbolToCommand extends ToCommand[Symbol] {

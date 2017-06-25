@@ -15,7 +15,7 @@ object Implicits {
   implicit def toOptionEitherRight[L, R](r: R) : Option[Either[L, R]] = Option(Right(r))
 
   implicit def toSeqSeqKeyboardButton(kb: KeyboardButton): Seq[Seq[KeyboardButton]] = Seq(Seq(kb))
-  implicit def toSeqSeqKeyboardButtonSeq(skb: Seq[KeyboardButton]): Seq[Seq[KeyboardButton]] = Seq(skb)
+  implicit def toSeqSeqKeyboardButtonSeq(skb: Seq[KeyboardButton]): Seq[Seq[KeyboardButton]] = skb.map(Seq(_))
 
   implicit def toSeqSeqInlineKeyboardButton(ikb: InlineKeyboardButton): Seq[Seq[InlineKeyboardButton]] = Seq(Seq(ikb))
   implicit def toSeqSeqInlineKeyboardButtonSeq(sikb: Seq[InlineKeyboardButton]): Seq[Seq[InlineKeyboardButton]] = sikb.map(Seq(_))

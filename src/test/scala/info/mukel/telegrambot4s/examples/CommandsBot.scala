@@ -7,7 +7,7 @@ import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
 import scala.concurrent.duration._
 
 /**
-  * Showcases different ways to declare commands (BetterCommands + RegexCommands).
+  * Showcases different ways to declare commands (Commands + RegexCommands).
   *
   * Note that non-ASCII commands are not clickable.
   *
@@ -21,6 +21,11 @@ class CommandsBot(token: String) extends ExampleBot(token)
   // String commands.
   onCommand("/hello") { implicit msg =>
     reply("Hello America!")
+  }
+
+  // '/' prefix is optional
+  onCommand("hola") { implicit msg =>
+    reply("Hola Mundo!")
   }
 
   // Several commands can share the same handler.
@@ -49,7 +54,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
       reply("Metro schedule bla bla...")
   }
 
-  onCommand("/beer" :: "/beers" :: "/🍺" :: "/🍻" :: Nil) { implicit msg =>
+  onCommand("beer" :: "beers" :: "🍺" :: "🍻" :: Nil) { implicit msg =>
     reply("Beer menu bla bla...")
   }
 

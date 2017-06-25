@@ -5,7 +5,7 @@ import info.mukel.telegrambot4s.models.Message
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
-class BetterCommandsSuite extends FlatSpec with MockFactory with TestUtils {
+class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   import Extractors._
 
@@ -65,9 +65,13 @@ class BetterCommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Unit]
-    commandHandler.expects(*).once()
-    bot.onCommand("command")(commandHandler)
-    bot.receiveMessage(msg("/command@PepeBot abc cde 123"))
+    commandHandler.expects(*).twice()
+    bot.onCommand("command" :: "/another" :: Nil)(commandHandler)
+    bot.receiveMessage(msg("command"))
+    bot.receiveMessage(msg("another"))
+    bot.receiveMessage(msg("/command"))
+    bot.receiveMessage(msg("/another"))
+    bot.receiveMessage(msg("/pepe"))
   }
 
   "using helper" should "execute actions on match" in new Fixture {
