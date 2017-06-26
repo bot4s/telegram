@@ -19,6 +19,8 @@ while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+
 libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
 ```
 
