@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="logo-bw.png" title="Telegram">
+  <img src="logo.png" title="TelegramBot4s">
 </p>
 
 # TelegramBot4s
