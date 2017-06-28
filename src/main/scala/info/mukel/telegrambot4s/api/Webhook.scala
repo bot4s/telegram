@@ -16,8 +16,6 @@ import scala.util.{Failure, Success}
 trait Webhook extends WebRoutes {
   _ : BotBase with AkkaImplicits with BotExecutionContext =>
 
-  protected val __lock__ = 0
-
   import HttpMarshalling._
   import akka.http.scaladsl.server.Directives._
 
@@ -48,7 +46,7 @@ trait Webhook extends WebRoutes {
     }
   }
 
-  abstract override val routes =  webhookRoute ~ super.routes
+  abstract override val routes: Route =  webhookRoute ~ super.routes
 
   abstract override def run(): Unit = {
     request(SetWebhook(webhookUrl, allowedUpdates = allowedUpdates))

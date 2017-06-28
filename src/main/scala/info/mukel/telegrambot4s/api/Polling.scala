@@ -16,8 +16,6 @@ import scala.util.{Failure, Success}
   */
 trait Polling extends BotBase with AkkaImplicits with BotExecutionContext {
 
-  protected val __lock__ = 0
-
   /**
     * Defines long-polling request interval, by default 30 seconds.
     * @return
@@ -33,8 +31,8 @@ trait Polling extends BotBase with AkkaImplicits with BotExecutionContext {
 
     val iterator = Iterator.iterate(seed) {
       _ flatMap {
-        case (offset, updates) =>
-          val maxOffset = updates.map(_.updateId).fold(offset)(_ max _)
+        case (offset, newUpdates) =>
+          val maxOffset = newUpdates.map(_.updateId).fold(offset)(_ max _)
           request(GetUpdates(Some(maxOffset + 1), timeout = Some(pollingInterval), allowedUpdates = allowedUpdates))
             .recover {
               case NonFatal(e) =>
@@ -64,7 +62,7 @@ trait Polling extends BotBase with AkkaImplicits with BotExecutionContext {
           logger.info(s"Starting polling: interval = $pollingInterval")
 
           // Updates are executed synchronously by default to preserve order.
-          // To make it async, just wrap the update handler in a Future
+          // To make it asynchronous, just wrap the update handler in a Future
           // or mix AsyncUpdates.
           updates
             .runForeach {
