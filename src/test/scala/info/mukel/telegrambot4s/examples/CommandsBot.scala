@@ -30,7 +30,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // Several commands can share the same handler.
   // Shows the 'using' extension to extract information from messages.
-  onCommand("/hallo" :: "/bonjour" :: "/ciao" :: "/hola" :: Nil) {
+  onCommand("/hallo", "/bonjour", "/ciao", "/hola") {
     implicit msg =>
       using(_.from) { // sender
         user =>
@@ -44,17 +44,17 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // Note that non-ascii commands are not clickable.
-  onCommand('こんにちは :: '你好 :: '안녕하세요 :: Nil) { implicit msg =>
+  onCommand('こんにちは, '你好, '안녕하세요) { implicit msg =>
     reply("Hello from Asia?")
   }
 
   // Different spellings + emoji commands.
 
-  onCommand("/metro" :: "/métro" :: "/🚇" :: Nil) { implicit msg =>
+  onCommand("/metro", "/métro", "/🚇") { implicit msg =>
       reply("Metro schedule bla bla...")
   }
 
-  onCommand("beer" :: "beers" :: "🍺" :: "🍻" :: Nil) { implicit msg =>
+  onCommand("beer", "beers", "🍺", "🍻") { implicit msg =>
     reply("Beer menu bla bla...")
   }
 

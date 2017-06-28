@@ -35,7 +35,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match String command sequence" in new Fixture {
     handler.expects(*).twice()
-    bot.onCommand("/a" :: "/b" :: Nil)(handler)
+    bot.onCommand("/a", "/b")(handler)
     bot.receiveMessage(msg("/a"))
     bot.receiveMessage(msg("/b"))
     bot.receiveMessage(msg("/c"))
@@ -49,7 +49,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match Symbol command sequence" in new Fixture {
     handler.expects(*).twice()
-    bot.onCommand('a :: 'b :: Nil)(handler)
+    bot.onCommand('a, 'b)(handler)
     bot.receiveMessage(msg("/a"))
     bot.receiveMessage(msg("/b"))
     bot.receiveMessage(msg("/c"))
@@ -66,7 +66,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Unit]
     commandHandler.expects(*).twice()
-    bot.onCommand("command" :: "/another" :: Nil)(commandHandler)
+    bot.onCommand("command", "/another")(commandHandler)
     bot.receiveMessage(msg("command"))
     bot.receiveMessage(msg("another"))
     bot.receiveMessage(msg("/command"))

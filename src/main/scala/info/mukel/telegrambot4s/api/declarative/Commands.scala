@@ -18,12 +18,17 @@ trait Commands extends Messages {
     *   onCommand("/command") { implicit msg => ... }
     *   onCommand("command") { implicit msg => ... }
     *   onCommand('echo) { implicit msg => ... }
-    *   onCommand('hi :: 'hello :: 'hey :: Nil) { implicit msg => ... }
-    *   onCommand(Seq("/adieu", "/bye", Nil)) { implicit msg => ... }
+    *   onCommand('hi, 'hello, 'hey) { implicit msg => ... }
+    *   onCommand("/adieu", "/bye") { implicit msg => ... }
     * }}}
     */
-  def onCommand[T : ToCommand](c: T)(action: MessageAction): Unit = {
-    val variants = implicitly[ToCommand[T]].apply(c)
+  def onCommand[T : ToCommand](commands: T*)(action: MessageAction): Unit = {
+    require(commands.nonEmpty, "At least one command required")
+    val toCommandImpl = implicitly[ToCommand[T]]
+    val variants = commands.map(toCommandImpl.apply)
+
+    require(variants.forall(_.forall(c => !c.isWhitespace)),
+      "Commands cannot contain whitespace")
 
     onMessage { implicit msg =>
       using(textTokens) { tokens =>
@@ -72,7 +77,7 @@ trait Commands extends Messages {
 }
 
 trait ToCommand[-T] {
-  def apply(t: T): Seq[String]
+  def apply(t: T): String
 }
 
 object ToCommand {
@@ -82,18 +87,10 @@ object ToCommand {
     cmd.trim.stripPrefix(CommandPrefix).takeWhile('@' != _).toLowerCase
 
   implicit object stringToCommand extends ToCommand[String] {
-    def apply(s: String): Seq[String] = stringsToCommand(Seq(s))
-  }
-
-  implicit object stringsToCommand extends ToCommand[Seq[String]] {
-    def apply(s: Seq[String]): Seq[String] = s.map(cleanCommand)
+    def apply(s: String): String = cleanCommand(s)
   }
 
   implicit object symbolToCommand extends ToCommand[Symbol] {
-    def apply(s: Symbol): Seq[String] = stringToCommand(s.name)
-  }
-
-  implicit object symbolsToCommand extends ToCommand[Seq[Symbol]] {
-    def apply(s: Seq[Symbol]): Seq[String] = stringsToCommand(s.map(_.name))
+    def apply(s: Symbol): String = stringToCommand(s.name)
   }
 }
