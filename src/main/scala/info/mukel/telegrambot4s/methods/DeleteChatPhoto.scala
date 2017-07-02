@@ -7,7 +7,7 @@ package info.mukel.telegrambot4s.methods
   * Returns True on success.
   *
   * '''Note:'''
-  *   In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
+  *   In regular groups (non-supergroups), this method will only work if the "All Members Are Admins" setting is off in the target group.
   *
   * @param chatId Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   */
