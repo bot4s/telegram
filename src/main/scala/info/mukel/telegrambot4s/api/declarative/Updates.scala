@@ -13,18 +13,6 @@ trait Updates extends BotBase {
   private val updateActions = mutable.ArrayBuffer[UpdateAction]()
 
   /**
-    * Filter incoming updates and triggers custom actions.
-    *
-    * @param filter Predicate, should not have side effects; every update will be tested,
-    *               it must be as cheap as possible.
-    *
-    * @param action Action to perform if the incoming update pass the filter.
-    */
-  def whenUpdate(filter: UpdateFilter)(action: UpdateAction): Unit = {
-    updateActions += wrapFilteredAction(filter, action)
-  }
-
-  /**
     * Executes `action` for every update.
     */
   def onUpdate(action: UpdateAction): Unit = {

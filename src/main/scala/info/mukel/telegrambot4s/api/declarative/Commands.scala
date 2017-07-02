@@ -1,13 +1,12 @@
 package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.models.Message
+import info.mukel.telegrambot4s.api.Extractors._
 
 /**
   * Provides a declarative interface to define commands.
   */
 trait Commands extends Messages {
-
-  import info.mukel.telegrambot4s.api.Extractors._
 
   /**
     * React to /commands with the specified action.

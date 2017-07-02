@@ -14,15 +14,6 @@ trait Payments extends BotBase {
   private val shippingQueryActions = mutable.ArrayBuffer[ShippingQueryAction]()
   private val preCheckoutQueryActions = mutable.ArrayBuffer[PreCheckoutQueryAction]()
 
-  /** Generic filtering for shipping queries.
-    *
-    * @param filter A filter should not have side effects.
-    * @param action Method to process the filtered inline query.
-    */
-  def whenShippingQuery(filter: ShippingQueryFilter)(action: ShippingQueryAction): Unit = {
-    shippingQueryActions += wrapFilteredAction(filter, action)
-  }
-
   /**
     * Executes 'action' for every shipping query.
     */
@@ -35,15 +26,6 @@ trait Payments extends BotBase {
     */
   def onPreCheckoutQuery(action: PreCheckoutQueryAction): Unit = {
     preCheckoutQueryActions += action
-  }
-
-  /** Generic filtering for pre-checkout queries.
-    *
-    * @param filter A filter should not have side effects.
-    * @param action Action to process the filtered result.
-    */
-  def whenPreCheckoutQuery(filter: PreCheckoutQueryFilter)(action: PreCheckoutQueryAction): Unit = {
-    preCheckoutQueryActions += wrapFilteredAction(filter, action)
   }
 
   abstract override def receiveShippingQuery(shippingQuery: ShippingQuery): Unit = {

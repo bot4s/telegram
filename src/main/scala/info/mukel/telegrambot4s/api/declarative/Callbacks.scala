@@ -14,6 +14,9 @@ trait Callbacks extends BotBase {
 
   private val callbackActions = mutable.ArrayBuffer[CallbackQueryAction]()
 
+  private def hasTag(tag: String)(cbq: CallbackQuery): Boolean =
+    cbq.data.exists(_.startsWith(tag))
+
   /** Filters callbacks based on a tag (to avoid collision).
     * The tag is stripped from the CallbackQuery object when passed to the handler.
     *
@@ -21,19 +24,10 @@ trait Callbacks extends BotBase {
     * @param action Handler to process the filtered callback query.
     */
   def onCallbackWithTag(tag: String)(action: CallbackQueryAction): Unit = {
-    whenCallbackQuery(_.data.exists(_.startsWith(tag))) {
+    when(onCallbackQuery, hasTag(tag)) {
       cbq =>
         untag(tag)(action)(cbq)
     }
-  }
-
-  /** Generic callbacks filtering (to avoid collision).
-    *
-    * @param filter A filter should not have side effects, and should be fast (no DB requests).
-    * @param action Method to process the filtered callback query.
-    */
-  def whenCallbackQuery(filter: CallbackQueryFilter)(action: CallbackQueryAction): Unit = {
-    callbackActions += wrapFilteredAction(filter, action)
   }
 
   /**

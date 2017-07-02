@@ -14,30 +14,6 @@ trait ChannelPosts extends BotBase {
   private val editedChannelPostActions = mutable.ArrayBuffer[ChannelPostAction]()
 
   /**
-    * Filter channel posts and triggers custom actions.
-    *
-    * @param filter Message predicate, should not have side effects; every incoming message will be tested,
-    *               it must be as cheap as possible.
-    *
-    * @param action Action to perform if the channel post pass the filter.
-    */
-  def whenChannelPost(filter: ChannelPostFilter)(action: ChannelPostAction): Unit = {
-    channelPostActions += wrapFilteredAction(filter, action)
-  }
-
-  /**
-    * Filter edited channel posts and triggers custom action.
-    *
-    * @param filter Message predicate, should not have side effects; every incoming message will be tested,
-    *               it must be as cheap as possible.
-    *
-    * @param action Action to perform if the channel post pass the filter.
-    */
-  def whenEditedChannelPost(filter: ChannelPostFilter)(action: ChannelPostAction): Unit = {
-    editedChannelPostActions += wrapFilteredAction(filter, action)
-  }
-
-  /**
     * Executes `action` for every channel post.
     */
   def onChannelPost(action: ChannelPostAction): Unit = {

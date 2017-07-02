@@ -18,30 +18,6 @@ trait Messages extends BotBase {
   private val editedMessageActions = mutable.ArrayBuffer[MessageAction]()
 
   /**
-    * Filter incoming messages and triggers custom actions.
-    *
-    * @param filter Message predicate, should not have side effects; every incoming message will be tested,
-    *               it must be as cheap as possible.
-    *
-    * @param action Action to perform if the incoming message pass the filter.
-    */
-  def whenMessage(filter: MessageFilter)(action: MessageAction): Unit = {
-    messageActions += wrapFilteredAction(filter, action)
-  }
-
-  /**
-    * Filter edited messages and triggers custom actions.
-    *
-    * @param filter Message predicate, should not have side effects; every incoming message will be tested,
-    *               it must be as cheap as possible.
-    *
-    * @param action Action to perform if the incoming message pass the filter.
-    */
-  def whenEditedMessage(filter: MessageFilter)(action: MessageAction): Unit = {
-    editedMessageActions += wrapFilteredAction(filter, action)
-  }
-
-  /**
     * Executes `action` for every incoming message.
     */
   def onMessage(action: MessageAction): Unit = {

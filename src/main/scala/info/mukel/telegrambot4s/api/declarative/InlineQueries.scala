@@ -15,15 +15,6 @@ trait InlineQueries extends BotBase {
   private val inlineQueryActions = mutable.ArrayBuffer[InlineQueryAction]()
   private val chosenInlineResultActions = mutable.ArrayBuffer[ChosenInlineResultAction]()
 
-  /** Generic filtering for inline queries.
-    *
-    * @param filter A filter should not have side effects, and should be fast (no DB requests).
-    * @param action Method to process the filtered inline query.
-    */
-  def whenInlineQuery(filter: InlineQueryFilter)(action: InlineQueryAction): Unit = {
-    inlineQueryActions += wrapFilteredAction(filter, action)
-  }
-
   /**
     * Executes 'action' for every inline query.
     */
@@ -37,16 +28,6 @@ trait InlineQueries extends BotBase {
     */
   def onChosenInlineResult(action: Action[ChosenInlineResult]): Unit = {
     chosenInlineResultActions += action
-  }
-
-  /** Generic filtering for inline results.
-    * See [[https://core.telegram.org/bots/inline#collecting-feedback]]
-    *
-    * @param filter A filter should not have side effects.
-    * @param action Action to process the filtered result.
-    */
-  def whenChosenInlineResult(filter: ChosenInlineResultFilter)(action: ChosenInlineResultAction): Unit = {
-    chosenInlineResultActions += wrapFilteredAction(filter, action)
   }
 
   /** Use this method to send answers to an inline query. On success, True is returned.
