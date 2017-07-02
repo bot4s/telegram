@@ -6,7 +6,7 @@
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.0)%20May%2018%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.1)%20June%2030%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12)
 [![JitPack](https://jitpack.io/v/info.mukel/telegrambot4s.svg)](https://jitpack.io/#info.mukel/telegrambot4s)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -19,9 +19,7 @@ while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
-resolvers += Resolver.sonatypeRepo("snapshots")
-
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.0-SNAPSHOT"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "2.9.5"
 ```
 
 ## Leaking bot tokens
@@ -52,7 +50,7 @@ Using webhooks requires a server (it won't work on your laptop).
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 ## Payments
-Payments are supported; refer to [official payments documetation](https://core.telegram.org/bots/payments) for details.
+Payments are supported since version 3.0; refer to [official payments documetation](https://core.telegram.org/bots/payments) for details.
 I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
