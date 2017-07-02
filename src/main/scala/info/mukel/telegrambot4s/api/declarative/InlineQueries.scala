@@ -12,13 +12,13 @@ import scala.concurrent.Future
   */
 trait InlineQueries extends BotBase {
 
-  private val inlineQueryActions = mutable.ArrayBuffer[InlineQueryAction]()
-  private val chosenInlineResultActions = mutable.ArrayBuffer[ChosenInlineResultAction]()
+  private val inlineQueryActions = mutable.ArrayBuffer[Action[InlineQuery]]()
+  private val chosenInlineResultActions = mutable.ArrayBuffer[Action[ChosenInlineResult]]()
 
   /**
     * Executes 'action' for every inline query.
     */
-  def onInlineQuery(action: InlineQueryAction): Unit = {
+  def onInlineQuery(action: Action[InlineQuery]): Unit = {
     inlineQueryActions += action
   }
 

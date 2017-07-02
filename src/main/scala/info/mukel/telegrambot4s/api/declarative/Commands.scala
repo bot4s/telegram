@@ -21,7 +21,7 @@ trait Commands extends Messages {
     *   onCommand("/adieu", "/bye") { implicit msg => ... }
     * }}}
     */
-  def onCommand[T : ToCommand](commands: T*)(action: MessageAction): Unit = {
+  def onCommand[T : ToCommand](commands: T*)(action: Action[Message]): Unit = {
     require(commands.nonEmpty, "At least one command required")
     val toCommandImpl = implicitly[ToCommand[T]]
     val variants = commands.map(toCommandImpl.apply)

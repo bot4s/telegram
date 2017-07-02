@@ -10,20 +10,20 @@ import scala.collection.mutable
   */
 trait ChannelPosts extends BotBase {
 
-  private val channelPostActions = mutable.ArrayBuffer[ChannelPostAction]()
-  private val editedChannelPostActions = mutable.ArrayBuffer[ChannelPostAction]()
+  private val channelPostActions = mutable.ArrayBuffer[Action[Message]]()
+  private val editedChannelPostActions = mutable.ArrayBuffer[Action[Message]]()
 
   /**
     * Executes `action` for every channel post.
     */
-  def onChannelPost(action: ChannelPostAction): Unit = {
+  def onChannelPost(action: Action[Message]): Unit = {
     channelPostActions += action
   }
 
   /**
     * Executes `action` for every incoming edited channel post.
     */
-  def onEditedChannelPost(action: ChannelPostAction): Unit = {
+  def onEditedChannelPost(action: Action[Message]): Unit = {
     editedChannelPostActions += action
   }
 

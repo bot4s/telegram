@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.api.declarative
 
+import info.mukel.telegrambot4s.models.{InlineQuery, Message}
+
 import scala.util.matching.Regex
 
 /**
@@ -22,7 +24,7 @@ trait RegexCommands extends Messages with InlineQueries {
     *   }
     * }}}
     */
-  def onRegex(r: Regex)(actionWithArgs: MessageActionWithArgs): Unit = {
+  def onRegex(r: Regex)(actionWithArgs: ActionWithArgs[Message]): Unit = {
     onMessage { msg =>
       msg.text.map(_.trim).collect { case r(args @ _*) => actionWithArgs(msg)(args) }
     }
@@ -36,7 +38,7 @@ trait RegexCommands extends Messages with InlineQueries {
     * '''Warning:'''
     *   Absent optional groups won't be ignored, `null` will be passed instead.
     */
-  def onRegexInline(r: Regex)(actionWithArgs: InlineQueryActionWithArgs): Unit = {
+  def onRegexInline(r: Regex)(actionWithArgs: ActionWithArgs[InlineQuery]): Unit = {
     onInlineQuery { iq =>
       iq.query.trim match {
         case r(args @ _*) => actionWithArgs(iq)(args)

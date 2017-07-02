@@ -11,20 +11,20 @@ import scala.collection.mutable
   */
 trait Payments extends BotBase {
 
-  private val shippingQueryActions = mutable.ArrayBuffer[ShippingQueryAction]()
-  private val preCheckoutQueryActions = mutable.ArrayBuffer[PreCheckoutQueryAction]()
+  private val shippingQueryActions = mutable.ArrayBuffer[Action[ShippingQuery]]()
+  private val preCheckoutQueryActions = mutable.ArrayBuffer[Action[PreCheckoutQuery]]()
 
   /**
     * Executes 'action' for every shipping query.
     */
-  def onShippingQuery(action: ShippingQueryAction): Unit = {
+  def onShippingQuery(action: Action[ShippingQuery]): Unit = {
     shippingQueryActions += action
   }
 
   /**
     * Executes 'action' for every pre-checkout query.
     */
-  def onPreCheckoutQuery(action: PreCheckoutQueryAction): Unit = {
+  def onPreCheckoutQuery(action: Action[PreCheckoutQuery]): Unit = {
     preCheckoutQueryActions += action
   }
 

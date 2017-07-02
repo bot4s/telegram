@@ -14,20 +14,20 @@ import scala.concurrent.Future
   */
 trait Messages extends BotBase {
 
-  private val messageActions = mutable.ArrayBuffer[MessageAction]()
-  private val editedMessageActions = mutable.ArrayBuffer[MessageAction]()
+  private val messageActions = mutable.ArrayBuffer[Action[Message]]()
+  private val editedMessageActions = mutable.ArrayBuffer[Action[Message]]()
 
   /**
     * Executes `action` for every incoming message.
     */
-  def onMessage(action: MessageAction): Unit = {
+  def onMessage(action: Action[Message]): Unit = {
     messageActions += action
   }
 
   /**
     * Executes `action` for every incoming edited message event.
     */
-  def onEditedMessage(action: MessageAction): Unit = {
+  def onEditedMessage(action: Action[Message]): Unit = {
     editedMessageActions += action
   }
 

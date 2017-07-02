@@ -12,7 +12,7 @@ import scala.concurrent.Future
   */
 trait Callbacks extends BotBase {
 
-  private val callbackActions = mutable.ArrayBuffer[CallbackQueryAction]()
+  private val callbackActions = mutable.ArrayBuffer[Action[CallbackQuery]]()
 
   private def hasTag(tag: String)(cbq: CallbackQuery): Boolean =
     cbq.data.exists(_.startsWith(tag))
@@ -23,7 +23,7 @@ trait Callbacks extends BotBase {
     * @param tag Tag
     * @param action Handler to process the filtered callback query.
     */
-  def onCallbackWithTag(tag: String)(action: CallbackQueryAction): Unit = {
+  def onCallbackWithTag(tag: String)(action: Action[CallbackQuery]): Unit = {
     when(onCallbackQuery, hasTag(tag)) {
       cbq =>
         untag(tag)(action)(cbq)
@@ -33,7 +33,7 @@ trait Callbacks extends BotBase {
   /**
     * Executes 'action' for every incoming callback query.
     */
-  def onCallbackQuery(action: CallbackQueryAction): Unit = {
+  def onCallbackQuery(action: Action[CallbackQuery]): Unit = {
     callbackActions += action
   }
 
@@ -80,7 +80,7 @@ trait Callbacks extends BotBase {
    */
   def prefixTag(tag: String)(s: String): String = tag + s
 
-  private def untag(tag: String)(action: CallbackQueryAction)(implicit cbq: CallbackQuery) = {
+  private def untag(tag: String)(action: Action[CallbackQuery])(implicit cbq: CallbackQuery) = {
     action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))
   }
 }

@@ -10,12 +10,12 @@ import scala.collection.mutable
   */
 trait Updates extends BotBase {
 
-  private val updateActions = mutable.ArrayBuffer[UpdateAction]()
+  private val updateActions = mutable.ArrayBuffer[Action[Update]]()
 
   /**
     * Executes `action` for every update.
     */
-  def onUpdate(action: UpdateAction): Unit = {
+  def onUpdate(action: Action[Update]): Unit = {
     updateActions += action
   }
 
