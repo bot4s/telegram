@@ -1,8 +1,9 @@
 package info.mukel.telegrambot4s.api
 
 import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling
+import info.mukel.telegrambot4s.marshalling.HttpMarshalling._
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
 
@@ -15,9 +16,6 @@ import scala.util.{Failure, Success}
   */
 trait Webhook extends WebRoutes {
   _ : BotBase with AkkaImplicits with BotExecutionContext =>
-
-  import HttpMarshalling._
-  import akka.http.scaladsl.server.Directives._
 
   /** URL for the webhook.
     *
