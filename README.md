@@ -1,4 +1,7 @@
-<img src="logo.png" align="right" title="TelegramBot4s" height="300px" style="padding-left: 20px">
+
+<p align="center">
+  <img src="logo.png" title="TelegramBot4s" width="50%">
+</p>
 
 # TelegramBot4s
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
