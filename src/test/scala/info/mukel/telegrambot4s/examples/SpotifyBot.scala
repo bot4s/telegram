@@ -3,7 +3,8 @@ package info.mukel.telegrambot4s.examples
 import java.net.URLEncoder
 
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, Uri}
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.headers.BasicHttpCredentials
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api._
@@ -11,20 +12,53 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import akka.http.scaladsl.model.headers.Authorization
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 /**
   * Spotify search and play previews.
+  * Usage: @YourAwesomeBot query
+  *
+  * The provided clientId/secret are not guaranteed to work forever.
+  * See [[https://developer.spotify.com/web-api/authorization-guide/]]
   */
 class SpotifyBot(token: String) extends ExampleBot(token) with Polling {
 
-  val limit = 20
+  val limit = 10
+
+  val accessToken = {
+
+    val clientId = "e74c52988f6d4bcebb36970a423d348d"
+    val secret = "0edc87deae1a4611a97b6cebef262136"
+
+    val authRequest = HttpRequest(
+      HttpMethods.POST,
+      Uri("https://accounts.spotify.com/api/token"),
+      List(Authorization(BasicHttpCredentials(clientId, secret))),
+      FormData("grant_type" -> "client_credentials").toEntity
+    )
+
+    val f = for {
+      response <- Http().singleRequest(authRequest)
+      if response.status.isSuccess()
+      jsonText <- Unmarshal(response).to[String]
+    } yield {
+      val JString(token) = parse(jsonText) \ "access_token"
+      logger.info(s"Spotify AccessToken: $token")
+      token
+    }
+
+    Await.result(f, Duration.Inf)
+  }
 
   override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
     super.receiveInlineQuery(inlineQuery)
     val query = inlineQuery.query
     val offset = Extractors.Int.unapply(inlineQuery.offset).getOrElse(0)
 
-    val url = s"https://api.spotify.com/v1/search?type=track&limit=$limit&offset=$offset&q=${URLEncoder.encode(query, "UTF-8")}"
+    val url = s"https://api.spotify.com/v1/search?access_token=$accessToken&type=track&limit=$limit&offset=$offset&q=${URLEncoder.encode(query, "UTF-8")}"
 
     for {
       response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
