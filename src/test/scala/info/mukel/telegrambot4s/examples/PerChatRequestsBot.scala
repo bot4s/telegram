@@ -9,9 +9,9 @@ import info.mukel.telegrambot4s.methods.SendMessage
 import info.mukel.telegrambot4s.models.{Message, Update}
 
 class PerChatRequestsBot(token: String) extends ExampleBot(token)
-  with Polling with
-  Commands with
-  PerChatRequests {
+  with Polling
+  with Commands
+  with PerChatRequests {
 
   // Commands work as usual.
   onCommand("/hello") { implicit msg =>

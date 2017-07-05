@@ -41,9 +41,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
       ackCallback(s"$left seconds remaining.", cacheTime = 0)
   }
 
-  override def receiveChosenInlineResult(result: ChosenInlineResult): Unit = {
-    // super.onChosenInlineResult(result)
-
+  onChosenInlineResult { implicit result =>
     val delay = result.resultId.toInt
     request(EditMessageReplyMarkup(
       inlineMessageId = result.inlineMessageId,

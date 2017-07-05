@@ -171,7 +171,7 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
   onCommand("/dice") { implicit msg => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
   onCommand("/random") { implicit msg =>
     withArgs {
-      case Seq(Extractor.Int(n)) if n > 0 =>
+      case Seq(Extractors.Int(n)) if n > 0 =>
         reply(rng.nextInt(n).toString)
       case _ =>
         reply("Invalid argumentヽ(ಠ_ಠ)ノ")

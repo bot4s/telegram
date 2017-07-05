@@ -20,7 +20,8 @@ class QrCodesBot(token: String) extends ExampleBot(token)
   with Commands
   with ChatActions {
 
-  onCommand("/qr") { implicit msg =>
+  // Multiple variants
+  onCommand('qr, 'qrcode, 'qr_code) { implicit msg =>
     withArgs { args =>
       val url = "https://api.qrserver.com/v1/create-qr-code/?data=" +
         URLEncoder.encode(args mkString " ", "UTF-8")
