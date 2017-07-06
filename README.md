@@ -50,7 +50,7 @@ Using webhooks requires a server (it won't work on your laptop).
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 ## Payments
-Payments are supported since version 3.0; refer to [official payments documetation](https://core.telegram.org/bots/payments) for details.
+Payments are supported since version 3.0; refer to [official payments documentation](https://core.telegram.org/bots/payments) for details.
 I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
 
 ## Bonus (or how to turn a spare phone into a Telegram Bot)
@@ -129,7 +129,7 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 LmgtfyBot.run()
 ```
 
-#### Google TTS
+#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/TextToSpeechBot.scala)
 
 ```scala
 object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
