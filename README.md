@@ -4,12 +4,15 @@
 </p>
 
 # TelegramBot4s
+[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.1%20(June%2030%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Bot4s Telegram Channel](https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg)](https://t.me/bot4s_updates)
+[![Bot4s Telegram Group](https://img.shields.io/badge/💬%20Group-Bot4s-00aced.svg)](https://t.me/bot4s)  
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-(3.1)%20June%2030%2C%202017-blue.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12)
 [![JitPack](https://jitpack.io/v/info.mukel/telegrambot4s.svg)](https://jitpack.io/#info.mukel/telegrambot4s)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
