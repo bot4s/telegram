@@ -6,13 +6,24 @@ import info.mukel.telegrambot4s.models.{Message, User}
 
 class AuthenticationBot(token: String) extends ExampleBot(token) with Polling with Commands with SillyAuthentication {
 
+  onCommand('start, 'help) { implicit msg =>
+    reply(
+      """Authentication:
+        |/login - Login
+        |/logout - Logout
+        |/secret - Only authenticated users have access
+      """.stripMargin)
+  }
+
   onCommand("/login") { implicit msg =>
-    msg.from.foreach(login)
+    for (user <- msg.from)
+      login(user)
     reply("Now you have access to /secret." )
   }
 
   onCommand("/logout") { implicit msg =>
-    msg.from.foreach(logout)
+    for (user <- msg.from)
+      logout(user)
     reply("You cannot access /secret anymore. Bye bye!" )
   }
 

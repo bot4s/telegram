@@ -1,8 +1,7 @@
 package info.mukel.telegrambot4s.examples
 
-import info.mukel.telegrambot4s.api.{Extractors => $}
-import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
+import info.mukel.telegrambot4s.api.{Polling, Extractors => $}
 
 import scala.concurrent.duration._
 

@@ -4,7 +4,7 @@ import java.net.URLEncoder
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.BasicHttpCredentials
+import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api._
@@ -12,7 +12,6 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import akka.http.scaladsl.model.headers.Authorization
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration

@@ -132,7 +132,7 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 LmgtfyBot.run()
 ```
 
-#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/TextToSpeechBot.scala)
+#### Google TTS [(full example + inline mode)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/TextToSpeechBot.scala)
 
 ```scala
 object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
@@ -165,8 +165,7 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
   override val webhookUrl = "https://ed88ff73.ngrok.io"
-  
-  import info.mukel.telegrambot4s.Implicits._
+
   val rng = new Random(System.currentTimeMillis())
   onCommand("/coin") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
   onCommand("/real") { implicit msg => reply(rng.nextDouble().toString) }

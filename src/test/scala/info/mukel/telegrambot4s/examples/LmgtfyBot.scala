@@ -2,10 +2,10 @@ package info.mukel.telegrambot4s.examples
 
 import java.net.URLEncoder
 
+import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api._
 import info.mukel.telegrambot4s.api.declarative.{Commands, Messages}
 import info.mukel.telegrambot4s.models._
-import info.mukel.telegrambot4s.Implicits._
 
 /**
   * Let me Google that for you!

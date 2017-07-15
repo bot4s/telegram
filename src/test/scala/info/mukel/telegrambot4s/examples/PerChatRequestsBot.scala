@@ -1,7 +1,6 @@
 package info.mukel.telegrambot4s.examples
 
 import akka.actor.{Actor, ActorRef, Props, Terminated}
-import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.actors.ActorBroker
 import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.api.{AkkaImplicits, Polling}
