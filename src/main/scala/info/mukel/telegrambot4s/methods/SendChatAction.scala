@@ -1,6 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
 import info.mukel.telegrambot4s.methods.ChatAction.ChatAction
+import info.mukel.telegrambot4s.models.ChatId
 
 /** Use this method when you need to tell the user that something is happening on the bot's side.
   * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -16,6 +17,6 @@ import info.mukel.telegrambot4s.methods.ChatAction.ChatAction
   *                typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data.
   */
 case class SendChatAction(
-                         chatId : Long,
+                         chatId : ChatId,
                          action : ChatAction
                          ) extends ApiRequestJson[Boolean]

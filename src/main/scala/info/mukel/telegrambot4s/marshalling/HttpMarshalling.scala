@@ -5,15 +5,27 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
 import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models._
+import info.mukel.telegrambot4s.models.{ChatId, _}
+import org.json4s.JsonAST.{JInt, JString}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods._
-import org.json4s.{DefaultFormats, Extraction, Formats, NoTypeHints}
+import org.json4s.{CustomSerializer, DefaultFormats, Extraction, Formats, NoTypeHints}
 
 /**
   * De/serialization support for JSON and multipart API requests.
   */
 object HttpMarshalling extends StrictLogging {
+
+  object ChatIdSerializer extends CustomSerializer[ChatId]( format => (
+    {
+      case JString(channel)  => ChatId(channel)
+      case JInt(chat) => ChatId(chat.toLong)
+    },
+    {
+      case ChatId.Channel(channel)  => JString(channel)
+      case ChatId.Chat(chat)  => JInt(chat)
+    }
+  ))
 
   implicit val formats: Formats = (
     new Formats {
@@ -28,7 +40,8 @@ object HttpMarshalling extends StrictLogging {
     new EnumNameSerializer(Currency) +
     new EnumNameSerializer(CountryCode) +
     new EnumNameSerializer(UpdateType) +
-    new EnumNameSerializer(MessageEntityType)
+    new EnumNameSerializer(MessageEntityType) +
+    ChatIdSerializer
   )
 
   def toJson[T](t: T): String = compact(render(Extraction.decompose(t).underscoreKeys))
@@ -98,9 +111,15 @@ object HttpMarshalling extends StrictLogging {
             case rm : ReplyMarkup =>
               Multipart.FormData.BodyPart(k, HttpEntity(toJson(rm)))
 
+            case ChatId.Channel(id) =>
+              Multipart.FormData.BodyPart(k, HttpEntity(toJson(id)))
+
+            case ChatId.Chat(id) =>
+              Multipart.FormData.BodyPart(k, HttpEntity(toJson(id)))
+
             case other =>
               logger.error(s"Unexpected value in multipart request: ($k -> $other)")
-              Multipart.FormData.BodyPart(k, HttpEntity(other.toString))
+              Multipart.FormData.BodyPart(k, HttpEntity(toJson(other)))
           }
         }
 

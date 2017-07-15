@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /** Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document).
   * On success, the sent Message is returned.
@@ -21,8 +21,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendVideo(
-                      chatId              : Long Either String,
-                      video               : InputFile Either String,
+                      chatId              : ChatId,
+                      video               : InputFile,
                       duration            : Option[Int] = None,
                       width               : Option[Int] = None,
                       height              : Option[Int] = None,

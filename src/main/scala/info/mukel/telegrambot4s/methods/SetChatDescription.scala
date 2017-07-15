@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to change the description of a supergroup or a channel.
   * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -9,6 +11,6 @@ package info.mukel.telegrambot4s.methods
   * @param description String	No	New chat description, 0-255 characters pinChatMessage  *
   */
 case class SetChatDescription(
-                              chatId      : Either[Long, String],
+                              chatId      : ChatId,
                               description : Option[String] = None
                              ) extends ApiRequestJson[Boolean]

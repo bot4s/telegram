@@ -1,7 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
 import info.mukel.telegrambot4s.models.Currency.Currency
-import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Message}
+import info.mukel.telegrambot4s.models.{ChatId, InlineKeyboardMarkup, LabeledPrice, Message}
 
 /**
   * Use this method to send invoices.
@@ -33,7 +33,7 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Mess
   *                             If not empty, the first button must be a Pay button.
   */
 case class SendInvoice(
-                      chatId              : Long,
+                      chatId              : ChatId.Chat,
                       title               : String,
                       description         : String,
                       payload             : String,

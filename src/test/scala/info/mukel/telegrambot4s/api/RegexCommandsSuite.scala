@@ -21,18 +21,18 @@ class RegexCommandsSuite extends FlatSpec with MockFactory with TestUtils {
     bot.onRegex("""(/pepe|/cojo)""".r)(handler.curried)
 
     // Invalid
-    bot.receiveMessage(msg("/cocou"))
-    bot.receiveMessage(msg("/pepecojo"))
-    bot.receiveMessage(msg("/cojopepe"))
+    bot.receiveMessage(textMessage("/cocou"))
+    bot.receiveMessage(textMessage("/pepecojo"))
+    bot.receiveMessage(textMessage("/cojopepe"))
 
     // Valid
-    bot.receiveMessage(msg("  /pepe  "))
-    bot.receiveMessage(msg("/cojo"))
+    bot.receiveMessage(textMessage("  /pepe  "))
+    bot.receiveMessage(textMessage("/cojo"))
   }
 
   it should "pass regex groups" in new Fixture {
     handler.expects(*, Seq("1234")).once()
     bot.onRegex("""/cmd ([0-9]+)""".r)(handler.curried)
-    bot.receiveMessage(msg("/cmd 1234"))
+    bot.receiveMessage(textMessage("/cmd 1234"))
   }
 }

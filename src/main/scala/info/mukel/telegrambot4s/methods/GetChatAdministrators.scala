@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.ChatMember
+import info.mukel.telegrambot4s.models.{ChatId, ChatMember}
 
 /** Use this method to get a list of administrators in a chat.
   * On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots.
@@ -8,4 +8,4 @@ import info.mukel.telegrambot4s.models.ChatMember
   *
   * @param chatId Integer or String Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
   */
-case class GetChatAdministrators(chatId: Long Either String) extends ApiRequestJson[Seq[ChatMember]]
+case class GetChatAdministrators(chatId: ChatId) extends ApiRequestJson[Seq[ChatMember]]

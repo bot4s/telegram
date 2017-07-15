@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /** Use this method to delete a message.
   *
   * A message can only be deleted if it was sent less than 48 hours ago.
@@ -9,11 +11,11 @@ package info.mukel.telegrambot4s.methods
   * and service messages about people joining or leaving the group
   * (other types of service messages may only be removed by the group creator).
   * In channels, bots can only remove their own messages. Returns True on success.
-
-  * @param chatId     Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+ *
+ * @param chatId     Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param messageId  Integer Identifier of the message to delete
   */
 case class DeleteMessage(
-                          chatId    : Long Either String,
+                          chatId    : ChatId,
                           messageId : Long)
   extends ApiRequestJson[Boolean]

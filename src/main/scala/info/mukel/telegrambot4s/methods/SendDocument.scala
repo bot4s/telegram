@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /** Use this method to send general files. On success, the sent Message is returned.
   * Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -18,8 +18,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendDocument(
-                       chatId              : Long Either String,
-                       document            : InputFile Either String,
+                       chatId              : ChatId,
+                       document            : InputFile,
                        caption             : Option[String] = None,
                        disableNotification : Option[Boolean] = None,
                        replyToMessageId    : Option[Long] = None,

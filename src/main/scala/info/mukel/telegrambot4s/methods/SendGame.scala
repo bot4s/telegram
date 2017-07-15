@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
 
 /** Use this method to send a game.
   * On success, the sent Message is returned.
@@ -15,7 +15,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   *                             If not empty, the first button must launch the game.
   */
 case class SendGame(
-                     chatId              : Long Either String,
+                     chatId              : ChatId,
                      gameShortName       : String,
                      disableNotification : Option[Boolean] = None,
                      replyToMessageId    : Option[Long] = None,

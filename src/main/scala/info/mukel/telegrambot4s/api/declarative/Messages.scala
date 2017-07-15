@@ -1,6 +1,5 @@
 package info.mukel.telegrambot4s.api.declarative
 
-import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.methods.ParseMode.ParseMode
 import info.mukel.telegrambot4s.methods.SendMessage

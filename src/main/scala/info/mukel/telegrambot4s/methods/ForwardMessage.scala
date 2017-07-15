@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.Message
+import info.mukel.telegrambot4s.models.{ChatId, Message}
 
 /** Use this method to forward messages of any kind. On success, the sent Message is returned.
   *
@@ -10,8 +10,8 @@ import info.mukel.telegrambot4s.models.Message
   * @param messageId            Integer Unique message identifier
   */
 case class ForwardMessage(
-                         chatId              : Long Either String,
-                         fromChatId          : Long Either String,
+                         chatId              : ChatId,
+                         fromChatId          : ChatId,
                          disableNotification : Option[Boolean] = None,
                          messageId           : Long
                          ) extends ApiRequestJson[Message]

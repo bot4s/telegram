@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /** Use this method to send photos.
   * On success, the sent Message is returned.
@@ -18,8 +18,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendPhoto(
-                    chatId              : Long Either String,
-                    photo               : InputFile Either String,
+                    chatId              : ChatId,
+                    photo               : InputFile,
                     caption             : Option[String] = None,
                     disableNotification : Option[Boolean] = None,
                     replyToMessageId    : Option[Long] = None,

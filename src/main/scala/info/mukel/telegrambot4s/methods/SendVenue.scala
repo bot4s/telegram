@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
 
 /** Use this method to send information about a venue. On success, the sent Message is returned.
   *
@@ -18,7 +18,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendVenue(
-                    chatId              : Long Either String,
+                    chatId              : ChatId,
                     latitude            : Double,
                     longitude           : Double,
                     title               : String,

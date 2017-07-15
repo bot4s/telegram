@@ -13,7 +13,7 @@ class MessagesSuite extends FlatSpec with MockFactory with TestUtils {
   }
 
   "A message filter " should "accept matches" in new Fixture {
-    val helloMsg = msg("hello")
+    val helloMsg = textMessage("hello")
     handler.expects(helloMsg).once()
     when[Message](bot.onMessage, _.text.contains("hello"))(handler)
     bot.receiveMessage(helloMsg)
@@ -22,11 +22,11 @@ class MessagesSuite extends FlatSpec with MockFactory with TestUtils {
   it should "ignore non-matches" in new Fixture {
     handler.expects(*).never()
     when[Message](bot.onMessage, _.text.contains("hello"))(handler)
-    bot.receiveMessage(msg("abc"))
+    bot.receiveMessage(textMessage("abc"))
   }
 
   "onMessage" should "catch all messages" in new Fixture {
-    val msgs = (0 until 100).map (t => msg(t.toString))
+    val msgs = (0 until 100).map (t => textMessage(t.toString))
     for (m <- msgs)
       handler.expects(m).once()
     bot.onMessage(handler)
@@ -35,7 +35,7 @@ class MessagesSuite extends FlatSpec with MockFactory with TestUtils {
   }
 
   "editedMessage filter " should "accept matches" in new Fixture {
-    val helloMsg = msg("hello")
+    val helloMsg = textMessage("hello")
     handler.expects(helloMsg).once()
     when[Message](bot.onEditedMessage, _.text.contains("hello"))(handler)
     bot.receiveEditedMessage(helloMsg)
@@ -44,11 +44,11 @@ class MessagesSuite extends FlatSpec with MockFactory with TestUtils {
   it should "ignore non-matches" in new Fixture {
     handler.expects(*).never()
     when[Message](bot.onEditedMessage, _.text.contains("hello"))(handler)
-    bot.receiveEditedMessage(msg("abc"))
+    bot.receiveEditedMessage(textMessage("abc"))
   }
 
   "onEditedMessage" should "catch all messages" in new Fixture {
-    val msgs = (0 until 100).map (t => msg(t.toString))
+    val msgs = (0 until 100).map (t => textMessage(t.toString))
     for (m <- msgs)
       handler.expects(m).once()
     bot.onEditedMessage(handler)

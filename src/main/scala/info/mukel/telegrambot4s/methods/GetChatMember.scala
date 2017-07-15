@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.ChatMember
+import info.mukel.telegrambot4s.models.{ChatId, ChatMember}
 
 /** Use this method to get information about a member of a chat. Returns a ChatMember object on success.
   *
@@ -8,6 +8,6 @@ import info.mukel.telegrambot4s.models.ChatMember
   * @param userId Integer Unique identifier of the target user
   */
 case class GetChatMember(
-                          chatId : Long Either String,
+                          chatId : ChatId,
                           userId : Long
                         ) extends ApiRequestJson[ChatMember]

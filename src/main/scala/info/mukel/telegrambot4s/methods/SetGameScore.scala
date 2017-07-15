@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.Message
+import info.mukel.telegrambot4s.models.{ChatId, Message}
 
 /** Use this method to set the score of the specified user in a game.
   *
@@ -24,7 +24,7 @@ case class SetGameScore(
                        score              : Long,
                        force              : Option[Boolean] = None,
                        disableEditMessage : Option[Boolean] = None,
-                       chatId             : Option[Either[Long, String]] = None,
+                       chatId             : Option[ChatId] = None,
                        messageId          : Option[Long] = None,
                        inlineMessageId    : Option[String] = None
                        ) extends ApiRequestJson[Either[Boolean, Message]] {

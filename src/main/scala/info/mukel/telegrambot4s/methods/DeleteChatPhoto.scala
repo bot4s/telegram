@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to delete a chat photo.
   * Photos can't be changed for private chats.
@@ -12,5 +14,5 @@ package info.mukel.telegrambot4s.methods
   * @param chatId Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   */
 case class DeleteChatPhoto(
-                            chatId : Either[Long, String]
+                            chatId : ChatId
                           ) extends ApiRequestJson[Boolean]

@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.InputFile
+import info.mukel.telegrambot4s.models.{ChatId, InputFile}
 
 /**
   * Use this method to set a new profile photo for the chat.
@@ -14,6 +14,6 @@ import info.mukel.telegrambot4s.models.InputFile
   * @param photo   InputFile New chat photo, uploaded using multipart/form-data
   */
 case class SetChatPhoto(
-                         chatId : Either[Long, String],
+                         chatId : ChatId,
                          photo  : InputFile
                        ) extends ApiRequestMultipart[Boolean]

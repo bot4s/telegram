@@ -44,7 +44,6 @@ package info.mukel.telegrambot4s.models
   *                               identifier, not exceeding 1e13 by absolute value
   * @param pinnedMessage          Message Optional Specified message was pinned. Note that the Message object in this
   *                               field will not contain further reply_to_message fields even if it is itself a reply.
-  *
   * @param successfulPayment      Optional. Message is a service message about a successful payment, information about the payment.
   */
 case class  Message(
@@ -81,13 +80,13 @@ case class  Message(
                groupChatCreated      : Option[Boolean] = None,
                supergroupChatCreated : Option[Boolean] = None,
                channelChatCreated    : Option[Boolean] = None,
-               migrateToChatId       : Option[Long] = None,
-               migrateFromChatId     : Option[Long] = None,
+               migrateToChatId       : Option[ChatId.Chat] = None,
+               migrateFromChatId     : Option[ChatId.Chat] = None,
                pinnedMessage         : Option[Message] = None,
                successfulPayment     : Option[SuccessfulPayment] = None
                    ) {
 
-  def source = chat.id
+  def source: ChatId.Chat = ChatId.Chat(chat.id)
 
   @deprecated("Use .source instead", "telegrambo4s 2.0.1")
   def sender = source

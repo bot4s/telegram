@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /** Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message.
   * For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document).
@@ -21,8 +21,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendVoice(
-                      chatId              : Long Either String,
-                      voice               : InputFile Either String,
+                      chatId              : ChatId,
+                      voice               : InputFile,
                       caption             : Option[String] = None,
                       duration            : Option[String] = None,
                       disableNotification : Option[Boolean] = None,

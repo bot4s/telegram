@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /** Use this method to send .webp stickers. On success, the sent Message is returned.
   *
@@ -16,8 +16,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
 case class SendSticker(
-                        chatId              : Long Either String,
-                        sticker             : InputFile Either String,
+                        chatId              : ChatId,
+                        sticker             : InputFile,
                         disableNotification : Option[Boolean] = None,
                         replyToMessageId    : Option[Long] = None,
                         replyMarkup         : Option[ReplyMarkup] = None

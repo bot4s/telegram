@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to change the title of a chat.
   * Titles can't be changed for private chats.
@@ -12,6 +14,6 @@ package info.mukel.telegrambot4s.methods
   * @param title   String	New chat title, 1-255 characters
   */
 case class SetChatTitle(
-                         chatId : Either[Long, String],
+                         chatId : ChatId,
                          title  : String
                        ) extends ApiRequestJson[Boolean]

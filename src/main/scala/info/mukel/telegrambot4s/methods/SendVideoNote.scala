@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InputFile, Message, ReplyMarkup}
 
 /**
   * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
@@ -20,8 +20,8 @@ import info.mukel.telegrambot4s.models.{InputFile, Message, ReplyMarkup}
   * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply Optional
   */
 case class SendVideoNote(
-                          chatId              : Long Either String,
-                          videoNote           : InputFile Either String,
+                          chatId              : ChatId,
+                          videoNote           : InputFile,
                           duration            : Option[Int] = None,
                           length              : Option[Int] = None,
                           disableNotification : Option[Boolean] = None,

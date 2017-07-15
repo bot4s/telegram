@@ -6,19 +6,23 @@ import scala.language.implicitConversions
 
 /**
   * Useful/scary implicits to reduce boilerplate.
+  *
+  * Note that implicit Option conversion can have unexpected side effects,
+  * use wisely; at your own risk.
   */
 object Implicits {
-  implicit def toEitherLeft [L, R](l: L) : Either[L, R] = Left(l)
-  implicit def toEitherRight[L, R](r: R) : Either[L, R] = Right(r)
 
-  implicit def toOptionEitherLeft [L, R](l: L) : Option[Either[L, R]] = Option(Left(l))
-  implicit def toOptionEitherRight[L, R](r: R) : Option[Either[L, R]] = Option(Right(r))
+  implicit def toSeqSeqKeyboardButton(kb: KeyboardButton): Seq[Seq[KeyboardButton]] =
+    Seq(Seq(kb))
 
-  implicit def toSeqSeqKeyboardButton(kb: KeyboardButton): Seq[Seq[KeyboardButton]] = Seq(Seq(kb))
-  implicit def toSeqSeqKeyboardButtonSeq(skb: Seq[KeyboardButton]): Seq[Seq[KeyboardButton]] = skb.map(Seq(_))
+  implicit def toSeqSeqKeyboardButtonSeq(skb: Seq[KeyboardButton]): Seq[Seq[KeyboardButton]] =
+    skb.map(Seq(_))
 
-  implicit def toSeqSeqInlineKeyboardButton(ikb: InlineKeyboardButton): Seq[Seq[InlineKeyboardButton]] = Seq(Seq(ikb))
-  implicit def toSeqSeqInlineKeyboardButtonSeq(sikb: Seq[InlineKeyboardButton]): Seq[Seq[InlineKeyboardButton]] = sikb.map(Seq(_))
+  implicit def toSeqSeqInlineKeyboardButton(ikb: InlineKeyboardButton): Seq[Seq[InlineKeyboardButton]] =
+    Seq(Seq(ikb))
+
+  implicit def toSeqSeqInlineKeyboardButtonSeq(sikb: Seq[InlineKeyboardButton]): Seq[Seq[InlineKeyboardButton]] =
+    sikb.map(Seq(_))
 
   implicit def toOption[T](v: T) : Option[T] = Option(v)
 

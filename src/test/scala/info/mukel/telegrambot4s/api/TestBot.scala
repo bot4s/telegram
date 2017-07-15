@@ -9,7 +9,7 @@ class TestBot extends BotBase {
 }
 
 trait TestUtils {
-  def msg(text: String): Message =
+  def textMessage(text: String): Message =
     Message(0, chat = Chat(0, ChatType.Private), date = 0, text = Some(text))
 
   def user(name: String): User = User(0, name)

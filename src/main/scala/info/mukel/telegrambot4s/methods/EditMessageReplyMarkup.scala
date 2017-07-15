@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, Message}
+import info.mukel.telegrambot4s.models.{ChatId, InlineKeyboardMarkup, Message}
 
 /** Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
   * On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
@@ -11,11 +11,11 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, Message}
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
   */
 case class EditMessageReplyMarkup(
-                                 chatId          : Option[Long Either String] = None,
+                                 chatId          : Option[ChatId] = None,
                                  messageId       : Option[Long] = None,
                                  inlineMessageId : Option[String] = None,
                                  replyMarkup     : Option[InlineKeyboardMarkup] = None
-                                 ) extends ApiRequestJson[Message Either Boolean] {
+                                 ) extends ApiRequestJson[Either[Boolean, Message]] {
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
     require(messageId.isDefined, "Required if inlineMessageId is not specified")

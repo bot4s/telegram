@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to pin a message in a supergroup.
   * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -10,7 +12,7 @@ package info.mukel.telegrambot4s.methods
   * @param disableNotification  Boolean	Optional Pass True, if it is not necessary to send a notification to all group members about the new pinned message
   */
 case class PinChatMessage(
-                           chatId              : Either[Long, String],
+                           chatId              : ChatId,
                            messageId           : Long,
                            disableNotification : Option[Boolean] = None
                          ) extends ApiRequestJson[Boolean]

@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
 
 /** Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
   * On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
@@ -12,7 +12,7 @@ import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
   */
 case class EditMessageCaption(
-                               chatId                : Option[Long Either String] = None,
+                               chatId                : Option[ChatId] = None,
                                messageId             : Option[Long] = None,
                                inlineMessageId       : Option[String] = None,
                                caption               : Option[String] = None,

@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to kick a user from a group, a supergroup or a channel.
   * In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
@@ -16,7 +18,7 @@ package info.mukel.telegrambot4s.methods
   *                   If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
   */
 case class KickChatMember(
-                         chatId    : Long Either String,
+                         chatId    : ChatId,
                          userId    : Long,
                          untilDate : Option[Int] = None
                          ) extends ApiRequestJson[Boolean]

@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.GameHighScore
+import info.mukel.telegrambot4s.models.{ChatId, GameHighScore}
 
 /** Use this method to get data for high score tables. Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.
   *
@@ -13,7 +13,7 @@ import info.mukel.telegrambot4s.models.GameHighScore
   */
 case class GetGameHighScores(
                             userId          : Long,
-                            chatId          : Option[Long Either String] = None,
+                            chatId          : Option[ChatId] = None,
                             messageId       : Option[Long] = None,
                             inlineMessageId : Option[String] = None
                             ) extends ApiRequestJson[Seq[GameHighScore]] {

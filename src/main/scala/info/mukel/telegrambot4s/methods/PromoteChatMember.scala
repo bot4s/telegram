@@ -1,12 +1,14 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to promote or demote a user in a supergroup or a channel.
   * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
   * Pass False for all boolean parameters to demote a user.
   * Returns True on success.
-
-  * @param chatId              Integer or String Unique identifier for the target chat or username of the target channel 
+ *
+ * @param chatId              Integer or String Unique identifier for the target chat or username of the target channel
   *                            (in the format @channelusername)
   * @param userId              Integer Unique identifier of the target user
   * @param canChangeInfo       Boolean Optional Pass True, if the administrator can change chat title, photo and other settings
@@ -21,7 +23,7 @@ package info.mukel.telegrambot4s.methods
   *                            directly or indirectly (promoted by administrators that were appointed by him)
   */
 case class PromoteChatMember(
-                            chatId             : Either[Long, String],
+                            chatId             : ChatId,
                             userId             : Long,
                             canChangeInfo      : Option[Boolean] = None,
                             canPostMessages    : Option[Boolean] = None,

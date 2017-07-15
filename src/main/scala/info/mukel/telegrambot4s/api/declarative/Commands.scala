@@ -1,7 +1,7 @@
 package info.mukel.telegrambot4s.api.declarative
 
-import info.mukel.telegrambot4s.models.Message
 import info.mukel.telegrambot4s.api.Extractors._
+import info.mukel.telegrambot4s.models.Message
 
 /**
   * Provides a declarative interface to define commands.

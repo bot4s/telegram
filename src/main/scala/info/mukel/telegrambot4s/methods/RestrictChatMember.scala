@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /**
   * Use this method to restrict a user in a supergroup.
   * The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
@@ -16,7 +18,7 @@ package info.mukel.telegrambot4s.methods
   * @param canAddWebPagePreviews  Boolean Optional Pass True, if the user may add web page previews to their messages, implies can_send_media_messages
   */
 case class RestrictChatMember(
-                             chatId                : Either[Long, String],
+                             chatId                : ChatId,
                              userId                : Long,
                              untilDate             : Option[Int] = None,
                              canSendMessages       : Option[Boolean] = None,

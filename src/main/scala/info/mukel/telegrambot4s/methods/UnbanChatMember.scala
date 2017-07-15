@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.methods
 
+import info.mukel.telegrambot4s.models.ChatId
+
 /** Use this method to unban a previously kicked user in a supergroup.
   * The user will not return to the group automatically, but will be able to join via link, etc.
   * The bot must be an administrator in the group for this to work. Returns True on success.
@@ -8,6 +10,6 @@ package info.mukel.telegrambot4s.methods
   * @param userId Integer Unique identifier of the target user
   */
 case class UnbanChatMember(
-                          chatId: Long Either String,
+                          chatId: ChatId,
                           userId: Long
                           ) extends ApiRequestJson[Boolean]
