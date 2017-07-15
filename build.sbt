@@ -17,9 +17,9 @@ scalacOptions ++= Seq(
 resolvers += Resolver.typesafeRepo("releases")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"          %% "akka-actor"      % "2.4.18",
-  "com.typesafe.akka"          %% "akka-stream"     % "2.4.18",
-  "com.typesafe.akka"          %% "akka-http"       % "10.0.8",
+  "com.typesafe.akka"          %% "akka-actor"      % "2.4.19",
+  "com.typesafe.akka"          %% "akka-stream"     % "2.4.19",
+  "com.typesafe.akka"          %% "akka-http"       % "10.0.9",
   "org.json4s"                 %% "json4s-jackson"  % "3.5.2",
   "org.json4s"                 %% "json4s-ext"      % "3.5.2",
   "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0",
