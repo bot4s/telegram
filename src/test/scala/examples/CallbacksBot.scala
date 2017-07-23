@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.examples
+package examples
 
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}

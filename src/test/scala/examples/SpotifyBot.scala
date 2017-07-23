@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.examples
+package examples
 
 import java.net.URLEncoder
 

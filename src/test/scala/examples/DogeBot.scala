@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.examples
+package examples
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}

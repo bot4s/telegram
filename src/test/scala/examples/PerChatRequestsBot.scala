@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.examples
+package examples
 
 import akka.actor.{Actor, ActorRef, Props, Terminated}
 import info.mukel.telegrambot4s.actors.ActorBroker
