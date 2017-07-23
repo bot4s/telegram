@@ -1,6 +1,10 @@
 *.class
 *.log
 
+# Ensime specific
+.ensime_cache
+.ensime
+
 # sbt specific
 .cache
 .history
