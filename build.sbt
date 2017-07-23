@@ -25,7 +25,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0",
   "ch.qos.logback"             %  "logback-classic" % "1.1.7"   % Test,
   "org.scalatest"              %% "scalatest"       % "3.0.1"   % Test,
-  "org.scalamock"              %% "scalamock-scalatest-support" % "3.5.0" % Test
+  "org.scalamock"              %% "scalamock-scalatest-support" % "3.5.0" % Test,
+  "ch.megard"                  %% "akka-http-cors"  % "0.2.1"   % Test
 )
 
 fork := true
