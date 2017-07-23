@@ -41,6 +41,7 @@ object HttpMarshalling extends StrictLogging {
     new EnumNameSerializer(CountryCode) +
     new EnumNameSerializer(UpdateType) +
     new EnumNameSerializer(MessageEntityType) +
+    new EnumNameSerializer(MaskPositionType) +
     ChatIdSerializer
   )
 
