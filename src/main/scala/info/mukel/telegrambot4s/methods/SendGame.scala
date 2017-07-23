@@ -5,7 +5,7 @@ import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
 /** Use this method to send a game.
   * On success, the sent Message is returned.
   *
-  * @param chatId               Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+  * @param chatId               Integer	Yes	Unique identifier for the target chat
   * @param gameShortName        String Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
   * @param disableNotification  Boolean Optional Sends the message silently.
   *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
@@ -15,7 +15,7 @@ import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
   *                             If not empty, the first button must launch the game.
   */
 case class SendGame(
-                     chatId              : ChatId,
+                     chatId              : ChatId.Chat,
                      gameShortName       : String,
                      disableNotification : Option[Boolean] = None,
                      replyToMessageId    : Option[Long] = None,
