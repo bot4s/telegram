@@ -4,7 +4,7 @@
 </p>
 
 # TelegramBot4s
-[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.1%20(June%2030%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.2%20(July%2023%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![Bot4s Telegram Channel](https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg)](https://t.me/bot4s_updates)
 [![Bot4s Telegram Group](https://img.shields.io/badge/💬%20Group-Bot4s-00aced.svg)](https://t.me/bot4s)  
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
@@ -16,8 +16,27 @@
 
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
-The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, chat actions...
+The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, stickers, chat actions...
 while being strongly-typed, fully asynchronous, and transparently _camelCased_.
+
+## Table of contents
+
+1. [Quick start](#quick-start)
+2. [Leaking bot tokens](#leaking-bot-tokens)
+3. [Webhooks vs Polling](#webhooks-vs-polling)
+4. [Payments](#payments)
+5. [Games](#games)
+6. [Deployment (or how to turn a spare phone into a Telegram Bot)](#deployment)
+7. [Usage](#usage)
+8. [A note on implicits](#a-note-on-implicits)
+9. [Examples](#examples)
+   - [Let me Google that for you!](#let-me-google-that-for-you)
+   - [Google Text To Speech](#google-tts) 
+   - [Random Bot (Webhooks)](#using-webhooks)
+   - [Custom extensions](#custom-extensions)
+10. [Versioning](#versionning)
+11. [Authors](#authors)
+12. [License](#license)
 
 ## Quick-start
 Add to your `build.sbt` file:
@@ -56,40 +75,36 @@ For a comprehensive reference check [Marvin's Patent Pending Guide to All Things
 Payments are supported since version 3.0; refer to [official payments documentation](https://core.telegram.org/bots/payments) for details.
 I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
 
-## Bonus (or how to turn a spare phone into a Telegram Bot)
-Beside the usual ways, I've managed to use the library on a Raspberry Pi 2,
+## Games
+Games support comes in two different flavors, self-hosted (served by the bot itself),
+and external, hosted on e.g. GitHub Pages.
+Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/GitHubHosted2048Bot.scala) versions of the
+popular [2048](https://gabrielecirulli.github.io/2048/) game.
+
+## Deployment
+Beside the usual ways, I've managed to use run bots on a Raspberry Pi 2,
 and most notably on an old Android (4.1.2) phone with a broken screen.
-It's also possible to docker-ize a bot.
 
-## Contributors
-Contributions are highly appreciated, documentation improvements/corrections, [idiomatic Scala](https://github.com/mukel/telegrambot4s/pull/1/files), [bug reports](https://github.com/mukel/telegrambot4s/issues/8), even feature requests.
+Distribution/deployment is outside the scope of the library, but all platforms where Java is
+supported should be compatible (with the notable exception of Google AppEngine). You may find
+[sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker) 
+very useful.
 
-  - [Alexey Alekhin](https://github.com/laughedelic)
-  - [Andrey Romanov](https://github.com/drewnoff)
-  - [Dmitry Kurinskiy](https://github.com/alari)
-  - [ex0ns](https://github.com/ex0ns)
-  - [hamidr](https://github.com/hamidr)
-  - [hugemane](https://github.com/hugemane)
-  - [Juan Julián Merelo Guervós](https://github.com/JJ)
-  - [Kirill Lastovirya](https://github.com/kirhgoff)
-  - [Maxim Cherkasov](https://github.com/rema7)
-  - [Onilton Maciel](https://github.com/onilton)
-  - [Pedro Larroy](https://github.com/larroy)
-  - [reimai](https://github.com/reimai)
-
-# Usage
-Just `import info.mukel.telegrambot4s._, api._, methods._, models._, Implicits._` and you are good to go.
+## Usage
+Just `import info.mukel.telegrambot4s._, api._, methods._, models._, declarative._` and you are good to go.
  
-## Reducing boilerplate
-Implicits are provided to reduce boilerplate when dealing with the API;
-think seamless Option[T] and Either[L,R] conversions.
-Be aware that most examples need the implicits to compile.
+## A note on implicits 
+A few implicits are provided to reduce boilerplate, but are discouraged because unexpected side-effects.
+
+Think seamless/scary `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
+Be aware that, for conciseness, most examples need the implicits to compile, be sure to include them.
 
 `import info.mukel.telegrambot4s.Implicits._`
 
 ## Running the examples
 
-Get into the test console in `sbt`
+Clone this repo and get into the test console in `sbt`
 
 ```
 sbt
@@ -102,18 +117,17 @@ sbt
 Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
 Type in expressions for evaluation. Or try :help.
 
-scala> import info.mukel.telegrambot4s.examples._
-import info.mukel.telegrambot4s.examples._
+scala> import examples._
+import examples._
 
 scala> new RandomBot("TOKEN_HERE").run()
 ```
 
-Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples).
-
+Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/examples).
 
 ## Examples
 
-#### Let me Google that for you!
+#### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/LmgtfyBot.scala)
 
 ```scala
 object LmgtfyBot extends TelegramBot with Polling with Commands {
@@ -132,13 +146,13 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 LmgtfyBot.run()
 ```
 
-#### Google TTS [(full example + inline mode)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/TextToSpeechBot.scala)
+#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/TextToSpeechBot.scala)
 
 ```scala
 object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
   def token = "TOKEN"
   val ttsApiBase = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-us&q="
-  onCommand("/speak") { implicit msg =>
+  onCommand('speak, 'talk, 'tts) { implicit msg =>
     withArgs { args =>
       val text = args mkString " "
       val url = ttsApiBase + URLEncoder.encode(text, "UTF-8")
@@ -161,17 +175,17 @@ TextToSpeechBot.run()
 #### Using webhooks
 
 ```scala
-object WebhookBot extends TelegramBot with Webhook with Commands {
+object RandomBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
-  override val webhookUrl = "https://ed88ff73.ngrok.io"
+  override val webhookUrl = "https://1d1ceb0t.ngrok.io"
 
   val rng = new Random(System.currentTimeMillis())
-  onCommand("/coin") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
-  onCommand("/real") { implicit msg => reply(rng.nextDouble().toString) }
-  onCommand("/die") { implicit msg => reply((rng.nextInt(6) + 1).toString) }
-  onCommand("/dice") { implicit msg => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
-  onCommand("/random") { implicit msg =>
+  onCommand("coin", "flip") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
+  onCommand("real") { implicit msg => reply(rng.nextDouble().toString) }
+  onCommand("die") { implicit msg => reply((rng.nextInt(6) + 1).toString) }
+  onCommand("dice") { implicit msg => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
+  onCommand("random", "rand") { implicit msg =>
     withArgs {
       case Seq(Extractors.Int(n)) if n > 0 =>
         reply(rng.nextInt(n).toString)
@@ -179,7 +193,7 @@ object WebhookBot extends TelegramBot with Webhook with Commands {
         reply("Invalid argumentヽ(ಠ_ಠ)ノ")
     }
   }
-  onCommand("/choose") { implicit msg =>
+  onCommand("/choose", "/pick") { implicit msg =>
     withArgs { args =>  
       reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
     }
@@ -211,4 +225,20 @@ example.
   }
 ```
 
-Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/info/mukel/telegrambot4s/examples) for more functionality.
+Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/examples) for more functionality.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/mukel/telegrambot4s/tags). 
+
+## Authors
+
+* **Alfonso² Peterssen** - *Owner/maintainer* - :octocat: [mukel](https://github.com/mukel)
+
+_Looking for maintainers!_
+
+See also the list of [awesome contributors](https://github.com/your/project/contributors) who participated in this project.
+Contributions are very welcome, documentation improvements/corrections, bug reports, even feature requests.
+
+## License
+This project is licensed under the Apache 2.0 License - see the [LICENSE](/LICENSE) file for details.
