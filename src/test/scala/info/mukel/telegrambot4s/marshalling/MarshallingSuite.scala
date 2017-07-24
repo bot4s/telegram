@@ -3,6 +3,7 @@ package info.mukel.telegrambot4s.marshalling
 import info.mukel.telegrambot4s.api.TestUtils
 import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
+import info.mukel.telegrambot4s.models.MaskPositionType.MaskPositionType
 import info.mukel.telegrambot4s.models.{ChatId, _}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FlatSpec, Matchers}
@@ -45,5 +46,10 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
     val msg = textMessage("Hello world")
     val msgJson = HttpMarshalling.toJson[Message](msg)
     HttpMarshalling.fromJson[Either[Boolean, Message]](msgJson) === (msg)
+  }
+
+  it should "correctly de/serialize MaskPositionType" in {
+    HttpMarshalling.fromJson[MaskPositionType](""""chin"""") === (MaskPositionType.Chin)
+    HttpMarshalling.toJson(MaskPositionType.Mouth) === ("mouth")
   }
 }
