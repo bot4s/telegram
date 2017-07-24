@@ -42,7 +42,7 @@ while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.1"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.2"
 ```
 
 ## Leaking bot tokens
