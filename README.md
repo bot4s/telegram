@@ -29,14 +29,15 @@ while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 6. [Deployment (or how to turn a spare phone into a Telegram Bot)](#deployment)
 7. [Usage](#usage)
 8. [A note on implicits](#a-note-on-implicits)
-9. [Examples](#examples)
+9. [Running the examples](#running-the-examples)
+10. [Examples](#examples)
    - [Let me Google that for you!](#let-me-google-that-for-you)
    - [Google Text To Speech](#google-tts) 
    - [Random Bot (Webhooks)](#using-webhooks)
    - [Custom extensions](#custom-extensions)
-10. [Versioning](#versionning)
-11. [Authors](#authors)
-12. [License](#license)
+11. [Versioning](#versionning)
+12. [Authors](#authors)
+13. [License](#license)
 
 ## Quick-start
 Add to your `build.sbt` file:
