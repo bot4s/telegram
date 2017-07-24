@@ -48,7 +48,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
     }
   }
 
-  def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup(
+  def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
     InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
 
   onCommand('pepe, 'lmgtfy2) { implicit msg =>

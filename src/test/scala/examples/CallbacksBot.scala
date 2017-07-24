@@ -23,7 +23,7 @@ class CallbacksBot(token: String) extends ExampleBot(token)
 
   def markupCounter(n: Int) = {
     requestCount += 1
-    InlineKeyboardMarkup(
+    InlineKeyboardMarkup.singleButton(
       InlineKeyboardButton.callbackData(
         s"Press me!!!\n$n - $requestCount",
         tag(n.toString)))

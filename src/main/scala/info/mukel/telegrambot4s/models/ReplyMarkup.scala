@@ -35,14 +35,24 @@ case class KeyboardButton(
   * Preferred (safe) way to instantiate [[KeyboardButton]].
   *
   * {{{
+  *   KeyBoardButton.text("OK")
   *   KeyBoardButton.requestLocation("Share location")
   *   KeyBoardButton.requestContact("Share contact")
   * }}}
   */
 object KeyboardButton {
   /**
+    * `text` will be sent to the bot as a message when the button is pressed.
+    *
+    * @param text Text of the button
+    */
+  def text(text: String): KeyboardButton = KeyboardButton(text)
+
+  /**
     * The user's phone number will be sent as a contact when the button is pressed.
     * Available in private chats only.
+    *
+    * @param text Text of the button
     */
   def requestLocation(text: String): KeyboardButton =
     KeyboardButton(text, requestLocation = Some(true))
@@ -50,6 +60,8 @@ object KeyboardButton {
   /**
     * The user's current location will be sent when the button is pressed.
     * Available in private chats only.
+    *
+    * @param text Text of the button.
     */
   def requestContact(text: String): KeyboardButton =
     KeyboardButton(text, requestContact = Some(true))
@@ -76,6 +88,39 @@ case class ReplyKeyboardMarkup(
                                 oneTimeKeyboard : Option[Boolean] = None,
                                 selective       : Option[Boolean] = None
                               ) extends ReplyMarkup
+
+object ReplyKeyboardMarkup {
+
+  /**
+    * Markup with a single big button.
+    */
+  def singleButton(button : KeyboardButton,
+                   resizeKeyboard : Option[Boolean] = None,
+                   oneTimeKeyboard : Option[Boolean] = None,
+                   selective : Option[Boolean] = None): ReplyKeyboardMarkup = {
+    ReplyKeyboardMarkup(Seq(Seq(button)), resizeKeyboard, oneTimeKeyboard, selective)
+  }
+
+  /**
+    * Markup with a single row of buttons.
+    */
+  def singleRow(buttonRow : Seq[KeyboardButton],
+                resizeKeyboard : Option[Boolean] = None,
+                oneTimeKeyboard : Option[Boolean] = None,
+                selective : Option[Boolean] = None): ReplyKeyboardMarkup = {
+    ReplyKeyboardMarkup(Seq(buttonRow), resizeKeyboard, oneTimeKeyboard, selective)
+  }
+
+  /**
+    * Markup with a single column of stacked buttons.
+    */
+  def singleColumn(buttonColumn : Seq[KeyboardButton],
+                resizeKeyboard : Option[Boolean] = None,
+                oneTimeKeyboard : Option[Boolean] = None,
+                selective : Option[Boolean] = None): ReplyKeyboardMarkup = {
+    ReplyKeyboardMarkup(buttonColumn.map(Seq(_)), resizeKeyboard, oneTimeKeyboard, selective)
+  }
+}
 
 /** Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard.
   * By default, custom keyboards are displayed until a new keyboard is sent by a bot.
@@ -114,6 +159,26 @@ case class ReplyKeyboardRemove(
 case class InlineKeyboardMarkup(
                                  inlineKeyboard: Seq[Seq[InlineKeyboardButton]]
                                ) extends ReplyMarkup
+
+object InlineKeyboardMarkup {
+  /**
+    * Markup with a single button.
+    */
+  def singleButton(button: InlineKeyboardButton): InlineKeyboardMarkup =
+    InlineKeyboardMarkup(Seq(Seq(button)))
+
+  /**
+    * Markup with a single row of buttons, stacked horizontally.
+    */
+  def singleRow(buttonRow: Seq[InlineKeyboardButton]): InlineKeyboardMarkup =
+    InlineKeyboardMarkup(Seq(buttonRow))
+
+  /**
+    * Markup with a single column of buttons, stacked vertically.
+    */
+  def singleColumn(buttonColumn: Seq[InlineKeyboardButton]): InlineKeyboardMarkup =
+    InlineKeyboardMarkup(buttonColumn.map(Seq(_)))
+}
 
 /** This object represents one button of an inline keyboard.
   * You must use exactly one of the optional fields.

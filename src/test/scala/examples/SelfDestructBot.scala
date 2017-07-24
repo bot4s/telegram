@@ -32,7 +32,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
     InlineQueryResultArticle(s"$timeout", s"$timeout seconds",
       inputMessageContent = InputTextMessageContent(msg),
       description = s"Message will be deleted in $timeout seconds",
-      replyMarkup = InlineKeyboardMarkup(button(now)))
+      replyMarkup = InlineKeyboardMarkup.singleButton(button(now)))
   }
 
   onCallbackQuery {
@@ -45,7 +45,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
     val delay = result.resultId.toInt
     request(EditMessageReplyMarkup(
       inlineMessageId = result.inlineMessageId,
-      replyMarkup = InlineKeyboardMarkup(button(now + delay))))
+      replyMarkup = InlineKeyboardMarkup.singleButton(button(now + delay))))
 
     system.scheduler.scheduleOnce(delay.seconds) {
       request(EditMessageText(
