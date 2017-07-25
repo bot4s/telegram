@@ -4,7 +4,7 @@
 </p>
 
 # TelegramBot4s
-[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.2%20(July%2023%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
+[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.2%20(July%2021%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
 [![Bot4s Telegram Channel](https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg)](https://t.me/bot4s_updates)
 [![Bot4s Telegram Group](https://img.shields.io/badge/💬%20Group-Bot4s-00aced.svg)](https://t.me/bot4s)  
 [![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
@@ -13,31 +13,31 @@
 [![JitPack](https://jitpack.io/v/info.mukel/telegrambot4s.svg)](https://jitpack.io/#info.mukel/telegrambot4s)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-
 Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
 The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, stickers, chat actions...
 while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 
-## Table of contents
+Table of contents
+=================
 
-1. [Quick start](#quick-start)
-2. [Leaking bot tokens](#leaking-bot-tokens)
-3. [Webhooks vs Polling](#webhooks-vs-polling)
-4. [Payments](#payments)
-5. [Games](#games)
-6. [Deployment (or how to turn a spare phone into a Telegram Bot)](#deployment)
-7. [Usage](#usage)
-8. [A note on implicits](#a-note-on-implicits)
-9. [Running the examples](#running-the-examples)
-10. [Examples](#examples)
-   - [Let me Google that for you!](#let-me-google-that-for-you)
-   - [Google Text To Speech](#google-tts) 
-   - [Random Bot (Webhooks)](#using-webhooks)
-   - [Custom extensions](#custom-extensions)
-11. [Versioning](#versionning)
-12. [Authors](#authors)
-13. [License](#license)
+- [Quick start](#quick-start)
+- [Leaking bot tokens](#leaking-bot-tokens)
+- [Webhooks vs Polling](#webhooks-vs-polling)
+- [Payments](#payments)
+- [Games](#games)
+- [Deployment (or how to turn a spare phone into a Telegram Bot)](#deployment)
+- [Usage](#usage)
+- [A note on implicits](#a-note-on-implicits)
+- [Running the examples](#running-the-examples)
+- [Examples](#examples)
+    - [Let me Google that for you!](#let-me-google-that-for-you)
+    - [Google Text To Speech](#google-tts) 
+    - [Random Bot (Webhooks)](#using-webhooks)
+    - [Custom extensions](#custom-extensions)
+- [Versioning](#versionning)
+- [Authors](#authors)
+- [License](#license)
 
 ## Quick-start
 Add to your `build.sbt` file:
@@ -46,9 +46,9 @@ libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.2"
 ```
 
 ## Leaking bot tokens
-**Do not expose tokens unintentionally.**
+**Don't ever expose your bot's token.**
 
-Here's an example that avoids _unintentional_ token sharing:
+Here's how to avoid _unintentional_ token sharing:
 
 ```scala
 object SafeBot extends TelegramBot with Polling with Commands {
@@ -59,7 +59,7 @@ object SafeBot extends TelegramBot with Polling with Commands {
     .envOrNone("BOT_TOKEN")
     .getOrElse(Source.fromFile("bot.token").getLines().mkString)
 
-  onCommand("/hello") { implicit msg => reply("My token is SAFE!") }
+  onCommand('hello) { implicit msg => reply("My token is SAFE!") }
 }
 
 SafeBot.run()
@@ -179,7 +179,7 @@ TextToSpeechBot.run()
 object RandomBot extends TelegramBot with Webhook with Commands {
   def token = "TOKEN"
   override val port = 8443
-  override val webhookUrl = "https://1d1ceb0t.ngrok.io"
+  override val webhookUrl = "https://1d1ceb07.ngrok.io"
 
   val rng = new Random(System.currentTimeMillis())
   onCommand("coin", "flip") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
@@ -201,7 +201,7 @@ object RandomBot extends TelegramBot with Webhook with Commands {
   }
 }
 
-WebhookBot.run()
+RandomBot.run()
 ```
 
 #### Custom extensions
