@@ -65,29 +65,21 @@ object HttpMarshalling extends StrictLogging {
     Marshaller.strict {
       // JSON-only request
       case request: ApiRequestJson[T] =>
-        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, toJson[ApiRequestJson[_]](request)))
+        Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, toJson[ApiRequestJson[T]](request)))
 
       // Request with file payload
       case request: ApiRequestMultipart[T] => {
-
-        def unwrap(f: Any): Any = f match {
-          case Some(x)  => unwrap(x)
-          case Left(x)  => unwrap(x)
-          case Right(x) => unwrap(x)
-          case _        => f
-        }
 
         val fields = request.getClass.getDeclaredFields
         val values = request.productIterator
         val fieldNames = fields map (_.getName)
 
-        val pairs = fieldNames
+        val params = fieldNames
           .zip(values.toSeq)
-          .map {
-            case (k, v) => (camelToUnderscores(k), unwrap(v))
+          .collect {
+            // Ignored absent parameters
+            case (k, Some(v)) => (camelToUnderscores(k), v)
           }
-
-        val params = pairs.filterNot(_._2 == None)
 
         val parts = params map {
           case (k, v) => v match {
