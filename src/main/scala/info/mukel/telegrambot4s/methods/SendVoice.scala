@@ -24,7 +24,7 @@ case class SendVoice(
                       chatId              : ChatId,
                       voice               : InputFile,
                       caption             : Option[String] = None,
-                      duration            : Option[String] = None,
+                      duration            : Option[Int] = None,
                       disableNotification : Option[Boolean] = None,
                       replyToMessageId    : Option[Long] = None,
                       replyMarkup         : Option[ReplyMarkup] = None
