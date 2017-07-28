@@ -76,10 +76,12 @@ object HttpMarshalling extends StrictLogging {
 
         val params = fieldNames
           .zip(values.toSeq)
-          .collect {
-            // Ignored absent parameters
+          .map {
+            // Unwrap options
             case (k, Some(v)) => (camelToUnderscores(k), v)
+            case (k, v) => (camelToUnderscores(k), v)
           }
+          .filterNot(_._2 == None)
 
         val parts = params map {
           case (k, v) => v match {
@@ -105,10 +107,10 @@ object HttpMarshalling extends StrictLogging {
               Multipart.FormData.BodyPart(k, HttpEntity(toJson(rm)))
 
             case ChatId.Channel(id) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(toJson(id)))
+              Multipart.FormData.BodyPart(k, HttpEntity(id))
 
             case ChatId.Chat(id) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(toJson(id)))
+              Multipart.FormData.BodyPart(k, HttpEntity(id.toString))
 
             case other =>
               logger.error(s"Unexpected value in multipart request: ($k -> $other)")
