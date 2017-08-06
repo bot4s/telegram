@@ -1,5 +1,3 @@
-package examples
-
 import info.mukel.telegrambot4s.api._
 import info.mukel.telegrambot4s.api.declarative.Commands
 

@@ -1,4 +1,4 @@
-package examples
+
 
 import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.api.{Polling, WebRoutes}
@@ -16,7 +16,7 @@ class PollingWithWebRoutes(token: String) extends ExampleBot(token)
 
   override val port: Int = 8080
 
-  onCommand("/hello") { implicit  msg =>
+  onCommand("/hello") { implicit msg =>
     reply("Hello")
   }
 

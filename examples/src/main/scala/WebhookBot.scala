@@ -1,5 +1,3 @@
-package examples
-
 import java.net.URLEncoder
 
 import akka.http.scaladsl.Http
@@ -28,7 +26,6 @@ class WebhookBot(token: String) extends ExampleBot(token) with Webhook {
         if res.status.isSuccess()
         result <- Unmarshal(res).to[String]
       } /* do */ {
-        println(result)
         request(SendMessage(msg.source, result))
       }
     }

@@ -1,5 +1,3 @@
-package examples
-
 import java.net.URLEncoder
 
 import akka.http.scaladsl.Http

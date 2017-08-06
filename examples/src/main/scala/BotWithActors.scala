@@ -1,4 +1,3 @@
-package examples
 /*
 import akka.actor.{Actor, ActorRef, FSM, Props}
 import info.mukel.telegrambot4s.Implicits._

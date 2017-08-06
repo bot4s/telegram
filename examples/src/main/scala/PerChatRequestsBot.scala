@@ -1,5 +1,3 @@
-package examples
-
 import akka.actor.{Actor, ActorRef, Props, Terminated}
 import info.mukel.telegrambot4s.actors.ActorBroker
 import info.mukel.telegrambot4s.api.declarative.Commands
@@ -7,24 +5,15 @@ import info.mukel.telegrambot4s.api.{AkkaImplicits, Polling}
 import info.mukel.telegrambot4s.methods.SendMessage
 import info.mukel.telegrambot4s.models.{Message, Update}
 
-class PerChatRequestsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands
-  with PerChatRequests {
-
-  // Commands work as usual.
-  onCommand("/hello") { implicit msg =>
-    reply("Hello World!")
-  }
-}
-
 trait PerChatRequests extends ActorBroker with AkkaImplicits {
+
+  override val broker = Some(system.actorOf(Props(new Broker), "broker"))
 
   class Broker extends Actor {
     val chatActors = collection.mutable.Map[Long, ActorRef]()
 
     def receive = {
-      case u : Update =>
+      case u: Update =>
         u.message.foreach { m =>
           val id = m.chat.id
           val handler = chatActors.getOrElseUpdate(m.chat.id, {
@@ -49,12 +38,21 @@ trait PerChatRequests extends ActorBroker with AkkaImplicits {
   // All requests will be routed through this worker actor; allowing to maintain a per-chat state.
   class Worker extends Actor {
     def receive = {
-      case m : Message =>
+      case m: Message =>
         request(SendMessage(m.source, self.toString))
 
       case _ =>
     }
   }
+}
 
-  override val broker = Some(system.actorOf(Props(new Broker), "broker"))
+class PerChatRequestsBot(token: String) extends ExampleBot(token)
+  with Polling
+  with Commands
+  with PerChatRequests {
+
+  // Commands work as usual.
+  onCommand("/hello") { implicit msg =>
+    reply("Hello World!")
+  }
 }

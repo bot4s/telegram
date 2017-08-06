@@ -1,5 +1,3 @@
-package examples
-
 import info.mukel.telegrambot4s.api.TelegramBot
 
 /** Quick helper to spawn example bots.
@@ -7,7 +5,7 @@ import info.mukel.telegrambot4s.api.TelegramBot
   * Mix Polling or Webhook accordingly.
   *
   * Example:
-  *   new EchoBot("123456789:qwertyuiopasdfghjklyxcvbnm123456789").run()
+  * new EchoBot("123456789:qwertyuiopasdfghjklyxcvbnm123456789").run()
   *
   * @param token Bot's token.
   */

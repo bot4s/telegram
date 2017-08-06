@@ -1,5 +1,3 @@
-package examples
-
 import java.time.Instant
 
 import info.mukel.telegrambot4s.Implicits._
@@ -20,13 +18,9 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
   with InlineQueries
   with Callbacks {
 
-  override def allowedUpdates = InlineUpdates ++ CallbackUpdates
-
   val timeouts = Seq(3, 5, 10, 30)
 
-  def now = Instant.now().getEpochSecond
-
-  def button(t: Long) = InlineKeyboardButton.callbackData("⏳ left?", t+"")
+  override def allowedUpdates = InlineUpdates ++ CallbackUpdates
 
   def buildResult(timeout: Int, msg: String): InlineQueryResult = {
     InlineQueryResultArticle(s"$timeout", s"$timeout seconds",
@@ -34,6 +28,10 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
       description = s"Message will be deleted in $timeout seconds",
       replyMarkup = InlineKeyboardMarkup.singleButton(button(now)))
   }
+
+  def now = Instant.now().getEpochSecond
+
+  def button(t: Long) = InlineKeyboardButton.callbackData("⏳ left?", t + "")
 
   onCallbackQuery {
     implicit cbq =>

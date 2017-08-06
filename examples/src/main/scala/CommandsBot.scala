@@ -1,5 +1,3 @@
-package examples
-
 import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
 import info.mukel.telegrambot4s.api.{Polling, Extractors => $}
 
@@ -50,7 +48,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   // Different spellings + emoji commands.
 
   onCommand("/metro", "/métro", "/🚇") { implicit msg =>
-      reply("Metro schedule bla bla...")
+    reply("Metro schedule bla bla...")
   }
 
   onCommand("beer", "beers", "🍺", "🍻") { implicit msg =>
@@ -69,7 +67,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   onCommand("/inc") { implicit msg =>
     withArgs {
       case Seq($.Int(i)) =>
-        reply("" + (i+1))
+        reply("" + (i + 1))
 
       // Conveniently avoid MatchError, providing hints on usage.
       case _ =>
@@ -84,5 +82,6 @@ class CommandsBot(token: String) extends ExampleBot(token)
       system.scheduler.scheduleOnce(mm.minutes + ss.seconds) {
         reply("Time's up!!!")
       }
-  }}
+  }
+  }
 }

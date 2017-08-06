@@ -1,5 +1,3 @@
-package examples
-
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.Query
 import info.mukel.telegrambot4s.Implicits._
@@ -16,10 +14,8 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
   with InlineQueries
   with Commands {
 
-  def lmgtfyUrl(query: String): String =
-    Uri("http://lmgtfy.com")
-      .withQuery(Query("q" -> query))
-      .toString()
+  def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
+    InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
 
   onCommand('start, 'help) { implicit msg =>
     reply(
@@ -48,8 +44,10 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
     }
   }
 
-  def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
-    InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
+  def lmgtfyUrl(query: String): String =
+    Uri("http://lmgtfy.com")
+      .withQuery(Query("q" -> query))
+      .toString()
 
   onCommand('pepe, 'lmgtfy2) { implicit msg =>
     withArgs { args =>

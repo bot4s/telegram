@@ -1,7 +1,3 @@
-package examples
-
-import java.net.URLEncoder
-
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
@@ -12,25 +8,23 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 
 /**
-  * Generates QR codes from text/url.
+  * Such Telegram, many bots, so Dogesome.
   */
-class QrCodesBot(token: String) extends ExampleBot(token)
+class DogeBot(token: String) extends ExampleBot(token)
   with Polling
   with Commands
   with ChatActions {
 
-  // Multiple variants
-  onCommand('qr, 'qrcode, 'qr_code) { implicit msg =>
+  onCommand("/doge") { implicit msg =>
     withArgs { args =>
-      val url = "https://api.qrserver.com/v1/create-qr-code/?data=" +
-        URLEncoder.encode(args mkString " ", "UTF-8")
+      val url = "http://dogr.io/" + (args mkString "/") + ".png?split=false"
 
       for {
-        response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
-        if response.status.isSuccess()
-        bytes <- Unmarshal(response).to[ByteString]
+        res <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+        if res.status.isSuccess()
+        bytes <- Unmarshal(res).to[ByteString]
       } /* do */ {
-        val photo = InputFile("qrcode.png", bytes)
+        val photo = InputFile("doge.png", bytes)
         uploadingPhoto // Hint the user
         request(SendPhoto(msg.source, photo))
       }

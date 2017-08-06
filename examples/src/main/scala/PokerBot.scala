@@ -1,4 +1,4 @@
-package examples
+
 
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
@@ -39,10 +39,10 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
     //ackCallback(url = Some("https://my.awesome.game.com/awesome"))
   }
 
-  def replyWithGame(gameShortName       : String,
-                    disableNotification : Option[Boolean] = None,
-                    replyToMessageId    : Option[Long] = None,
-                    replyMarkup         : Option[ReplyMarkup] = None)
+  def replyWithGame(gameShortName: String,
+                    disableNotification: Option[Boolean] = None,
+                    replyToMessageId: Option[Long] = None,
+                    replyMarkup: Option[ReplyMarkup] = None)
                    (implicit msg: Message): Future[Message] = {
     request(
       SendGame(msg.source,
