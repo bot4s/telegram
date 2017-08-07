@@ -44,7 +44,7 @@ trait Webhook extends WebRoutes {
     }
   }
 
-  abstract override val routes: Route =  webhookRoute ~ super.routes
+  abstract override def routes: Route =  webhookRoute ~ super.routes
 
   abstract override def run(): Unit = {
     request(SetWebhook(webhookUrl, allowedUpdates = allowedUpdates))
