@@ -109,19 +109,18 @@ Clone this repo and get into the test console in `sbt`
 
 ```
 sbt
-[info] Loading project definition from ./telegrambot4s/project
-[info] Set current project to telegrambot4s (in build file:./telegrambot4s/)
-> test:console
-[info] Compiling 10 Scala sources to ./telegrambot4s/target/scala-2.11/test-classes...
+[info] Loading global plugins from ~/.sbt/0.13/plugins
+[info] Loading project definition from ~/telegrambot4s/project
+[info] Set current project to telegrambot4s (in build file:~/telegrambot4s/)
+[rootProject]> project examples
+[info] Set current project to examples (in build file:~/telegrambot4s/)
+[examples]> console
 [info] Starting scala interpreter...
 [info] 
-Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
+Welcome to Scala 2.12.3 (OpenJDK 64-Bit Server VM, Java 1.8.0_141).
 Type in expressions for evaluation. Or try :help.
 
-scala> import examples._
-import examples._
-
-scala> new RandomBot("TOKEN_HERE").run()
+scala> new RandomBot("TOKEN").run()
 ```
 
 Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/examples).
@@ -230,7 +229,7 @@ Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/s
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/mukel/telegrambot4s/tags). 
+This library uses [Semantic Versioning](http://semver.org/). For the versions available, see the [tags on this repository](https://github.com/mukel/telegrambot4s/tags). 
 
 ## Authors
 
