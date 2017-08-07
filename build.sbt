@@ -20,7 +20,7 @@ lazy val core: Project =
     .settings(commonSettings)
     .settings(publishSettings)
     .settings(
-      name := "core",
+      name := "telegrambot4s",
       libraryDependencies ++= Seq(
         library.akkaActor,
         library.akkaHttp,
