@@ -2,19 +2,45 @@
 <p align="center">
   <img src="logo.png" title="TelegramBot4s" width="50%">
 </p>
+<p align="center">
+  <i>
+    Idiomatic Scala wrapper for the
+    <a href="https://core.telegram.org/bots/api" title="Telegram Bot API">
+      Telegram Bot API
+    </a>
+  </i>
+</p>
+
+<p align="center">
+  <a href="https://core.telegram.org/bots/api#recent-changes" title="Telegram Bot API">
+    <img src="https://img.shields.io/badge/Bot%20API-3.2%20(July%2021%2C%202017)-00aced.svg"/>
+  </a>
+  <a href="https://t.me/bot4s_updates" title="Bot4s Telegram Channel">
+    <img src="https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg"/>
+  </a>
+  <a href="https://t.me/bot4s" title="Bot4s Telegram Group">
+    <img src="https://img.shields.io/badge/💬%20Group-Bot4s-00aced.svg"/>
+  </a>
+</p>
+<p align="center">
+  <a href="https://travis-ci.org/mukel/telegrambot4s" title="Travis CI Build Status">
+    <img src="https://travis-ci.org/mukel/telegrambot4s.svg"/>
+  </a>
+  <a href="https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade" title="Codacy Badge">
+    <img src="https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc"/>
+  </a>
+  <a href="https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12" title="Maven Central">
+    <img src="https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg"/>
+  </a>
+  <a href="https://jitpack.io/#info.mukel/telegrambot4s" title="JitPack">
+    <img src="https://jitpack.io/v/info.mukel/telegrambot4s.svg"/>
+  </a>
+  <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
+    <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
+  </a>
+</p>
 
 # TelegramBot4s
-[![Telegram Bot API](https://img.shields.io/badge/Bot%20API-3.2%20(July%2021%2C%202017)-00aced.svg)](https://core.telegram.org/bots/api#recent-changes)
-[![Bot4s Telegram Channel](https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg)](https://t.me/bot4s_updates)
-[![Bot4s Telegram Group](https://img.shields.io/badge/💬%20Group-Bot4s-00aced.svg)](https://t.me/bot4s)  
-[![Travis CI Build Status](https://travis-ci.org/mukel/telegrambot4s.svg)](https://travis-ci.org/mukel/telegrambot4s)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc)](https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12)
-[![JitPack](https://jitpack.io/v/info.mukel/telegrambot4s.svg)](https://jitpack.io/#info.mukel/telegrambot4s)
-[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-
-Idiomatic Scala wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
-
 The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, stickers, chat actions...
 while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 
