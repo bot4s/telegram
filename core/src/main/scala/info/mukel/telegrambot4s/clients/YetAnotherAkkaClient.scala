@@ -10,7 +10,7 @@ import akka.stream.Materializer
 import akka.stream.scaladsl.{Sink, Source}
 import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -21,7 +21,7 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
 
   private val flow = Http().outgoingConnectionHttps(telegramHost)
 
-  import HttpMarshalling._
+  import AkkaHttpMarshalling._
 
   /** Spawns a type-safe request.
     *

@@ -11,7 +11,7 @@ import akka.stream.scaladsl.{Keep, Sink, Source}
 import akka.stream.{Materializer, OverflowStrategy}
 import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -21,7 +21,7 @@ class SourceQueueClient(token: String, telegramHost: String = "api.telegram.org"
                       (implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext)
   extends RequestHandler with StrictLogging {
 
-  import HttpMarshalling._
+  import AkkaHttpMarshalling._
 
   private val availableProcessors = Runtime.getRuntime.availableProcessors()
 

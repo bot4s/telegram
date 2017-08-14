@@ -8,7 +8,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.typesafe.scalalogging.StrictLogging
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,7 +20,7 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 class AkkaClient(token: String, telegramHost: String = "api.telegram.org")(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
 
-  import HttpMarshalling._
+  import AkkaHttpMarshalling._
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 

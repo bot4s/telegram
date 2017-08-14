@@ -3,7 +3,7 @@ package info.mukel.telegrambot4s.api
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import info.mukel.telegrambot4s.marshalling.HttpMarshalling._
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling._
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.Update
 
