@@ -13,7 +13,7 @@ import org.json4s.{CustomSerializer, DefaultFormats, Extraction, Formats, NoType
   */
 trait JsonMarshallers {
 
-  object ChatIdSerializer extends CustomSerializer[ChatId](format => ( {
+  private object ChatIdSerializer extends CustomSerializer[ChatId](format => ( {
     case JString(channel) => ChatId(channel)
     case JInt(chat) => ChatId(chat.toLong)
   }, {
