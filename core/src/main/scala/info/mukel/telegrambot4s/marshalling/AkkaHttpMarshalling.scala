@@ -32,50 +32,48 @@ object AkkaHttpMarshalling extends LazyLogging {
       case request: ApiRequestMultipart[T] => {
 
         val fields = request.getClass.getDeclaredFields
-        val values = request.productIterator
-        val fieldNames = fields map (_.getName)
+        val values = fields.map { f =>
+          f.setAccessible(true)
+          (f.getName(), f.get(request))
+        }
 
-        val params = fieldNames
-          .zip(values.toSeq)
+        def unwrap(obj: Any): Any = obj match {
+          case Some(inner) => unwrap(inner)
+          case _ => obj
+        }
+
+        val params = values
           .map {
-            // Unwrap options
-            case (k, Some(v)) => (camelToUnderscores(k), v)
-            case (k, v) => (camelToUnderscores(k), v)
+            case (name, value) => (camelToUnderscores(name), unwrap(value))
           }
           .filterNot(_._2 == None)
 
         val parts = params map {
-          case (k, v) => v match {
-            case primitive @ (_: Int | _: Long | _: Float | _: Double | _: Boolean | _: String) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(primitive.toString))
+          case (key, v) => v match {
 
             // Handle files
             case InputFile.FileId(fileId) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(fileId))
+              Multipart.FormData.BodyPart(key, HttpEntity(fileId))
 
             case InputFile.Path(path) =>
-                Multipart.FormData.BodyPart.fromPath(k, MediaTypes.`application/octet-stream`, path)
+              Multipart.FormData.BodyPart.fromPath(key, MediaTypes.`application/octet-stream`, path)
 
             case InputFile.ByteString(filename, bytes) =>
-                Multipart.FormData.BodyPart(k, HttpEntity(MediaTypes.`application/octet-stream`, bytes),
-                  Map("filename" -> filename))
+              Multipart.FormData.BodyPart(key, HttpEntity(MediaTypes.`application/octet-stream`, bytes),
+                Map("filename" -> filename))
 
             case InputFile.Contents(filename, contents) =>
-                Multipart.FormData.BodyPart(k, HttpEntity(ContentTypes.`application/octet-stream`, contents),
-                  Map("filename" -> filename))
-
-            case rm : ReplyMarkup =>
-              Multipart.FormData.BodyPart(k, HttpEntity(toJson(rm)))
-
-            case ChatId.Channel(id) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(id))
-
-            case ChatId.Chat(id) =>
-              Multipart.FormData.BodyPart(k, HttpEntity(id.toString))
+              Multipart.FormData.BodyPart(key, HttpEntity(ContentTypes.`application/octet-stream`, contents),
+                Map("filename" -> filename))
 
             case other =>
-              logger.error(s"Unexpected value in multipart request: ($k -> $other)")
-              Multipart.FormData.BodyPart(k, HttpEntity(toJson(other)))
+
+              def unquote(s: String): String = {
+                val quote = "\""
+                s.stripSuffix(quote).stripPrefix(quote)
+              }
+              // Strings should be sent unquoted.
+              Multipart.FormData.BodyPart(key, HttpEntity(unquote(toJson(other))))
           }
         }
 
