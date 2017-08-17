@@ -4,11 +4,11 @@ import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshall
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
 import com.typesafe.scalalogging.LazyLogging
+import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
 import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models.{ChatId, _}
-import JsonMarshallers._
+import info.mukel.telegrambot4s.models._
 
-object AkkaHttpMarshalling extends LazyLogging {
+object AkkaHttpMarshalling {
 
   implicit def camelCaseJsonUnmarshaller[T : Manifest]: FromEntityUnmarshaller[T] = {
     Unmarshaller
@@ -31,24 +31,19 @@ object AkkaHttpMarshalling extends LazyLogging {
       // Request with file payload
       case request: ApiRequestMultipart[T] => {
 
-        val fields = request.getClass.getDeclaredFields
-        val values = fields.map { f =>
-          f.setAccessible(true)
-          (f.getName(), f.get(request))
-        }
-
         def unwrap(obj: Any): Any = obj match {
           case Some(inner) => unwrap(inner)
           case _ => obj
         }
 
-        val params = values
-          .map {
-            case (name, value) => (camelToUnderscores(name), unwrap(value))
-          }
-          .filterNot(_._2 == None)
+        val params = request.getClass.getDeclaredFields.map { f =>
+          f.setAccessible(true)
+          val name = f.getName()
+          val value = f.get(request)
+          (camelToUnderscores(name), unwrap(value))
+        }.filterNot(_._2 == None)
 
-        val parts = params map {
+        val parts = params.map {
           case (key, v) => v match {
 
             // Handle files
@@ -66,8 +61,10 @@ object AkkaHttpMarshalling extends LazyLogging {
               Multipart.FormData.BodyPart(key, HttpEntity(ContentTypes.`application/octet-stream`, contents),
                 Map("filename" -> filename))
 
-            case other =>
+            case _ : InputFile =>
+              throw new UnsupportedOperationException("Akka marshaller client does not support this InputFile")
 
+            case other =>
               def unquote(s: String): String = {
                 val quote = "\""
                 s.stripSuffix(quote).stripPrefix(quote)
