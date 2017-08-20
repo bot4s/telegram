@@ -1,12 +1,20 @@
 package info.mukel.telegrambot4s.api.declarative
 
+import info.mukel.telegrambot4s.api.BotExecutionContext
 import info.mukel.telegrambot4s.api.Extractors._
+import info.mukel.telegrambot4s.methods.GetMe
 import info.mukel.telegrambot4s.models.Message
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands extends Messages {
+trait Commands extends Messages with BotExecutionContext {
+
+  private lazy val botName: String =
+    Await.result(request(GetMe).map(_.firstName), 10.seconds)
 
   /**
     * React to /commands with the specified action.
@@ -35,7 +43,9 @@ trait Commands extends Messages {
         // Filter only commands
         if (cmd.startsWith(ToCommand.CommandPrefix)) {
           val target = ToCommand.cleanCommand(cmd)
-          if (variants.contains(target))
+          val optReceiver = ToCommand.getReceiver(cmd)
+          val matchReceiver = optReceiver.map(_.equalsIgnoreCase(botName)).getOrElse(true)
+          if (matchReceiver && variants.contains(target))
             action(msg)
         }
       }
@@ -82,8 +92,17 @@ trait ToCommand[-T] {
 object ToCommand {
   val CommandPrefix = "/"
 
-  def cleanCommand(cmd: String): String =
-    cmd.trim.stripPrefix(CommandPrefix).takeWhile('@' != _).toLowerCase
+  private[telegrambot4s] def cleanCommand(cmd: String): String = {
+    cmd.trim.stripPrefix(CommandPrefix).toLowerCase.takeWhile('@' != _)
+  }
+
+  private[telegrambot4s] def getReceiver(cmd: String): Option[String] = {
+    val parts = cmd.trim.stripPrefix(CommandPrefix).split("@")
+    if (parts.size >= 2)
+      Some(parts(1))
+    else
+      None
+  }
 
   implicit object stringToCommand extends ToCommand[String] {
     def apply(s: String): String = cleanCommand(s)

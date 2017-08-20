@@ -3,7 +3,6 @@ package info.mukel.telegrambot4s.marshalling
 import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{Unmarshaller, _}
-import com.typesafe.scalalogging.LazyLogging
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._

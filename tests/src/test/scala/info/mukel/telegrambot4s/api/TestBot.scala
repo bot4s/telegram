@@ -3,7 +3,7 @@ package info.mukel.telegrambot4s.api
 import info.mukel.telegrambot4s.models._
 
 class TestBot extends BotBase {
-  lazy val client = ???
+  override lazy val client: RequestHandler = ???
   lazy val logger = ???
   def token = ???
 }

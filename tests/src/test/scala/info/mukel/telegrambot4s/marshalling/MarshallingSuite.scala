@@ -1,13 +1,13 @@
 package info.mukel.telegrambot4s.marshalling
 
 import info.mukel.telegrambot4s.api.TestUtils
+import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
 import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models.MaskPositionType.MaskPositionType
 import info.mukel.telegrambot4s.models.{ChatId, _}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FlatSpec, Matchers}
-import JsonMarshallers._
 
 class MarshallingSuite extends FlatSpec with MockFactory with Matchers with TestUtils {
 

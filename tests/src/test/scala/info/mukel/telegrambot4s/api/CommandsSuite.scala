@@ -1,9 +1,13 @@
 package info.mukel.telegrambot4s.api
 
 import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.models.Message
+import info.mukel.telegrambot4s.marshalling.JsonMarshallers
+import info.mukel.telegrambot4s.methods.{ApiRequest, GetMe}
+import info.mukel.telegrambot4s.models.{Message, User}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
+
+import scala.concurrent.Future
 
 class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
@@ -13,7 +17,17 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
     val handler = mockFunction[Message, Unit]
     val handlerHello = mockFunction[Message, Unit]
     val handlerHelloWorld = mockFunction[Message, Unit]
-    val bot = new TestBot with Commands {
+    val bot = new TestBot with GlobalExecutionContext with Commands {
+
+      // Bot name = "TestBot".
+      override lazy val client = new RequestHandler {
+        override def apply[R: Manifest](request: ApiRequest[R]) = request match {
+          case GetMe => Future.successful(
+            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, "TestBot")))
+          )
+        }
+      }
+
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
     }
@@ -56,9 +70,27 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
   }
 
   it should "support @sender suffix" in new Fixture {
-    val args = Seq("arg1", "arg2")
-    val m = textMessage("  /hello@TargetBot  " + args.mkString(" "))
+    val m = textMessage("  /hello@TestBot  ")
     handlerHello.expects(m).once()
+    bot.receiveMessage(m)
+  }
+
+  it should "ignore case in @sender" in new Fixture {
+    val args = Seq("arg1", "arg2")
+    val m = textMessage("  /hello@testbot  " + args.mkString(" "))
+    handlerHello.expects(m).once()
+    bot.receiveMessage(m)
+  }
+
+  it should "ignore empty @sender" in new Fixture {
+    val m = textMessage("  /hello@ ")
+    handlerHello.expects(m).once()
+    bot.receiveMessage(m)
+  }
+
+  it should "ignore different @sender" in new Fixture {
+    val m = textMessage("  /hello@OtherBot  ")
+    handlerHello.expects(m).never()
     handlerHelloWorld.expects(*).never()
     bot.receiveMessage(m)
   }
