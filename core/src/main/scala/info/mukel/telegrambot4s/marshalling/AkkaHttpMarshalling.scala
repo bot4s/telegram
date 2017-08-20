@@ -66,7 +66,10 @@ object AkkaHttpMarshalling {
             case other =>
               def unquote(s: String): String = {
                 val quote = "\""
-                s.stripSuffix(quote).stripPrefix(quote)
+                if (s.startsWith(quote) && s.endsWith(quote))
+                  s.stripSuffix(quote).stripPrefix(quote)
+                else
+                  s
               }
               // Strings should be sent unquoted.
               Multipart.FormData.BodyPart(key, HttpEntity(unquote(toJson(other))))
