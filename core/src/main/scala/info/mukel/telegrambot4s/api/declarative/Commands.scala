@@ -17,6 +17,13 @@ trait Commands extends Messages with BotExecutionContext {
     Await.result(request(GetMe).map(_.firstName), 10.seconds)
 
   /**
+    * By default the @receiver suffix in commands is respected.
+    * The bot won't process commands with a different recipient.
+    * Set/override to true to receive all commands regardless of the @receiver.
+    */
+  val ignoreCommandReceiver = false
+
+  /**
     * React to /commands with the specified action.
     * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
     * Accepts a "string", a 'symbol, or a sequence of strings or symbols.
@@ -44,7 +51,9 @@ trait Commands extends Messages with BotExecutionContext {
         if (cmd.startsWith(ToCommand.CommandPrefix)) {
           val target = ToCommand.cleanCommand(cmd)
           val optReceiver = ToCommand.getReceiver(cmd)
-          val matchReceiver = optReceiver.map(_.equalsIgnoreCase(botName)).getOrElse(true)
+          val matchReceiver = ignoreCommandReceiver || 
+            optReceiver.map(_.equalsIgnoreCase(botName)).getOrElse(true)
+
           if (matchReceiver && variants.contains(target))
             action(msg)
         }
