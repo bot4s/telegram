@@ -105,8 +105,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 ## Games
 Games support comes in two different flavors, self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
@@ -149,11 +149,11 @@ Type in expressions for evaluation. Or try :help.
 scala> new RandomBot("TOKEN").run()
 ```
 
-Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/examples).
+Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/examples/src/main/scala).
 
 ## Examples
 
-#### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/LmgtfyBot.scala)
+#### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/LmgtfyBot.scala)
 
 ```scala
 object LmgtfyBot extends TelegramBot with Polling with Commands {
@@ -172,7 +172,7 @@ object LmgtfyBot extends TelegramBot with Polling with Commands {
 LmgtfyBot.run()
 ```
 
-#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/examples/TextToSpeechBot.scala)
+#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/TextToSpeechBot.scala)
 
 ```scala
 object TextToSpeechBot extends TelegramBot with Polling with Commands with ChatActions {
@@ -232,7 +232,7 @@ RandomBot.run()
 #### Custom extensions
 
 It's rather easy to augment your bot with custom DSL-ish shortcuts; e.g.
-this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/src/test/scala/info/mukel/telegrambot4s/examples/AuthenticationBot.scala)
+this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/AuthenticationBot.scala)
 example.
 
 ```scala
@@ -251,7 +251,7 @@ example.
   }
 ```
 
-Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/src/test/scala/examples) for more functionality.
+Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/examples/src/main/scala) for more functionality.
 
 ## Versioning
 
