@@ -68,7 +68,7 @@ Table of contents
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.8"
+libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.9"
 ```
 
 ## Leaking bot tokens
