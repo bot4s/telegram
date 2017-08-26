@@ -16,11 +16,8 @@ import info.mukel.telegrambot4s.models.{ChatId, GameHighScore}
   * @param inlineMessageId  String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   */
 case class GetGameHighScores(
-                            userId          : Long,
+                            userId          : Int,
                             chatId          : Option[ChatId] = None,
-                            messageId       : Option[Long] = None,
+                            messageId       : Option[Int] = None,
                             inlineMessageId : Option[String] = None
-                            ) extends ApiRequestJson[Seq[GameHighScore]] {
-
-
-}
+                            ) extends ApiRequestJson[Seq[GameHighScore]]

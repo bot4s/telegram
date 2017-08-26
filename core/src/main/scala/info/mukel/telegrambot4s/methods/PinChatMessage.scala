@@ -13,6 +13,6 @@ import info.mukel.telegrambot4s.models.ChatId
   */
 case class PinChatMessage(
                            chatId              : ChatId,
-                           messageId           : Long,
+                           messageId           : Int,
                            disableNotification : Option[Boolean] = None
                          ) extends ApiRequestJson[Boolean]

@@ -25,6 +25,6 @@ case class SendVideoNote(
                           duration            : Option[Int] = None,
                           length              : Option[Int] = None,
                           disableNotification : Option[Boolean] = None,
-                          replyToMessageId    : Option[Long] = None,
+                          replyToMessageId    : Option[Int] = None,
                           replyMarkup         : Option[ReplyMarkup] = None
                         ) extends ApiRequestMultipart[Message]

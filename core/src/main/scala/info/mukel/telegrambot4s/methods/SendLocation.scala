@@ -21,6 +21,6 @@ case class SendLocation(
                          longitude           : Double,
                          duration            : Option[String] = None,
                          disableNotification : Option[Boolean] = None,
-                         replyToMessageId    : Option[Long] = None,
+                         replyToMessageId    : Option[Int] = None,
                          replyMarkup         : Option[ReplyMarkup] = None
                        ) extends ApiRequestJson[Message]

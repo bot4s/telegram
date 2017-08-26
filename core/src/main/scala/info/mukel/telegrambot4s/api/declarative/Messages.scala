@@ -57,7 +57,7 @@ trait Messages extends BotBase {
             parseMode             : Option[ParseMode] = None,
             disableWebPagePreview : Option[Boolean] = None,
             disableNotification   : Option[Boolean] = None,
-            replyToMessageId      : Option[Long] = None,
+            replyToMessageId      : Option[Int] = None,
             replyMarkup           : Option[ReplyMarkup] = None)
            (implicit message: Message): Future[Message] = {
     request(

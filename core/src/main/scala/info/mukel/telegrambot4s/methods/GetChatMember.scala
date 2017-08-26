@@ -9,5 +9,5 @@ import info.mukel.telegrambot4s.models.{ChatId, ChatMember}
   */
 case class GetChatMember(
                           chatId : ChatId,
-                          userId : Long
+                          userId : Int
                         ) extends ApiRequestJson[ChatMember]

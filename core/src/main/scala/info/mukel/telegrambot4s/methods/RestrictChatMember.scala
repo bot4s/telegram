@@ -19,7 +19,7 @@ import info.mukel.telegrambot4s.models.ChatId
   */
 case class RestrictChatMember(
                              chatId                : ChatId,
-                             userId                : Long,
+                             userId                : Int,
                              untilDate             : Option[Int] = None,
                              canSendMessages       : Option[Boolean] = None,
                              canSendMediaMessages  : Option[Boolean] = None,

@@ -13,7 +13,7 @@ import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
   */
 case class EditMessageCaption(
                                chatId                : Option[ChatId] = None,
-                               messageId             : Option[Long] = None,
+                               messageId             : Option[Int] = None,
                                inlineMessageId       : Option[String] = None,
                                caption               : Option[String] = None,
                                replyMarkup           : Option[ReplyMarkup] = None

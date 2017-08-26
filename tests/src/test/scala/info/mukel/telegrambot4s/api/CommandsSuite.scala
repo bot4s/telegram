@@ -23,7 +23,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
       override lazy val client = new RequestHandler {
         override def apply[R: Manifest](request: ApiRequest[R]) = request match {
           case GetMe => Future.successful(
-            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, "TestBot")))
+            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "TestBot")))
           )
         }
       }

@@ -11,11 +11,11 @@ import info.mukel.telegrambot4s.models.ChatId
   * and service messages about people joining or leaving the group
   * (other types of service messages may only be removed by the group creator).
   * In channels, bots can only remove their own messages. Returns True on success.
- *
- * @param chatId     Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+  *
+  * @param chatId     Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param messageId  Integer Identifier of the message to delete
   */
 case class DeleteMessage(
                           chatId    : ChatId,
-                          messageId : Long)
+                          messageId : Int)
   extends ApiRequestJson[Boolean]

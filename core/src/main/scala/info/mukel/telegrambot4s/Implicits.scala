@@ -17,6 +17,7 @@ object Implicits {
     def italic = s"_${s}_"
     def urlWithAlt(alt: String) = s"[$alt]($s)"
     def altWithUrl(url: String) = s"[$s]($url)"
+    def mention(userId: Int) = s"[$s]($$tg://user?id=$userId)"
     def inlineCode = s"`$s`"
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
   }

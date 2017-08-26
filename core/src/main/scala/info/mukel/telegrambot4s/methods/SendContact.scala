@@ -22,6 +22,6 @@ case class SendContact(
                       firstName           : String,
                       lastName            : Option[String] = None,
                       disableNotification : Option[Boolean] = None,
-                      replyToMessageId    : Option[Long] = None,
+                      replyToMessageId    : Option[Int] = None,
                       replyMarkup         : Option[ReplyMarkup] = None
                       ) extends ApiRequestJson[Message]

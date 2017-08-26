@@ -11,5 +11,5 @@ import info.mukel.telegrambot4s.models.ChatId
   */
 case class UnbanChatMember(
                           chatId: ChatId,
-                          userId: Long
+                          userId: Int
                           ) extends ApiRequestJson[Boolean]

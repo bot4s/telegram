@@ -20,12 +20,12 @@ import info.mukel.telegrambot4s.models.{ChatId, Message}
   * @param inlineMessageId    String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   */
 case class SetGameScore(
-                       userId             : Long,
+                       userId             : Int,
                        score              : Long,
                        force              : Option[Boolean] = None,
                        disableEditMessage : Option[Boolean] = None,
                        chatId             : Option[ChatId] = None,
-                       messageId          : Option[Long] = None,
+                       messageId          : Option[Int] = None,
                        inlineMessageId    : Option[String] = None
                        ) extends ApiRequestJson[Either[Boolean, Message]] {
 

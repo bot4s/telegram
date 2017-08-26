@@ -22,6 +22,6 @@ case class SendPhoto(
                     photo               : InputFile,
                     caption             : Option[String] = None,
                     disableNotification : Option[Boolean] = None,
-                    replyToMessageId    : Option[Long] = None,
+                    replyToMessageId    : Option[Int] = None,
                     replyMarkup         : Option[ReplyMarkup] = None
                     ) extends ApiRequestMultipart[Message]

@@ -1,12 +1,9 @@
-
-
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
 import info.mukel.telegrambot4s.methods.SendGame
 import info.mukel.telegrambot4s.models._
 
 import scala.concurrent.Future
-
 
 class PokerBot(token: String) extends ExampleBot(token) with Polling with Commands with Callbacks {
 
@@ -41,7 +38,7 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
 
   def replyWithGame(gameShortName: String,
                     disableNotification: Option[Boolean] = None,
-                    replyToMessageId: Option[Long] = None,
+                    replyToMessageId: Option[Int] = None,
                     replyMarkup: Option[ReplyMarkup] = None)
                    (implicit msg: Message): Future[Message] = {
     request(

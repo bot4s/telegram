@@ -24,7 +24,7 @@ import info.mukel.telegrambot4s.models.ChatId
   */
 case class PromoteChatMember(
                             chatId             : ChatId,
-                            userId             : Long,
+                            userId             : Int,
                             canChangeInfo      : Option[Boolean] = None,
                             canPostMessages    : Option[Boolean] = None,
                             canEditMessages    : Option[Boolean] = None,

@@ -9,7 +9,7 @@ import info.mukel.telegrambot4s.models.UserProfilePhotos
   * @param limit   Integer Optional Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
   */
 case class GetUserProfilePhotos(
-                               userId : Long,
+                               userId : Int,
                                offset : Option[Int] = None,
                                limit  : Option[Int] = None
                                ) extends ApiRequestJson[UserProfilePhotos]

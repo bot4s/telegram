@@ -21,7 +21,7 @@ import info.mukel.telegrambot4s.models.{InputFile, MaskPosition}
   * @param maskPosition   MaskPosition Optional Position where the mask should be placed on faces
   */
 case class CreateNewStickerSet(
-                              userId        : Long,
+                              userId        : Int,
                               name          : String,
                               title         : String,
                               pngSticker    : InputFile,

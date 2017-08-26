@@ -19,6 +19,6 @@ case class SendSticker(
                         chatId              : ChatId,
                         sticker             : InputFile,
                         disableNotification : Option[Boolean] = None,
-                        replyToMessageId    : Option[Long] = None,
+                        replyToMessageId    : Option[Int] = None,
                         replyMarkup         : Option[ReplyMarkup] = None
                       ) extends ApiRequestMultipart[Message]

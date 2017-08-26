@@ -13,5 +13,5 @@ import info.mukel.telegrambot4s.models.{File, InputFile}
   *                    [[https://core.telegram.org/bots/api#sending-files More info on Sending Files]]
   */
 case class UploadStickerFile(
-                              userId     : Long,
+                              userId     : Int,
                               pngSticker : InputFile) extends ApiRequestMultipart[File]

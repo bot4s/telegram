@@ -13,5 +13,5 @@ case class ForwardMessage(
                          chatId              : ChatId,
                          fromChatId          : ChatId,
                          disableNotification : Option[Boolean] = None,
-                         messageId           : Long
+                         messageId           : Int
                          ) extends ApiRequestJson[Message]

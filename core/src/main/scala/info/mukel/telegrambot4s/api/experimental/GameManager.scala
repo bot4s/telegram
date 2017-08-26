@@ -76,12 +76,13 @@ trait GameManager extends WebRoutes {
   * Data shared with the game.
   */
 case class Payload(
-                    user: User,
-                    chatId: Option[ChatId] = None,
-                    messageId: Option[Long] = None,
-                    inlineMessageId: Option[String] = None,
-                    gameManagerHost: String,
-                    gameShortName: String) {
+                    user            : User,
+                    chatId          : Option[ChatId] = None,
+                    messageId       : Option[Int] = None,
+                    inlineMessageId : Option[String] = None,
+                    gameManagerHost : String,
+                    gameShortName   : String) {
+
   def toGetGameHighScores = GetGameHighScores(user.id, chatId, messageId, inlineMessageId)
 
   def base64Encode: String = {

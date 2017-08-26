@@ -10,10 +10,12 @@ package info.mukel.telegrambot4s.models
   * @param forwardFrom            Optional For forwarded messages, sender of the original message
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardFromMessageId   Integer Optional. For forwarded channel posts, identifier of the original message in the channel
+  * @param forwardSignature       String Optional. For messages forwarded from channels, signature of the post author if present
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
   * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field
   *                               will not contain further replyToMessage fields even if it itself is a reply.
   * @param editDate               Optional. Date the message was last edited in Unix time
+  * @param authorSignature        String Optional. Signature of the post author for messages in channels
   * @param text                   Optional For text messages, the actual UTF-8 text of the message
   * @param entities               Array of MessageEntity Optional For text messages, special entities like usernames,
   *                               URLs, bot commands, etc. that appear in the text
@@ -47,16 +49,18 @@ package info.mukel.telegrambot4s.models
   * @param successfulPayment      Optional. Message is a service message about a successful payment, information about the payment.
   */
 case class  Message(
-               messageId             : Long,
+               messageId             : Int,
                from                  : Option[User] = None,
                date                  : Int,
                chat                  : Chat,
                forwardFrom           : Option[User] = None,
                forwardFromChat       : Option[Chat] = None,
                forwardFromMessageId  : Option[Int] = None,
+               forwardSignature      : Option[String] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                editDate              : Option[Int] = None,
+               authorSignature       : Option[String] = None,
                text                  : Option[String] = None,
                entities              : Option[Seq[MessageEntity]] = None,
                audio                 : Option[Audio] = None,

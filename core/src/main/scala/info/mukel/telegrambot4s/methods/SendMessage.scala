@@ -52,6 +52,6 @@ case class SendMessage(
                  parseMode             : Option[ParseMode] = None,
                  disableWebPagePreview : Option[Boolean] = None,
                  disableNotification   : Option[Boolean] = None,
-                 replyToMessageId      : Option[Long] = None,
+                 replyToMessageId      : Option[Int] = None,
                  replyMarkup           : Option[ReplyMarkup] = None
                  ) extends ApiRequestJson[Message]

@@ -19,6 +19,6 @@ import info.mukel.telegrambot4s.models.ChatId
   */
 case class KickChatMember(
                          chatId    : ChatId,
-                         userId    : Long,
+                         userId    : Int,
                          untilDate : Option[Int] = None
                          ) extends ApiRequestJson[Boolean]
