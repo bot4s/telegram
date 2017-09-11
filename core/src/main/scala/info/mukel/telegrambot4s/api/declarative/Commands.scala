@@ -52,7 +52,7 @@ trait Commands extends Messages with BotExecutionContext {
           val target = ToCommand.cleanCommand(cmd)
           val optReceiver = ToCommand.getReceiver(cmd)
           val matchReceiver = ignoreCommandReceiver || 
-            optReceiver.map(_.equalsIgnoreCase(botName)).getOrElse(true)
+            optReceiver.forall(_.equalsIgnoreCase(botName))
 
           if (matchReceiver && variants.contains(target))
             action(msg)
