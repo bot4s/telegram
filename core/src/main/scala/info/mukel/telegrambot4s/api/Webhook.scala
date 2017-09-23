@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling._
 import info.mukel.telegrambot4s.methods.SetWebhook
-import info.mukel.telegrambot4s.models.Update
+import info.mukel.telegrambot4s.models.{InputFile, Update}
 
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
@@ -44,10 +44,12 @@ trait Webhook extends WebRoutes {
     }
   }
 
+  def certificate: Option[InputFile] = None
+
   abstract override def routes: Route =  webhookRoute ~ super.routes
 
   abstract override def run(): Unit = {
-    request(SetWebhook(webhookUrl, allowedUpdates = allowedUpdates))
+    request(SetWebhook(url = webhookUrl, certificate = certificate, allowedUpdates = allowedUpdates))
       .onComplete {
         case Success(true) =>
           super.run() // Spawn WebRoute
