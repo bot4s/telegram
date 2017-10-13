@@ -20,5 +20,7 @@ object Implicits {
     def mention(userId: Int) = s"[$s]($$tg://user?id=$userId)"
     def inlineCode = s"`$s`"
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
+    // Markdown escape
+    def md = s.replaceAll("([" + "*_`[".replaceAll("(.)", "\\\\$1") + "])", "\\\\$1")
   }
 }
