@@ -20,5 +20,5 @@ case class EditMessageLiveLocation(chatId          : Option[ChatId] = None,
                                    inlineMessageId : Option[Int] = None,
                                    latitude        : Option[Double] = None,
                                    longitude       : Option[Double] = None,
-                                   replyMarkup     : Option[InlineKeyboardMarkup] = None,
+                                   replyMarkup     : Option[InlineKeyboardMarkup] = None
                                   ) extends ApiRequestJson[Message Either Boolean]

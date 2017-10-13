@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.methods.ParseMode.ParseMode
-import info.mukel.telegrambot4s.methods.SendMessage
+import info.mukel.telegrambot4s.methods.{ParseMode, SendMessage}
 import info.mukel.telegrambot4s.models.{Message, ReplyMarkup}
 
 import scala.collection.mutable
@@ -71,6 +71,36 @@ trait Messages extends BotBase {
         replyMarkup
       )
     )
+  }
+
+  /**
+    * Sends text replies in Markdown format.
+
+    * @param text                   Text of the message to be sent
+    * @param disableWebPagePreview  Optional Disables link previews for links in this message
+    * @param disableNotification    Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+    * @param replyToMessageId       Optional If the message is a reply, ID of the original message
+    * @param replyMarkup  [[info.mukel.telegrambot4s.models.InlineKeyboardMarkup]] or
+    *                     [[info.mukel.telegrambot4s.models.ReplyKeyboardMarkup]] or
+    *                     [[info.mukel.telegrambot4s.models.ReplyKeyboardRemove]] or
+    *                     [[info.mukel.telegrambot4s.models.ForceReply]]
+    *                     Optional Additional interface options.
+    *                     A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
+    */
+  def replyMd(text                  : String,
+            disableWebPagePreview : Option[Boolean] = None,
+            disableNotification   : Option[Boolean] = None,
+            replyToMessageId      : Option[Int] = None,
+            replyMarkup           : Option[ReplyMarkup] = None)
+           (implicit message: Message): Future[Message] = {
+    reply(
+      text,
+      Some(ParseMode.Markdown),
+      disableWebPagePreview,
+      disableNotification,
+      replyToMessageId,
+      replyMarkup
+    )(message)
   }
 
   abstract override def receiveMessage(msg: Message): Unit = {

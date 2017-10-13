@@ -29,5 +29,5 @@ case class Chat(
                  inviteLink    : Option[String] = None,
                  pinnedMessage : Option[Message] = None,
                  stickerSetName: Option[String] = None,
-                 canSetStickerSet : Option[Boolean] = None,
+                 canSetStickerSet : Option[Boolean] = None
                )
