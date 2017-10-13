@@ -43,8 +43,8 @@ lazy val tests: Project =
         library.scalaTest,
         library.scalaMock,
         library.akkaHttp,
-        library.scalaLogging,
-        library.logback
+        library.logback,
+        library.scalaLogging
       ).map(_ % Test)
     ).dependsOn(
       core
@@ -64,7 +64,9 @@ lazy val examples: Project =
       libraryDependencies ++= Seq(
         library.akkaHttp,
         library.akkaStream,
-        library.akkaHttpCors
+        library.akkaHttpCors,
+        library.logback,
+        library.scalaLogging
       )
     ).dependsOn(
       core
