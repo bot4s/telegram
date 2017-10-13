@@ -13,6 +13,8 @@ package info.mukel.telegrambot4s.models
   * @param description    String Optional. Description, for supergroups and channel chats. Returned only in getChat.
   * @param inviteLink	    String Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
   * @param pinnedMessage  Message Optional. Pinned message, for supergroups. Returned only in getChat.
+  * @param stickerSetName    String Optional. For supergroups, name of group sticker set. Returned only in getChat.
+  * @param canSetStickerSet  Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
   */
 case class Chat(
                  id            : Long,
@@ -25,5 +27,7 @@ case class Chat(
                  photo         : Option[ChatPhoto] = None,
                  description   : Option[String] = None,
                  inviteLink    : Option[String] = None,
-                 pinnedMessage : Option[Message] = None
+                 pinnedMessage : Option[Message] = None,
+                 stickerSetName: Option[String] = None,
+                 canSetStickerSet : Option[Boolean] = None,
                )

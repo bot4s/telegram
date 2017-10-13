@@ -19,6 +19,8 @@ package info.mukel.telegrambot4s.models
   * @param text                   Optional For text messages, the actual UTF-8 text of the message
   * @param entities               Array of MessageEntity Optional For text messages, special entities like usernames,
   *                               URLs, bot commands, etc. that appear in the text
+  * @param captionEntities        Array of MessageEntity Optional. For messages with a caption, special entities
+  *                               like usernames, URLs, bot commands, etc. that appear in the caption
   * @param audio                  Optional Message is an audio file, information about the file
   * @param document               Optional Message is a general file, information about the file
   * @param game                   Game Optional. Message is a game, information about the game.
@@ -63,6 +65,7 @@ case class  Message(
                authorSignature       : Option[String] = None,
                text                  : Option[String] = None,
                entities              : Option[Seq[MessageEntity]] = None,
+               captionEntities       : Option[Array[MessageEntity]] = None,
                audio                 : Option[Audio] = None,
                document              : Option[Document] = None,
                game                  : Option[Game] = None,
