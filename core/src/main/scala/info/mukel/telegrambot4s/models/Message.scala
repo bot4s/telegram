@@ -87,15 +87,12 @@ case class  Message(
                groupChatCreated      : Option[Boolean] = None,
                supergroupChatCreated : Option[Boolean] = None,
                channelChatCreated    : Option[Boolean] = None,
-               migrateToChatId       : Option[ChatId.Chat] = None,
-               migrateFromChatId     : Option[ChatId.Chat] = None,
+               migrateToChatId       : Option[Long] = None,
+               migrateFromChatId     : Option[Long] = None,
                pinnedMessage         : Option[Message] = None,
                successfulPayment     : Option[SuccessfulPayment] = None
                    ) {
 
-  def source: ChatId.Chat = ChatId.Chat(chat.id)
-
-  @deprecated("Use .source instead", "telegrambo4s 2.0.1")
-  def sender = source
+  def source: Long = chat.id // ChatId.Chat(chat.id)
 }
 

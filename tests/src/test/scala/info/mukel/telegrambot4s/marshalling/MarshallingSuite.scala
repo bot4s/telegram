@@ -53,4 +53,15 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
     fromJson[MaskPositionType](""""chin"""") === (MaskPositionType.Chin)
     toJson(MaskPositionType.Mouth) === ("mouth")
   }
+
+  it should "correctly de/serialize Message.migrateToChatId" in {
+    fromJson[Message](
+      """{
+        |"message_id": 1,
+        |"date": 1,
+        |"chat": {"id": 123, "type": "private"},
+        |"migrate_to_chat_id": 12345678901234567
+        |}""".stripMargin)
+      .migrateToChatId === 12345678901234567L
+  }
 }

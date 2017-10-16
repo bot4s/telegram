@@ -2,7 +2,7 @@ import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
 import info.mukel.telegrambot4s.api.{Extractors, Polling}
 import info.mukel.telegrambot4s.methods.EditMessageReplyMarkup
-import info.mukel.telegrambot4s.models.{InlineKeyboardButton, InlineKeyboardMarkup}
+import info.mukel.telegrambot4s.models.{ChatId, InlineKeyboardButton, InlineKeyboardMarkup}
 
 /**
   * Show how to use callbacks, and it's shortcomings.
@@ -43,7 +43,7 @@ class CallbacksBot(token: String) extends ExampleBot(token)
     } /* do */ {
       request(
         EditMessageReplyMarkup(
-          msg.source, // msg.chat.id
+          ChatId(msg.source), // msg.chat.id
           msg.messageId,
           replyMarkup = markupCounter(n + 1)))
     }
