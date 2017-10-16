@@ -45,17 +45,16 @@ trait Commands extends Messages with BotExecutionContext {
       "Commands cannot contain whitespace")
 
     onMessage { implicit msg =>
-      using(textTokens) { tokens =>
-        val cmd = tokens.head
-        // Filter only commands
-        if (cmd.startsWith(ToCommand.CommandPrefix)) {
-          val target = ToCommand.cleanCommand(cmd)
-          val optReceiver = ToCommand.getReceiver(cmd)
-          val matchReceiver = ignoreCommandReceiver || 
-            optReceiver.forall(_.equalsIgnoreCase(botName))
+      using(rawCommand) { rawCmd =>
+        val optReceiver = ToCommand.getReceiver(rawCmd)
+        val matchReceiver = ignoreCommandReceiver ||
+          optReceiver.forall(_.equalsIgnoreCase(botName))
 
-          if (matchReceiver && variants.contains(target))
-            action(msg)
+        if (matchReceiver) {
+          using(command) { cmd =>
+            if (variants.contains(cmd))
+              action(msg)
+          }
         }
       }
     }
