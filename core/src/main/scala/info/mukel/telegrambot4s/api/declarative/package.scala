@@ -3,6 +3,7 @@ package info.mukel.telegrambot4s.api
 package object declarative {
   type Action[T] = T => Unit
   type Filter[T] = T => Boolean
+  type Command = String
   type Args = Seq[String]
   type ActionWithArgs[T] = T => Args => Unit
   type Extractor[T, R] = T => Option[R]
