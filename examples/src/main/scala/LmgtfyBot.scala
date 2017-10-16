@@ -49,7 +49,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
       .withQuery(Query("q" -> query))
       .toString()
 
-  onCommand('pepe, 'lmgtfy2) { implicit msg =>
+  onCommand('btn, 'lmgtfy2) { implicit msg =>
     withArgs { args =>
       val query = args.mkString(" ")
       reply(query, replyMarkup = lmgtfyBtn(query))
