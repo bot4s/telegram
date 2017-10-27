@@ -1,7 +1,12 @@
 package info.mukel.telegrambot4s.marshalling
 
+import akka.http.scaladsl.marshalling.Marshal
+import akka.http.scaladsl.model.RequestEntity
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.testkit.ScalatestRouteTest
 import info.mukel.telegrambot4s.api.TestUtils
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
+import info.mukel.telegrambot4s.methods.SendDocument
 import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models.MaskPositionType.MaskPositionType
@@ -9,7 +14,7 @@ import info.mukel.telegrambot4s.models.{ChatId, _}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FlatSpec, Matchers}
 
-class MarshallingSuite extends FlatSpec with MockFactory with Matchers with TestUtils {
+class MarshallingSuite extends FlatSpec with MockFactory with Matchers with TestUtils with ScalatestRouteTest {
 
   behavior of "JSON Marshaller"
 
@@ -63,5 +68,22 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
         |"migrate_to_chat_id": 12345678901234567
         |}""".stripMargin)
       .migrateToChatId === 12345678901234567L
+  }
+
+  it should "correctly serialize string members in multipart request" in {
+
+    val captionWithLineBreak = "this is a line\nand then\t another line"
+    val channelId = "this_is_a_channel"
+    val fileId = "and_a_file_id"
+
+    val entity = SendDocument(channelId, InputFile.apply(fileId), caption = Some(captionWithLineBreak))
+
+    import AkkaHttpMarshalling.underscore_case_marshaller
+
+    Post("/", Marshal(entity).to[RequestEntity]) ~> {
+        formFields(('caption, 'chat_id, 'document)) {
+          (caption, chat_id, document) => complete(caption + chat_id + document)
+        }
+      } ~> check { responseAs[String] shouldEqual captionWithLineBreak + channelId + fileId }
   }
 }

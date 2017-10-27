@@ -63,6 +63,14 @@ object AkkaHttpMarshalling {
             case _ : InputFile =>
               throw new UnsupportedOperationException("Akka marshaller client does not support this InputFile")
 
+
+            // [Bug #49] JSON-serializing top level strings causes line ends to be sent as \n.
+            // Top level parameters (non-JSON entities) must be passed as is (raw).
+            // Note: This fixes String parameters, string-like fields e.g. chat_id and file ids should
+            // not contain line breaks or awkward characters.
+            case s : String =>
+              Multipart.FormData.BodyPart(key, HttpEntity(s))
+
             case other =>
               def unquote(s: String): String = {
                 val quote = "\""
