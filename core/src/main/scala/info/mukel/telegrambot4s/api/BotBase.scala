@@ -19,7 +19,7 @@ import scala.concurrent.Future
   */
 trait BotBase {
   def token: String
-  val logger: Logger
+  protected val logger: Logger
   val client: RequestHandler
 
   def request: RequestHandler = client
