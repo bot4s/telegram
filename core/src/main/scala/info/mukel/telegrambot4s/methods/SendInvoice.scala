@@ -15,6 +15,8 @@ import info.mukel.telegrambot4s.models.{InlineKeyboardMarkup, LabeledPrice, Mess
   * @param startParameter       String Yes Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
   * @param currency             String Yes Three-letter ISO 4217 currency code, see more on currencies
   * @param prices               Array of LabeledPrice Yes Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+  * @param providerData         String Optional JSON-encoded data about the invoice, which will be shared with the payment provider.
+  *                             A detailed description of required fields should be provided by the payment provider.
   * @param photoUrl             String Optional URL of the product photo for the invoice.
   *                             Can be a photo of the goods or a marketing image for a service.
   *                             People like it better when they see what they are paying for.
@@ -41,6 +43,7 @@ case class SendInvoice(
                       startParameter      : String,
                       currency            : Currency,
                       prices              : Array[LabeledPrice],
+                      providerData        : Option[String] = None,
                       photoUrl            : Option[String] = None,
                       photoSize           : Option[Int] = None,
                       photoWidth          : Option[Int] = None,

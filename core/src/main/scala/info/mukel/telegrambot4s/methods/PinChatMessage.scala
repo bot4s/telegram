@@ -4,12 +4,14 @@ import info.mukel.telegrambot4s.models.ChatId
 
 /**
   * Use this method to pin a message in a supergroup.
-  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+  * The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in
+  * the supergroup or ‘can_edit_messages’ admin right in the channel.
   * Returns True on success.
   *
-  * @param chatId               Integer or String	Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+  * @param chatId               Integer or String	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param messageId            Integer	Identifier of a message to pin
-  * @param disableNotification  Boolean	Optional Pass True, if it is not necessary to send a notification to all group members about the new pinned message
+  * @param disableNotification  Boolean	Optional Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
+  *                             Notifications are always disabled in channels.
   */
 case class PinChatMessage(
                            chatId              : ChatId,
