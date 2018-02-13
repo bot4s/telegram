@@ -85,7 +85,6 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
   it should "accept any recipient if respectRecipient is not used" in new Fixture {
     val args = Seq("arg1", "arg2")
     val m = textMessage("  /hello@otherbot  " + args.mkString(" "))
-    handlerRespect.expects(m).never()
     handlerHello.expects(m).once()
     bot.receiveMessage(m)
   }
