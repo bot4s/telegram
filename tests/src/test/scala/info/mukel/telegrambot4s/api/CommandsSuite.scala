@@ -23,7 +23,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
       override lazy val client = new RequestHandler {
         override def apply[R: Manifest](request: ApiRequest[R]) = request match {
           case GetMe => Future.successful(
-            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "TestBot")))
+            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "TestBot", username = Some("Test_Bot"))))
           )
         }
       }
@@ -70,14 +70,14 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
   }
 
   it should "support @sender suffix" in new Fixture {
-    val m = textMessage("  /hello@TestBot  ")
+    val m = textMessage("  /hello@Test_Bot  ")
     handlerHello.expects(m).once()
     bot.receiveMessage(m)
   }
 
   it should "ignore case in @sender" in new Fixture {
     val args = Seq("arg1", "arg2")
-    val m = textMessage("  /hello@testbot  " + args.mkString(" "))
+    val m = textMessage("  /hello@test_bot  " + args.mkString(" "))
     handlerHello.expects(m).once()
     bot.receiveMessage(m)
   }
