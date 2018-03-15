@@ -20,10 +20,6 @@ object AkkaHttpMarshalling {
       .map(fromJson[T])
   }
 
-  private def camelToUnderscores(name: String): String = "[A-Z\\d]".r.replaceAllIn(name, { m =>
-    "_" + m.group(0).toLowerCase()
-  })
-
   implicit def underscore_case_marshaller[T]: ToEntityMarshaller[ApiRequest[T]] = {
 
     Marshaller.strict {

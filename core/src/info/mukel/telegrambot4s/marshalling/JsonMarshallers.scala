@@ -46,4 +46,8 @@ trait JsonMarshallers {
   def fromJson[T: Manifest](json: String): T = parse(json).camelizeKeys.extract[T]
 }
 
-object JsonMarshallers extends JsonMarshallers
+object JsonMarshallers extends JsonMarshallers {
+  def camelToUnderscores(name: String): String = "[A-Z\\d]".r.replaceAllIn(name, { m =>
+    "_" + m.group(0).toLowerCase()
+  })
+}

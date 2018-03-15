@@ -10,14 +10,15 @@ import info.mukel.telegrambot4s.akka.api.AkkaDefaults
 import info.mukel.telegrambot4s.akka.models.AkkaInputFile
 import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.api.{Polling, _}
+import info.mukel.telegrambot4s.backends.akka.AkkaClient
+import info.mukel.telegrambot4s.clients.ScalajHttpClient
 import info.mukel.telegrambot4s.methods._
 
 /**
   * Generates QR codes from text/url.
   */
-class QrCodesBot(token: String) extends ExampleBot(token)
+class QrCodesBot(token: String) extends AkkaExampleBot(token)
   with Polling
-  with AkkaDefaults
   with Commands
   with ChatActions {
 
