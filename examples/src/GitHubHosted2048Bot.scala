@@ -41,9 +41,8 @@ import info.mukel.telegrambot4s.methods.SendGame
   * @param gameManagerHost Base URL of the game manager.
   */
 class GitHubHosted2048Bot(token: String, gameManagerHost: String)
-  extends ExampleBot(token)
+  extends AkkaExampleBot(token)
     with Polling
-    with AkkaDefaults
     with Commands
     with Callbacks
     with GameManager {

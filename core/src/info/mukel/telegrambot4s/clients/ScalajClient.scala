@@ -46,7 +46,7 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
 
   private def sendRequest[R: Manifest](r: HttpRequest): Future[R] = {
     Future {
-      r.asString
+      r.timeout(connectionTimeoutMs, readTimeoutMs).asString
     } map {
       x =>
         if (x.isSuccess)

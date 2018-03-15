@@ -23,7 +23,7 @@ import scala.concurrent.duration.Duration
   * The provided clientId/secret are not guaranteed to work forever.
   * See [[https://developer.spotify.com/web-api/authorization-guide/]]
   */
-class SpotifyBot(token: String) extends ExampleBot(token) with Polling with AkkaDefaults {
+class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
 
   val logger = Logger(getClass)
 

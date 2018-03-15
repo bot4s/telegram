@@ -26,6 +26,7 @@ abstract class ExampleBot(val token: String) extends TelegramBot {
         promise.complete(Try(block))
       }
     }, duration.toMillis)
+
     promise.future
   }
 

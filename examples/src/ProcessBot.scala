@@ -1,6 +1,8 @@
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
 
+import scala.util.control.NonFatal
+
 /**
   * Runs commands and reply with the output.
   */
@@ -14,10 +16,9 @@ class ProcessBot(token: String) extends ExampleBot(token) with Polling with Comm
 
           reply(result)
         } catch {
-          case e: Exception =>
+          case NonFatal(e) =>
             reply("Exception: " + e.getMessage)
         }
     }
   }
 }
-

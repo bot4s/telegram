@@ -1,6 +1,4 @@
-
-
-import info.mukel.telegrambot4s.akka.api.{AkkaDefaults, WebRoutes}
+import info.mukel.telegrambot4s.akka.api.WebRoutes
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
 
@@ -10,9 +8,8 @@ import info.mukel.telegrambot4s.api.declarative.Commands
   * It provides a simple way to add custom endpoints for authentication, games
   * and even serving entire websites.
   */
-class PollingWithWebRoutes(token: String) extends ExampleBot(token)
+class PollingWithWebRoutes(token: String) extends AkkaExampleBot(token)
   with Polling
-  with AkkaDefaults
   with WebRoutes
   with Commands {
 

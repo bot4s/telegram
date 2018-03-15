@@ -13,9 +13,8 @@ import scala.util.{Failure, Success}
 /**
   * This bot receives voice recordings and outputs the file size.
   */
-class VoiceFileBot(token: String) extends ExampleBot(token)
+class VoiceFileBot(token: String) extends AkkaExampleBot(token)
   with Polling
-  with AkkaDefaults
   with Commands {
 
   onMessage { implicit msg =>
