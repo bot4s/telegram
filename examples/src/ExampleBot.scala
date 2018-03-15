@@ -2,8 +2,8 @@ import java.util.{Timer, TimerTask}
 
 import info.mukel.telegrambot4s.api.TelegramBot
 
-import scala.concurrent.{Future, Promise}
 import scala.concurrent.duration.Duration
+import scala.concurrent.{Future, Promise}
 import scala.util.Try
 
 /** Quick helper to spawn example bots.

@@ -1,4 +1,4 @@
-import info.mukel.telegrambot4s.api.{Polling, _}
+import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.RegexCommands
 
 class RegexBot(token: String) extends ExampleBot(token) with Polling with RegexCommands {

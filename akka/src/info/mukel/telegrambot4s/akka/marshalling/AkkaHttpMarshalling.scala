@@ -1,9 +1,10 @@
-package info.mukel.telegrambot4s.marshalling
+package info.mukel.telegrambot4s.akka.marshalling
 
 import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
 import info.mukel.telegrambot4s.akka.models.AkkaInputFile
+import info.mukel.telegrambot4s.marshalling.JsonMarshallers
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart}
 import info.mukel.telegrambot4s.models.InputFile
 ;

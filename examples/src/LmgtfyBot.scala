@@ -1,7 +1,7 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.Query
 import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.{Polling, _}
+import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Commands, InlineQueries}
 import info.mukel.telegrambot4s.methods.ParseMode
 import info.mukel.telegrambot4s.models._

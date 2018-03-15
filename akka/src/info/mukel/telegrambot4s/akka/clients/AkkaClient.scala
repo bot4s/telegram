@@ -7,9 +7,9 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.typesafe.scalalogging.StrictLogging
+import info.mukel.telegrambot4s.akka.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.api.TelegramApiException
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
-import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.{ExecutionContext, Future}

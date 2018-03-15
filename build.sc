@@ -85,6 +85,7 @@ object akka extends TelegramBot4sModule {
     library.akkaHttpCors
   )
   object test extends Tests {
+    override def moduleDeps = Seq(core.test)
     override def ivyDeps = Agg(
       library.akkaHttpTestkit
     )

@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.akka.api.AkkaDefaults
 import info.mukel.telegrambot4s.api.{Polling, _}
-import info.mukel.telegrambot4s.methods._
+import info.mukel.telegrambot4s.methods.AnswerInlineQuery
 import info.mukel.telegrambot4s.models._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._

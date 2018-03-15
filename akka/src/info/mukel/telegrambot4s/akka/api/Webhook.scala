@@ -23,7 +23,7 @@ trait Webhook extends WebRoutes {
 
   private val logger = Logger("Webhook")
 
-  import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling._
+  import info.mukel.telegrambot4s.akka.marshalling.AkkaHttpMarshalling._
 
   /** URL for the webhook.
     *

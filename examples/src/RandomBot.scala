@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.{Polling, _}
 import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api.{Polling, _}
 
 import scala.util.Random
 

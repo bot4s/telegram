@@ -1,11 +1,7 @@
-import java.util.{Timer, TimerTask}
-
 import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
 import info.mukel.telegrambot4s.api.{Polling, Extractors => $}
 
-import scala.concurrent.{Future, Promise}
 import scala.concurrent.duration._
-import scala.util.Try
 
 /**
   * Showcases different ways to declare commands (Commands + RegexCommands).

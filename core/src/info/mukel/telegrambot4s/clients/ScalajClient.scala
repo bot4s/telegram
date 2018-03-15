@@ -3,7 +3,6 @@ package info.mukel.telegrambot4s.clients
 import java.nio.file.Files
 
 import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.api.TelegramApiException
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart, ApiResponse}
 import info.mukel.telegrambot4s.models.InputFile
@@ -33,7 +32,7 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  private def parseApiResponse[R : Manifest](apiResponse: ApiResponse[R]): R = apiResponse match {
+  private def parseApiResponse[R: Manifest](apiResponse: ApiResponse[R]): R = apiResponse match {
     case ApiResponse(true, Some(result), _, _, _) => result
     case ApiResponse(false, _, description, Some(errorCode), parameters) =>
       val e = TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode, None, parameters)
@@ -67,19 +66,25 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
     val url = apiBaseUrl + request.methodName
 
     request match {
-      case r : ApiRequestJson[R] =>
+      case r: ApiRequestJson[R] =>
         val jsonData = toJson(r)
         sendRequest(
           Http(url).postData(jsonData).header("content-type", "application/json")
         )
 
-      case r : ApiRequestMultipart[R] =>
-        val fields = r.getClass.getDeclaredFields
-        val params = fields.map {
-          f =>
-            f.setAccessible(true)
-            (f.getName, f.get(r))
+      case r: ApiRequestMultipart[R] =>
+
+        def unwrap(obj: Any): Any = obj match {
+          case Some(inner) => unwrap(inner)
+          case _ => obj
         }
+
+        val params = request.getClass.getDeclaredFields.map { f =>
+          f.setAccessible(true)
+          val name = f.getName()
+          val value = f.get(request)
+          (camelToUnderscores(name), unwrap(value))
+        }.filterNot(_._2 == None)
 
         val scalajRequest = params.foldLeft(Http(url)) {
           case (q, (key, value)) => value match {
@@ -102,12 +107,11 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
             case _: InputFile =>
               throw new UnsupportedOperationException("Scalaj-http client does not support this InputFile")
 
-
             // [Bug #49] JSON-serializing top level strings causes line ends to be sent as \n.
             // Top level parameters (non-JSON entities) must be passed as is (raw).
             // Note: This fixes String parameters, string-like fields e.g. chat_id and file ids should
             // not contain line breaks or awkward characters.
-            case s : String =>
+            case s: String =>
               q.param(key, s)
 
             case other =>
@@ -115,6 +119,7 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
                 val quote = "\""
                 s.stripSuffix(quote).stripPrefix(quote)
               }
+
               q.param(key, unquote(toJson(other)))
           }
         }

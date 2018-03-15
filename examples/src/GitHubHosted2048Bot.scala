@@ -5,9 +5,9 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
+import info.mukel.telegrambot4s.akka.api.{AkkaDefaults, GameManager, Payload}
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
-import info.mukel.telegrambot4s.akka.api.{AkkaDefaults, GameManager, Payload}
 import info.mukel.telegrambot4s.methods.SendGame
 
 /**
@@ -53,7 +53,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   val Play2048 = "play_2048"
   val GitHubPages = Uri("https://mukel.github.io")
 
-  onCommand("Play2048") { implicit msg =>
+  onCommand(Play2048 or "2048" or "start") { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
     )

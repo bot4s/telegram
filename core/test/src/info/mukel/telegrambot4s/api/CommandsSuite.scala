@@ -1,7 +1,6 @@
-package info.mukel.telegrambot4s.akka.api
+package info.mukel.telegrambot4s.api
 
-import info.mukel.telegrambot4s.api.{GlobalExecutionContext, RequestHandler}
-import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api.declarative.{CommandFilters, Commands}
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers
 import info.mukel.telegrambot4s.methods.{ApiRequest, GetMe}
 import info.mukel.telegrambot4s.models.{Message, User}
@@ -10,9 +9,7 @@ import org.scalatest.FlatSpec
 
 import scala.concurrent.Future
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
-
-  import info.mukel.telegrambot4s.api.Extractors._
+class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandFilters {
 
   trait Fixture {
     val handler = mockFunction[Message, Unit]
@@ -50,7 +47,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match String command sequence" in new Fixture {
     handler.expects(*).twice()
-    bot.onCommand("/a", "/b")(handler)
+    bot.onCommand("/a" | "/b")(handler)
     bot.receiveMessage(textMessage("/a"))
     bot.receiveMessage(textMessage("/b"))
     bot.receiveMessage(textMessage("/c"))
@@ -64,7 +61,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match Symbol command sequence" in new Fixture {
     handler.expects(*).twice()
-    bot.onCommand('a, 'b)(handler)
+    bot.onCommand('a | 'b)(handler)
     bot.receiveMessage(textMessage("/a"))
     bot.receiveMessage(textMessage("/b"))
     bot.receiveMessage(textMessage("/c"))
@@ -99,7 +96,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Unit]
     commandHandler.expects(*).twice()
-    bot.onCommand("command", "/another")(commandHandler)
+    bot.onCommand("command" | "/another")(commandHandler)
     bot.receiveMessage(textMessage("command"))
     bot.receiveMessage(textMessage("another"))
     bot.receiveMessage(textMessage("/command"))
@@ -115,12 +112,6 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "ignore unmatched using statements" in new Fixture {
     bot.using(_.from)(user => fail())(textMessage("123"))
-  }
-
-  "textTokens" should "execute actions on match" in new Fixture {
-    val argsHandler = mockFunction[Seq[String], Unit]
-    argsHandler.expects(Seq("hello", "123", "abc")).once()
-    bot.using(textTokens)(argsHandler)(textMessage("  hello 123  abc "))
   }
 
   "withArgs" should "pass arguments" in new Fixture {

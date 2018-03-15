@@ -7,8 +7,7 @@ import akka.util.ByteString
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.akka.api.AkkaDefaults
 import info.mukel.telegrambot4s.akka.models.AkkaInputFile
-import info.mukel.telegrambot4s.api.{Polling, _}
-import info.mukel.telegrambot4s.api.ChatActions
+import info.mukel.telegrambot4s.api.{ChatActions, Polling}
 import info.mukel.telegrambot4s.api.declarative._
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._

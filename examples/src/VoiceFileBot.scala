@@ -4,7 +4,7 @@ import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
 import info.mukel.telegrambot4s.akka.api.AkkaDefaults
-import info.mukel.telegrambot4s.api.{Polling, _}
+import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.methods._
 

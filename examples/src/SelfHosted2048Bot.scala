@@ -7,9 +7,6 @@ import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
 import info.mukel.telegrambot4s.methods.SendGame
 
-import scala.languageFeature.implicitConversions
-
-
 /**
   * 2048 self-hosted by the bot (from resources).
   *
@@ -42,7 +39,7 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
 
   val Play2048 = "play_2048"
 
-  onCommand(Play2048) { implicit msg =>
+  onCommand(Play2048 or "2048" or "start") { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
     )
