@@ -1,7 +1,5 @@
 package info.mukel.telegrambot4s
 
-import info.mukel.telegrambot4s.api.declarative.Filter
-
 import scala.language.implicitConversions
 
 /**

@@ -1,15 +1,14 @@
-package info.mukel.telegrambot4s.akka.api
+package info.mukel.telegrambot4s.api
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.api.{BotBase, BotExecutionContext}
 
 import scala.concurrent.{Future, Promise}
-import scala.util.Success
 
-trait WebRoutes extends BotBase with AkkaImplicits with BotExecutionContext {
+trait WebRoutes extends BotBase {
+  _: BotExecutionContext with AkkaImplicits =>
 
   private val logger = Logger("WebRoutes")
 

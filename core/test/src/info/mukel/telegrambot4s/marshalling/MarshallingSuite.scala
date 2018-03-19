@@ -2,7 +2,7 @@ package info.mukel.telegrambot4s.marshalling
 
 import info.mukel.telegrambot4s.api.TestUtils
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
-import info.mukel.telegrambot4s.methods.SendDocument
+import info.mukel.telegrambot4s.methods.SendPhoto
 import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models.MaskPositionType.MaskPositionType
@@ -34,8 +34,8 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
   it should "correctly parse ChatId" in {
     val channel = fromJson[ChatId](""" "my_channel" """)
     val chat = fromJson[ChatId](""" 123456 """)
-    channel should === (ChatId.Channel("my_channel"))
-    chat should === (ChatId.Chat(123456))
+    channel should ===(ChatId.Channel("my_channel"))
+    chat should ===(ChatId.Chat(123456))
   }
 
   it should "correctly serialize ChatId" in {
@@ -66,12 +66,10 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
       .migrateToChatId === 12345678901234567L
   }
 
-  it should "correctly serialize string members in multipart request" in {
-
-    val captionWithLineBreak = "this is a line\nand then\t another line"
-    val channelId = "this_is_a_channel"
-    val fileId = "and_a_file_id"
-
-    val entity = SendDocument(channelId, InputFile.apply(fileId), caption = Some(captionWithLineBreak))
+  it should "correctly serialize top-level string members in ScalajHttp multipart requests" in {
+    val caption = "  \n \t caption \n"
+    val r = SendPhoto(ChatId(123), InputFile("fileid"), caption = Some(caption))
+    val params = ScalajHttpMarshalling.marshall(r, "https://now.what.com").params
+    assert(params.contains(("caption", caption)))
   }
 }

@@ -2,9 +2,8 @@ import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import info.mukel.telegrambot4s.akka.api.{AkkaDefaults, GameManager, Payload}
-import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
+import info.mukel.telegrambot4s.api.{AkkaDefaults, GameManager, Payload, Polling}
 import info.mukel.telegrambot4s.methods.SendGame
 
 /**

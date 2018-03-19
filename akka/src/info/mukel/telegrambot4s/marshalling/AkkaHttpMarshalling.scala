@@ -1,19 +1,17 @@
-package info.mukel.telegrambot4s.akka.marshalling
+package info.mukel.telegrambot4s.marshalling
 
 import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, MediaTypes, Multipart}
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
-import info.mukel.telegrambot4s.akka.models.AkkaInputFile
-import info.mukel.telegrambot4s.marshalling.JsonMarshallers
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiRequestJson, ApiRequestMultipart}
-import info.mukel.telegrambot4s.models.InputFile
-;
+import info.mukel.telegrambot4s.models.{AkkaInputFile, InputFile}
+
 
 object AkkaHttpMarshalling {
 
   import JsonMarshallers._
 
-  implicit def camelCaseJsonUnmarshaller[T : Manifest]: FromEntityUnmarshaller[T] = {
+  implicit def camelCaseJsonUnmarshaller[T: Manifest]: FromEntityUnmarshaller[T] = {
     Unmarshaller
       .stringUnmarshaller
       .forContentTypes(ContentTypes.`application/json`)
@@ -60,7 +58,7 @@ object AkkaHttpMarshalling {
               Multipart.FormData.BodyPart(key, HttpEntity(ContentTypes.`application/octet-stream`, contents),
                 Map("filename" -> filename))
 
-            case _ : InputFile =>
+            case _: InputFile =>
               throw new UnsupportedOperationException("Akka marshaller client does not support this InputFile")
 
 
@@ -68,7 +66,7 @@ object AkkaHttpMarshalling {
             // Top level parameters (non-JSON entities) must be passed as is (raw).
             // Note: This fixes String parameters, string-like fields e.g. chat_id and file ids should
             // not contain line breaks or awkward characters.
-            case s : String =>
+            case s: String =>
               Multipart.FormData.BodyPart(key, HttpEntity(s))
 
             case other =>

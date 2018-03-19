@@ -31,7 +31,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
 
   def now = Instant.now().getEpochSecond
 
-  def button(t: Long) = InlineKeyboardButton.callbackData("⏳ left?", t + "")
+  def button(timeLeft: Long) = InlineKeyboardButton.callbackData("⏳ left?", "" + timeLeft)
 
   onCallbackQuery {
     implicit cbq =>
@@ -45,7 +45,7 @@ class SelfDestructBot(token: String) extends ExampleBot(token)
       inlineMessageId = result.inlineMessageId,
       replyMarkup = InlineKeyboardMarkup.singleButton(button(now + delay))))
 
-    after(delay.seconds) {
+    Utils.after(delay.seconds) {
       request(EditMessageText(
         text = "⌛ Expired",
         inlineMessageId = result.inlineMessageId))

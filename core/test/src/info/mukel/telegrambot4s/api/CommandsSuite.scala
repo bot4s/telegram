@@ -86,12 +86,12 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
     bot.receiveMessage(m)
   }
 
-  it should "ignore different @sender" in new Fixture {
-    val m = textMessage("  /hello@OtherBot  ")
-    handlerHello.expects(m).never()
-    handlerHelloWorld.expects(*).never()
-    bot.receiveMessage(m)
-  }
+//  it should "ignore different @sender" in new Fixture {
+//    val m = textMessage("  /hello@OtherBot  ")
+//    handlerHello.expects(m).never()
+//    handlerHelloWorld.expects(*).never()
+//    bot.receiveMessage(m)
+//  }
 
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Unit]

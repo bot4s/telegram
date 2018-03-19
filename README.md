@@ -44,6 +44,7 @@
 The full API is supported: Payments, inline queries, upload files, callbacks, custom markups, games, stickers, chat actions...
 while being strongly-typed, fully asynchronous, and transparently _camelCased_.
 
+
 Table of contents
 =================
 

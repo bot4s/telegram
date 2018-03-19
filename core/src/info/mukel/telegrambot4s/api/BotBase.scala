@@ -72,6 +72,6 @@ trait BotBase {
   def receiveShippingQuery(shippingQuery: ShippingQuery): Unit = {}
   def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): Unit = {}
 
-  def run(): Future[Unit] = Future.unit
+  def run(): Future[Unit] = Future.successful(())
   def shutdown(): Unit = {}
 }

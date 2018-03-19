@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.akka.api
+package info.mukel.telegrambot4s.api
 
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -7,7 +7,6 @@ import java.util.Base64
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{Directive1, Route}
-import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
 import info.mukel.telegrambot4s.methods.{GetGameHighScores, SetGameScore}
 import info.mukel.telegrambot4s.models.{CallbackQuery, ChatId, User}
@@ -30,7 +29,7 @@ import scala.util.{Failure, Success}
   * or even better, submit a PR with your approach.
   */
 trait GameManager extends WebRoutes {
-  _: BotBase =>
+  _: BotBase with BotExecutionContext with AkkaImplicits =>
 
   private def extractPayload: Directive1[Payload] = {
     headerValueByName('Referer).map { referer: String =>

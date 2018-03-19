@@ -1,4 +1,4 @@
-package info.mukel.telegrambot4s.backends.akka
+package info.mukel.telegrambot4s.clients
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -10,9 +10,8 @@ import akka.stream.QueueOfferResult.Enqueued
 import akka.stream.scaladsl.{Keep, Sink, Source}
 import akka.stream.{Materializer, OverflowStrategy}
 import com.typesafe.scalalogging.StrictLogging
-import info.mukel.telegrambot4s.akka.marshalling.AkkaHttpMarshalling
-import info.mukel.telegrambot4s.api.TelegramApiException
 import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}

@@ -1,19 +1,20 @@
 package info.mukel.telegrambot4s.api.declarative
 
 import info.mukel.telegrambot4s.api.BotExecutionContext
-import info.mukel.telegrambot4s.api.Extractors._
 import info.mukel.telegrambot4s.methods.GetMe
 import info.mukel.telegrambot4s.models.{Message, User}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
+case class Command(cmd: String, recipient: Option[String])
+
 /**
   * Provides a declarative interface to define commands.
   */
 trait Commands extends Messages with BotExecutionContext with CommandFilters {
 
-  lazy val self: User =
+  private lazy val self: User =
     Await.result(request(GetMe), 10.seconds)
 
   /**
@@ -82,24 +83,27 @@ trait Commands extends Messages with BotExecutionContext with CommandFilters {
 
 trait CommandFilter extends Filter[Command] {
   self =>
-  def or(other: CommandFilter): CommandFilter = t => self(t) || other(t)
-  def and(other: CommandFilter): CommandFilter = t => self(t) && other(t)
+  def or(other: CommandFilter): CommandFilter = CommandFilter(t => self(t) || other(t))
+  def and(other: CommandFilter): CommandFilter = CommandFilter(t => self(t) && other(t))
   def |(other: CommandFilter): CommandFilter = or(other)
   def &(other: CommandFilter): CommandFilter = and(other)
-  def not(other: CommandFilter): CommandFilter = v => !self(v)
+  def not(other: CommandFilter): CommandFilter = CommandFilter(v => !self(v))
   def unary_!(other: CommandFilter): CommandFilter = not(other)
 }
 
-trait CommandFilters {
-  val withoutRecipient: CommandFilter = cmd => cmd.recipient.isEmpty
-
-  def withRecipient(recipient: => String): CommandFilter = {
-    _.recipient.map(
-      recipient.compareToIgnoreCase(_) == 0
-    ).getOrElse(false)
+object CommandFilter {
+  def apply(f: Filter[Command]): CommandFilter = new CommandFilter {
+    override def apply(c: Command): Boolean = f(c)
   }
+}
 
-  implicit def stringToCommandFilter(s: String): CommandFilter = {
+trait CommandFilters {
+  val withoutRecipient: CommandFilter = CommandFilter(_.recipient.isEmpty)
+
+  def withRecipient(recipient: => String): CommandFilter =
+    CommandFilter(_.recipient.exists(recipient.compareToIgnoreCase(_) == 0))
+
+  implicit def stringToCommandFilter(s: String): CommandFilter = CommandFilter {
     val target = s.trim().stripPrefix("/")
     require(target.matches("""\w+"""))
     c => target.compareToIgnoreCase(c.cmd) == 0

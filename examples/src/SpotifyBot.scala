@@ -6,7 +6,6 @@ import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.akka.api.AkkaDefaults
 import info.mukel.telegrambot4s.api.{Polling, _}
 import info.mukel.telegrambot4s.methods.AnswerInlineQuery
 import info.mukel.telegrambot4s.models._

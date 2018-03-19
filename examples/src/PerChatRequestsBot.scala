@@ -1,7 +1,6 @@
 import akka.actor.{Actor, ActorRef, Props, Terminated}
-import info.mukel.telegrambot4s.akka.api.{ActorBroker, AkkaDefaults}
-import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api.{ActorBroker, AkkaDefaults, Polling}
 import info.mukel.telegrambot4s.methods.SendMessage
 import info.mukel.telegrambot4s.models.{Message, Update}
 

@@ -5,9 +5,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
-import info.mukel.telegrambot4s.akka.api.{AkkaDefaults, GameManager, Payload}
-import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
+import info.mukel.telegrambot4s.api.{GameManager, Payload, Polling}
 import info.mukel.telegrambot4s.methods.SendGame
 
 /**

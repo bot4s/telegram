@@ -1,6 +1,4 @@
-package info.mukel.telegrambot4s.akka.models
-
-import info.mukel.telegrambot4s.models.InputFile
+package info.mukel.telegrambot4s.models
 
 sealed trait AkkaInputFile extends InputFile
 

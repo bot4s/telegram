@@ -79,7 +79,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
     case Seq($.Int(mm), $.Int(ss)) =>
       reply(s"Timer set: $mm minute(s) and $ss second(s)")
-      after(mm.minutes + ss.seconds) {
+      Utils.after(mm.minutes + ss.seconds) {
         reply("Time's up!!!")
       }
   }

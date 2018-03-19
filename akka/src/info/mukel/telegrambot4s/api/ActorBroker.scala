@@ -1,7 +1,6 @@
-package info.mukel.telegrambot4s.akka.api
+package info.mukel.telegrambot4s.api
 
 import akka.actor.ActorRef
-import info.mukel.telegrambot4s.api.BotBase
 import info.mukel.telegrambot4s.models.Update
 
 /**

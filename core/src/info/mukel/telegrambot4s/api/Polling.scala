@@ -4,9 +4,7 @@ import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
-import scala.util.{Failure, Success}
+import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 /** Provides updates by (long) polling Telegram servers.
@@ -17,7 +15,6 @@ import scala.util.control.NonFatal
   * allowing the connection to idle for at least 'pollingTimeout' seconds.
   */
 trait Polling extends BotBase with BotExecutionContext {
-
   private val logger = Logger("Polling")
 
   private type OffsetUpdates = (Option[Long], Seq[Update])
@@ -83,18 +80,18 @@ trait Polling extends BotBase with BotExecutionContext {
   }
 
   abstract override def run(): Future[Unit] = synchronized {
-    if (polling != null) {
-      throw new RuntimeException("Bot is already running!")
+    if (polling == null) {
+      throw new RuntimeException("Bot is already running")
     }
-    super.run()
-    Await.result(request(DeleteWebhook), Duration.Inf) match {
+    val superRun = super.run()
+    request(DeleteWebhook).flatMap {
       case true =>
         logger.info(s"Starting (long) polling: timeout=$pollingTimeout seconds")
         polling = poll(Future.successful((None, Seq()))).map(_ => ())
         polling.onComplete {
           case _ => logger.info("Long polling terminated")
         }
-        polling
+        Future.sequence(Seq(superRun, polling)).map(_ => ())
       case false =>
         val msg = "Failed to clear webhook: DeleteWebhook returned false"
         logger.error(msg)

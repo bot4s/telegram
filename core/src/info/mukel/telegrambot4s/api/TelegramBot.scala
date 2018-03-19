@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.api
 
+import java.util.concurrent.Executors
+
 import info.mukel.telegrambot4s.clients.ScalajHttpClient
 
 import scala.concurrent.ExecutionContext
@@ -15,5 +17,6 @@ trait BotExecutionContext {
 }
 
 trait GlobalExecutionContext extends BotExecutionContext {
-  implicit val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+  implicit val executionContext: ExecutionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
+  //scala.concurrent.ExecutionContext.global
 }
