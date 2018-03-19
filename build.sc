@@ -2,7 +2,7 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val binCrossScalaVersions = Seq("2.11.11", "2.12.4")
+val crossScalaVersions = Seq("2.11.11", "2.12.4")
 
 object library {
 
@@ -80,7 +80,7 @@ trait Publishable extends PublishModule {
   )
 }
 
-object core extends Cross[CoreModule]("2.11.11", "2.12.4")
+object core extends Cross[CoreModule](crossScalaVersions: _ *)
 
 class CoreModule(val crossScalaVersion: String) extends TelegramBot4sModule with Publishable {
   override def artifactName = "telegrambot4s-core"
@@ -97,7 +97,7 @@ class CoreModule(val crossScalaVersion: String) extends TelegramBot4sModule with
 
 }
 
-object akka extends Cross[AkkaModule]("2.11.11", "2.12.4")
+object akka extends Cross[AkkaModule](crossScalaVersions: _ *)
 
 class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with Publishable {
   override def artifactName = "telegrambot4s-akka"
@@ -120,7 +120,7 @@ class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with
 
 }
 
-object examples extends Cross[ExamplesModule]("2.11.11", "2.12.4")
+object examples extends Cross[ExamplesModule](crossScalaVersions: _ *)
 
 class ExamplesModule(val crossScalaVersion: String) extends TelegramBot4sModule {
   override def moduleDeps = Seq(core(), akka())
