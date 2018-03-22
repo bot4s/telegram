@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.api
 
-import info.mukel.telegrambot4s.api.declarative.{CommandFilters, Commands}
+import info.mukel.telegrambot4s.api.declarative.{CommandImplicits, Commands}
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers
 import info.mukel.telegrambot4s.methods.{ApiRequest, GetMe}
 import info.mukel.telegrambot4s.models.{Message, User}
@@ -9,25 +9,27 @@ import org.scalatest.FlatSpec
 
 import scala.concurrent.Future
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandFilters {
+class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
 
   trait Fixture {
     val handler = mockFunction[Message, Unit]
     val handlerHello = mockFunction[Message, Unit]
     val handlerHelloWorld = mockFunction[Message, Unit]
+    val handlerRespect = mockFunction[Message, Unit]
     val bot = new TestBot with GlobalExecutionContext with Commands {
 
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
         override def apply[R: Manifest](request: ApiRequest[R]) = request match {
           case GetMe => Future.successful(
-            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "TestBot")))
+            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "FirstName", username = Some("TestBot"))))
           )
         }
       }
 
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
+      onCommand("/respect" & respectRecipient)(handlerRespect)
     }
   }
 
@@ -75,7 +77,15 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
 
   it should "ignore case in @sender" in new Fixture {
     val args = Seq("arg1", "arg2")
-    val m = textMessage("  /hello@testbot  " + args.mkString(" "))
+    val m = textMessage("  /respect@testbot  " + args.mkString(" "))
+    handlerRespect.expects(m).once()
+    bot.receiveMessage(m)
+  }
+
+  it should "accept any recipient if respectRecipient is not used" in new Fixture {
+    val args = Seq("arg1", "arg2")
+    val m = textMessage("  /hello@otherbot  " + args.mkString(" "))
+    handlerRespect.expects(m).never()
     handlerHello.expects(m).once()
     bot.receiveMessage(m)
   }
@@ -86,12 +96,13 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
     bot.receiveMessage(m)
   }
 
-//  it should "ignore different @sender" in new Fixture {
-//    val m = textMessage("  /hello@OtherBot  ")
-//    handlerHello.expects(m).never()
-//    handlerHelloWorld.expects(*).never()
-//    bot.receiveMessage(m)
-//  }
+  it should "ignore different @sender" in new Fixture {
+    val m = textMessage("  /respect@OtherBot  ")
+    handlerHello.expects(m).never()
+    handlerHelloWorld.expects(*).never()
+    handlerRespect.expects(*).never()
+    bot.receiveMessage(m)
+  }
 
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Unit]
