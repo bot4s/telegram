@@ -1,5 +1,5 @@
 import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
-import info.mukel.telegrambot4s.api.{Polling, Extractors => $}
+import info.mukel.telegrambot4s.api.{Extractors, Polling}
 
 import scala.concurrent.duration._
 
@@ -66,7 +66,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   // withArgs with pattern matching.
   onCommand("/inc") { implicit msg =>
     withArgs {
-      case Seq($.Int(i)) =>
+      case Seq(Extractors.Int(i)) =>
         reply("" + (i + 1))
 
       // Conveniently avoid MatchError, providing hints on usage.
@@ -77,7 +77,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // Regex commands also available.
   onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
-    case Seq($.Int(mm), $.Int(ss)) =>
+    case Seq(Extractors.Int(mm), Extractors.Int(ss)) =>
       reply(s"Timer set: $mm minute(s) and $ss second(s)")
       Utils.after(mm.minutes + ss.seconds) {
         reply("Time's up!!!")
