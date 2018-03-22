@@ -80,7 +80,7 @@ trait Polling extends BotBase with BotExecutionContext {
   }
 
   abstract override def run(): Future[Unit] = synchronized {
-    if (polling == null) {
+    if (polling != null) {
       throw new RuntimeException("Bot is already running")
     }
     val superRun = super.run()
