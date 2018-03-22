@@ -15,7 +15,7 @@ object library {
     val scalaTest = "3.0.5"
     val scalajHttp = "2.3.0"
     val scalamock = "3.6.0"
-    val scalaLogging = "3.7.2"
+    val scalaLogging = "3.8.0"
     val logback = "1.2.3"
     val akkaHttpCors = "0.2.2"
   }
