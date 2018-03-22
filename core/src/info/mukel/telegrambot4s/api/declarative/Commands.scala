@@ -4,7 +4,7 @@ import info.mukel.telegrambot4s.api.BotExecutionContext
 import info.mukel.telegrambot4s.methods.GetMe
 import info.mukel.telegrambot4s.models.{Message, User}
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 
 case class Command(cmd: String, recipient: Option[String])
@@ -12,16 +12,15 @@ case class Command(cmd: String, recipient: Option[String])
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands extends Messages with BotExecutionContext with CommandFilters {
+trait Commands extends Messages with BotExecutionContext with CommandImplicits {
 
   private lazy val self: User =
     Await.result(request(GetMe), 10.seconds)
 
   /**
-    * React to /commands with the specified action.
+    * Receives /commands with the specified action.
     * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
-    * Accepts a "string", a 'symbol, or a sequence of strings or symbols.
-    *
+    * Implicits are provided for "string" and 'symbol.
     * @example {{{
     *   onCommand("/command") { implicit msg => ... }
     *   onCommand("command") { implicit msg => ... }
@@ -58,7 +57,7 @@ trait Commands extends Messages with BotExecutionContext with CommandFilters {
   }
 
   /**
-    * Command extractor.
+    * Extracts the leading /command.
     */
   def command(msg: Message): Option[Command] = {
     msg.text.flatMap { text =>
@@ -70,6 +69,15 @@ trait Commands extends Messages with BotExecutionContext with CommandFilters {
     }
   }
 
+  override def run(): Future[Unit] = {
+    val eol = super.run()
+    if (self == null) { // force lazy val
+      throw new RuntimeException("Commands initialization failed: GetMe failed.")
+    }
+    assert(self.username.isDefined, "bot username is not defined")
+    eol
+  }
+
   /**
     * Tokenize message text; drops first token (/command).
     */
@@ -79,6 +87,8 @@ trait Commands extends Messages with BotExecutionContext with CommandFilters {
     * Tokenize message text.
     */
   def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
+
+  val respectRecipient: CommandFilter = CommandFilter.ANY.to(self.username)
 }
 
 trait CommandFilter extends Filter[Command] {
@@ -89,27 +99,35 @@ trait CommandFilter extends Filter[Command] {
   def &(other: CommandFilter): CommandFilter = and(other)
   def not(other: CommandFilter): CommandFilter = CommandFilter(v => !self(v))
   def unary_!(other: CommandFilter): CommandFilter = not(other)
+
+  def to(r: => Option[String]): CommandFilter = {
+    CommandFilter(_.recipient.forall(
+        t => r.forall(t.equalsIgnoreCase)))
+  }
+
+  def @@(r: => Option[String]): CommandFilter = to(r)
+}
+
+trait CommandImplicits {
+  implicit def stringToCommandFilter(s: String): CommandFilter = CommandFilter {
+    val target = s.trim().stripPrefix("/")
+
+    require(target.matches("""\w+"""))
+
+    PartialFunction.cond(_) {
+      case Command(cmd, _) if target.equalsIgnoreCase(cmd) => true
+    }
+  }
+
+  implicit def symbolToCommandFilter(s: Symbol): CommandFilter = {
+    stringToCommandFilter(s.name)
+  }
 }
 
 object CommandFilter {
   def apply(f: Filter[Command]): CommandFilter = new CommandFilter {
     override def apply(c: Command): Boolean = f(c)
   }
-}
-
-trait CommandFilters {
-  val withoutRecipient: CommandFilter = CommandFilter(_.recipient.isEmpty)
-
-  def withRecipient(recipient: => String): CommandFilter =
-    CommandFilter(_.recipient.exists(recipient.compareToIgnoreCase(_) == 0))
-
-  implicit def stringToCommandFilter(s: String): CommandFilter = CommandFilter {
-    val target = s.trim().stripPrefix("/")
-    require(target.matches("""\w+"""))
-    c => target.compareToIgnoreCase(c.cmd) == 0
-  }
-
-  implicit def symbolToCommandFilter(s: Symbol): CommandFilter = {
-    stringToCommandFilter(s.name)
-  }
+  val ANY = CommandFilter(_ => true)
+  val NONE = CommandFilter(_ => false)
 }
