@@ -17,6 +17,5 @@ trait BotExecutionContext {
 }
 
 trait GlobalExecutionContext extends BotExecutionContext {
-  implicit val executionContext: ExecutionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
-  //scala.concurrent.ExecutionContext.global
+  override implicit val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
 }
