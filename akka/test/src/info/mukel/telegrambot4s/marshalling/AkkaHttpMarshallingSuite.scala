@@ -6,10 +6,10 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.util.ByteString
 import info.mukel.telegrambot4s.api.TestUtils
+import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling.underscore_case_marshaller
 import info.mukel.telegrambot4s.methods.SendDocument
 import info.mukel.telegrambot4s.models.{AkkaInputFile, InputFile}
 import org.scalatest.{FunSuite, Matchers}
-import AkkaHttpMarshalling.underscore_case_marshaller
 
 class AkkaHttpMarshallingSuite extends FunSuite with ScalatestRouteTest with Matchers with TestUtils {
 

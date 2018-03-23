@@ -1,7 +1,5 @@
 package info.mukel.telegrambot4s.api
 
-import java.util.concurrent.Executors
-
 import info.mukel.telegrambot4s.clients.ScalajHttpClient
 
 import scala.concurrent.ExecutionContext

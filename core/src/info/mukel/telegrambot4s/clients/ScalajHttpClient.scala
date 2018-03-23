@@ -31,18 +31,6 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  private def parseApiResponse[R: Manifest](apiResponse: ApiResponse[R]): R = apiResponse match {
-    case ApiResponse(true, Some(result), _, _, _) => result
-    case ApiResponse(false, _, description, Some(errorCode), parameters) =>
-      val e = TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode, None, parameters)
-      logger.error("Telegram API exception", e)
-      throw e
-    case _ =>
-      val msg = "Unknown error on request response"
-      logger.error(msg)
-      throw new Exception(msg)
-  }
-
   private def sendRequest[R: Manifest](r: HttpRequest): Future[R] = {
     Future {
       blocking {
@@ -54,7 +42,7 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
           fromJson[ApiResponse[R]](x.body)
         else
           throw new Exception(s"Network error ${x.code} on request")
-    } map (parseApiResponse[R])
+    } map (processApiResponse[R])
   }
 
   /** Spawns a type-safe request.

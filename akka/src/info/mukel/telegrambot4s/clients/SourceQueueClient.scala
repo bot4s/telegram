@@ -52,20 +52,7 @@ class SourceQueueClient(token: String, telegramHost: String = "api.telegram.org"
       }
     }
 
-    response flatMap {
-      case ApiResponse(true, Some(result), _, _, _) =>
-        Future.successful(result)
-
-      case ApiResponse(false, _, description, Some(errorCode), parameters) =>
-        val e = TelegramApiException(description.getOrElse("Unexpected/invalid/empty response"), errorCode, None, parameters)
-        logger.error("Telegram API exception", e)
-        Future.failed(e)
-
-      case _ =>
-        val msg = "Error on request response"
-        logger.error(msg)
-        Future.failed(new RuntimeException(msg))
-    }
+    response.map(processApiResponse[R])
   }
 
   private def toHttpRequest[R](r: ApiRequest[R]): Future[HttpRequest] = {
