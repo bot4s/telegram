@@ -14,19 +14,38 @@ case class Command(cmd: String, recipient: Option[String])
   */
 trait Commands extends Messages with BotExecutionContext with CommandImplicits {
 
-  private lazy val self: User =
+  protected lazy val self: User =
     Await.result(request(GetMe), 10.seconds)
 
   /**
     * Receives /commands with the specified action.
     * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
-    * Implicits are provided for "string" and 'symbol.
+    * Purely syntax honey for command filters.
+    *
     * @example {{{
     *   onCommand("/command") { implicit msg => ... }
     *   onCommand("command") { implicit msg => ... }
     *   onCommand('echo) { implicit msg => ... }
     *   onCommand('hi | 'hello | 'hey) { implicit msg => ... }
     *   onCommand("/adieu" | "/bye") { implicit msg => ... }
+    * }}}
+    */
+  def onCommand(filter: CommandFilterMagnet)(action: Action[Message]): Unit = {
+    onMessage { implicit msg =>
+      using(command) { cmd =>
+        if (filter.accept(cmd)) {
+          action(msg)
+        }
+      }
+    }
+  }
+
+  /**
+    * Receives /commands with the specified action.
+    * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
+    * Implicits are provided for "string" and 'symbol.
+    * @example {{{
+    *   onCommand(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
     * }}}
     */
   def onCommand(filter: Filter[Command])(action: Action[Message]): Unit = {
@@ -88,28 +107,31 @@ trait Commands extends Messages with BotExecutionContext with CommandImplicits {
     */
   def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
 
-  val respectRecipient: CommandFilter = CommandFilter.ANY.to(self.username)
+  val respectRecipient: CommandFilterMagnet = CommandFilterMagnet.ANY.to(self.username)
 }
 
-trait CommandFilter extends Filter[Command] {
+trait CommandFilterMagnet {
   self =>
-  def or(other: CommandFilter): CommandFilter = CommandFilter(t => self(t) || other(t))
-  def and(other: CommandFilter): CommandFilter = CommandFilter(t => self(t) && other(t))
-  def |(other: CommandFilter): CommandFilter = or(other)
-  def &(other: CommandFilter): CommandFilter = and(other)
-  def not(other: CommandFilter): CommandFilter = CommandFilter(v => !self(v))
-  def unary_!(other: CommandFilter): CommandFilter = not(other)
 
-  def to(r: => Option[String]): CommandFilter = {
-    CommandFilter(_.recipient.forall(
+  def accept(command: Command): Boolean
+
+  def or(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(t => self.accept(t) || other.accept(t))
+  def and(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(t => self.accept(t) && other.accept(t))
+  def |(other: CommandFilterMagnet): CommandFilterMagnet = or(other)
+  def &(other: CommandFilterMagnet): CommandFilterMagnet = and(other)
+  def not(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(v => !self.accept(v))
+  def unary_!(other: CommandFilterMagnet): CommandFilterMagnet = not(other)
+
+  def to(r: => Option[String]): CommandFilterMagnet = {
+    CommandFilterMagnet(_.recipient.forall(
         t => r.forall(t.equalsIgnoreCase)))
   }
 
-  def @@(r: => Option[String]): CommandFilter = to(r)
+  def @@(r: => Option[String]): CommandFilterMagnet = to(r)
 }
 
 trait CommandImplicits {
-  implicit def stringToCommandFilter(s: String): CommandFilter = CommandFilter {
+  implicit def stringToCommandFilter(s: String): CommandFilterMagnet = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 
     require(target.matches("""\w+"""))
@@ -119,15 +141,14 @@ trait CommandImplicits {
     }
   }
 
-  implicit def symbolToCommandFilter(s: Symbol): CommandFilter = {
+  implicit def symbolToCommandFilter(s: Symbol): CommandFilterMagnet = {
     stringToCommandFilter(s.name)
   }
 }
 
-object CommandFilter {
-  def apply(f: Filter[Command]): CommandFilter = new CommandFilter {
-    override def apply(c: Command): Boolean = f(c)
+object CommandFilterMagnet {
+  def apply(f: Filter[Command]): CommandFilterMagnet = new CommandFilterMagnet {
+    override def accept(c: Command): Boolean = f(c)
   }
-  val ANY = CommandFilter(_ => true)
-  val NONE = CommandFilter(_ => false)
+  val ANY = CommandFilterMagnet(_ => true)
 }

@@ -1,22 +1,20 @@
 import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{Polling, _}
-
-import scala.util.Random
+import info.mukel.telegrambot4s.api.{Extractors, Polling}
 
 /** Generates random values.
   */
 class RandomBot(token: String) extends ExampleBot(token)
   with Polling
   with Commands {
-  val rng = new Random(System.currentTimeMillis())
+  val rng = new scala.util.Random(System.currentTimeMillis())
   onCommand("coin" or "flip") { implicit msg =>
     reply(if (rng.nextBoolean()) "Head!" else "Tail!")
   }
   onCommand('real | 'double | 'float) { implicit msg =>
     reply(rng.nextDouble().toString)
   }
-  onCommand("/die") { implicit msg =>
-    reply((rng.nextInt(6) + 1).toString)
+  onCommand("/die" | "roll") { implicit msg =>
+    reply("⚀⚁⚂⚃⚄⚅" (rng.nextInt(6)).toString)
   }
   onCommand("random" or "rnd") { implicit msg =>
     withArgs {
@@ -27,7 +25,7 @@ class RandomBot(token: String) extends ExampleBot(token)
   }
   onCommand('choose | 'pick | 'select) { implicit msg =>
     withArgs { args =>
-      reply(if (args.isEmpty) "Empty list." else args(rng.nextInt(args.size)))
+      replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size)))
     }
   }
 }

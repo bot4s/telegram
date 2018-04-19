@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="logo.png" title="TelegramBot4s">
 </p>
@@ -58,7 +57,6 @@ Table of contents
     - [Let me Google that for you!](#let-me-google-that-for-you)
     - [Google Text To Speech](#google-tts) 
     - [Random Bot (Webhooks)](#using-webhooks)
-    - [Custom extensions](#custom-extensions)
 - [Versioning](#versionning)
 - [Authors](#authors)
 - [License](#license)
@@ -147,28 +145,39 @@ Be aware that, for conciseness, most examples need the implicits to compile, be 
 #### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/LmgtfyBot.scala)
 
 ```scala
-object LmgtfyBot extends TelegramBot 
+import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.api.{Extractors, Polling}
+
+/** Generates random values.
+  */
+class RandomBot(val token: String) extends TelegramBot
   with Polling
   with Commands {
-  
-  // Use 'def' or 'lazy val' for the token, using a plain 'val' may/will
-  // lead to initialization order issues.
-  // Fetch the token from an environment variable or untracked file.
-  lazy val token = scala.util.Properties
-    .envOrNone("BOT_TOKEN")
-    .getOrElse(Source.fromFile("bot.token").getLines().mkString)
-
-  onCommand("lmgtfy") { implicit msg =>
+  val rng = new scala.util.Random(System.currentTimeMillis())
+  onCommand("coin" or "flip") { implicit msg =>
+    reply(if (rng.nextBoolean()) "Head!" else "Tail!")
+  }
+  onCommand('real | 'double | 'float) { implicit msg =>
+    reply(rng.nextDouble().toString)
+  }
+  onCommand("/die") { implicit msg =>
+    reply((rng.nextInt(6) + 1).toString)
+  }
+  onCommand("random" or "rnd") { implicit msg =>
+    withArgs {
+      case Seq(Extractors.Int(n)) if n > 0 =>
+        reply(rng.nextInt(n).toString)
+      case _ => reply("Invalid argumentヽ(ಠ_ಠ)ノ")
+    }
+  }
+  onCommand('choose | 'pick | 'select) { implicit msg =>
     withArgs { args =>
-      reply(
-        "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
-        disableWebPagePreview = Some(true)
-      )
+      replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size)))
     }
   }
 }
  
-val eol = LmgtfyBot.run()
+val eol = RandomBot.run()
 println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
 scala.io.StdIn.readLine()
 bot.shutdown() // initiate shutdown
@@ -209,58 +218,21 @@ new TextToSpeechBot("TOKEN").run()
 #### Using webhooks
 
 ```scala
-object RandomBot extends AkkaTelegramBot 
+object LmgtfyBot extends AkkaTelegramBot
   with Webhook 
   with Commands {
-
   def token = "TOKEN"
-
   override val port = 8443
   override val webhookUrl = "https://1d1ceb07.ngrok.io"
-
-  val rng = new Random(System.currentTimeMillis())
-  onCommand("coin" | "flip") { implicit msg => reply(if (rng.nextBoolean()) "Head!" else "Tail!") }
-  onCommand("real" | "float") { implicit msg => reply(rng.nextDouble().toString) }
-  onCommand("die") { implicit msg => reply((rng.nextInt(6) + 1).toString) }
-  onCommand("dice") { implicit msg => reply((rng.nextInt(6) + 1) + " " + (rng.nextInt(6) + 1)) }
-  onCommand("random" | "rand") { implicit msg =>
-    withArgs {
-      case Seq(Extractors.Int(n)) if n > 0 =>
-        reply(rng.nextInt(n).toString)
-      case _ =>
-        reply("Invalid argumentヽ(ಠ_ಠ)ノ")
-    }
-  }
-  onCommand('choose | 'pick) { implicit msg =>
-    withArgs { args =>  
-      reply(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size)))
+  onCommand("lmgtfy") { implicit msg =>
+    withArgs { args =>
+      reply(
+        "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
+        disableWebPagePreview = Some(true)
+      )
     }
   }
 }
-
-RandomBot.run()
-```
-
-#### Custom extensions
-
-It's rather easy to augment your bot with custom DSL-ish shortcuts; e.g.
-this ```authenticatedOrElse``` snippet is taken from the [AuthenticationBot](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/AuthenticationBot.scala)
-example.
-
-```scala
-  ...
-  onCommand("/secret") { implicit msg =>
-    authenticatedOrElse {
-      admin =>
-        reply(
-          s"""${admin.firstName}:
-             |The answer to life the universe and everything: 42.
-             |You can /logout now.""".stripMargin)
-    } /* or else */ {
-      user =>
-        reply(s"${user.firstName}, you must /login first.")
-    }
-  }
 ```
 
 Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/examples/src/main/scala) for more functionality.
