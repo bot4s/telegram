@@ -5,9 +5,13 @@ import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
 import info.mukel.telegrambot4s.marshalling.ScalajHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 import scalaj.http.HttpRequest
+
 import scala.concurrent.blocking
+import java.net.Proxy
+import java.util.UUID
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 /** Scalaj-http Telegram Bot API client
   *
@@ -20,21 +24,20 @@ import scala.concurrent.{ExecutionContext, Future}
   *
   * @param token Bot token
   */
-class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")(implicit ec: ExecutionContext) extends RequestHandler {
+class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHost: String = "api.telegram.org")(implicit ec: ExecutionContext) extends RequestHandler {
 
   import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
-
-  private val logger = Logger.apply("ScalajHttpClient")
 
   val connectionTimeoutMs = 10000
   val readTimeoutMs = 50000
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
+  private val logger = Logger[ScalajHttpClient]
 
-  private def sendRequest[R: Manifest](r: HttpRequest): Future[R] = {
+  protected def spawnRequest[R: Manifest](r: HttpRequest): Future[R] = {
     Future {
       blocking {
-        r.timeout(connectionTimeoutMs, readTimeoutMs).asString
+        r.timeout(connectionTimeoutMs, readTimeoutMs).proxy(proxy).asString
       }
     } map {
       x =>
@@ -53,7 +56,14 @@ class ScalajHttpClient(token: String, telegramHost: String = "api.telegram.org")
     */
   override def apply[R: Manifest](request: ApiRequest[R]): Future[R] = {
     val url = apiBaseUrl + request.methodName
+    val uuid = UUID.randomUUID()
+    logger.debug(s"REQUEST $uuid $request")
     val scalajRequest = ScalajHttpMarshalling.marshall(request, url)
-    sendRequest(scalajRequest)
+    val f = spawnRequest(scalajRequest)
+    f.onComplete {
+      case Success(response) => logger.debug(s"RESPONSE $uuid $response")
+      case Failure(e) => logger.debug(s"RESPONSE $uuid $e")
+    }
+    f
   }
 }

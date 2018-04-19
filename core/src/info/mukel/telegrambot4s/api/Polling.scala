@@ -38,7 +38,7 @@ trait Polling extends BotBase with BotExecutionContext {
     *
     * Specifies the amount of time the connection will be idle/waiting if there are no updates.
     */
-  def pollingTimeout: Int = 45
+  def pollingTimeout: Int = 30
 
   @volatile var polling: Future[Unit] = _
 
@@ -59,11 +59,11 @@ trait Polling extends BotBase with BotExecutionContext {
         val f = if (polling == null) seed
         else
           poll(
-            pollingGetUpdates(maxOffset.map(_ + 1)).recover {
-              case NonFatal(e) =>
-                logger.error("GetUpdates failed", e)
-                Seq.empty[Update]
-            }.map((maxOffset, _))
+              pollingGetUpdates(maxOffset.map(_ + 1)).recover {
+                case NonFatal(e) =>
+                  logger.error("GetUpdates failed", e)
+                  Seq.empty[Update]
+              }.map((maxOffset, _))
           )
 
         for (u <- updates) {
