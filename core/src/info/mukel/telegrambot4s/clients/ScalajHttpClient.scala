@@ -1,16 +1,15 @@
 package info.mukel.telegrambot4s.clients
 
+import java.net.Proxy
+import java.util.UUID
+
 import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
+import info.mukel.telegrambot4s.api.RequestHandler
 import info.mukel.telegrambot4s.marshalling.ScalajHttpMarshalling
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
 import scalaj.http.HttpRequest
 
-import scala.concurrent.blocking
-import java.net.Proxy
-import java.util.UUID
-
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, Future, blocking}
 import scala.util.{Failure, Success}
 
 /** Scalaj-http Telegram Bot API client
