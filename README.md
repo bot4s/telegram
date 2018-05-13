@@ -57,14 +57,14 @@ Table of contents
     - [Let me Google that for you!](#let-me-google-that-for-you)
     - [Google Text To Speech](#google-tts) 
     - [Random Bot (Webhooks)](#using-webhooks)
-- [Versioning](#versionning)
+- [Versioning](#versioning)
 - [Authors](#authors)
 - [License](#license)
 
 ## Quick-start
 Add to your `build.sbt` file:
 ```scala
-// core 
+// Core with minimal dependencies, enough to spawn your first bot.
 libraryDependencies += "info.mukel" %% "telegrambot4s-core" % "3.1.0-RC1"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
@@ -74,16 +74,10 @@ libraryDependencies += "info.mukel" %% "telegrambot4s-akka" % "3.1.0-RC1"
 For [mill](https://www.lihaoyi.com/mill/) early-adopters `build.sc` file:
 ```scala
   def ivyDeps = Seq(
-    ivy"info.mukel::telegrambot4s-core:3.1.0-RC1", // barebones core
+    ivy"info.mukel::telegrambot4s-core:3.1.0-RC1", // core
     ivy"info.mukel::telegrambot4s-akka:3.1.0-RC1"  // extra goodies
   )
 ```
-
-## Design
-The library is bundled in two artifacts, a core that contains all the Telegram API
-and supports polling out-of-the-box and the Akka extensions which adds support for webhooks, games...
-The rationale behind the split is to be able to plug different implementations with different requirements. 
-e.g. Google App Engine doesn't support Akka.
 
 ## Leaking bot tokens
 **Don't ever expose your bot's token.**
@@ -92,10 +86,10 @@ Hopefully [GitGuardian](https://www.gitguardian.com/) got you covered and will w
 
 ## Webhooks vs Polling  
 Both methods are supported.
-(Long) Polling is bundled in the core artifact backed by [scalaj-http](https://github.com/scalaj/scalaj-http) and 
-is by far the easiest method.
+(Long) Polling is bundled in the `core` artifact backed by [scalaj-http](https://github.com/scalaj/scalaj-http) and
+by far the easiest method.
 
-Webhooks require a server (it won't work on your laptop).
+Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 ## Payments
@@ -110,16 +104,18 @@ Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
-Beside the usual ways, I've managed to run bots on a Raspberry Pi 2, 
+I've managed to run bots on a Raspberry Pi 2, Heroku, Google App Engine  
 and most notably on an old Android (4.1.2) phone with a broken screen via the JDK for ARM.
 
 Distribution/deployment is outside the scope of the library, but all platforms where Java is
 supported should be compatible, ~~with the notable exception of Google AppEngine~~. You may find
 [sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker) 
 very useful.
- 
 
-## Running the examples 
+## Running the examples
+
+`telegrambot4s` uses the uber-awesome [mill](https://www.lihaoyi.com/mill/).
+
 
 ```
 $ mill -i "examples[2.12.4].console"
