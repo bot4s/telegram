@@ -5,7 +5,8 @@ package info.mukel.telegrambot4s.models
   */
 object MessageEntityType extends Enumeration {
   type MessageEntityType = Value
-
+  
+  val Cashtag = Value("cashtag")
   val Message = Value("message")
   val EditedMessage = Value("edited_message")
   val Mention = Value("mention")
