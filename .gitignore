@@ -16,6 +16,9 @@ src_managed/
 project/boot/
 project/plugins/project/
 
+# mill
+out/
+
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
@@ -24,3 +27,4 @@ project/plugins/project/
 credentials.*
 
 .DS_Store
+
