@@ -5,19 +5,15 @@ package info.mukel.telegrambot4s.models
   */
 object UpdateType extends Enumeration {
   type UpdateType = Value
-  val Message = Value("message")
-  val EditedMessage = Value("edited_message")
-
-  val ChannelPost = Value("channel_post")
-  val EditedChannelPost = Value("edited_channel_post")
-
-  val InlineQuery = Value("inline_query")
-  val ChosenInlineResult = Value("chosen_inline_result")
-
-  val CallbackQuery = Value("callback_query")
-
-  val ShippingQuery = Value("shipping_query")
-  val PreCheckoutQuery = Value("pre_checkout_query")
+  val Message,
+  EditedMessage,
+  ChannelPost,
+  EditedChannelPost,
+  InlineQuery,
+  ChosenInlineResult,
+  CallbackQuery,
+  ShippingQuery,
+  PreCheckoutQuery = Value
 
   object Filters {
     val MessageUpdates: Seq[UpdateType] = Seq(Message, EditedMessage)
@@ -28,4 +24,5 @@ object UpdateType extends Enumeration {
 
     val AllUpdates: Seq[UpdateType] = UpdateType.values.toSeq
   }
+
 }

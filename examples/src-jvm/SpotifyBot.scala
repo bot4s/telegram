@@ -4,13 +4,10 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.Implicits._
 import info.mukel.telegrambot4s.api.{Polling, _}
 import info.mukel.telegrambot4s.methods.AnswerInlineQuery
 import info.mukel.telegrambot4s.models._
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -23,8 +20,6 @@ import scala.concurrent.duration.Duration
   * See [[https://developer.spotify.com/web-api/authorization-guide/]]
   */
 class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
-
-  val logger = Logger(getClass)
 
   val limit = 10
 
@@ -45,7 +40,7 @@ class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
       if response.status.isSuccess()
       jsonText <- Unmarshal(response).to[String]
     } yield {
-      val JString(token) = parse(jsonText) \ "access_token"
+      val token = io.circe.parser.parse(jsonText).fold(throw _, _.hcursor.get[String]("access_token"))
       logger.info(s"Spotify AccessToken: $token")
       token
     }
@@ -65,25 +60,26 @@ class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
       if response.status.isSuccess()
       jsonText <- Unmarshal(response).to[String]
     } yield {
+      println(jsonText)
 
-      val results = for {
-        JArray(tracks) <- (parse(jsonText) \ "tracks" \ "items")
-        trackObj <- tracks
-        JObject(track) <- trackObj
-        JField("id", JString(id)) <- track
-        JField("name", JString(title)) <- track
-        JField("preview_url", JString(preview_url)) <- track
-        JString(artist) <- ((trackObj \ "artists") (0) \ "name")
-      } yield
-        InlineQueryResultAudio(id, preview_url, title, artist, audioDuration = 30)
-
-      request(
-        AnswerInlineQuery(
-          inlineQuery.id,
-          results,
-          nextOffset = (offset + limit).toString
-        )
-      )
+//      val results = for {
+//        JArray(tracks) <- (parse(jsonText) \ "tracks" \ "items")
+//        trackObj <- tracks
+//        JObject(track) <- trackObj
+//        JField("id", JString(id)) <- track
+//        JField("name", JString(title)) <- track
+//        JField("preview_url", JString(preview_url)) <- track
+//        JString(artist) <- ((trackObj \ "artists") (0) \ "name")
+//      } yield
+//        InlineQueryResultAudio(id, preview_url, title, artist, audioDuration = 30)
+//
+//      request(
+//        AnswerInlineQuery(
+//          inlineQuery.id,
+//          results,
+//          nextOffset = (offset + limit).toString
+//        )
+//      )
     }
   }
 }

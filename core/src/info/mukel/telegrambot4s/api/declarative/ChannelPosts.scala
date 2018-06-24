@@ -31,7 +31,7 @@ trait ChannelPosts extends BotBase {
     for (action <- channelPostActions)
       action(msg)
 
-    // Fallback to upper level to preserve trait stack-ability
+    // Fallback to upper level to preserve trait stack-ability.
     super.receiveChannelPost(msg)
   }
 
@@ -39,7 +39,7 @@ trait ChannelPosts extends BotBase {
     for (action <- editedChannelPostActions)
       action(msg)
 
-    // Fallback to upper level to preserve trait stack-ability
+    // Fallback to upper level to preserve trait stack-ability.
     super.receiveEditedChannelPost(msg)
   }
 }

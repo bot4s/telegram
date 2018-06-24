@@ -5,6 +5,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 import info.mukel.telegrambot4s.methods._
 
 import scala.util.{Failure, Success}
@@ -40,7 +41,7 @@ class VoiceFileBot(token: String) extends AkkaExampleBot(token)
           }
 
         case Failure(e) =>
-          println("Exception: " + e) // poor's man logging
+          logger.error("Exception: " + e) // poor's man logging
       }
     }
   }

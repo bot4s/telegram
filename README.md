@@ -42,6 +42,13 @@
 # TelegramBot4s
 Simple, extensible, strongly-typed, asynchronous and transparently _camelCased_.
 
+# What's in the box?
+A typed implementation of the Telegram Bot API, independent of any HTTP client or framework.
+Some utils to create Telegram bots in a declarative way.
+That allows you to:
+  - Quickly prototype a Telegram bot.
+  - Implement complex bots (complex state, different components, that scale..) from a solid ground.
+
 Table of contents
 =================
 

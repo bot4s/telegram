@@ -2,8 +2,9 @@ package info.mukel.telegrambot4s.api
 
 import info.mukel.telegrambot4s.models.ResponseParameters
 
-/** Wraps Telegram API errors. (When response.ok = false)
-  * Not intended to wrap exceptions related to de/serialization, network...
+/**
+  * Telegram API errors, e.g. when `response.ok` is false.
+  * Does not wrap exceptions related to de/serialization, network errors...
   */
 case class TelegramApiException(message: String, errorCode: Int, cause: Option[Throwable] = None, parameters: Option[ResponseParameters] = None)
   extends Exception(message, cause.orNull)

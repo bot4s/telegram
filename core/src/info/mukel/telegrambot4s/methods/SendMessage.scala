@@ -2,6 +2,7 @@ package info.mukel.telegrambot4s.methods
 
 import info.mukel.telegrambot4s.methods.ParseMode.ParseMode
 import info.mukel.telegrambot4s.models.{ChatId, Message, ReplyMarkup}
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
 /** Use this method to send text messages.
   * On success, the sent Message is returned.

@@ -25,6 +25,6 @@ case class AnswerShippingQuery(
                               errorMessage    : Option[String] = None
                               ) extends ApiRequestJson[Boolean] {
 
-  if (ok) require(shippingOptions.isDefined, "Required if ok is True")
-  if (!ok) require(errorMessage.isDefined, "Required if ok is False")
+  require(!ok || shippingOptions.isDefined, "shippingOptions required if ok is True")
+  require(ok || errorMessage.isDefined, "errorMessage required if ok is False")
 }

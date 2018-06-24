@@ -41,6 +41,7 @@ case class Update(
       callbackQuery,
       shippingQuery,
       preCheckoutQuery
-    ).count(_.isDefined) == 1
+    ).count(_.isDefined) == 1,
+    "Exactly one of the optional fields should be used"
   )
 }

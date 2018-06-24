@@ -5,6 +5,7 @@ import akka.stream.ActorMaterializer
 import info.mukel.telegrambot4s.clients.AkkaHttpClient
 
 trait AkkaTelegramBot extends BotBase with GlobalExecutionContext with AkkaDefaults {
+  def token: String
   override val client: RequestHandler = new AkkaHttpClient(token)
 }
 

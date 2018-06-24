@@ -1,7 +1,6 @@
+import com.softwaremill.sttp._
 import info.mukel.telegrambot4s.api.Polling
 import info.mukel.telegrambot4s.api.declarative.Commands
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
 
 import scala.concurrent.Future
 
@@ -17,18 +16,16 @@ class CovfefeBot(token: String) extends ExampleBot(token) with Polling with Comm
   onCommand("/covfefe") { implicit msg =>
     val url = "https://api.whatdoestrumpthink.com/api/v1/quotes/random"
     for {
-      r <- Future {
-        scalaj.http.Http(url).asString
-      }
+      r <- sttp.get(uri"$url").response(asString).send[Future]()
       if r.isSuccess
-      json = r.body
+      json = r.unsafeBody
     } /* do */ {
-      for {
-        JObject(obj) <- parse(json)
-        JField("message", JString(quote)) <- obj
-      } /* do */ {
-        reply(quote)
-      }
+      print(json)
+//      val t = io.circe.parser.parse(json).fold(throw _, identity)
+//      t.hcursor.downField("message").get()
+//      JField("message", JString(quote)) <- obj
+//
+//        reply(quote)
     }
   }
 }

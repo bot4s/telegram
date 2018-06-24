@@ -8,6 +8,7 @@ import info.mukel.telegrambot4s.api.declarative.Commands
 import info.mukel.telegrambot4s.api.{Polling, _}
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models.AkkaInputFile
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
 /**
   * Generates QR codes from text/url.

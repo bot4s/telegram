@@ -1,26 +1,14 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
-import akka.http.scaladsl.model.headers.{HttpOrigin, HttpOriginRange}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
-import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
-import info.mukel.telegrambot4s.api.{GameManager, Payload, Polling}
+import info.mukel.telegrambot4s.api.{AkkaDefaults, GameManager, Payload, Polling}
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 import info.mukel.telegrambot4s.methods.SendGame
 
 /**
-  * 2048 hosted on GitHub Pages.
-  *
-  * Games hosted externally (on GitHub) can be used from any bot using
-  * the endpoints provided by [[GameManager]] to query and set the scores.
-  * All the wiring is done (server address is passed to the game) making
-  * games completely independent.
-  *
-  * '''Security:'''
-  * Public games can potentially contain, or be modified to contain malicious code,
-  * ads, user data collection... that may violate Telegram's terms.
-  * Be careful and only link games that you own/trust.
+  * 2048 self-hosted by the bot (from resources).
   *
   * To spawn the GameManager, a server is needed.
   * Otherwise use your favorite tunnel e.g. [[https://ngrok.com ngrok]]
@@ -39,17 +27,17 @@ import info.mukel.telegrambot4s.methods.SendGame
   * @param token           Bot's token.
   * @param gameManagerHost Base URL of the game manager.
   */
-class GitHubHosted2048Bot(token: String, gameManagerHost: String)
-  extends AkkaExampleBot(token)
+class SelfHosted2048Bot(token: String, gameManagerHost: String)
+  extends ExampleBot(token)
     with Polling
-    with Commands
+    with AkkaDefaults
     with Callbacks
-    with GameManager {
+    with GameManager
+    with Commands {
 
   override val port: Int = 8080
 
   val Play2048 = "play_2048"
-  val GitHubPages = Uri("https://mukel.github.io")
 
   onCommand(Play2048 or "2048" or "start") { implicit msg =>
     request(
@@ -62,7 +50,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
       case Play2048 =>
         val payload = Payload.forCallbackQuery(gameManagerHost)
 
-        val url = GitHubPages
+        val url = Uri(gameManagerHost)
           .withPath(Path(s"/$Play2048/index.html"))
           .withQuery(Query("payload" -> payload.base64Encode))
 
@@ -72,14 +60,11 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
     acked.getOrElse(ackCallback())
   }
 
-  // Enable CORS for GitHub Pages.
-  // Allows GitHub Pages to call cross-domain getScores and setScore.
-  private val allowGitHub = CorsSettings.defaultSettings
-    .copy(allowedOrigins = HttpOriginRange(HttpOrigin(GitHubPages.toString())))
-
   override def routes: Route =
     super.routes ~
-      cors(allowGitHub) {
-        gameManagerRoute
+      gameManagerRoute ~ {
+      pathPrefix(Play2048) {
+        getFromResourceDirectory(Play2048)
       }
+    }
 }

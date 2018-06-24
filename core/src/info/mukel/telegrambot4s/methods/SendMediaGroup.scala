@@ -1,6 +1,6 @@
 package info.mukel.telegrambot4s.methods
 
-import info.mukel.telegrambot4s.models.{ChatId, InputMedia, Message}
+import info.mukel.telegrambot4s.models._
 
 /**
   * Use this method to send a group of photos or videos as an album.
@@ -14,4 +14,13 @@ import info.mukel.telegrambot4s.models.{ChatId, InputMedia, Message}
 case class SendMediaGroup(chatId              : ChatId,
                           media               : Array[InputMedia],
                           disableNotification : Option[Boolean] = None,
-                          replyToMessageId    : Option[Int] = None) extends ApiRequestMultipart[Array[Message]]
+                          replyToMessageId    : Option[Int] = None) extends ApiRequestMultipart[Array[Message]] {
+
+  override def getFiles: List[(String, InputFile)] = {
+    val attachPrefix = "attach://"
+    media.toList.flatMap {
+      case imp: InputMediaPhoto => imp.photo.map(imp.media.stripPrefix(attachPrefix) -> _)
+      case imv: InputMediaVideo => imv.video.map(imv.media.stripPrefix(attachPrefix) -> _)
+    }
+  }
+}

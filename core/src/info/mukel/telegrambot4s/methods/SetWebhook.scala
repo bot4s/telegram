@@ -32,4 +32,6 @@ case class SetWebhook(
                        certificate    : Option[InputFile] = None,
                        maxConnections : Option[Int] = None,
                        allowedUpdates : Option[Seq[UpdateType]] = None
-                     ) extends ApiRequestMultipart[Boolean]
+                     ) extends ApiRequestMultipart[Boolean] {
+  override def getFiles: List[(String, InputFile)] = certificate.map("certificate" -> _).toList
+}

@@ -16,7 +16,6 @@ class DogeBot(token: String) extends ExampleBot(token)
   onCommand("/doge") { implicit msg =>
     withArgs { args =>
       val url = "http://dogr.io/" + (args mkString "/") + ".png?split=false"
-      println(url)
       for {
         res <- Future { scalaj.http.Http(url).asBytes }
         if res.isSuccess
@@ -25,7 +24,6 @@ class DogeBot(token: String) extends ExampleBot(token)
         println(bytes.length)
         val photo = InputFile("doge.png", bytes)
         uploadingPhoto // Hint the user
-
         request(SendPhoto(msg.source, photo))
       }
     }

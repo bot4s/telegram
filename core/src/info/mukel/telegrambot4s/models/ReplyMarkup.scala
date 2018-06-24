@@ -25,11 +25,7 @@ case class KeyboardButton(
                          text            : String,
                          requestContact  : Option[Boolean] = None,
                          requestLocation : Option[Boolean] = None
-                         ) {
-
-  require(requestContact.isEmpty || requestLocation.isEmpty,
-    "Optional fields are mutually exclusive")
-}
+                         ) /* not a ReplyMarkup */
 
 /**
   * Preferred (safe) way to instantiate [[KeyboardButton]].
@@ -211,8 +207,7 @@ case class InlineKeyboardButton(
                                switchInlineQuery : Option[String] = None,
                                switchInlineQueryCurrentChat : Option[String] = None,
                                callbackGame      : Option[CallbackGame] = None,
-                               pay               : Option[Boolean] = None
-                               ) extends ReplyMarkup {
+                               pay               : Option[Boolean] = None) /* not a ReplyMarkup */ {
   require(
     Seq[Option[_]](
       callbackData,
@@ -222,7 +217,7 @@ case class InlineKeyboardButton(
       callbackGame,
       pay
     ).count(_.isDefined) == 1,
-    "You must use exactly one of the optional fields")
+    "Exactly one of the optional fields should be set.")
 }
 
 /**

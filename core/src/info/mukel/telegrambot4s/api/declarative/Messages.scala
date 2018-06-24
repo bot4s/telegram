@@ -13,6 +13,8 @@ import scala.concurrent.Future
   */
 trait Messages extends BotBase {
 
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
+
   private val messageActions = mutable.ArrayBuffer[Action[Message]]()
   private val editedMessageActions = mutable.ArrayBuffer[Action[Message]]()
 

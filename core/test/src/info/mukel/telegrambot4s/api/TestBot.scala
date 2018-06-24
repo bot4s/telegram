@@ -1,10 +1,22 @@
 package info.mukel.telegrambot4s.api
 
-import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.models._
+import info.mukel.telegrambot4s.methods.GetMe
+import slogging.StrictLogging
 
-class TestBot extends BotBase {
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
+class TestBot extends BotBase with StrictLogging {
   override lazy val client: RequestHandler = ???
-  lazy val logger = Logger[TestBot]
-  def token = ???
+
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
+
+  override def run(): Future[Unit] = {
+    for {
+      getMe_ <- request(GetMe)
+    } yield {
+      getMe = getMe_
+      ()
+    }
+  }
 }

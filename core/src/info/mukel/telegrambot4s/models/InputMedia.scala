@@ -12,11 +12,14 @@ sealed trait InputMedia
   *                pass an HTTP URL for Telegram to get a file from the Internet,
   *                or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name.
   *                More info on Sending Files »
+  * @param photo   InputFile for the "attach://file_attach_name" case.
+  *
   * @param caption String Optional. Caption of the photo to be sent, 0-200 characters
   * @param parseMode String Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic,
   *                  fixed-width text or inline URLs in the media caption.
   */
 case class InputMediaPhoto(media     : String,
+                           photo     : Option[InputFile], // file to attach
                            caption   : Option[String] = None,
                            parseMode : Option[ParseMode] = None,
                            `type`    : String = "photo") extends InputMedia
@@ -38,10 +41,11 @@ case class InputMediaPhoto(media     : String,
   * @param supportsStreaming Boolean Optional. Pass True, if the uploaded video is suitable for streaming
   */
 case class InputMediaVideo(media     : String,
+                           video     : Option[InputFile] = None, // file to attach
                            caption   : Option[String] = None,
                            width     : Option[Int] = None,
                            height    : Option[Int] = None,
                            duration  : Option[Int] = None,
                            parseMode : Option[ParseMode] = None,
-                           supportsStreaming : Option[ParseMode] = None,
+                           supportsStreaming : Option[Boolean] = None,
                            `type`    : String = "video") extends InputMedia

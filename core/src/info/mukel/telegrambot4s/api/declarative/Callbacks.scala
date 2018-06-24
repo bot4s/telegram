@@ -17,7 +17,7 @@ trait Callbacks extends BotBase {
   private def hasTag(tag: String)(cbq: CallbackQuery): Boolean =
     cbq.data.exists(_.startsWith(tag))
 
-  /** Filtersakka.api callbacks based on a tag (to avoid collision).
+  /** Filter callbacks based on a tag (to avoid collision).
     * The tag is stripped from the CallbackQuery object when passed to the handler.
     *
     * @param tag Tag

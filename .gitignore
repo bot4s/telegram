@@ -23,6 +23,7 @@ out/
 .scala_dependencies
 .worksheet
 .idea
+.idea_modules
 
 credentials.*
 

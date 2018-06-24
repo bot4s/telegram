@@ -8,10 +8,10 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import akka.stream.scaladsl.{Sink, Source}
-import com.typesafe.scalalogging.StrictLogging
-import info.mukel.telegrambot4s.api.{RequestHandler, TelegramApiException}
-import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling
+import info.mukel.telegrambot4s.api.RequestHandler
 import info.mukel.telegrambot4s.methods.{ApiRequest, ApiResponse}
+import io.circe.{Decoder, Encoder}
+import slogging.StrictLogging
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -21,33 +21,19 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
 
   private val flow = Http().outgoingConnectionHttps(telegramHost)
 
-  import AkkaHttpMarshalling._
+  import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling._
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
-  /** Spawns a type-safe request.
-    *
-    * @param request
-    * @tparam R Request's expected result type
-    * @return The request result wrapped in a Future (async)
-    */
-  override def apply[R: Manifest](request: ApiRequest[R]): Future[R] = {
-    Source.fromFuture(toHttpRequest(request))
+  override def sendRequest[R, T <: ApiRequest[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = {
+    Source.fromFuture(
+      Marshal(request).to[RequestEntity]
+        .map {
+          re =>
+            HttpRequest(HttpMethods.POST, Uri(path = Path(s"/bot$token/" + request.methodName)), entity = re)
+        })
       .via(flow)
-      .mapAsync(1)(toApiResponse[R])
+      .mapAsync(1)(r => Unmarshal(r.entity).to[ApiResponse[R]])
       .runWith(Sink.head)
       .map(processApiResponse[R])
-  }
-
-  private def toHttpRequest[R](r: ApiRequest[R]): Future[HttpRequest] = {
-    Marshal(r).to[RequestEntity]
-      .map {
-        re =>
-          HttpRequest(HttpMethods.POST,
-            Uri(path = Path(s"/bot$token/" + r.methodName)),
-            entity = re)
-      }
-  }
-
-  private def toApiResponse[R: Manifest](httpResponse: HttpResponse): Future[ApiResponse[R]] = {
-    Unmarshal(httpResponse.entity).to[ApiResponse[R]]
   }
 }

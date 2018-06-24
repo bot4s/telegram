@@ -14,4 +14,6 @@ import info.mukel.telegrambot4s.models.{File, InputFile}
   */
 case class UploadStickerFile(
                               userId     : Int,
-                              pngSticker : InputFile) extends ApiRequestMultipart[File]
+                              pngSticker : InputFile) extends ApiRequestMultipart[File] {
+  override def getFiles: List[(String, InputFile)] = List("png_sticker" -> pngSticker)
+}

@@ -5,22 +5,14 @@ import info.mukel.telegrambot4s.models._
 
 import scala.concurrent.Future
 
-/** Bare-bones base interface for bots.
-  *
-  * The token must be declared as a non-val to avoid initialization issues.
-  * Consider using a lazy val instead as following:
-  *
-  * {{
-  *   lazy val token = Properties
-  *     .envOrNone("BOT_TOKEN")
-  *     .getOrElse(Source.fromFile("bot.token").getLines().mkString)
-  * }}
+/** Skeleton for Telegram bots.
   */
 trait BotBase {
-  def token: String
   val client: RequestHandler
 
   def request: RequestHandler = client
+
+  protected var getMe: User = _
 
   /**
     * Allowed updates. See [[info.mukel.telegrambot4s.models.UpdateType.Filters]].

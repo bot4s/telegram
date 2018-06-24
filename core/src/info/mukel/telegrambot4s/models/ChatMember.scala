@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.models
 
+import info.mukel.telegrambot4s.models.MemberStatus.MemberStatus
+
 /** This object contains information about one member of the chat.
   *
   * @param user                   User Information about the user
@@ -21,7 +23,7 @@ package info.mukel.telegrambot4s.models
   */
 case class ChatMember(
                      user                  : User,
-                     status                : String,
+                     status                : MemberStatus,
                      untilDate             : Option[Int] = None,
                      canBeEdited           : Option[Boolean] = None,
                      canChangeInfo         : Option[Boolean] = None,

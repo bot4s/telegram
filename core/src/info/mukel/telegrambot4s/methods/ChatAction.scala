@@ -13,14 +13,15 @@ package info.mukel.telegrambot4s.methods
   */
 object ChatAction extends Enumeration {
   type ChatAction = Value
-  val Typing = Value("typing")
-  val UploadPhoto = Value("upload_photo")
-  val RecordVideo = Value("record_video")
-  val UploadVideo = Value("upload_video")
-  val RecordAudio = Value("record_audio")
-  val UploadAudio = Value("upload_audio")
-  val UploadDocument = Value("upload_document")
-  val FindLocation = Value("find_location")
-  val RecordVideoNote = Value("record_video_note")
-  val UploadVideoNote = Value("upload_video_note")
+  val
+  Typing,
+  UploadPhoto,
+  RecordVideo,
+  UploadVideo,
+  RecordAudio,
+  UploadAudio,
+  UploadDocument,
+  FindLocation,
+  RecordVideoNote,
+  UploadVideoNote = Value
 }

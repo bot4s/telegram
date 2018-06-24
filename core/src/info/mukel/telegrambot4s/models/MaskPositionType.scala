@@ -6,8 +6,5 @@ package info.mukel.telegrambot4s.models
   */
 object MaskPositionType extends Enumeration {
   type MaskPositionType = Value
-  val Forehead = Value("forehead")
-  val Eyes = Value("eyes")
-  val Mouth = Value("mouth")
-  val Chin = Value("chin")
+  val Forehead, Eyes, Mouth, Chin = Value
 }

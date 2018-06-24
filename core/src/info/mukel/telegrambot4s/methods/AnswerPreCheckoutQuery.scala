@@ -19,10 +19,10 @@ package info.mukel.telegrambot4s.methods
   *                               Please choose a different color or garment!").
   *                            Telegram will display this message to the user.
   */
-case class AnswerPreCheckoutQuery(preCheckoutQueryId: String,
-                                 ok: Boolean,
-                                 errorMessage: Option[String] = None
+case class AnswerPreCheckoutQuery(preCheckoutQueryId : String,
+                                  ok                 : Boolean,
+                                  errorMessage       : Option[String] = None
                                  ) extends ApiRequestJson[Boolean] {
 
-  if (!ok) require(errorMessage.isDefined, "Required if ok is False")
+  require(ok || errorMessage.isDefined, "errorMessage is required if ok is False")
 }

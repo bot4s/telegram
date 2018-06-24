@@ -1,21 +1,20 @@
 package info.mukel.telegrambot4s.api.declarative
 
-import info.mukel.telegrambot4s.api.BotExecutionContext
+import info.mukel.telegrambot4s.api.{BotBase, BotExecutionContext}
 import info.mukel.telegrambot4s.methods.GetMe
 import info.mukel.telegrambot4s.models.{Message, User}
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
+import scala.concurrent.Future
 
 case class Command(cmd: String, recipient: Option[String])
 
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands extends Messages with BotExecutionContext with CommandImplicits {
+trait Commands extends Messages with CommandImplicits {
+  _: BotBase with BotExecutionContext =>
 
-  protected lazy val self: User =
-    Await.result(request(GetMe), 10.seconds)
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
   /**
     * Receives /commands with the specified action.
@@ -88,15 +87,6 @@ trait Commands extends Messages with BotExecutionContext with CommandImplicits {
     }
   }
 
-  override def run(): Future[Unit] = {
-    val eol = super.run()
-    if (self == null) { // force lazy val
-      throw new RuntimeException("Commands initialization failed: GetMe failed.")
-    }
-    assert(self.username.isDefined, "bot username is not defined")
-    eol
-  }
-
   /**
     * Tokenize message text; drops first token (/command).
     */
@@ -107,7 +97,17 @@ trait Commands extends Messages with BotExecutionContext with CommandImplicits {
     */
   def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
 
-  val respectRecipient: CommandFilterMagnet = CommandFilterMagnet.ANY.to(self.username)
+  abstract override def run(): Future[Unit] = {
+    for {
+      _ <- super.run()
+    } yield {
+      if (getMe == null) {
+        throw new RuntimeException("Bot.self must be initialized")
+      }
+    }
+  }
+
+  val respectRecipient: CommandFilterMagnet = CommandFilterMagnet.ANY.to(getMe.username)
 }
 
 trait CommandFilterMagnet {

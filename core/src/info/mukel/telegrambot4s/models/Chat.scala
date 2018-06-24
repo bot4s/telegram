@@ -1,5 +1,7 @@
 package info.mukel.telegrambot4s.models
 
+import info.mukel.telegrambot4s.models.ChatType.ChatType
+
 /** This object represents a chat.
   *
   * @param id             Integer Unique identifier for this chat, not exceeding 1e13 by absolute value
@@ -18,7 +20,7 @@ package info.mukel.telegrambot4s.models
   */
 case class Chat(
                  id            : Long,
-                 `type`        : ChatType.ChatType,
+                 `type`        : ChatType,
                  title         : Option[String] = None,
                  username      : Option[String] = None,
                  firstName     : Option[String] = None,

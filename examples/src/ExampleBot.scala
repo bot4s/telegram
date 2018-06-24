@@ -1,4 +1,6 @@
-import info.mukel.telegrambot4s.api.{AkkaTelegramBot, TelegramBot}
+import info.mukel.telegrambot4s.api.{RequestHandler, TelegramBot}
+import info.mukel.telegrambot4s.clients.SttpClient
+import slogging.{LogLevel, LoggerConfig, PrintLoggerFactory}
 
 /** Quick helper to spawn example bots.
   *
@@ -9,7 +11,11 @@ import info.mukel.telegrambot4s.api.{AkkaTelegramBot, TelegramBot}
   *
   * @param token Bot's token.
   */
-abstract class ExampleBot(val token: String) extends TelegramBot
+abstract class ExampleBot(val token: String) extends TelegramBot {
+  LoggerConfig.factory = PrintLoggerFactory()
+  // set log level, e.g. to TRACE
+  LoggerConfig.level = LogLevel.TRACE
 
-abstract class AkkaExampleBot(val token: String) extends AkkaTelegramBot
-
+  implicit val backend = SttpBackends.default
+  override val client: RequestHandler = new SttpClient(token)
+}

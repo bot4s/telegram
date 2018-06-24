@@ -1,9 +1,10 @@
 package info.mukel.telegrambot4s.api
 
 import info.mukel.telegrambot4s.api.declarative.{CommandImplicits, Commands}
-import info.mukel.telegrambot4s.marshalling.JsonMarshallers
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller
 import info.mukel.telegrambot4s.methods.{ApiRequest, GetMe}
 import info.mukel.telegrambot4s.models.{Message, User}
+import io.circe.{Decoder, Encoder}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
@@ -11,19 +12,25 @@ import scala.concurrent.Future
 
 class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
 
+  import CirceMarshaller._
+
   trait Fixture {
     val handler = mockFunction[Message, Unit]
     val handlerHello = mockFunction[Message, Unit]
     val handlerHelloWorld = mockFunction[Message, Unit]
     val handlerRespect = mockFunction[Message, Unit]
-    val bot = new TestBot with GlobalExecutionContext with Commands {
 
+    val bot = new TestBot with GlobalExecutionContext with Commands {
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
-        override def apply[R: Manifest](request: ApiRequest[R]) = request match {
-          case GetMe => Future.successful(
-            JsonMarshallers.fromJson(JsonMarshallers.toJson(User(123, false, "FirstName", username = Some("TestBot"))))
-          )
+
+        def sendRequest[R, T <: ApiRequest[_ /* R */]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
+
+        override def apply[R](request: ApiRequest[R]): Future[R] = request match {
+          case GetMe => Future.successful({
+            val jsonUser = toJson[User](User(123, false, "FirstName", username = Some("TestBot")))
+            fromJson[User](jsonUser)(userDecoder)
+          })
         }
       }
 
@@ -31,6 +38,8 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
       onCommand("/helloWorld")(handlerHelloWorld)
       onCommand("/respect" & respectRecipient)(handlerRespect)
     }
+
+    bot.run()
   }
 
   behavior of "Commands"

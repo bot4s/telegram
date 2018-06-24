@@ -21,5 +21,5 @@ package info.mukel.telegrambot4s.methods
 trait ApiRequest[R] {
   /** Extract request URL from class name.
     */
-  def methodName: String = getClass.getSimpleName.reverse.dropWhile(_ == '$').reverse
+  def methodName: String = getClass.getSimpleName.takeWhile('$' != _)
 }

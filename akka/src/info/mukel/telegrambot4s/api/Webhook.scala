@@ -3,23 +3,21 @@ package info.mukel.telegrambot4s.api
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.methods.SetWebhook
 import info.mukel.telegrambot4s.models.{InputFile, Update}
+import slogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-
 
 /** Uses a webhook, as an alternative to polling, to receive updates.
   *
   * Automatically registers the webhook on run().
   */
-trait Webhook extends WebRoutes {
+trait Webhook extends WebRoutes with StrictLogging {
   _: BotBase with BotExecutionContext with AkkaImplicits =>
 
-  private val logger = Logger("Webhook")
-
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
   import info.mukel.telegrambot4s.marshalling.AkkaHttpMarshalling._
 
   /** URL for the webhook.

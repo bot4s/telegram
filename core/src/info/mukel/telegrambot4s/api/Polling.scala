@@ -1,10 +1,11 @@
 package info.mukel.telegrambot4s.api
 
-import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetUpdates}
+import info.mukel.telegrambot4s.methods.{DeleteWebhook, GetMe, GetUpdates}
 import info.mukel.telegrambot4s.models.Update
+import slogging.StrictLogging
 
 import scala.concurrent.Future
+import scala.concurrent.duration.{Duration, _}
 import scala.util.control.NonFatal
 
 /** Provides updates by (long) polling Telegram servers.
@@ -12,12 +13,20 @@ import scala.util.control.NonFatal
   * See [[https://en.wikipedia.org/wiki/Push_technology#Long_polling wiki]].
   *
   * It relies on the underlying HTTP client which should support a timeout
-  * allowing the connection to idle for at least 'pollingTimeout' seconds.
+  * allowing the connection to idle for a duration of at least 'pollingTimeout'.
   */
-trait Polling extends BotBase with BotExecutionContext {
-  private val logger = Logger("Polling")
+trait Polling extends BotBase with BotExecutionContext with StrictLogging {
+
+  import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
   private type OffsetUpdates = (Option[Long], Seq[Update])
+
+  /**
+    * Long-polling timeout in seconds.
+    *
+    * Specifies the amount of time the connection will be idle/waiting if there are no updates.
+    */
+  def pollingTimeout: Duration = 30.seconds
 
   /**
     * The polling method, overload for custom behavior, e.g. back-off, retries...
@@ -28,42 +37,33 @@ trait Polling extends BotBase with BotExecutionContext {
     request(
       GetUpdates(
         offset,
-        timeout = Some(pollingTimeout),
+        timeout = Some(pollingTimeout.toSeconds.toInt),
         allowedUpdates = allowedUpdates
       ))
   }
 
-  /**
-    * Long-polling timeout in seconds.
-    *
-    * Specifies the amount of time the connection will be idle/waiting if there are no updates.
-    */
-  def pollingTimeout: Int = 30
-
-  @volatile var polling: Future[Unit] = _
+  @volatile private var polling: Future[Unit] = _
 
   private def poll(seed: Future[OffsetUpdates]): Future[OffsetUpdates] = {
-    seed flatMap {
+    seed.flatMap {
       case (offset, updates) =>
 
-        val maxOffset = updates.map(_.updateId)
+        val maxOffset = updates
+          .map(_.updateId)
           .foldLeft(offset) {
             (acc, e) =>
-              if (acc.isEmpty)
-                Some(e)
-              else
-                acc.map(_ max e)
+              Some(acc.fold(e)(e max _))
           }
 
         // Spawn next request before processing updates.
         val f = if (polling == null) seed
         else
           poll(
-              pollingGetUpdates(maxOffset.map(_ + 1)).recover {
-                case NonFatal(e) =>
-                  logger.error("GetUpdates failed", e)
-                  Seq.empty[Update]
-              }.map((maxOffset, _))
+            pollingGetUpdates(maxOffset.map(_ + 1)).recover {
+              case NonFatal(e) =>
+                logger.error("GetUpdates failed", e)
+                Seq.empty[Update]
+            }.map((maxOffset, _))
           )
 
         for (u <- updates) {
@@ -71,7 +71,8 @@ trait Polling extends BotBase with BotExecutionContext {
             receiveUpdate(u)
           } catch {
             case NonFatal(e) =>
-              logger.error("receiveUpdate failed", e)
+              // Log and swallow, exception handling should happen on receiveUpdate.
+              logger.error(s"receiveUpdate failed while processing: $u", e)
           }
         }
 
@@ -79,27 +80,31 @@ trait Polling extends BotBase with BotExecutionContext {
     }
   }
 
-  abstract override def run(): Future[Unit] = synchronized {
+  private def startPolling(): Future[Unit] = {
+    logger.info(s"Starting (long) polling: timeout=$pollingTimeout seconds")
+    polling = poll(Future.successful((None, Seq()))).map(_ => ())
+    polling.onComplete {
+      case _ => logger.info("Long polling terminated")
+    }
+    polling
+  }
+
+  override def run(): Future[Unit] = synchronized {
     if (polling != null) {
       throw new RuntimeException("Bot is already running")
     }
-    val superRun = super.run()
-    request(DeleteWebhook).flatMap {
-      case true =>
-        logger.info(s"Starting (long) polling: timeout=$pollingTimeout seconds")
-        polling = poll(Future.successful((None, Seq()))).map(_ => ())
-        polling.onComplete {
-          case _ => logger.info("Long polling terminated")
-        }
-        Future.sequence(Seq(superRun, polling)).map(_ => ())
-      case false =>
-        val msg = "Failed to clear webhook: DeleteWebhook returned false"
-        logger.error(msg)
-        throw new RuntimeException(msg)
+    for {
+      deleted <- request(DeleteWebhook)
+      if deleted
+      getMe_ <- request(GetMe)
+      _ = { getMe = getMe_ } // Initialize bot
+      p <- startPolling()
+    } yield {
+      p
     }
   }
 
-  abstract override def shutdown(): Unit = synchronized {
+  override def shutdown(): Unit = synchronized {
     if (polling == null) {
       throw new RuntimeException("Bot is not running")
     }

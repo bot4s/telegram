@@ -3,14 +3,12 @@ package info.mukel.telegrambot4s.api
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.typesafe.scalalogging.Logger
+import slogging.StrictLogging
 
 import scala.concurrent.{Future, Promise}
 
-trait WebRoutes extends BotBase {
+trait WebRoutes extends BotBase with StrictLogging {
   _: BotExecutionContext with AkkaImplicits =>
-
-  private val logger = Logger("WebRoutes")
 
   val port: Int
   val interfaceIp: String = "::0"
@@ -25,7 +23,7 @@ trait WebRoutes extends BotBase {
     if (eol != null) {
       throw new RuntimeException("Bot is already running")
     }
-    super.run()
+
     bindingFuture = Http().bindAndHandle(routes, interfaceIp, port)
     bindingFuture.foreach { _ =>
       logger.info(s"Listening on $interfaceIp:$port")
@@ -36,7 +34,8 @@ trait WebRoutes extends BotBase {
     }
 
     eol = Promise[Unit]()
-    eol.future
+    val t = Future.sequence(Seq(eol.future, super.run()))
+    t.map(_ => ())
   }
 
   abstract override def shutdown(): Unit = synchronized {

@@ -6,6 +6,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import info.mukel.telegrambot4s.api.Webhook
 import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
+import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
 
 /**
   * Webhook-backed JS calculator.

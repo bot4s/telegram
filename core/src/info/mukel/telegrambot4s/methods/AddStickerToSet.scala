@@ -18,4 +18,6 @@ case class AddStickerToSet(
                             pngSticker   : InputFile,
                             emojis       : String,
                             maskPosition : Option[MaskPosition] = None
-                          ) extends ApiRequestMultipart[Boolean]
+                          ) extends ApiRequestMultipart[Boolean] {
+  override def getFiles: List[(String, InputFile)] = List("pngSticker" -> pngSticker)
+}

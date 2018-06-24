@@ -36,4 +36,6 @@ case class SendVideo(
                       disableNotification : Option[Boolean] = None,
                       replyToMessageId    : Option[Long] = None,
                       replyMarkup         : Option[ReplyMarkup] = None
-                    ) extends ApiRequestMultipart[Message]
+                    ) extends ApiRequestMultipart[Message] {
+  override def getFiles: List[(String, InputFile)] = List("video" -> video)
+}

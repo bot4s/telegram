@@ -16,4 +16,6 @@ import info.mukel.telegrambot4s.models.{ChatId, InputFile}
 case class SetChatPhoto(
                          chatId : ChatId,
                          photo  : InputFile
-                       ) extends ApiRequestMultipart[Boolean]
+                       ) extends ApiRequestMultipart[Boolean] {
+  override def getFiles: List[(String, InputFile)] = List("photo" -> photo)
+}
