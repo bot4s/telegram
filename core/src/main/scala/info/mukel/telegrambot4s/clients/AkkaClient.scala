@@ -35,7 +35,9 @@ class AkkaClient(token: String, telegramHost: String = "api.telegram.org")(impli
   }
 
   private def toApiResponse[R: Manifest](httpResponse: HttpResponse): Future[ApiResponse[R]] = {
-    Unmarshal(httpResponse.entity).to[ApiResponse[R]]
+    val entity = httpResponse.entity
+    logger.info("TELEGRAM UPDATE=" + entity.toString)
+    Unmarshal(entity).to[ApiResponse[R]]
   }
 
   /** Spawns a type-safe request.
