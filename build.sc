@@ -9,66 +9,53 @@ import coursier.maven.MavenRepository
 import mill.define.Target
 import mill.util.Loose
 
-val ScalaVersions = Seq("2.11.11", "2.12.6")
+val ScalaVersions = Seq("2.11.12", "2.12.6")
 
 object library {
 
   object Version {
-    val circe = "0.9.3"
-    val cats = "1.1.0"
-
-    val rosHttp = "2.2.0"
-    val sttp = "1.2.0-RC6"
-    val slogging = "0.6.1"
-
-    val scalaTest = "3.0.5"
-    val scalaMock = "3.6.0"
+    val circe              = "0.9.3"
+    val cats               = "1.1.0"
+    val rosHttp            = "2.2.0"
+    val sttp               = "1.2.0-RC6"
+    val slogging           = "0.6.1"
+    val scalaTest          = "3.0.5"
+    val scalaMock          = "3.6.0"
     val scalaMockScalaTest = "3.6.0"
-    val scalaLogging = "3.8.0"
-    val logback = "1.2.3"
-    val scalajHttp = "2.4.0"
-
-    val akkaVersion = "2.5.13"
-    val akkaActor = akkaVersion
-    val akkaStream = akkaVersion
-    val akkaHttp = "10.1.3"
-    val akkaHttpCors = "0.3.0"
-    val hammock = "0.8.4"
+    val scalaLogging       = "3.8.0"
+    val logback            = "1.2.3"
+    val scalajHttp         = "2.4.0"
+    val akkaVersion        = "2.5.13"
+    val akkaActor          = akkaVersion
+    val akkaStream         = akkaVersion
+    val akkaHttp           = "10.1.3"
+    val akkaHttpCors       = "0.3.0"
+    val hammock            = "0.8.4"
   }
 
-  val akkaHttp = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-
-  val akkaActor = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-
-  val scalajHttp = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
-  val scalaLogging = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
-
+  val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
+  val akkaHttpTestkit    = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
+  val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
+  val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest = ivy"org.scalamock::scalamock-scalatest-support::${Version.scalaMockScalaTest}"
-  val akkaHttpCors = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
-  val scalaTest = ivy"org.scalatest::scalatest::${Version.scalaTest}"
-  val logback = ivy"ch.qos.logback:logback-classic::${Version.logback}"
-
-  val circeCore = ivy"io.circe::circe-core::${Version.circe}"
-  val circeGeneric = ivy"io.circe::circe-generic::${Version.circe}"
-
+  val akkaHttpCors       = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
+  val scalaTest          = ivy"org.scalatest::scalatest::${Version.scalaTest}"
+  val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
+  val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
+  val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
   val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circe}"
-  val circeParser = ivy"io.circe::circe-parser::${Version.circe}"
-  val circeLiteral = ivy"io.circe::circe-literal::${Version.circe}"
-
-  val catsCore = ivy"org.typelevel::cats-core::${Version.cats}"
-  val catsFree = ivy"org.typelevel::cats-free::${Version.cats}"
-
-  val rosHttp = ivy"fr.hmil::roshttp::${Version.rosHttp}"
-
-  val sttpCore = ivy"com.softwaremill.sttp::core::${Version.sttp}"
-  val sttpCirce = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
-  val sttpOkHttp = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
-
-  val slogging = ivy"biz.enef::slogging::${Version.slogging}"
-
-  val hammock = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
+  val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
+  val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
+  val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
+  val rosHttp            = ivy"fr.hmil::roshttp::${Version.rosHttp}"
+  val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
+  val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
+  val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
+  val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
+  val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
 }
 
 trait TelegramBot4sModule extends CrossScalaModule {

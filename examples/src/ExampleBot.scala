@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.{RequestHandler, TelegramBot}
-import info.mukel.telegrambot4s.clients.SttpClient
+import com.bot4s.telegram.api.{RequestHandler, TelegramBot}
+import com.bot4s.telegram.clients.SttpClient
 import slogging.{LogLevel, LoggerConfig, PrintLoggerFactory}
 
 /** Quick helper to spawn example bots.

@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.RegexCommands
+import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.api.declarative.RegexCommands
 
 class RegexBot(token: String) extends ExampleBot(token) with Polling with RegexCommands {
   onRegex("""/regex\s+(\w+)""".r) { implicit msg =>

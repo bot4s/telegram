@@ -4,10 +4,9 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.{Polling, _}
-import info.mukel.telegrambot4s.methods.AnswerInlineQuery
-import info.mukel.telegrambot4s.models._
+import com.bot4s.telegram.Implicits._
+import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.models._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration

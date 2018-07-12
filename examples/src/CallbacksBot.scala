@@ -1,8 +1,8 @@
-import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
-import info.mukel.telegrambot4s.api.{Extractors, Polling}
-import info.mukel.telegrambot4s.methods.EditMessageReplyMarkup
-import info.mukel.telegrambot4s.models.{ChatId, InlineKeyboardButton, InlineKeyboardMarkup}
+import com.bot4s.telegram.Implicits._
+import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
+import com.bot4s.telegram.api.{Extractors, Polling}
+import com.bot4s.telegram.methods.EditMessageReplyMarkup
+import com.bot4s.telegram.models.{ChatId, InlineKeyboardButton, InlineKeyboardMarkup}
 
 /**
   * Show how to use callbacks, and it's shortcomings.

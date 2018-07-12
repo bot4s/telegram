@@ -4,11 +4,10 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{Polling, _}
-import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models.AkkaInputFile
-import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.methods._
+import com.bot4s.telegram.models.AkkaInputFile
 
 /**
   * Generates QR codes from text/url.

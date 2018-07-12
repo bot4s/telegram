@@ -1,11 +1,11 @@
 import java.time.Instant
 
-import info.mukel.telegrambot4s.Implicits._
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.{Callbacks, InlineQueries}
-import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models.UpdateType.Filters._
-import info.mukel.telegrambot4s.models._
+import com.bot4s.telegram.Implicits._
+import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.api.declarative.{Callbacks, InlineQueries}
+import com.bot4s.telegram.methods._
+import com.bot4s.telegram.models.UpdateType.Filters._
+import com.bot4s.telegram.models._
 
 import scala.concurrent.duration._
 

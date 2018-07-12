@@ -1,8 +1,8 @@
 import java.net.{InetSocketAddress, Proxy}
 
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.clients.ScalajHttpClient
+import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.clients.ScalajHttpClient
 
 /**
   * Tunnel the bot through a SOCKS proxy.

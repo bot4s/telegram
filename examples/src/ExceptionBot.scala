@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{Polling, _}
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.api.{Polling, _}
 
 import scala.util.Failure
 

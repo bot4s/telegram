@@ -1,7 +1,7 @@
-import info.mukel.telegrambot4s.api.AkkaTelegramBot
-import info.mukel.telegrambot4s.api.{RequestHandler, TelegramBot}
+import com.bot4s.telegram.api.AkkaTelegramBot
+import com.bot4s.telegram.api.RequestHandler
+import com.bot4s.telegram.clients.AkkaHttpClient
 import slogging.{LogLevel, LoggerConfig, PrintLoggerFactory}
-import info.mukel.telegrambot4s.clients.AkkaHttpClient
 
 abstract class AkkaExampleBot(val token: String) extends AkkaTelegramBot {
   LoggerConfig.factory = PrintLoggerFactory()

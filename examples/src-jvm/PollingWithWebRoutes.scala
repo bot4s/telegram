@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{Polling, WebRoutes}
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.api.{Polling, WebRoutes}
 
 /**
   * Showcases the ability to run Polling and WebRoutes at the same time.

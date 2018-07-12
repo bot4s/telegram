@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.declarative.{Commands, RegexCommands}
-import info.mukel.telegrambot4s.api.{Extractors, Polling}
+import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
+import com.bot4s.telegram.api.{Extractors, Polling}
 
 import scala.concurrent.duration._
 

@@ -5,10 +5,9 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
-import info.mukel.telegrambot4s.api.declarative.{Callbacks, Commands}
-import info.mukel.telegrambot4s.api.{GameManager, Payload, Polling}
-import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
-import info.mukel.telegrambot4s.methods.SendGame
+import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
+import com.bot4s.telegram.api.{GameManager, Payload, Polling}
+import com.bot4s.telegram.methods.SendGame
 
 /**
   * 2048 hosted on GitHub Pages.

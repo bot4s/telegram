@@ -3,10 +3,9 @@ import java.net.URLEncoder
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import info.mukel.telegrambot4s.api.Webhook
-import info.mukel.telegrambot4s.methods._
-import info.mukel.telegrambot4s.models._
-import info.mukel.telegrambot4s.marshalling.CirceMarshaller._
+import com.bot4s.telegram.api.Webhook
+import com.bot4s.telegram.methods._
+import com.bot4s.telegram.models.Message
 
 /**
   * Webhook-backed JS calculator.

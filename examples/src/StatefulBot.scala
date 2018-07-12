@@ -1,6 +1,6 @@
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.models.Message
+import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.models.Message
 
 /**
   * Simple extension for having stateful Telegram Bots (per chat).

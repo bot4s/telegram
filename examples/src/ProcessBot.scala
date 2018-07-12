@@ -1,5 +1,5 @@
-import info.mukel.telegrambot4s.api.Polling
-import info.mukel.telegrambot4s.api.declarative.Commands
+import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.api.declarative.Commands
 
 import scala.util.control.NonFatal
 

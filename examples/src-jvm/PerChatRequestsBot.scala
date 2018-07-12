@@ -1,8 +1,8 @@
 import akka.actor.{Actor, ActorRef, Props, Terminated}
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{ActorBroker, AkkaDefaults, Polling}
-import info.mukel.telegrambot4s.methods.SendMessage
-import info.mukel.telegrambot4s.models.{Message, Update}
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.api.{ActorBroker, AkkaDefaults, Polling}
+import com.bot4s.telegram.methods.SendMessage
+import com.bot4s.telegram.models.{Message, Update}
 
 trait PerChatRequests extends ActorBroker with AkkaDefaults {
 
