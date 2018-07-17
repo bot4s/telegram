@@ -118,7 +118,7 @@ lazy val commonSettings =
   Seq(
     organization := "info.mukel",
     organizationName := "Alfonso² Peterssen",
-    scalaVersion := "2.12.3",
+    scalaVersion := "2.11.8",
     crossScalaVersions := Seq(scalaVersion.value, "2.11.8"),
     startYear := Some(2015),
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
