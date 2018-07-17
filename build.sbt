@@ -80,7 +80,7 @@ lazy val examples: Project =
   lazy val library =
   new {
     object Version {
-      val akkaVersion  = "2.4.19"
+      val akkaVersion  = "2.4.20"
       val akkaActor    = akkaVersion
       val akkaStream   = akkaVersion
       val akkaHttp     = "10.0.10"
