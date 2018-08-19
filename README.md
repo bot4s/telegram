@@ -31,16 +31,15 @@
   <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12" title="Maven Central">
     <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12/badge.svg"/>
   </a>
-  <a href="https://jitpack.io/#com.bot4s/telegram" title="JitPack">
-    <img src="https://jitpack.io/v/com.bot4s/telegram.svg"/>
-  </a>
   <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
     <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
   </a>
 </p>
 
 # bot4s.telegram
-Simple, extensible, strongly-typed and transparently _camelCased_ wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
+Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
+
+The current version is experimental, feel free to report bugs, for a stable (but a bit outdated) version, please check https://github.com/bot4s/telegram/tree/91f51fc9bddf6daaf21ee1e1629b0471723db591 .
 
 Table of contents
 =================
@@ -61,7 +60,7 @@ Table of contents
 - [Authors](#authors)
 - [License](#license)
 
-## SBT/mill dependency
+## As SBT/mill dependency
 Add to your `build.sbt` file:
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
@@ -71,7 +70,7 @@ libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
 libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
 ```
 
-For [mill](https://www.lihaoyi.com/mill/) early-adopters `build.sc` file:
+For [mill](https://www.lihaoyi.com/mill/) add tp your `build.sc` file:
 ```scala
   def ivyDeps = Seq(
     ivy"com.bot4s::telegram-core:4.0.0-RC1", // core
@@ -98,8 +97,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 ## Games
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/main/scala/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/main/scala/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
@@ -114,7 +113,7 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 
 ## Running the examples
 
-`bot4s.telegram` uses the uber-awesome [mill](https://www.lihaoyi.com/mill/).
+`bot4s.telegram` uses [mill](https://www.lihaoyi.com/mill/).
 
 ```
 $ mill -i "examples[2.12.6].console"
@@ -125,12 +124,12 @@ Type in expressions for evaluation. Or try :help.
 scala> new RandomBot("TOKEN").run()
 ```
 
-Change `RandomBot` to whatever bot you find interesting [here](https://github.com/mukel/telegrambot4s/tree/master/examples/src/main/scala).
+Change `RandomBot` to whatever bot you find interesting [here](https://github.com/bot4s/telegram/tree/master/examples).
 
 ## A note on implicits 
 A few implicits are provided to reduce boilerplate, but are discouraged because unexpected side-effects.
 
-Think seamless/scary `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
+Think seamless `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
 Be aware that, for conciseness, most examples need the implicits to compile, be sure to include them.
 
 `import com.bot4s.telegram.Implicits._`
@@ -148,6 +147,7 @@ import com.bot4s.telegram.api.Polling
 class RandomBot(val token: String) extends TelegramBot
   with Polling
   with Commands {
+  val client = new ScalajHttpClient(token)
   val rng = new scala.util.Random(System.currentTimeMillis())
   onCommand("coin" or "flip") { implicit msg =>
     reply(if (rng.nextBoolean()) "Head!" else "Tail!")
@@ -185,10 +185,12 @@ Await.result(eol, Duration.Inf)
 #### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/TextToSpeechBot.scala)
 
 ```scala
-class TextToSpeechBot(val token: String) extends TelegramBot
+class TextToSpeechBot extends TelegramBot
   with Polling
   with Commands
   with ChatActions {
+  
+  val client = new ScalajHttpClient(TOKEN)
 
   def ttsUrl(text: String): String =
     s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
@@ -218,7 +220,7 @@ new TextToSpeechBot("TOKEN").run()
 object LmgtfyBot extends AkkaTelegramBot
   with Webhook 
   with Commands {
-  def token = "TOKEN"
+  val client = new AkkaHttpClient(TOKEN)  
   override val port = 8443
   override val webhookUrl = "https://1d1ceb07.ngrok.io"
   onCommand("lmgtfy") { implicit msg =>
