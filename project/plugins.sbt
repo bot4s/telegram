@@ -1,11 +1,6 @@
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.4")
-
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
-
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.3")
-
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
-
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "1.1")
-
-logLevel := Level.Warn
+addSbtPlugin("com.jsuereth"       % "sbt-pgp"                  % "1.1.1")
+addSbtPlugin("com.github.gseitz"  % "sbt-release"              % "1.0.8")
+addSbtPlugin("com.eed3si9n"       % "sbt-assembly"             % "0.14.6")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.5.0")
+addSbtPlugin("org.scala-js"       % "sbt-scalajs"              % "0.6.23")
+addSbtPlugin("ch.epfl.scala"      % "sbt-scalajs-bundler"      % "0.13.0")

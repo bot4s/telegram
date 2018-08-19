@@ -1,9 +1,15 @@
+before_install:
+- sudo curl -L -o /usr/local/bin/mill https://github.com/lihaoyi/mill/releases/download/0.2.6/0.2.6 && sudo chmod +x /usr/local/bin/mill
+
 language: scala
+
 scala:
-  - 2.11.11
-  - 2.12.2
+  - 2.11.12
+  - 2.12.6
 
 jdk:
   - oraclejdk8
 
-sudo: false
+script:  
+  - mill "__.compile"
+  - mill "__.test"
