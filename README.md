@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://core.telegram.org/bots/api#recent-changes" title="Telegram Bot API">
-    <img src="https://img.shields.io/badge/Bot%20API-3.6%20(February%2013%2C%202018)-00aced.svg"/>
+    <img src="https://img.shields.io/badge/Bot%20API-4.0%20(July%2026%2C%202018)-00aced.svg"/>
   </a>
   <a href="https://t.me/bot4s_updates" title="Bot4s Telegram Channel">
     <img src="https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg"/>
@@ -22,32 +22,25 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://travis-ci.org/mukel/telegrambot4s" title="Travis CI Build Status">
-    <img src="https://travis-ci.org/mukel/telegrambot4s.svg"/>
+  <a href="https://travis-ci.org/bots4s/telegram" title="Travis CI Build Status">
+    <img src="https://travis-ci.org/bot4s/telegram.svg"/>
   </a>
-  <a href="https://www.codacy.com/app/a2peterssen/telegrambot4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukel/telegrambot4s&amp;utm_campaign=Badge_Grade" title="Codacy Badge">
+  <a href="https://www.codacy.com/app/mukel/telegram?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bot4s/telegram&amp;utm_campaign=Badge_Grade" title="Codacy Badge">
     <img src="https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc"/>
   </a>
-  <a href="https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12" title="Maven Central">
-    <img src="https://maven-badges.herokuapp.com/maven-central/info.mukel/telegrambot4s_2.12/badge.svg"/>
+  <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12" title="Maven Central">
+    <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12/badge.svg"/>
   </a>
-  <a href="https://jitpack.io/#info.mukel/telegrambot4s" title="JitPack">
-    <img src="https://jitpack.io/v/info.mukel/telegrambot4s.svg"/>
+  <a href="https://jitpack.io/#com.bot4s/telegram" title="JitPack">
+    <img src="https://jitpack.io/v/com.bot4s/telegram.svg"/>
   </a>
   <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
     <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
   </a>
 </p>
 
-# TelegramBot4s
-Simple, extensible, strongly-typed, asynchronous and transparently _camelCased_.
-
-# What's in the box?
-A typed implementation of the Telegram Bot API, independent of any HTTP client or framework.
-Some utils to create Telegram bots in a declarative way.
-That allows you to:
-  - Quickly prototype a Telegram bot.
-  - Implement complex bots (complex state, different components, that scale..) from a solid ground.
+# bot4s.telegram
+Simple, extensible, strongly-typed and transparently _camelCased_ wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
 Table of contents
 =================
@@ -68,21 +61,21 @@ Table of contents
 - [Authors](#authors)
 - [License](#license)
 
-## Quick-start
+## SBT/mill dependency
 Add to your `build.sbt` file:
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "info.mukel" %% "telegrambot4s-core" % "3.1.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "info.mukel" %% "telegrambot4s-akka" % "3.1.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
 ```
 
 For [mill](https://www.lihaoyi.com/mill/) early-adopters `build.sc` file:
 ```scala
   def ivyDeps = Seq(
-    ivy"info.mukel::telegrambot4s-core:3.1.0-RC1", // core
-    ivy"info.mukel::telegrambot4s-akka:3.1.0-RC1"  // extra goodies
+    ivy"com.bot4s::telegram-core:4.0.0-RC1", // core
+    ivy"com.bot4s::telegram-akka:4.0.0-RC1"  // extra goodies
   )
 ```
 
@@ -91,10 +84,9 @@ For [mill](https://www.lihaoyi.com/mill/) early-adopters `build.sc` file:
 
 Hopefully [GitGuardian](https://www.gitguardian.com/) got you covered and will warn you about exposed API keys. 
 
-## Webhooks vs Polling  
+## Webhooks vs. Polling  
 Both methods are supported.
-(Long) Polling is bundled in the `core` artifact backed by [scalaj-http](https://github.com/scalaj/scalaj-http) and
-by far the easiest method.
+(Long) Polling is bundled in the `core` artifact and it's by far the easiest method.
 
 Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
@@ -104,7 +96,7 @@ Payments are supported since version 3.0; refer to [official payments documentat
 I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
 
 ## Games
-The Akka extensions add support for games in two flavors; self-hosted (served by the bot itself),
+The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
 Check both the [self-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/SelfHosted2048Bot.scala) and
 [GitHub-hosted](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/GitHubHosted2048Bot.scala) versions of the
@@ -115,19 +107,19 @@ I've managed to run bots on a Raspberry Pi 2, Heroku, Google App Engine
 and most notably on an old Android (4.1.2) phone with a broken screen via the JDK for ARM.
 
 Distribution/deployment is outside the scope of the library, but all platforms where Java is
-supported should be compatible, ~~with the notable exception of Google AppEngine~~. You may find
-[sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker) 
-very useful.
+supported should be compatible. You may find [sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker) 
+very handy.
+
+Scala.js is also supported, bots can run on the browser via the SttpClient. NodeJs is not supported yet.
 
 ## Running the examples
 
-`telegrambot4s` uses the uber-awesome [mill](https://www.lihaoyi.com/mill/).
-
+`bot4s.telegram` uses the uber-awesome [mill](https://www.lihaoyi.com/mill/).
 
 ```
-$ mill -i "examples[2.12.4].console"
-[84/84] examples[2.12.4].console 
-Welcome to Scala 2.12.4 (OpenJDK 64-Bit Server VM, Java 1.8.0_162).
+$ mill -i "examples[2.12.6].console"
+[84/84] examples[2.12.6].console 
+Welcome to Scala 2.12.6 (OpenJDK 64-Bit Server VM, Java 1.8.0_162).
 Type in expressions for evaluation. Or try :help.
 
 scala> new RandomBot("TOKEN").run()
@@ -141,15 +133,15 @@ A few implicits are provided to reduce boilerplate, but are discouraged because 
 Think seamless/scary `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
 Be aware that, for conciseness, most examples need the implicits to compile, be sure to include them.
 
-`import info.mukel.telegrambot4s.Implicits._`
+`import com.bot4s.telegram.Implicits._`
 
 ## Examples
 
 #### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/LmgtfyBot.scala)
 
 ```scala
-import info.mukel.telegrambot4s.api.declarative.Commands
-import info.mukel.telegrambot4s.api.{Extractors, Polling}
+import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.api.Polling
 
 /** Generates random values.
   */
@@ -168,7 +160,7 @@ class RandomBot(val token: String) extends TelegramBot
   }
   onCommand("random" or "rnd") { implicit msg =>
     withArgs {
-      case Seq(Extractors.Int(n)) if n > 0 =>
+      case Seq(Int(n)) if n > 0 =>
         reply(rng.nextInt(n).toString)
       case _ => reply("Invalid argumentヽ(ಠ_ಠ)ノ")
     }
@@ -178,6 +170,8 @@ class RandomBot(val token: String) extends TelegramBot
       replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size)))
     }
   }
+  /* Int(n) extractor */
+  object Int { def unapply(s: String): Option[Int] = Try(s.toInt).toOption }
 }
  
 val eol = RandomBot.run()
@@ -195,7 +189,7 @@ class TextToSpeechBot(val token: String) extends TelegramBot
   with Polling
   with Commands
   with ChatActions {
-  
+
   def ttsUrl(text: String): String =
     s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
 
@@ -238,11 +232,11 @@ object LmgtfyBot extends AkkaTelegramBot
 }
 ```
 
-Check out the [sample bots](https://github.com/mukel/telegrambot4s/tree/master/examples/src/main/scala) for more functionality.
+Check out the [sample bots](https://github.com/bot4s/telegram/tree/master/examples/src/main/scala) for more functionality.
 
 ## Versioning
 
-This library uses [Semantic Versioning](http://semver.org/). For the versions available, see the [tags on this repository](https://github.com/mukel/telegrambot4s/tags). 
+This library uses [Semantic Versioning](http://semver.org/). For the versions available, see the [tags on this repository](https://github.com/bot4s/telegram/tags).
 
 ## Authors
 
@@ -250,7 +244,7 @@ This library uses [Semantic Versioning](http://semver.org/). For the versions av
 
 _Looking for maintainers!_
 
-See also the list of [awesome contributors](https://github.com/mukel/telegrambot4s/contributors) who participated in this project.
+See also the list of [awesome contributors](https://github.com/bot4s/telegram/contributors) who participated in this project.
 Contributions are very welcome, documentation improvements/corrections, bug reports, even feature requests.
 
 ## License

@@ -358,6 +358,7 @@ case class InlineQueryResultLocation(
   * @param title                String Title of the venue
   * @param address              String Address of the venue
   * @param foursquareId         String Optional Foursquare identifier of the venue if known
+  * @param foursquareType       String Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
   * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
   * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the venue
   * @param thumbUrl             String Optional Url of the thumbnail for the result
@@ -373,6 +374,7 @@ case class InlineQueryResultVenue(
                                  title               : String,
                                  address             : String,
                                  foursquareId        : Option[String] = None,
+                                 foursquareType      : Option[String] = None,
                                  replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                  inputMessageContent : Option[InputMessageContent] = None,
                                  thumbUrl            : Option[String] = None,
@@ -391,6 +393,7 @@ case class InlineQueryResultVenue(
   * @param phoneNumber          String Contact's phone number
   * @param firstName            String Contact's first name
   * @param lastName             String Optional Contact's last name
+  * @param vcard                String Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
   * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
   * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the contact
   * @param thumbUrl             String Optional Url of the thumbnail for the result
@@ -404,6 +407,7 @@ case class InlineQueryResultContact(
                                    phoneNumber         : String,
                                    firstName           : String,
                                    lastName            : Option[String] = None,
+                                   vcard               : Option[String] = None,
                                    replyMarkup         : Option[InlineKeyboardMarkup] = None,
                                    inputMessageContent : Option[InputMessageContent] = None,
                                    thumbUrl            : Option[String] = None,

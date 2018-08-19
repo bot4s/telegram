@@ -8,6 +8,7 @@ package com.bot4s.telegram.models
   * @param title      Optional Title of the audio as defined by sender or by audio tags
   * @param mimeType   Optional MIME type of the file as defined by sender
   * @param fileSize   Optional File size
+  * @param thumb      PhotoSize Optional. Thumbnail of the album cover to which the music file belongs
   */
 case class Audio(
                   fileId    : String,
@@ -15,5 +16,6 @@ case class Audio(
                   performer : Option[String] = None,
                   title     : Option[String] = None,
                   mimeType  : Option[String] = None,
-                  fileSize  : Option[Int] = None
+                  fileSize  : Option[Int] = None,
+                  thumb     : Option[PhotoSize]
                 )

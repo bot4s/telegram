@@ -41,20 +41,22 @@ case class InputLocationMessageContent(
 
 /** Represents the content of a venue message to be sent as the result of an inline query.
   *
-  * @param latitude      Float Latitude of the venue in degrees
-  * @param longitude     Float Longitude of the venue in degrees
-  * @param title         String Name of the venue
-  * @param address       String Address of the venue
-  * @param foursquareId  String Optional Foursquare identifier of the venue, if known
+  * @param latitude       Float Latitude of the venue in degrees
+  * @param longitude      Float Longitude of the venue in degrees
+  * @param title          String Name of the venue
+  * @param address        String Address of the venue
+  * @param foursquareId   String Optional Foursquare identifier of the venue, if known
+  * @param foursquareType String Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
   *
   * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
   */
 case class InputVenueMessageContent(
-                                   latitude  : Double,
-                                   longitude : Double,
-                                   title : String,
-                                   address : String,
-                                   foursquareId : Option[String] = None
+                                   latitude       : Double,
+                                   longitude      : Double,
+                                   title          : String,
+                                   address        : String,
+                                   foursquareId   : Option[String] = None,
+                                   foursquareType : Option[String] = None
                                    ) extends InputMessageContent
 
 /** Represents the content of a contact message to be sent as the result of an inline query.
@@ -65,10 +67,11 @@ case class InputVenueMessageContent(
   * @param phoneNumber  String Contact's phone number
   * @param firstName    String Contact's first name
   * @param lastName     String Optional Contact's last name
-  *
+  * @param vcard        String Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
   */
 case class InputContactMessageContent(
                                      phoneNumber : String,
                                      firstName   : String,
-                                     lastName    : Option[String] = None
+                                     lastName    : Option[String] = None,
+                                     vcard       : Option[String] = None
                                      ) extends InputMessageContent

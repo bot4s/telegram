@@ -113,7 +113,7 @@ abstract class TelegramBot4sCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "3.3.0-RC2"
+  override def publishVersion = "4.0.0-RC1"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",

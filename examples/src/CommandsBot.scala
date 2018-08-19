@@ -1,7 +1,8 @@
 import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
-import com.bot4s.telegram.api.{Extractors, Polling}
+import com.bot4s.telegram.api.Polling
 
 import scala.concurrent.duration._
+import scala.util.Try
 
 /**
   * Showcases different ways to declare commands (Commands + RegexCommands).
@@ -14,6 +15,11 @@ class CommandsBot(token: String) extends ExampleBot(token)
   with Polling
   with Commands
   with RegexCommands {
+
+  // Extractor
+  object Int {
+    def unapply(s: String): Option[Int] = Try(s.toInt).toOption
+  }
 
   // String commands.
   onCommand("/hello") { implicit msg =>
@@ -66,7 +72,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   // withArgs with pattern matching.
   onCommand("/inc") { implicit msg =>
     withArgs {
-      case Seq(Extractors.Int(i)) =>
+      case Seq(Int(i)) =>
         reply("" + (i + 1))
 
       // Conveniently avoid MatchError, providing hints on usage.
@@ -77,7 +83,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // Regex commands also available.
   onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
-    case Seq(Extractors.Int(mm), Extractors.Int(ss)) =>
+    case Seq(Int(mm), Int(ss)) =>
       reply(s"Timer set: $mm minute(s) and $ss second(s)")
       Utils.after(mm.minutes + ss.seconds) {
         reply("Time's up!!!")

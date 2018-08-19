@@ -20,8 +20,11 @@ case class SendMediaGroup(chatId              : ChatId,
   override def getFiles: List[(String, InputFile)] = {
     val attachPrefix = "attach://"
     media.toList.flatMap {
-      case imp: InputMediaPhoto => imp.photo.map(imp.media.stripPrefix(attachPrefix) -> _)
-      case imv: InputMediaVideo => imv.video.map(imv.media.stripPrefix(attachPrefix) -> _)
+      case photo: InputMediaPhoto => photo.photo.map(photo.media.stripPrefix(attachPrefix) -> _)
+      case video: InputMediaVideo => video.video.map(video.media.stripPrefix(attachPrefix) -> _)
+      case audio: InputMediaAudio => audio.audio.map(audio.media.stripPrefix(attachPrefix) -> _)
+      case document: InputMediaDocument => document.document.map(document.media.stripPrefix(attachPrefix) -> _)
+      case animation: InputMediaAnimation => animation.animation.map(animation.media.stripPrefix(attachPrefix) -> _)
     }
   }
 }

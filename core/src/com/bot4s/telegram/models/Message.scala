@@ -23,6 +23,8 @@ package com.bot4s.telegram.models
   *                               like usernames, URLs, bot commands, etc. that appear in the caption
   * @param audio                  Optional Message is an audio file, information about the file
   * @param document               Optional Message is a general file, information about the file
+  * @param animation              Optional. Message is an animation, information about the animation.
+  *                               For backward compatibility, when this field is set, the document field will also be set
   * @param game                   Game Optional. Message is a game, information about the game.
   *                               [[https://core.telegram.org/bots/api#games More about games »]]
   * @param photo                  Optional Message is a photo, available sizes of the photo
@@ -73,6 +75,7 @@ case class  Message(
                captionEntities       : Option[Array[MessageEntity]] = None,
                audio                 : Option[Audio] = None,
                document              : Option[Document] = None,
+               animation             : Option[Animation] = None,
                game                  : Option[Game] = None,
                photo                 : Option[Seq[PhotoSize]] = None,
                sticker               : Option[Sticker] = None,

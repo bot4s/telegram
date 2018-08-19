@@ -1,8 +1,10 @@
 import com.bot4s.telegram.Implicits._
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
-import com.bot4s.telegram.api.{Extractors, Polling}
+import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.methods.EditMessageReplyMarkup
 import com.bot4s.telegram.models.{ChatId, InlineKeyboardButton, InlineKeyboardMarkup}
+
+import scala.util.Try
 
 /**
   * Show how to use callbacks, and it's shortcomings.
@@ -38,7 +40,7 @@ class CallbacksBot(token: String) extends ExampleBot(token)
 
     for {
       data <- cbq.data
-      Extractors.Int(n) = data
+      Int(n) = data
       msg <- cbq.message
     } /* do */ {
       request(
@@ -48,4 +50,10 @@ class CallbacksBot(token: String) extends ExampleBot(token)
           replyMarkup = markupCounter(n + 1)))
     }
   }
+
+  // Extractor
+  object Int {
+    def unapply(s: String): Option[Int] = Try(s.toInt).toOption
+  }
+
 }

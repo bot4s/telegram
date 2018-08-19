@@ -4,12 +4,12 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.models._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import scala.util.Try
 
 /**
   * Spotify search and play previews.
@@ -50,7 +50,7 @@ class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
   override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
     super.receiveInlineQuery(inlineQuery)
     val query = inlineQuery.query
-    val offset = Extractors.Int.unapply(inlineQuery.offset).getOrElse(0)
+    val offset = Try(inlineQuery.offset.toInt).getOrElse(0)
 
     val url = s"https://api.spotify.com/v1/search?access_token=$accessToken&type=track&limit=$limit&offset=$offset&q=${URLEncoder.encode(query, "UTF-8")}"
 

@@ -11,6 +11,7 @@ import com.bot4s.telegram.models.ChatId
   * @param title                String Name of the venue
   * @param address              String Address of the venue
   * @param foursquareId         String Optional Foursquare identifier of the venue
+  * @param foursquareType       String Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
   * @param disableNotification  Boolean Optional Sends the message silently.
   *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
   * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
@@ -25,6 +26,7 @@ case class SendVenue(
                     title               : String,
                     address             : String,
                     foursquareId        : Option[String] = None,
+                    foursquareType      : Option[String] = None,
                     duration            : Option[String] = None,
                     disableNotification : Option[Boolean] = None,
                     replyToMessageId    : Option[Int] = None,
