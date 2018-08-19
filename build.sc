@@ -117,10 +117,10 @@ trait Publishable extends PublishModule {
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
-    organization = "info.mukel",
-    url = "https://github.com/mukel/telegrambot4s",
+    organization = "com.bot4s",
+    url = "https://github.com/bot4s/telegram",
     licenses = Seq(License.Common.Apache2),
-    versionControl = VersionControl.github("mukel", "telegrambot4s"),
+    versionControl = VersionControl.github("bot4s", "telegram"),
     developers = Seq(
       Developer("mukel", "Alfonso² Peterssen", "https://github.com/mukel")
     )
