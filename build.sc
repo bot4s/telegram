@@ -108,7 +108,7 @@ abstract class TelegramBot4sCrossPlatform(val platformSegment: String, location:
 
   def crossScalaVersion: String
 
-  override def artifactName = s"telegrambot4s-$location"
+  override def artifactName = s"telegram-$location"
 }
 
 trait Publishable extends PublishModule {
@@ -165,7 +165,7 @@ object core extends Module {
 object akka extends Cross[AkkaModule](ScalaVersions: _ *)
 
 class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with Publishable {
-  override def artifactName = "telegrambot4s-akka"
+  override def artifactName = "telegram-akka"
 
   override def moduleDeps = Seq(core.jvm())
 
