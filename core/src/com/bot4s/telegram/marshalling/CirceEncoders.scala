@@ -109,6 +109,13 @@ trait CirceEncoders {
   implicit val inputTextMessageContentEncoder: Encoder[InputTextMessageContent] =
     deriveEncoder[InputTextMessageContent]
 
+  implicit val inputMessageContentEncoder: Encoder[InputMessageContent] =  Encoder.instance {
+    case q: InputTextMessageContent => q.asJson
+    case q: InputLocationMessageContent => q.asJson
+    case q: InputVenueMessageContent => q.asJson
+    case q: InputContactMessageContent => q.asJson
+  }
+
   /** InlineQueryResult */
   implicit val inlineQueryResultArticleEncoder: Encoder[InlineQueryResultArticle] =
     deriveEncoder[InlineQueryResultArticle]
@@ -165,6 +172,29 @@ trait CirceEncoders {
     deriveEncoder[InlineQueryResultCachedAudio]
 
   implicit val inlineQueryResultGameEncoder: Encoder[InlineQueryResultGame] = deriveEncoder[InlineQueryResultGame]
+
+  implicit val inlineQueryResultEncoder: Encoder[InlineQueryResult] =  Encoder.instance {
+    case q: InlineQueryResultCachedAudio => q.asJson
+    case q: InlineQueryResultCachedDocument => q.asJson
+    case q: InlineQueryResultCachedGif => q.asJson
+    case q: InlineQueryResultCachedMpeg4Gif => q.asJson
+    case q: InlineQueryResultCachedPhoto => q.asJson
+    case q: InlineQueryResultCachedSticker => q.asJson
+    case q: InlineQueryResultCachedVideo => q.asJson
+    case q: InlineQueryResultCachedVoice => q.asJson
+    case q: InlineQueryResultArticle => q.asJson
+    case q: InlineQueryResultAudio => q.asJson
+    case q: InlineQueryResultContact => q.asJson
+    case q: InlineQueryResultDocument => q.asJson
+    case q: InlineQueryResultGif => q.asJson
+    case q: InlineQueryResultLocation => q.asJson
+    case q: InlineQueryResultMpeg4Gif => q.asJson
+    case q: InlineQueryResultPhoto => q.asJson
+    case q: InlineQueryResultVenue => q.asJson
+    case q: InlineQueryResultVideo => q.asJson
+    case q: InlineQueryResultVoice => q.asJson
+    case q: InlineQueryResultGame => q.asJson
+  }
 
   implicit val answerInlineQueryEncoder: Encoder[AnswerInlineQuery] = deriveEncoder[AnswerInlineQuery]
 
