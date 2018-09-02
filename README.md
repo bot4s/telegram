@@ -63,6 +63,9 @@ Table of contents
 ## As SBT/mill dependency
 Add to your `build.sbt` file:
 ```scala
+// Current version is an early RC.
+resolvers += Resolver.sonatypeRepo("staging")
+
 // Core with minimal dependencies, enough to spawn your first bot.
 libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
 
@@ -70,8 +73,13 @@ libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
 libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
 ```
 
-For [mill](https://www.lihaoyi.com/mill/) add tp your `build.sc` file:
+For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` file:
 ```scala
+  // Current version is an early RC.
+  def repositories() = super.repositories ++ Seq(
+    MavenRepository("https://oss.sonatype.org/content/repositories/staging")
+  )  
+
   def ivyDeps = Seq(
     ivy"com.bot4s::telegram-core:4.0.0-RC1", // core
     ivy"com.bot4s::telegram-akka:4.0.0-RC1"  // extra goodies
@@ -234,7 +242,7 @@ object LmgtfyBot extends AkkaTelegramBot
 }
 ```
 
-Check out the [sample bots](https://github.com/bot4s/telegram/tree/master/examples/src/main/scala) for more functionality.
+Check out the [sample bots](https://github.com/bot4s/telegram/tree/master/examples) for more functionality.
 
 ## Versioning
 
