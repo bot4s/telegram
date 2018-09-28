@@ -63,9 +63,6 @@ Table of contents
 ## As SBT/mill dependency
 Add to your `build.sbt` file:
 ```scala
-// Current version is an early RC.
-resolvers += Resolver.sonatypeRepo("staging")
-
 // Core with minimal dependencies, enough to spawn your first bot.
 libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
 
@@ -75,11 +72,6 @@ libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
 
 For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` file:
 ```scala
-  // Current version is an early RC.
-  def repositories() = super.repositories ++ Seq(
-    MavenRepository("https://oss.sonatype.org/content/repositories/staging")
-  )  
-
   def ivyDeps = Seq(
     ivy"com.bot4s::telegram-core:4.0.0-RC1", // core
     ivy"com.bot4s::telegram-akka:4.0.0-RC1"  // extra goodies
@@ -100,7 +92,7 @@ For a comprehensive reference check [Marvin's Patent Pending Guide to All Things
 
 ## Payments
 Payments are supported since version 3.0; refer to [official payments documentation](https://core.telegram.org/bots/payments) for details.
-I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/mukel/telegrambot4s/issues/new).
+I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/bot4s/telegram/issues/new).
 
 ## Games
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
@@ -144,7 +136,7 @@ Be aware that, for conciseness, most examples need the implicits to compile, be 
 
 ## Examples
 
-#### Let me Google that for you! [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/LmgtfyBot.scala)
+#### Let me Google that for you! [(full example)](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/LmgtfyBot.scala)
 
 ```scala
 import com.bot4s.telegram.api.declarative.Commands
@@ -190,7 +182,7 @@ bot.shutdown() // initiate shutdown
 Await.result(eol, Duration.Inf)
 ```
 
-#### Google TTS [(full example)](https://github.com/mukel/telegrambot4s/blob/master/examples/src/main/scala/TextToSpeechBot.scala)
+#### Google TTS [(full example)](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/TextToSpeechBot.scala)
 
 ```scala
 class TextToSpeechBot extends TelegramBot
