@@ -14,23 +14,25 @@ val ScalaVersions = Seq("2.11.12", "2.12.6")
 object library {
 
   object Version {
-    val circe              = "0.9.3"
-    val cats               = "1.1.0"
+    val circe              = "0.10.0"
+    val cats               = "1.4.0"
     val rosHttp            = "2.2.0"
-    val sttp               = "1.2.0-RC6"
+    val sttp               = "1.3.8"
     val slogging           = "0.6.1"
     val scalaTest          = "3.0.5"
     val scalaMock          = "3.6.0"
     val scalaMockScalaTest = "3.6.0"
     val scalaLogging       = "3.8.0"
     val logback            = "1.2.3"
-    val scalajHttp         = "2.4.0"
-    val akkaVersion        = "2.5.13"
+    val scalajHttp         = "2.4.1"
+    val akkaVersion        = "2.5.17"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.1.3"
-    val akkaHttpCors       = "0.3.0"
+    val akkaHttp           = "10.1.5"
+    val akkaHttpCors       = "0.3.1"
     val hammock            = "0.8.4"
+    val scalaJs            = "0.6.25"
+    val scalaJsNodeFetch   = "0.4.2"
   }
 
   val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
@@ -56,6 +58,7 @@ object library {
   val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
   val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
   val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val scalaJsNodeFetch   = ivy"io.scalajs.npm::node-fetch::${Version.scalaJsNodeFetch}"
 }
 
 trait TelegramBot4sModule extends CrossScalaModule {
@@ -113,7 +116,7 @@ abstract class TelegramBot4sCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "4.0.0-RC1"
+  override def publishVersion = "4.0.0-RC2"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
@@ -149,10 +152,10 @@ object core extends Module {
     with ScalaJSModule with Publishable {
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      ivy"io.scalajs.npm::node-fetch::0.4.2"
+      library.scalaJsNodeFetch
     )
 
-    def scalaJSVersion = "0.6.23"
+    def scalaJSVersion = library.Version.scalaJs
 
     def testFrameworks = Seq("org.scalatest.tools.Framework")
 
@@ -206,7 +209,7 @@ object examples extends Module {
   class ExamplesJsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("js") with ScalaJSModule {
     override def moduleDeps = Seq(core.js())
 
-    def scalaJSVersion = "0.6.23"
+    def scalaJSVersion = library.Version.scalaJs
 
     def testFrameworks = Seq("org.scalatest.tools.Framework")
   }
