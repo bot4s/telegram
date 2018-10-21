@@ -64,17 +64,17 @@ Table of contents
 Add to your `build.sbt` file:
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "4.0.0-RC2"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC2"
 ```
 
 For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` file:
 ```scala
   def ivyDeps = Seq(
-    ivy"com.bot4s::telegram-core:4.0.0-RC1", // core
-    ivy"com.bot4s::telegram-akka:4.0.0-RC1"  // extra goodies
+    ivy"com.bot4s::telegram-core:4.0.0-RC2", // core
+    ivy"com.bot4s::telegram-akka:4.0.0-RC2"  // extra goodies
   )
 ```
 
@@ -174,23 +174,24 @@ class RandomBot(val token: String) extends TelegramBot
   object Int { def unapply(s: String): Option[Int] = Try(s.toInt).toOption }
 }
  
-val eol = RandomBot.run()
+val bot = new RandomBot("BOT_TOKEN")
+val eol = bot.run()
 println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
 scala.io.StdIn.readLine()
 bot.shutdown() // initiate shutdown
-// Wait for the bot end-of-life 
+// Wait for the bot end-of-life
 Await.result(eol, Duration.Inf)
 ```
 
 #### Google TTS [(full example)](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/TextToSpeechBot.scala)
 
 ```scala
-class TextToSpeechBot extends TelegramBot
+object TextToSpeechBot extends TelegramBot
   with Polling
   with Commands
   with ChatActions {
-  
-  val client = new ScalajHttpClient(TOKEN)
+
+  override val client = new ScalajHttpClient("BOT_TOKEN")
 
   def ttsUrl(text: String): String =
     s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
@@ -211,7 +212,14 @@ class TextToSpeechBot extends TelegramBot
   }
 }
 
-new TextToSpeechBot("TOKEN").run()
+
+val bot = TextToSpeechBot
+val eol = bot.run()
+println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
+scala.io.StdIn.readLine()
+bot.shutdown() // initiate shutdown
+// Wait for the bot end-of-life
+Await.result(eol, Duration.Inf) // ScalaJs wont't let you do this
 ```
 
 #### Using webhooks
