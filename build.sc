@@ -9,7 +9,7 @@ import coursier.maven.MavenRepository
 import mill.define.Target
 import mill.util.Loose
 
-val ScalaVersions = Seq("2.11.12", "2.12.6")
+val ScalaVersions = Seq("2.11.12", "2.12.7")
 
 object library {
 
@@ -31,6 +31,8 @@ object library {
     val akkaHttp           = "10.1.5"
     val akkaHttpCors       = "0.3.1"
     val hammock            = "0.8.4"
+    val scalaJs            = "0.6.25"
+    val scalaJsNodeFetch   = "0.4.2"
   }
 
   val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
@@ -56,6 +58,7 @@ object library {
   val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
   val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
   val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val scalaJsNodeFetch   = ivy"io.scalajs.npm::node-fetch::${Version.scalaJsNodeFetch}"
 }
 
 trait TelegramBot4sModule extends CrossScalaModule {
@@ -149,10 +152,10 @@ object core extends Module {
     with ScalaJSModule with Publishable {
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      ivy"io.scalajs.npm::node-fetch::0.4.2"
+      library.scalaJsNodeFetch
     )
 
-    def scalaJSVersion = "0.6.23"
+    def scalaJSVersion = library.Version.scalaJs
 
     def testFrameworks = Seq("org.scalatest.tools.Framework")
 
@@ -192,7 +195,7 @@ object examples extends Module {
   object jvm extends Cross[ExamplesJvmModule](ScalaVersions: _ *)
 
   class ExamplesJvmModule(val crossScalaVersion: String) extends TelegramBot4sExamples("jvm") {
-    override def moduleDeps = Seq(core.jvm(), akka())
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka())
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.scalajHttp,
@@ -204,9 +207,9 @@ object examples extends Module {
   object js extends Cross[ExamplesJsModule](ScalaVersions: _ *)
 
   class ExamplesJsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("js") with ScalaJSModule {
-    override def moduleDeps = Seq(core.js())
+    override def moduleDeps = super.moduleDeps ++ Seq(core.js())
 
-    def scalaJSVersion = "0.6.23"
+    def scalaJSVersion = library.Version.scalaJs
 
     def testFrameworks = Seq("org.scalatest.tools.Framework")
   }
