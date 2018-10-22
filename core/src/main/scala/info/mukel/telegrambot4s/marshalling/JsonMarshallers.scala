@@ -6,7 +6,7 @@ import info.mukel.telegrambot4s.models.{ChatId, _}
 import org.json4s.JsonAST.{JInt, JString, JValue}
 import org.json4s.ext._
 import org.json4s.jackson.JsonMethods._
-import org.json4s.reflect.TypeInfo
+import org.json4s.TypeInfo
 import org.json4s.{CustomSerializer, DefaultFormats, Extraction, Formats, MappingException, NoTypeHints, Serializer}
 
 import scala.reflect.ClassTag
@@ -36,13 +36,20 @@ trait JsonMarshallers {
       // Throws MappingException if Option[_] cannot be parsed.
       override def strictOptionParsing: Boolean = true
     } +
+    /* MessageEntity deserializes unknown entities to MessageEntityType.Unknown.
+     * Type erasure makes enums indistinguishable at runtime; moving this de/serielizer down
+     * this list will break serialization of other enums.
+     * If other enums get additional members this workaround will also break all type safety.
+     * This is an ugly workaround which doesn't solve the problem at all.
+     * To really solve this problem port your bot to v4.
+     */
+      new EnumNameWithFallbackSerializer(MessageEntityType, MessageEntityType.Unknown) +
       new EnumNameSerializer(ChatAction) +
       new EnumNameSerializer(ParseMode) +
       new EnumNameSerializer(ChatType) +
       new EnumNameSerializer(Currency) +
       new EnumNameSerializer(CountryCode) +
-      new EnumNameSerializer(UpdateType) +
-      new EnumNameWithFallbackSerializer(MessageEntityType, MessageEntityType.Unknown) +
+      new EnumNameSerializer(UpdateType) +      
       new EnumNameSerializer(MaskPositionType) +
       ChatIdSerializer
     )

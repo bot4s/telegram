@@ -7,6 +7,7 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import info.mukel.telegrambot4s.api.TestUtils
 import info.mukel.telegrambot4s.marshalling.JsonMarshallers._
 import info.mukel.telegrambot4s.methods.SendDocument
+import info.mukel.telegrambot4s.models._
 import info.mukel.telegrambot4s.models.CountryCode.CountryCode
 import info.mukel.telegrambot4s.models.Currency.Currency
 import info.mukel.telegrambot4s.models.MaskPositionType.MaskPositionType
@@ -68,6 +69,43 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
         |"migrate_to_chat_id": 12345678901234567
         |}""".stripMargin)
       .migrateToChatId === 12345678901234567L
+  }
+
+  it should "correctly de/serialize Update" in {
+    val u = fromJson[Update](
+      """{
+        |  "update_id": 352345,
+        |  "message": {
+        |    "message_id": 2353425,
+        |    "from": {
+        |      "id": 623454325,
+        |      "is_bot": false,
+        |      "first_name": "Josh",
+        |      "last_name": "Hoff",
+        |      "language_code": "en-us"
+        |    },
+        |    "chat": {
+        |      "id": -10011636120,
+        |      "title": "Seedit Support",
+        |      "username": "GoSeedit",
+        |      "type": "supergroup"
+        |    },
+        |    "date": 1510223551,
+        |    "text": "Rovak",
+        |    "entities": [
+        |     {
+        |       "type" : "pepe",
+        |       "offset" : 123,
+        |       "length" : 123
+        |     }
+        |    ]
+        |  }
+        |}
+      """.stripMargin
+    )
+    assert(u.updateId === 352345)
+    assert(u.message.get.chat.`type` === ChatType.Supergroup)
+    assert(u.message.get.entities.get(0).`type` === MessageEntityType.Unknown)
   }
 
   it should "correctly serialize string members in multipart request" in {
