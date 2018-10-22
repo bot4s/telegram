@@ -21,4 +21,5 @@ object MessageEntityType extends Enumeration {
   val Pre = Value("pre")
   val TextLink = Value("text_link")
   val TextMention = Value("text_mention")
+  val Unknown = Value("unknown")
 }
