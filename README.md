@@ -72,7 +72,7 @@ libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.0.0-RC2"
 
 For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` file:
 ```scala
-  def ivyDeps = Seq(
+  def ivyDeps = Agg(
     ivy"com.bot4s::telegram-core:4.0.0-RC2", // core
     ivy"com.bot4s::telegram-akka:4.0.0-RC2"  // extra goodies
   )
