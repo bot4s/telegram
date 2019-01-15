@@ -29,3 +29,7 @@ credentials.*
 
 .DS_Store
 
+#vim specific
+*.swp
+*.swn
+*.swo

@@ -3,11 +3,15 @@ import akka.http.scaladsl.model.Uri.{Path, Query}
 import akka.http.scaladsl.model.headers.{HttpOrigin, HttpOriginRange}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import cats.instances.future._
+import cats.syntax.functor._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
 import com.bot4s.telegram.api.{GameManager, Payload, Polling}
 import com.bot4s.telegram.methods.SendGame
+
+import scala.concurrent.Future
 
 /**
   * 2048 hosted on GitHub Pages.
@@ -41,9 +45,9 @@ import com.bot4s.telegram.methods.SendGame
   */
 class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   extends AkkaExampleBot(token)
-    with Polling
-    with Commands
-    with Callbacks
+    with Polling[Future]
+    with Commands[Future]
+    with Callbacks[Future]
     with GameManager {
 
   override val port: Int = 8080
@@ -54,7 +58,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   onCommand(Play2048 or "2048" or "start") { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
-    )
+    ).void
   }
 
   onCallbackQuery { implicit cbq =>
@@ -69,7 +73,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
         ackCallback(url = Some(url.toString()))
     }
 
-    acked.getOrElse(ackCallback())
+    acked.getOrElse(ackCallback()).void
   }
 
   // Enable CORS for GitHub Pages.

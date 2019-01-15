@@ -1,17 +1,20 @@
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
 import com.bot4s.telegram.api.{Polling, _}
 
+import scala.concurrent.Future
 import scala.util.Failure
 
 /**
   * Shows exception handling
   */
 class ExceptionBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands {
+  with Polling[Future]
+  with Commands[Future] {
 
   onCommand("/hello") { implicit msg =>
-    reply("Hey there") onComplete {
+    reply("Hey there") andThen {
       case Failure(tex: TelegramApiException) =>
         tex.errorCode match {
           case 439 => // Too many requests
@@ -23,7 +26,7 @@ class ExceptionBot(token: String) extends ExampleBot(token)
           case e => println(s"Error code: $e")
         }
       case _ =>
-    }
+    } void
   }
 }
 

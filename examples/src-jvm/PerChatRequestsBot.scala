@@ -1,8 +1,12 @@
 import akka.actor.{Actor, ActorRef, Props, Terminated}
+import cats.syntax.functor._
+import cats.instances.future._
 import com.bot4s.telegram.api.declarative.Commands
 import com.bot4s.telegram.api.{ActorBroker, AkkaDefaults, Polling}
 import com.bot4s.telegram.methods.SendMessage
 import com.bot4s.telegram.models.{Message, Update}
+
+import scala.concurrent.Future
 
 trait PerChatRequests extends ActorBroker with AkkaDefaults {
 
@@ -46,12 +50,12 @@ trait PerChatRequests extends ActorBroker with AkkaDefaults {
 }
 
 class PerChatRequestsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands
+  with Polling[Future]
+  with Commands[Future]
   with PerChatRequests {
 
   // Commands work as usual.
   onCommand("/hello") { implicit msg =>
-    reply("Hello World!")
+    reply("Hello World!").void
   }
 }

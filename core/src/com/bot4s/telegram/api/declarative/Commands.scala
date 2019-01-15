@@ -1,17 +1,15 @@
 package com.bot4s.telegram.api.declarative
 
-import com.bot4s.telegram.api.{BotBase, BotExecutionContext}
+import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.models.Message
-
-import scala.concurrent.Future
 
 case class Command(cmd: String, recipient: Option[String])
 
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands extends Messages with CommandImplicits {
-  _: BotBase with BotExecutionContext =>
+trait Commands[F[_]] extends Messages[F] with CommandImplicits {
+  _: BotBase[F] =>
 
   /**
     * Receives /commands with the specified action.
@@ -26,15 +24,17 @@ trait Commands extends Messages with CommandImplicits {
     *   onCommand("/adieu" | "/bye") { implicit msg => ... }
     * }}}
     */
-  def onCommand(filter: CommandFilterMagnet)(action: Action[Message]): Unit = {
-    onMessage { implicit msg =>
+  def onCommand(filter: CommandFilterMagnet)(action: Action[F, Message]): Unit =
+    onExtMessage { case (message, botUser) =>
       using(command) { cmd =>
-        if (filter.accept(cmd)) {
-          action(msg)
+        val appliedFilter = filter.to(botUser.flatMap(_.username))
+        if (appliedFilter.accept(cmd)) {
+          action(message)
+        } else {
+          unit
         }
-      }
+      } (message)
     }
-  }
 
   /**
     * Receives /commands with the specified action.
@@ -44,11 +44,13 @@ trait Commands extends Messages with CommandImplicits {
     *   onCommand(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
     * }}}
     */
-  def onCommand(filter: Filter[Command])(action: Action[Message]): Unit = {
+  def onCommand(filter: Filter[Command])(action: Action[F, Message]): Unit = {
     onMessage { implicit msg =>
       using(command) { cmd =>
         if (filter(cmd)) {
           action(msg)
+        } else {
+          unit
         }
       }
     }
@@ -67,7 +69,7 @@ trait Commands extends Messages with CommandImplicits {
     * }}}
     */
 
-  def withArgs(action: Action[Args])(implicit msg: Message): Unit = {
+  def withArgs(action: Action[F, Args])(implicit msg: Message): F[Unit] = {
     using(commandArguments)(action)
   }
 
@@ -77,7 +79,7 @@ trait Commands extends Messages with CommandImplicits {
   def command(msg: Message): Option[Command] = {
     msg.text.flatMap { text =>
       val cmdRe = """^(?:\s*/)(\w+)(?:@(\w+))?""".r // /cmd@recipient
-      cmdRe.findFirstIn(text) flatMap  {
+      cmdRe.findFirstIn(text) flatMap {
         case cmdRe(cmd, recipient) => Some(Command(cmd, Option(recipient)))
         case _ => None
       }
@@ -93,18 +95,6 @@ trait Commands extends Messages with CommandImplicits {
     * Tokenize message text.
     */
   def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
-
-  abstract override def run(): Future[Unit] = {
-    for {
-      _ <- super.run()
-    } yield {
-      if (getMe == null) {
-        throw new RuntimeException("Bot.self must be initialized")
-      }
-    }
-  }
-
-  val respectRecipient: CommandFilterMagnet = CommandFilterMagnet.ANY.to(getMe.username)
 }
 
 trait CommandFilterMagnet {
@@ -112,23 +102,28 @@ trait CommandFilterMagnet {
 
   def accept(command: Command): Boolean
 
-  def or(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(t => self.accept(t) || other.accept(t))
-  def and(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(t => self.accept(t) && other.accept(t))
-  def |(other: CommandFilterMagnet): CommandFilterMagnet = or(other)
-  def &(other: CommandFilterMagnet): CommandFilterMagnet = and(other)
-  def not(other: CommandFilterMagnet): CommandFilterMagnet = CommandFilterMagnet(v => !self.accept(v))
-  def unary_!(other: CommandFilterMagnet): CommandFilterMagnet = not(other)
-
-  def to(r: => Option[String]): CommandFilterMagnet = {
-    CommandFilterMagnet(_.recipient.forall(
-        t => r.forall(t.equalsIgnoreCase)))
+  def or(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
+    override def accept(command: Command) = self.accept(command) || other.accept(command)
+    override def to(r: Option[String]) = self.to(r).or(other.to(r))
   }
+  def and(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
+    override def accept(command: Command) = self.accept(command) && other.accept(command)
+    override def to(r: Option[String]) = self.to(r).and(other.to(r))
+  }
+  def |(other: CommandFilterMagnet) = or(other)
+  def &(other: CommandFilterMagnet) = and(other)
+  def not: CommandFilterMagnet = new CommandFilterMagnet {
+    override def accept(command: Command) = !self.accept(command)
+    override def to(r: Option[String]): CommandFilterMagnet = self.to(r).not
+  }
+  def unary_! = self.not
 
-  def @@(r: => Option[String]): CommandFilterMagnet = to(r)
+  def to(r: Option[String]): CommandFilterMagnet = this
+  def @@(r: Option[String]) = to(r)
 }
 
 trait CommandImplicits {
-  implicit def stringToCommandFilter(s: String): CommandFilterMagnet = CommandFilterMagnet {
+  implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 
     require(target.matches("""\w+"""))
@@ -138,7 +133,7 @@ trait CommandImplicits {
     }
   }
 
-  implicit def symbolToCommandFilter(s: Symbol): CommandFilterMagnet = {
+  implicit def symbolToCommandFilter(s: Symbol) = {
     stringToCommandFilter(s.name)
   }
 }
@@ -148,4 +143,14 @@ object CommandFilterMagnet {
     override def accept(c: Command): Boolean = f(c)
   }
   val ANY = CommandFilterMagnet(_ => true)
+
+  def respectRecipient(recipient: Option[String]) = new CommandFilterMagnet {
+    override def accept(command: Command) =
+      command.recipient.forall(t => recipient.forall(t.equalsIgnoreCase))
+  }
+
+  val RespectRecipient = new CommandFilterMagnet {
+    override def accept(command: Command) = true
+    override def to(recipient: Option[String]) = respectRecipient(recipient)
+  }
 }

@@ -1,20 +1,14 @@
 package com.bot4s.telegram.api
 
-import com.bot4s.telegram.methods.GetMe
+import cats.MonadError
+import cats.instances.future._
 import slogging.StrictLogging
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TestBot extends BotBase with StrictLogging {
-  override lazy val client: RequestHandler = ???
+class TestBot extends BotBase[Future] with StrictLogging {
+  override lazy val client: RequestHandler[Future] = ???
 
-  override def run(): Future[Unit] = {
-    for {
-      getMe_ <- request(GetMe)
-    } yield {
-      getMe = getMe_
-      ()
-    }
-  }
+  override implicit val monad: MonadError[Future, Throwable] = MonadError[Future, Throwable]
 }

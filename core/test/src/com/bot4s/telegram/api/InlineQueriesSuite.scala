@@ -1,44 +1,48 @@
 package com.bot4s.telegram.api
 
+import cats.instances.future._
 import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.models.{InlineQuery, Update}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
+import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.Future
+
 class InlineQueriesSuite extends FlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
-    val handler = mockFunction[InlineQuery, Unit]
-    val bot = new TestBot with InlineQueries with RegexCommands
+    val handler = mockFunction[InlineQuery, Future[Unit]]
+    val bot = new TestBot with InlineQueries[Future] with RegexCommands[Future]
   }
 
   "Inline query filter" should "accept matches" in new Fixture {
     val q = inlineQuery("hello")
-    handler.expects(q).once()
-    when[InlineQuery](bot.onInlineQuery, _.query == "hello")(handler)
-    bot.receiveInlineQuery(q)
+    handler.expects(q).returning(Future.successful(())).once()
+    when[Future, InlineQuery](bot.onInlineQuery, _.query == "hello")(handler)
+    bot.receiveInlineQuery(q).get
   }
 
   it should "ignore non-matches" in new Fixture {
     handler.expects(*).never()
-    when[InlineQuery](bot.onInlineQuery, _.query == "hello")(handler)
+    when[Future, InlineQuery](bot.onInlineQuery, _.query == "hello")(handler)
     bot.receiveInlineQuery(inlineQuery("abc"))
   }
 
   "onInlineQuery" should "catch all messages" in new Fixture {
     val queries = (0 until 100).map (t => inlineQuery(t.toString))
     for (q <- queries)
-      handler.expects(q).once()
+      handler.expects(q).returning(Future.successful(())).once()
     bot.onInlineQuery(handler)
-    for (q <- queries)
-      bot.receiveUpdate(Update(123, inlineQuery = Some(q)))
+    val r = Future.traverse(queries) { q => bot.receiveUpdate(Update(123, inlineQuery = Some(q)), None) }
+    r.get
   }
 
   "onRegexInline" should "pass matched groups" in new Fixture {
-    val argsHandler = mockFunction[InlineQuery, Seq[String], Unit]
-    argsHandler.expects(*, Seq("1234")).once()
+    val argsHandler = mockFunction[InlineQuery, Seq[String], Future[Unit]]
+    argsHandler.expects(*, Seq("1234")).returning(Future.successful(())).once()
     bot.onRegexInline("""/cmd ([0-9]+)""".r)(argsHandler.curried)
-    bot.receiveInlineQuery(inlineQuery("/cmd 1234"))
+    bot.receiveInlineQuery(inlineQuery("/cmd 1234")).get
   }
 }
 

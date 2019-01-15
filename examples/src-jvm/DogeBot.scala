@@ -9,9 +9,9 @@ import scala.concurrent.Future
   * Such Telegram, many bots, so Dogesome.
   */
 class DogeBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands
-  with ChatActions {
+  with Polling[Future]
+  with Commands[Future]
+  with ChatActions[Future] {
 
   onCommand("/doge") { implicit msg =>
     withArgs { args =>
@@ -20,12 +20,11 @@ class DogeBot(token: String) extends ExampleBot(token)
         res <- Future { scalaj.http.Http(url).asBytes }
         if res.isSuccess
         bytes = res.body
-      } /* do */ {
-        println(bytes.length)
-        val photo = InputFile("doge.png", bytes)
-        uploadingPhoto // Hint the user
-        request(SendPhoto(msg.source, photo))
-      }
+        _ = println(bytes.length)
+        photo = InputFile("doge.png", bytes)
+        _ <- uploadingPhoto // Hint the user
+        _ <- request(SendPhoto(msg.source, photo))
+      } yield ()
     }
   }
 }

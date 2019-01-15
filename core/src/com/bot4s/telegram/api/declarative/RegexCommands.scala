@@ -7,7 +7,7 @@ import scala.util.matching.Regex
 /**
   * Regex-based commands an inline queries.
   */
-trait RegexCommands extends Messages with InlineQueries {
+trait RegexCommands[F[_]] extends Messages[F] with InlineQueries[F] {
 
   /**
     * Filter messages using a regular expression.
@@ -24,9 +24,11 @@ trait RegexCommands extends Messages with InlineQueries {
     *   }
     * }}}
     */
-  def onRegex(r: Regex)(actionWithArgs: ActionWithArgs[Message]): Unit = {
+  def onRegex(r: Regex)(actionWithArgs: ActionWithArgs[F, Message]): Unit = {
     onMessage { msg =>
-      msg.text.map(_.trim).collect { case r(args @ _*) => actionWithArgs(msg)(args) }
+      msg.text.map(_.trim).collect { case r(args @ _*) =>
+        actionWithArgs(msg)(args)
+      } getOrElse unit
     }
   }
 
@@ -38,11 +40,11 @@ trait RegexCommands extends Messages with InlineQueries {
     * '''Warning:'''
     *   Absent optional groups won't be ignored, `null` will be passed instead.
     */
-  def onRegexInline(r: Regex)(actionWithArgs: ActionWithArgs[InlineQuery]): Unit = {
+  def onRegexInline(r: Regex)(actionWithArgs: ActionWithArgs[F, InlineQuery]): Unit = {
     onInlineQuery { iq =>
       iq.query.trim match {
         case r(args @ _*) => actionWithArgs(iq)(args)
-        case _ =>
+        case _ => unit
       }
     }
   }

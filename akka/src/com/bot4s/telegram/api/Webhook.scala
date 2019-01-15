@@ -3,6 +3,7 @@ package com.bot4s.telegram.api
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import com.bot4s.telegram.future.BotExecutionContext
 import com.bot4s.telegram.methods.SetWebhook
 import com.bot4s.telegram.models.{InputFile, Update}
 import slogging.StrictLogging
@@ -15,7 +16,7 @@ import scala.util.control.NonFatal
   * Automatically registers the webhook on run().
   */
 trait Webhook extends WebRoutes with StrictLogging {
-  _: BotBase with BotExecutionContext with AkkaImplicits =>
+  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
 
   import com.bot4s.telegram.marshalling._
   import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
@@ -46,7 +47,7 @@ trait Webhook extends WebRoutes with StrictLogging {
   def webhookReceiver: Route = {
     entity(as[Update]) { update =>
       try {
-        receiveUpdate(update)
+        receiveUpdate(update, None)
       } catch {
         case NonFatal(e) =>
           logger.error("Caught exception in update handler", e)

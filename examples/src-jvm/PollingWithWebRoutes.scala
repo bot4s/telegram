@@ -1,5 +1,9 @@
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
 import com.bot4s.telegram.api.{Polling, WebRoutes}
+
+import scala.concurrent.Future
 
 /**
   * Showcases the ability to run Polling and WebRoutes at the same time.
@@ -8,14 +12,14 @@ import com.bot4s.telegram.api.{Polling, WebRoutes}
   * and even serving entire websites.
   */
 class PollingWithWebRoutes(token: String) extends AkkaExampleBot(token)
-  with Polling
+  with Polling[Future]
   with WebRoutes
-  with Commands {
+  with Commands[Future] {
 
   override val port: Int = 8080
 
   onCommand("/hello") { implicit msg =>
-    reply("Hello")
+    reply("Hello").void
   }
 
   import akka.http.scaladsl.server.Directives._

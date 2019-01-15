@@ -1,6 +1,9 @@
-import com.bot4s.telegram.api.{RequestHandler, TelegramBot}
-import com.bot4s.telegram.clients.SttpClient
+import com.bot4s.telegram.api.RequestHandler
+import com.bot4s.telegram.clients.FutureSttpClient
+import com.bot4s.telegram.future.TelegramBot
 import slogging.{LogLevel, LoggerConfig, PrintLoggerFactory}
+
+import scala.concurrent.Future
 
 /** Quick helper to spawn example bots.
   *
@@ -17,5 +20,5 @@ abstract class ExampleBot(val token: String) extends TelegramBot {
   LoggerConfig.level = LogLevel.TRACE
 
   implicit val backend = SttpBackends.default
-  override val client: RequestHandler = new SttpClient(token)
+  override val client: RequestHandler[Future] = new FutureSttpClient(token)
 }

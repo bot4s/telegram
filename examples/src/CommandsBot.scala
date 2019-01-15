@@ -1,6 +1,9 @@
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
 import com.bot4s.telegram.api.Polling
 
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.util.Try
 
@@ -12,9 +15,9 @@ import scala.util.Try
   * @param token Bot's token.
   */
 class CommandsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands
-  with RegexCommands {
+  with Polling[Future]
+  with Commands[Future]
+  with RegexCommands[Future] {
 
   // Extractor
   object Int {
@@ -23,12 +26,12 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // String commands.
   onCommand("/hello") { implicit msg =>
-    reply("Hello America!")
+    reply("Hello America!").void
   }
 
   // '/' prefix is optional
   onCommand("hola") { implicit msg =>
-    reply("Hola Mundo!")
+    reply("Hola Mundo!").void
   }
 
   // Several commands can share the same handler.
@@ -37,35 +40,35 @@ class CommandsBot(token: String) extends ExampleBot(token)
     implicit msg =>
       using(_.from) { // sender
         user =>
-          reply(s"Hello ${user.firstName} from Europe?")
+          reply(s"Hello ${user.firstName} from Europe?").void
       }
   }
 
   // Also using Symbols; the "/" prefix is added by default.
   onCommand('привет) { implicit msg =>
-    reply("\uD83C\uDDF7\uD83C\uDDFA")
+    reply("\uD83C\uDDF7\uD83C\uDDFA").void
   }
 
   // Note that non-ascii commands are not clickable.
   onCommand('こんにちは | '你好 | '안녕하세요) { implicit msg =>
-    reply("Hello from Asia?")
+    reply("Hello from Asia?").void
   }
 
   // Different spellings + emoji commands.
 
   onCommand("/metro" | "/métro" | "/🚇") { implicit msg =>
-    reply("Metro schedule bla bla...")
+    reply("Metro schedule bla bla...").void
   }
 
   onCommand("beer" | "beers" | "🍺" | "🍻") { implicit msg =>
-    reply("Beer menu bla bla...")
+    reply("Beer menu bla bla...").void
   }
 
   // withArgs extracts command arguments.
   onCommand('echo) { implicit msg =>
     withArgs {
       args =>
-        reply(args.mkString(" "))
+        reply(args.mkString(" ")).void
     }
   }
 
@@ -73,18 +76,18 @@ class CommandsBot(token: String) extends ExampleBot(token)
   onCommand("/inc") { implicit msg =>
     withArgs {
       case Seq(Int(i)) =>
-        reply("" + (i + 1))
+        reply("" + (i + 1)).void
 
       // Conveniently avoid MatchError, providing hints on usage.
       case _ =>
-        reply("Invalid argument. Usage: /inc 123")
+        reply("Invalid argument. Usage: /inc 123").void
     }
   }
 
   // Regex commands also available.
   onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
     case Seq(Int(mm), Int(ss)) =>
-      reply(s"Timer set: $mm minute(s) and $ss second(s)")
+      reply(s"Timer set: $mm minute(s) and $ss second(s)").void
       Utils.after(mm.minutes + ss.seconds) {
         reply("Time's up!!!")
       }

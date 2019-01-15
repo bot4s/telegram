@@ -1,5 +1,7 @@
 import java.net.URLEncoder
 
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
 import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.api.{ChatActions, Polling}
@@ -15,10 +17,10 @@ import scala.concurrent.Future
   * '''Inline mode:''' @YourBot This is awesome
   */
 class TextToSpeechBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands
-  with InlineQueries
-  with ChatActions {
+  with Polling[Future]
+  with Commands[Future]
+  with InlineQueries[Future]
+  with ChatActions[Future] {
 
   def ttsUrl(text: String): String =
     s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
@@ -30,11 +32,10 @@ class TextToSpeechBot(token: String) extends ExampleBot(token)
         r <- Future { scalaj.http.Http(ttsUrl(text)).asBytes }
         if r.isSuccess
         bytes = r.body
-      } /* do */ {
-        uploadingAudio // hint the user
-        val voiceMp3 = InputFile("voice.mp3", bytes)
-        request(SendVoice(msg.source, voiceMp3))
-      }
+        _ <- uploadingAudio // hint the user
+        voiceMp3 = InputFile("voice.mp3", bytes)
+        _ <- request(SendVoice(msg.source, voiceMp3))
+      } yield ()
     }
   }
 
@@ -48,8 +49,8 @@ class TextToSpeechBot(token: String) extends ExampleBot(token)
         // Redirection to /speak command
         InlineQueryResultArticle("command: " + iq.query, iq.query,
           inputMessageContent = InputTextMessageContent("/speak " + iq.query),
-          description = "/speak " + iq.query)))
+          description = "/speak " + iq.query))).void
   } /* empty query */ {
-    answerInlineQuery(Seq())(_)
+    answerInlineQuery(Seq())(_).void
   }
 }

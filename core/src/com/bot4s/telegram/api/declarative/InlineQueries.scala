@@ -1,24 +1,27 @@
 package com.bot4s.telegram.api.declarative
 
+import cats.instances.list._
+import cats.syntax.flatMap._
+import cats.syntax.functor._
+import cats.syntax.traverse._
 import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.methods.AnswerInlineQuery
 import com.bot4s.telegram.models.{ChosenInlineResult, InlineQuery, InlineQueryResult}
 
 import scala.collection.mutable
-import scala.concurrent.Future
 
 /**
   * Declarative interface for processing inline queries.
   */
-trait InlineQueries extends BotBase {
+trait InlineQueries[F[_]] extends BotBase[F] {
 
-  private val inlineQueryActions = mutable.ArrayBuffer[Action[InlineQuery]]()
-  private val chosenInlineResultActions = mutable.ArrayBuffer[Action[ChosenInlineResult]]()
+  private val inlineQueryActions = mutable.ArrayBuffer[Action[F, InlineQuery]]()
+  private val chosenInlineResultActions = mutable.ArrayBuffer[Action[F, ChosenInlineResult]]()
 
   /**
     * Executes 'action' for every inline query.
     */
-  def onInlineQuery(action: Action[InlineQuery]): Unit = {
+  def onInlineQuery(action: Action[F, InlineQuery]): Unit = {
     inlineQueryActions += action
   }
 
@@ -26,7 +29,7 @@ trait InlineQueries extends BotBase {
     * Executes 'action' for every inline result.
     * * See [[https://core.telegram.org/bots/inline#collecting-feedback]]
     */
-  def onChosenInlineResult(action: Action[ChosenInlineResult]): Unit = {
+  def onChosenInlineResult(action: Action[F, ChosenInlineResult]): Unit = {
     chosenInlineResultActions += action
   }
 
@@ -47,25 +50,21 @@ trait InlineQueries extends BotBase {
                     nextOffset        : Option[String] = None,
                     switchPmText      : Option[String] = None,
                     switchPmParameter : Option[String] = None)
-                 (implicit inlineQuery: InlineQuery): Future[Boolean] = {
+                 (implicit inlineQuery: InlineQuery): F[Boolean] =
     request(
       AnswerInlineQuery(inlineQuery.id, results, cacheTime, isPersonal,
-        nextOffset, switchPmParameter, switchPmParameter))
-  }
+        nextOffset, switchPmParameter, switchPmParameter)
+    )
 
-  abstract override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
-    for (action <- inlineQueryActions)
-      action(inlineQuery)
+  override def receiveInlineQuery(inlineQuery: InlineQuery): F[Unit] =
+    for {
+      _ <- inlineQueryActions.toList.traverse(action => action(inlineQuery))
+      _ <- super.receiveInlineQuery(inlineQuery)
+    } yield ()
 
-    // Preserve trait stack-ability.
-    super.receiveInlineQuery(inlineQuery)
-  }
-
-  abstract override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {
-    for (action <- chosenInlineResultActions)
-      action(chosenInlineResult)
-
-    // Preserve trait stack-ability.
-    super.receiveChosenInlineResult(chosenInlineResult)
-  }
+  override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): F[Unit] =
+    for {
+      _ <- chosenInlineResultActions.toList.traverse(action => action(chosenInlineResult))
+      _ <- super.receiveChosenInlineResult(chosenInlineResult)
+    } yield ()
 }
