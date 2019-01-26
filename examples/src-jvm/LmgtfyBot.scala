@@ -3,8 +3,8 @@ import akka.http.scaladsl.model.Uri.Query
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.api.declarative.{Commands, InlineQueries}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.ParseMode
 import com.bot4s.telegram.models._
 
@@ -14,7 +14,7 @@ import scala.concurrent.Future
   * Let me Google that for you!
   */
 class LmgtfyBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with InlineQueries[Future]
   with Commands[Future] {
 

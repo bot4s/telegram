@@ -5,7 +5,8 @@ import akka.http.scaladsl.server.Route
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
-import com.bot4s.telegram.api.{AkkaDefaults, GameManager, Payload, Polling}
+import com.bot4s.telegram.api.{AkkaDefaults, GameManager, Payload}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
 
 import scala.concurrent.Future
@@ -32,7 +33,7 @@ import scala.concurrent.Future
   */
 class SelfHosted2048Bot(token: String, gameManagerHost: String)
   extends ExampleBot(token)
-    with Polling[Future]
+    with Polling
     with AkkaDefaults
     with Callbacks[Future]
     with GameManager

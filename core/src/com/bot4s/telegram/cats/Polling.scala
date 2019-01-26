@@ -1,7 +1,7 @@
-package com.bot4s.telegram.cats.api
+package com.bot4s.telegram.cats
 
+import cats.MonadError
 import cats.instances.list._
-import cats.effect.Sync
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.traverse._
@@ -14,7 +14,7 @@ case class PollingState(botUser: User, offset: Option[Long])
 
 trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
 
-  implicit val syncF: Sync[F]
+  implicit val monad: MonadError[F, Throwable]
 
   private def poll(state: PollingState): F[Unit] =
     for {
@@ -36,7 +36,7 @@ trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
         getMe <- request(GetMe)
         _ <- poll(PollingState(getMe, None))
       } yield (),
-      syncF.raiseError(new Exception("Can not remove webhook"))
+      monad.raiseError(new Exception("Can not remove webhook"))
     )
 
   override def run(): F[Unit] = startPolling()

@@ -1,7 +1,7 @@
 import cats.syntax.functor._
 import monix.eval.Task
 
-import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.cats.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
 

@@ -1,7 +1,8 @@
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{Polling, WebRoutes}
+import com.bot4s.telegram.api.WebRoutes
+import com.bot4s.telegram.future.Polling
 
 import scala.concurrent.Future
 
@@ -12,7 +13,7 @@ import scala.concurrent.Future
   * and even serving entire websites.
   */
 class PollingWithWebRoutes(token: String) extends AkkaExampleBot(token)
-  with Polling[Future]
+  with Polling
   with WebRoutes
   with Commands[Future] {
 

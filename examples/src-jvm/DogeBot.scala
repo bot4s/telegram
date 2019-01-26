@@ -1,5 +1,6 @@
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.api.ChatActions
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.InputFile
 
@@ -9,7 +10,7 @@ import scala.concurrent.Future
   * Such Telegram, many bots, so Dogesome.
   */
 class DogeBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future]
   with ChatActions[Future] {
 

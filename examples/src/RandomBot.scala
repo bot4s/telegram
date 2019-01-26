@@ -1,7 +1,7 @@
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.future.Polling
 import scala.util.Try
 
 import scala.concurrent.Future
@@ -9,7 +9,7 @@ import scala.concurrent.Future
 /** Generates random values.
   */
 class RandomBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future] {
 
   val rng = new scala.util.Random(System.currentTimeMillis())

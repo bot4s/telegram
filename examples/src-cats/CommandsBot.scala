@@ -1,11 +1,10 @@
 import cats.effect.Async
-import cats.effect.Sync
 import cats.effect.Timer
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
 import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
-import com.bot4s.telegram.cats.api.Polling
+import com.bot4s.telegram.cats.Polling
 
 import scala.concurrent.duration._
 import scala.util.Try
@@ -22,8 +21,6 @@ class CommandsBot[F[_]: Async: Timer](token: String) extends ExampleBot[F](token
   with Polling[F]
   with Commands[F]
   with RegexCommands[F] {
-
-  override implicit val syncF: Sync[F] = Async[F]
 
   // Extractor
   object Int {

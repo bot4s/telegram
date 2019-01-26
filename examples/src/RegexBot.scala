@@ -1,12 +1,12 @@
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.api.declarative.RegexCommands
+import com.bot4s.telegram.future.Polling
 
 import scala.concurrent.Future
 
 class RegexBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with RegexCommands[Future] {
 
   onRegex("""/regex\s+(\w+)""".r) { implicit msg =>

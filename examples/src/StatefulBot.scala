@@ -1,7 +1,7 @@
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.models.Message
 
 import scala.concurrent.Future
@@ -39,7 +39,7 @@ trait PerChatState[S] {
   * @param token Bot's token.
   */
 class StatefulBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future]
   with PerChatState[Int] {
 

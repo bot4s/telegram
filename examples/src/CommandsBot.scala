@@ -1,7 +1,7 @@
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
-import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.future.Polling
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -15,7 +15,7 @@ import scala.util.Try
   * @param token Bot's token.
   */
 class CommandsBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future]
   with RegexCommands[Future] {
 

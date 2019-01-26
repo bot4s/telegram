@@ -3,8 +3,8 @@ import java.time.Instant
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.api.declarative.{Callbacks, InlineQueries}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.UpdateType.Filters._
 import com.bot4s.telegram.models._
@@ -17,7 +17,7 @@ import scala.concurrent.duration._
   * Ported from: https://github.com/Pitasi/selfdestructbot
   */
 class SelfDestructBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with InlineQueries[Future]
   with Callbacks[Future] {
 

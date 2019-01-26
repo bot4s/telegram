@@ -4,7 +4,8 @@ import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
 import com.bot4s.telegram.api.declarative._
-import com.bot4s.telegram.api.{ChatActions, Polling}
+import com.bot4s.telegram.api.ChatActions
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
 
@@ -17,7 +18,7 @@ import scala.concurrent.Future
   * '''Inline mode:''' @YourBot This is awesome
   */
 class TextToSpeechBot(token: String) extends ExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future]
   with InlineQueries[Future]
   with ChatActions[Future] {

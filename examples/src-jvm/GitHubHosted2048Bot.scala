@@ -8,7 +8,8 @@ import cats.syntax.functor._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
-import com.bot4s.telegram.api.{GameManager, Payload, Polling}
+import com.bot4s.telegram.api.{GameManager, Payload}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
 
 import scala.concurrent.Future
@@ -45,7 +46,7 @@ import scala.concurrent.Future
   */
 class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   extends AkkaExampleBot(token)
-    with Polling[Future]
+    with Polling
     with Commands[Future]
     with Callbacks[Future]
     with GameManager {

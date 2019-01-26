@@ -32,6 +32,7 @@ object library {
     val akkaHttp           = "10.1.5"
     val akkaHttpCors       = "0.3.1"
     val hammock            = "0.8.4"
+    val monix              = "3.0.0-RC1"
     val scalaJs            = "0.6.25"
     val scalaJsNodeFetch   = "0.4.2"
   }
@@ -41,6 +42,7 @@ object library {
   val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
   val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
   val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp::async-http-client-backend-cats::${Version.sttp}"
+  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest = ivy"org.scalamock::scalamock-scalatest-support::${Version.scalaMockScalaTest}"
@@ -55,6 +57,7 @@ object library {
   val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
   val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
   val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
+  val monix              = ivy"io.monix::monix::${Version.monix}"
   val rosHttp            = ivy"fr.hmil::roshttp::${Version.rosHttp}"
   val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
   val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
@@ -191,24 +194,6 @@ class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with
 
 }
 
-abstract class ImplementationModule(location: String) extends TelegramBot4sModule with Publishable {
-
-  override def moduleDeps = Seq(core.jvm())
-
-  override def sources = T.sources(
-    build.millSourcePath / "implementations" / location / "main" / "scala"
-  )
-}
-
-object catseffect extends Cross[CatsEffectModule](ScalaVersions: _*)
-
-class CatsEffectModule(val crossScalaVersion: String) extends ImplementationModule("cats") {
-
-  override def artifactName = "telegram-cats-effect"
-
-  override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendCats)
-}
-
 abstract class TelegramBot4sExamples(platformSegment: String) extends TelegramBot4sCrossPlatform(platformSegment, "examples")
 
 object examples extends Module {
@@ -238,10 +223,20 @@ object examples extends Module {
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions: _*)
 
   class ExamplesCatsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("cats") {
-    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), catseffect())
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendCats)
+    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendCats, library.catsEffect)
 
     override def sources = T.sources { build.millSourcePath / "examples" / "src-cats" }
+  }
+
+  object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
+
+  class ExamplesMonixModule(val crossScalaVersion: String) extends TelegramBot4sExamples("monix") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendMonix, library.monix)
+
+    override def sources = T.sources { build.millSourcePath / "examples" / "src-monix" }
   }
 }

@@ -6,7 +6,7 @@ import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.Polling
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.models._
 
 import scala.concurrent.Await
@@ -22,7 +22,7 @@ import scala.concurrent.Future
   * The provided clientId/secret are not guaranteed to work forever.
   * See [[https://developer.spotify.com/web-api/authorization-guide/]]
   */
-class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling[Future] {
+class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
 
   val limit = 10
 

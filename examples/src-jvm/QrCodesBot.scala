@@ -5,7 +5,8 @@ import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.api._
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.AkkaInputFile
 
@@ -15,7 +16,7 @@ import scala.concurrent.Future
   * Generates QR codes from text/url.
   */
 class QrCodesBot(token: String) extends AkkaExampleBot(token)
-  with Polling[Future]
+  with Polling
   with Commands[Future]
   with ChatActions[Future] {
 

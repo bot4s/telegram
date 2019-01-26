@@ -1,4 +1,4 @@
-package com.bot4s.telegram
+package com.bot4s.telegram.marshalling
 
 import cats.free.Trampoline
 import cats.instances.function._
@@ -8,7 +8,7 @@ import io.circe.parser.parse
 import io.circe.syntax._
 import io.circe.{Json, JsonObject, _}
 
-package object marshalling extends CirceEncoders with CirceDecoders with CaseConversions {
+object `package` extends CirceEncoders with CirceDecoders with CaseConversions {
 
   private def transformKeys(json: Json, f: String => String): Trampoline[Json] = {
     def transformObjectKeys(obj: JsonObject, f: String => String): JsonObject =

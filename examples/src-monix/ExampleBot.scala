@@ -1,4 +1,5 @@
-import com.bot4s.telegram.monix.TelegramBot
+import com.bot4s.telegram.cats.TelegramBot
+import com.softwaremill.sttp.asynchttpclient.monix.AsyncHttpClientMonixBackend
 
 abstract class ExampleBot(val token: String)
-  extends TelegramBot(token, "api.telegram.org", com.softwaremill.sttp.SttpBackendOptions.socksProxy("localhost", 9050))
+  extends TelegramBot(token, AsyncHttpClientMonixBackend())
