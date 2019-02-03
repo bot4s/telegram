@@ -34,7 +34,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
           case Right(response) =>
             monadError.pure(logger.trace("RESPONSE {} {}", uuid, response))
           case Left(e) =>
-            monadError.pure(logger.error(s"RESPONSE $uuid", e))
+            monadError.pure(logger.error(s"REQUEST $request WITH $uuid FAILED", e))
         })
         .rethrow
     } yield result

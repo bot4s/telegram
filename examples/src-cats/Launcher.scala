@@ -10,6 +10,8 @@ object Launcher extends IOApp {
         new EchoBot[IO](token).startPolling.map(_ => ExitCode.Success)
       case List("CommandsBot", token) =>
         new CommandsBot[IO](token).startPolling.map(_ => ExitCode.Success)
+      case List("ChatBot", token) =>
+        new ChatBot[IO](token).startPolling.map(_ => ExitCode.Success)
       case List(name, _) =>
         IO.raiseError(new Exception(s"Unknown bot $name"))
       case _ =>
