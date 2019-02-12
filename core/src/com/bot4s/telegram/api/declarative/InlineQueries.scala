@@ -50,7 +50,7 @@ trait InlineQueries extends BotBase {
                  (implicit inlineQuery: InlineQuery): Future[Boolean] = {
     request(
       AnswerInlineQuery(inlineQuery.id, results, cacheTime, isPersonal,
-        nextOffset, switchPmParameter, switchPmParameter))
+        nextOffset, switchPmText, switchPmParameter))
   }
 
   abstract override def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {
