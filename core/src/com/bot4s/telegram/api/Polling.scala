@@ -13,7 +13,7 @@ import scala.concurrent.duration.{Duration, _}
   * It relies on the underlying HTTP client which should support a timeout
   * allowing the connection to idle for a duration of at least 'pollingTimeout'.
   */
-trait Polling[F[_]] extends BotBase[F] with StrictLogging {
+private[telegram] trait Polling[F[_]] extends BotBase[F] with StrictLogging {
 
   /**
     * Long-polling timeout in seconds.
