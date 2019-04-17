@@ -1,18 +1,19 @@
 package com.bot4s.telegram.api
 
+import cats.MonadError
+import cats.instances.list._
+import cats.syntax.foldable._
+
 import com.bot4s.telegram.models.UpdateType.UpdateType
 import com.bot4s.telegram.models._
 
-import scala.concurrent.Future
-
 /** Skeleton for Telegram bots.
   */
-trait BotBase {
-  val client: RequestHandler
+trait BotBase[F[_]] {
+  implicit val monad: MonadError[F, Throwable]
+  val client: RequestHandler[F]
 
-  def request: RequestHandler = client
-
-  protected var getMe: User = _
+  def request: RequestHandler[F] = client
 
   /**
     * Allowed updates. See [[UpdateType.Filters]].
@@ -34,36 +35,41 @@ trait BotBase {
     *
     * @param u Incoming update.
     */
-  def receiveUpdate(u: Update): Unit = {
-    u.message.foreach(receiveMessage)
-    u.editedMessage.foreach(receiveEditedMessage)
+  def receiveUpdate(u: Update, botUser: Option[User]): F[Unit] =
+    List(
+      u.message.map(receiveMessage _),
+      u.editedMessage.map(receiveEditedMessage _),
+      u.message.map(m => receiveExtMessage((m, botUser))),
 
-    u.channelPost.foreach(receiveChannelPost)
-    u.editedChannelPost.foreach(receiveEditedChannelPost)
+      u.channelPost.map(receiveChannelPost _),
+      u.editedChannelPost.map(receiveEditedChannelPost _),
 
-    u.inlineQuery.foreach(receiveInlineQuery)
-    u.chosenInlineResult.foreach(receiveChosenInlineResult)
+      u.inlineQuery.map(receiveInlineQuery _),
+      u.chosenInlineResult.map(receiveChosenInlineResult _),
 
-    u.callbackQuery.foreach(receiveCallbackQuery)
+      u.callbackQuery.map(receiveCallbackQuery _),
 
-    u.shippingQuery.foreach(receiveShippingQuery)
-    u.preCheckoutQuery.foreach(receivePreCheckoutQuery)
-  }
+      u.shippingQuery.map(receiveShippingQuery _),
+      u.preCheckoutQuery.map(receivePreCheckoutQuery _)
+    ).flatten.sequence_
 
-  def receiveMessage(message: Message): Unit = {}
-  def receiveEditedMessage(editedMessage: Message): Unit = {}
+  protected lazy val unit = monad.pure(())
 
-  def receiveChannelPost(message: Message): Unit = {}
-  def receiveEditedChannelPost(message: Message): Unit = {}
+  def receiveMessage(message: Message): F[Unit] = unit
+  def receiveEditedMessage(editedMessage: Message): F[Unit] = unit
+  def receiveExtMessage(extMessage: (Message, Option[User])): F[Unit] = unit
 
-  def receiveInlineQuery(inlineQuery: InlineQuery): Unit = {}
-  def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): Unit = {}
+  def receiveChannelPost(message: Message): F[Unit] = unit
+  def receiveEditedChannelPost(message: Message): F[Unit] = unit
 
-  def receiveCallbackQuery(callbackQuery: CallbackQuery): Unit = {}
+  def receiveInlineQuery(inlineQuery: InlineQuery): F[Unit] = unit
+  def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): F[Unit] = unit
 
-  def receiveShippingQuery(shippingQuery: ShippingQuery): Unit = {}
-  def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): Unit = {}
+  def receiveCallbackQuery(callbackQuery: CallbackQuery): F[Unit] = unit
 
-  def run(): Future[Unit] = Future.successful(())
+  def receiveShippingQuery(shippingQuery: ShippingQuery): F[Unit] = unit
+  def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): F[Unit] = unit
+
+  def run(): F[Unit] = unit
   def shutdown(): Unit = {}
 }

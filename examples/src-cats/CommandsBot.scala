@@ -1,11 +1,14 @@
-import cats.instances.future._
+import cats.effect.Async
+import cats.effect.Timer
+import cats.syntax.flatMap._
 import cats.syntax.functor._
+import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
 import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
-import com.bot4s.telegram.future.Polling
+import com.bot4s.telegram.cats.Polling
 
-import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.util.Try
+
 
 /**
   * Showcases different ways to declare commands (Commands + RegexCommands).
@@ -14,10 +17,10 @@ import scala.util.Try
   *
   * @param token Bot's token.
   */
-class CommandsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with RegexCommands[Future] {
+class CommandsBot[F[_]: Async: Timer](token: String) extends ExampleBot[F](token)
+  with Polling[F]
+  with Commands[F]
+  with RegexCommands[F] {
 
   // Extractor
   object Int {
@@ -44,23 +47,11 @@ class CommandsBot(token: String) extends ExampleBot(token)
       }
   }
 
-  // Also using Symbols; the "/" prefix is added by default.
-  onCommand('привет) { implicit msg =>
-    reply("\uD83C\uDDF7\uD83C\uDDFA").void
-  }
-
-  // Note that non-ascii commands are not clickable.
-  onCommand('こんにちは | '你好 | '안녕하세요) { implicit msg =>
-    reply("Hello from Asia?").void
-  }
-
-  // Different spellings + emoji commands.
-
-  onCommand("/metro" | "/métro" | "/🚇") { implicit msg =>
+  onCommand("/metro") { implicit msg =>
     reply("Metro schedule bla bla...").void
   }
 
-  onCommand("beer" | "beers" | "🍺" | "🍻") { implicit msg =>
+  onCommand("beer" | "beers") { implicit msg =>
     reply("Beer menu bla bla...").void
   }
 
@@ -87,10 +78,20 @@ class CommandsBot(token: String) extends ExampleBot(token)
   // Regex commands also available.
   onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
     case Seq(Int(mm), Int(ss)) =>
-      reply(s"Timer set: $mm minute(s) and $ss second(s)").void
-      Utils.after(mm.minutes + ss.seconds) {
-        reply("Time's up!!!")
-      }
+      for {
+        _ <- reply(s"Timer set: $mm minute(s) and $ss second(s)")
+        _ <- implicitly[Timer[F]].sleep(mm.minutes + ss.seconds)
+        _ <- reply("Time's up!")
+      } yield ()
+  } }
+
+  // Handles only /respect2@recipient commands
+  onCommand("respect" & respectRecipient(Some("recipient"))) { implicit msg =>
+    reply("Respectful command").void
   }
+
+  // Handles only /respect@<current-botname> commands
+  onCommand("respect2" & RespectRecipient) { implicit msg =>
+    reply("Respectful command #2").void
   }
 }

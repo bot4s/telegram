@@ -6,6 +6,7 @@ import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
+import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.marshalling.AkkaHttpMarshalling
 import com.bot4s.telegram.marshalling._
@@ -20,7 +21,10 @@ import scala.concurrent.{ExecutionContext, Future}
   *
   * @param token Bot token
   */
-class AkkaHttpClient(token: String, telegramHost: String = "api.telegram.org")(implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext) extends RequestHandler with StrictLogging {
+class AkkaHttpClient(token: String, telegramHost: String = "api.telegram.org")
+  (implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext)
+  extends RequestHandler[Future] with StrictLogging {
+
   import AkkaHttpMarshalling._
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
   private val http = Http()

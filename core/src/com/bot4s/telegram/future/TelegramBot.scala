@@ -1,8 +1,15 @@
-package com.bot4s.telegram.api
+package com.bot4s.telegram.future
+
+import cats.MonadError
+import cats.instances.future._
+import com.bot4s.telegram.api.BotBase
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
-trait TelegramBot extends BotBase with GlobalExecutionContext
+trait TelegramBot extends BotBase[Future] with GlobalExecutionContext {
+  override val monad = MonadError[Future, Throwable]
+}
 
 trait BotExecutionContext {
   implicit val executionContext: ExecutionContext

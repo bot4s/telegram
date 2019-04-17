@@ -1,11 +1,13 @@
 package com.bot4s.telegram.api
 
+import cats.Applicative
+
 package object declarative {
-  type Action[T] = T => Unit
+  type Action[F[_], T] = T => F[Unit]
   type Filter[T] = T => Boolean
 
   type Args = Seq[String]
-  type ActionWithArgs[T] = T => Args => Unit
+  type ActionWithArgs[F[_], T] = T => Args => F[Unit]
   type Extractor[T, R] = T => Option[R]
 
   /**
@@ -22,13 +24,16 @@ package object declarative {
     * @param action Action executed if the filter pass.
     *
     */
-  def when[T](actionInstaller: Action[Action[T]], filter: Filter[T])(action: Action[T]): Unit = {
-      val newAction = {
-        t: T =>
-          if (filter(t))
-            action(t)
-      }
-      actionInstaller(newAction)
+   def when[F[_]: Applicative, T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])(action: Action[F, T]): Unit = {
+    val newAction = {
+      t: T =>
+        if (filter(t)) {
+          action(t)
+        } else {
+          Applicative[F].pure(())
+        }
+    }
+    actionInstaller(newAction)
   }
 
   /**
@@ -47,8 +52,8 @@ package object declarative {
     * @param action Action executed if the filter pass.
     * @param elseAction Action executed if the filter does not pass.
     */
-  def whenOrElse[T](actionInstaller: Action[Action[T]], filter: Filter[T])
-                   (action: Action[T])(elseAction: Action[T]): Unit = {
+  def whenOrElse[F[_], T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])
+                         (action: Action[F, T])(elseAction: Action[F, T]): Unit = {
     val newAction = {
       t: T =>
         if (filter(t))

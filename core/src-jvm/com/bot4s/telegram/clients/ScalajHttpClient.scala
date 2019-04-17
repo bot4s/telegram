@@ -3,6 +3,7 @@ package com.bot4s.telegram.clients
 import java.net.Proxy
 import java.nio.file.Files
 
+import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.methods.{Request, JsonRequest, MultipartRequest, Response}
 import com.bot4s.telegram.models.InputFile
@@ -26,7 +27,7 @@ import scala.concurrent.{ExecutionContext, Future, blocking}
   * @param token Bot token
   */
 class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHost: String = "api.telegram.org")
-                      (implicit ec: ExecutionContext) extends RequestHandler with StrictLogging {
+                      (implicit ec: ExecutionContext) extends RequestHandler[Future] with StrictLogging {
 
   val connectionTimeoutMs = 10000
   val readTimeoutMs = 50000

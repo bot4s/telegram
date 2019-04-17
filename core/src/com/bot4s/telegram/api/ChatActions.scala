@@ -5,8 +5,8 @@ import com.bot4s.telegram.models.Message
 
 /** Provides handy chat actions shortcuts.
   */
-trait ChatActions {
-  _: BotBase =>
+trait ChatActions[F[_]] {
+  _: BotBase[F] =>
   def typing(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.Typing))
 
   def uploadingPhoto(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadPhoto))

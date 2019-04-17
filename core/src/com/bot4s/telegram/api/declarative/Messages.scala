@@ -1,34 +1,41 @@
 package com.bot4s.telegram.api.declarative
 
+import cats.instances.list._
+import cats.syntax.flatMap._
+import cats.syntax.functor._
+import cats.syntax.traverse._
 import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.{ParseMode, SendMessage}
-import com.bot4s.telegram.models.{Message, ReplyMarkup}
+import com.bot4s.telegram.models.{Message, ReplyMarkup, User}
 
 import scala.collection.mutable
-import scala.concurrent.Future
 
 /**
   * Declarative helpers for processing incoming messages.
   */
-trait Messages extends BotBase {
+trait Messages[F[_]] extends BotBase[F] {
 
-  private val messageActions = mutable.ArrayBuffer[Action[Message]]()
-  private val editedMessageActions = mutable.ArrayBuffer[Action[Message]]()
+  private val messageActions = mutable.ArrayBuffer[Action[F, Message]]()
+  private val editedMessageActions = mutable.ArrayBuffer[Action[F, Message]]()
+  private val extMessageActions = mutable.ArrayBuffer[Action[F, (Message, Option[User])]]()
 
   /**
     * Executes `action` for every incoming message.
     */
-  def onMessage(action: Action[Message]): Unit = {
+  def onMessage(action: Action[F, Message]): Unit = {
     messageActions += action
   }
 
   /**
     * Executes `action` for every incoming edited message event.
     */
-  def onEditedMessage(action: Action[Message]): Unit = {
+  def onEditedMessage(action: Action[F, Message]): Unit = {
     editedMessageActions += action
   }
+
+  def onExtMessage(action: Action[F, (Message, Option[User])]): Unit =
+    extMessageActions += action
 
   /**
     * Sends text replies. Supports Markdown/HTML formatting and markups.
@@ -59,7 +66,7 @@ trait Messages extends BotBase {
             disableNotification   : Option[Boolean] = None,
             replyToMessageId      : Option[Int] = None,
             replyMarkup           : Option[ReplyMarkup] = None)
-           (implicit message: Message): Future[Message] = {
+           (implicit message: Message): F[Message] = {
     request(
       SendMessage(
         message.source,
@@ -92,7 +99,7 @@ trait Messages extends BotBase {
             disableNotification   : Option[Boolean] = None,
             replyToMessageId      : Option[Int] = None,
             replyMarkup           : Option[ReplyMarkup] = None)
-           (implicit message: Message): Future[Message] = {
+           (implicit message: Message): F[Message] = {
     reply(
       text,
       Some(ParseMode.Markdown),
@@ -103,21 +110,23 @@ trait Messages extends BotBase {
     )(message)
   }
 
-  abstract override def receiveMessage(msg: Message): Unit = {
-    for (action <- messageActions)
-      action(msg)
+  override def receiveMessage(msg: Message): F[Unit] =
+    for {
+      _ <- messageActions.toList.traverse(action => action(msg))
+      _ <- super.receiveMessage(msg)
+    } yield ()
 
-    // Fallback to upper level to preserve trait stack-ability
-    super.receiveMessage(msg)
-  }
+  override def receiveEditedMessage(msg: Message): F[Unit] =
+    for {
+      _ <- editedMessageActions.toList.traverse(action => action(msg))
+      _ <- super.receiveEditedMessage(msg)
+    } yield ()
 
-  abstract override def receiveEditedMessage(msg: Message): Unit = {
-    for (action <- editedMessageActions)
-      action(msg)
-
-    // Fallback to upper level to preserve trait stack-ability
-    super.receiveEditedMessage(msg)
-  }
+  override def receiveExtMessage(extMessage: (Message, Option[User])): F[Unit] =
+    for {
+      _ <- extMessageActions.toList.traverse(action => action(extMessage))
+      _ <- super.receiveExtMessage(extMessage)
+    } yield ()
 
   /**
     * Generic extractor for messages.
@@ -131,7 +140,6 @@ trait Messages extends BotBase {
     *   }
     * }}}
     */
-  def using[T](extractor: Extractor[Message, T])(actionT: Action[T])(implicit msg: Message): Unit = {
-    extractor(msg).foreach(actionT)
-  }
+  def using[T](extractor: Extractor[Message, T])(actionT: Action[F, T])(implicit msg: Message): F[Unit] =
+    extractor(msg).fold(unit)(actionT)
 }

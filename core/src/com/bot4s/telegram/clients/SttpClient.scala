@@ -1,5 +1,7 @@
 package com.bot4s.telegram.clients
 
+import cats.MonadError
+import cats.syntax.functor._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.marshalling.CaseConversions
 import com.bot4s.telegram.methods.{JsonRequest, MultipartRequest, Response}
@@ -12,16 +14,15 @@ import io.circe.{Decoder, Encoder}
 import slogging.StrictLogging
 
 import scala.concurrent.duration._
-import scala.concurrent.{ExecutionContext, Future}
 
 /** Sttp HTTP client.
   * Supports browsers via sttp's FetchBackend.
   *
   * @param token Bot token
   */
-class SttpClient(token: String, telegramHost: String = "api.telegram.org")
-                (implicit backend: SttpBackend[Future, Nothing], executionContext: ExecutionContext)
-  extends RequestHandler with StrictLogging {
+class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
+                      (implicit backend: SttpBackend[F, Nothing], monadError: MonadError[F, Throwable])
+  extends RequestHandler[F]()(monadError) with StrictLogging {
 
   val readTimeout: Duration = 50.seconds
 
@@ -33,7 +34,7 @@ class SttpClient(token: String, telegramHost: String = "api.telegram.org")
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = {
+  override def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
     val url = apiBaseUrl + request.methodName
 
     val sttpRequest: RequestT[Id, String, Nothing] = request match {
@@ -72,7 +73,7 @@ class SttpClient(token: String, telegramHost: String = "api.telegram.org")
     val response = sttpRequest
       .readTimeout(readTimeout)
       .response(asJson[Response[R]])
-      .send[Future]()
+      .send[F]()
 
     response
       .map(_.unsafeBody)

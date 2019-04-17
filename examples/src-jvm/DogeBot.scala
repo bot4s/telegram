@@ -1,5 +1,6 @@
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{Polling, _}
+import com.bot4s.telegram.api.ChatActions
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.InputFile
 
@@ -10,8 +11,8 @@ import scala.concurrent.Future
   */
 class DogeBot(token: String) extends ExampleBot(token)
   with Polling
-  with Commands
-  with ChatActions {
+  with Commands[Future]
+  with ChatActions[Future] {
 
   onCommand("/doge") { implicit msg =>
     withArgs { args =>
@@ -20,12 +21,11 @@ class DogeBot(token: String) extends ExampleBot(token)
         res <- Future { scalaj.http.Http(url).asBytes }
         if res.isSuccess
         bytes = res.body
-      } /* do */ {
-        println(bytes.length)
-        val photo = InputFile("doge.png", bytes)
-        uploadingPhoto // Hint the user
-        request(SendPhoto(msg.source, photo))
-      }
+        _ = println(bytes.length)
+        photo = InputFile("doge.png", bytes)
+        _ <- uploadingPhoto // Hint the user
+        _ <- request(SendPhoto(msg.source, photo))
+      } yield ()
     }
   }
 }

@@ -1,11 +1,16 @@
-import com.bot4s.telegram.api.Polling
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
 import com.bot4s.telegram.models._
 
 import scala.concurrent.Future
 
-class PokerBot(token: String) extends ExampleBot(token) with Polling with Commands with Callbacks {
+class PokerBot(token: String) extends ExampleBot(token)
+  with Polling
+  with Commands[Future]
+  with Callbacks[Future] {
 
   onCommand("/start") { implicit msg =>
     // Note that the button doesn't contain the game_short_name.
@@ -18,16 +23,16 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
     request(
       SendGame(msg.source,
         gameShortName = "play_2048",
-        replyMarkup = Some(inlineBtns)))
+        replyMarkup = Some(inlineBtns))).void
   }
 
   onCallbackQuery { implicit callbackQuery =>
     println(s"gameShortName: ${callbackQuery.gameShortName}")
     println(s"data: ${callbackQuery.data}")
 
-    callbackQuery.data.foreach { data =>
-      ackCallback(text = Some("Hello Pepe"), url = Some("https://t.me/MenialBot?start=1234"))
-    }
+    callbackQuery.data.map { data =>
+      ackCallback(text = Some("Hello Pepe"), url = Some("https://t.me/MenialBot?start=1234")).void
+    } getOrElse Future.successful(())
 
     // You must acknowledge callback queries, even if there's no response.
     // e.g. just ackCallback()
@@ -52,10 +57,10 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
 
 
   onCommand('trivia) { implicit msg =>
-    replyWithGame("trivia_game")
+    replyWithGame("trivia_game").void
   }
 
   onCommand('tictactoe | 'xoxo) { implicit msg =>
-    replyWithGame("tictactoe_game")
+    replyWithGame("tictactoe_game").void
   }
 }

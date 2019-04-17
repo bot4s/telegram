@@ -1,18 +1,22 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.Query
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.Polling
 import com.bot4s.telegram.api.declarative.{Commands, InlineQueries}
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.ParseMode
 import com.bot4s.telegram.models._
+
+import scala.concurrent.Future
 
 /**
   * Let me Google that for you!
   */
 class LmgtfyBot(token: String) extends ExampleBot(token)
   with Polling
-  with InlineQueries
-  with Commands {
+  with InlineQueries[Future]
+  with Commands[Future] {
 
   def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
     InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
@@ -29,7 +33,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
          |
          |@Bot args - Inline mode
       """.stripMargin,
-      parseMode = ParseMode.Markdown)
+      parseMode = ParseMode.Markdown).void
   }
 
   onCommand('lmgtfy) { implicit msg =>
@@ -39,7 +43,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
       replyMd(
         query.altWithUrl(lmgtfyUrl(query)),
         disableWebPagePreview = true
-      )
+      ).void
     }
   }
 
@@ -51,7 +55,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
   onCommand('btn | 'lmgtfy2) { implicit msg =>
     withArgs { args =>
       val query = args.mkString(" ")
-      reply(query, replyMarkup = lmgtfyBtn(query))
+      reply(query, replyMarkup = lmgtfyBtn(query)).void
     }
   }
 
@@ -59,7 +63,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
     val query = iq.query
 
     if (query.isEmpty)
-      answerInlineQuery(Seq())
+      answerInlineQuery(Seq()).void
     else {
 
       val textMessage = InputTextMessageContent(
@@ -83,7 +87,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
         )
       )
 
-      answerInlineQuery(results, cacheTime = 1)
+      answerInlineQuery(results, cacheTime = 1).void
     }
   }
 }

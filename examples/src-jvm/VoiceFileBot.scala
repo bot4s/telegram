@@ -2,10 +2,13 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
-import com.bot4s.telegram.api.Polling
+import cats.instances.future._
+import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 /**
@@ -13,12 +16,12 @@ import scala.util.{Failure, Success}
   */
 class VoiceFileBot(token: String) extends AkkaExampleBot(token)
   with Polling
-  with Commands {
+  with Commands[Future] {
 
   onMessage { implicit msg =>
 
     using(_.voice) { voice =>
-      request(GetFile(voice.fileId)).onComplete {
+      request(GetFile(voice.fileId)).andThen({
         case Success(file) =>
           file.filePath match {
 
@@ -30,17 +33,15 @@ class VoiceFileBot(token: String) extends AkkaExampleBot(token)
                 res <- Http().singleRequest(HttpRequest(uri = Uri(url)))
                 if res.status.isSuccess()
                 bytes <- Unmarshal(res).to[ByteString]
-              } /* do */ {
-                reply(s"File with ${bytes.size} bytes received.")
-              }
-
+                _ <- reply(s"File with ${bytes.size} bytes received.")
+              } yield ()
             case None =>
-              println("No file_path was returned")
+              reply("No file_path was returned")
           }
 
         case Failure(e) =>
           logger.error("Exception: " + e) // poor's man logging
-      }
+      }).void
     }
   }
 }

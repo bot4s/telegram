@@ -1,6 +1,10 @@
-import com.bot4s.telegram.api.Polling
+import cats.instances.future._
+import cats.syntax.functor._
+import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
+
+import scala.concurrent.Future
 
 /**
   * Echo, ohcE
@@ -8,8 +12,8 @@ import com.bot4s.telegram.models._
 class EchoBot(token: String) extends ExampleBot(token)
   with Polling {
 
-  override def receiveMessage(msg: Message): Unit = {
-    for (text <- msg.text)
-      request(SendMessage(msg.source, text.reverse))
-  }
+  override def receiveMessage(msg: Message): Future[Unit] =
+    msg.text.fold(Future.successful(())) { text =>
+      request(SendMessage(msg.source, text.reverse)).void
+    }
 }

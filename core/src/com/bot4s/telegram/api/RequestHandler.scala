@@ -2,18 +2,19 @@ package com.bot4s.telegram.api
 
 import java.util.UUID
 
+import cats.MonadError
+import cats.syntax.flatMap._
+import cats.syntax.functor._
+import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
 import io.circe.{Decoder, Encoder}
 import slogging.StrictLogging
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
 import com.bot4s.telegram.marshalling._
 
-trait RequestHandler extends StrictLogging {
+abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable]) extends StrictLogging {
 
-  def sendRequest[R, T <: Request[_ /* R */]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R]
+  def sendRequest[R, T <: Request[_ /* R */]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R]
 
   /** Spawns a type-safe request.
     *
@@ -21,10 +22,25 @@ trait RequestHandler extends StrictLogging {
     * @tparam R Request's expected result type
     * @return The request result wrapped in a Future (async)
     */
-  def apply[R](request: Request[R]): Future[R] = {
-    val uuid = UUID.randomUUID()
-    logger.trace("REQUEST {} {}", uuid, request)
-    val f: Future[R] = request match {
+  def apply[R](request: Request[R]): F[R] =
+    for {
+      uuid <- monadError.pure {
+        val uuid = UUID.randomUUID()
+        logger.trace("REQUEST {} {}", uuid, request)
+        uuid
+      }
+      result <- monadError.attempt(sendRequestInternal(request))
+        .flatTap({
+          case Right(response) =>
+            monadError.pure(logger.trace("RESPONSE {} {}", uuid, response))
+          case Left(e) =>
+            monadError.pure(logger.error(s"RESPONSE $uuid", e))
+        })
+        .rethrow
+    } yield result
+
+  private def sendRequestInternal[R](request: Request[R]): F[R] =
+    request match {
       // Pure JSON requests
       case s: AnswerCallbackQuery => sendRequest[R, AnswerCallbackQuery](s)
       case s: AnswerInlineQuery => sendRequest[R, AnswerInlineQuery](s)
@@ -88,14 +104,6 @@ trait RequestHandler extends StrictLogging {
       case s: SetWebhook => sendRequest[R, SetWebhook](s)
       case s: UploadStickerFile => sendRequest[R, UploadStickerFile](s)
     }
-
-    f.onComplete {
-      case Success(response) => logger.trace("RESPONSE {} {}", uuid, response)
-      case Failure(e) => logger.error("RESPONSE {} {}", uuid, e)
-    }
-
-    f
-  }
 
   protected def processApiResponse[R](response: Response[R]): R = response match {
     case Response(true, Some(result), _, _, _) => result

@@ -1,18 +1,21 @@
 package com.bot4s.telegram.api.declarative
 
+import cats.instances.list._
+import cats.syntax.flatMap._
+import cats.syntax.functor._
+import cats.syntax.traverse._
 import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.methods.AnswerCallbackQuery
 import com.bot4s.telegram.models.CallbackQuery
 
 import scala.collection.mutable
-import scala.concurrent.Future
 
 /**
   * Declarative interface for callbacks; allows filtering callback-query events by tag.
   */
-trait Callbacks extends BotBase {
+trait Callbacks[F[_]] extends BotBase[F] {
 
-  private val callbackActions = mutable.ArrayBuffer[Action[CallbackQuery]]()
+  private val callbackActions = mutable.ArrayBuffer[Action[F, CallbackQuery]]()
 
   private def hasTag(tag: String)(cbq: CallbackQuery): Boolean =
     cbq.data.exists(_.startsWith(tag))
@@ -23,7 +26,7 @@ trait Callbacks extends BotBase {
     * @param tag Tag
     * @param action Handler to process the filtered callback query.
     */
-  def onCallbackWithTag(tag: String)(action: Action[CallbackQuery]): Unit = {
+  def onCallbackWithTag(tag: String)(action: Action[F, CallbackQuery]): Unit = {
     when(onCallbackQuery, hasTag(tag)) {
       cbq =>
         untag(tag)(action)(cbq)
@@ -33,17 +36,15 @@ trait Callbacks extends BotBase {
   /**
     * Executes 'action' for every incoming callback query.
     */
-  def onCallbackQuery(action: Action[CallbackQuery]): Unit = {
+  def onCallbackQuery(action: Action[F, CallbackQuery]): Unit = {
     callbackActions += action
   }
 
-  abstract override def receiveCallbackQuery(callbackQuery: CallbackQuery): Unit = {
-    for (action <- callbackActions)
-      action(callbackQuery)
-
-    // Preserve trait stack-ability.
-    super.receiveCallbackQuery(callbackQuery)
-  }
+  override def receiveCallbackQuery(callbackQuery: CallbackQuery): F[Unit] =
+    for {
+      _ <- callbackActions.toList.traverse(action => action(callbackQuery))
+      _ <- super.receiveCallbackQuery(callbackQuery)
+    } yield ()
 
   /**
     * Send a response for a callback query.
@@ -64,7 +65,7 @@ trait Callbacks extends BotBase {
                   showAlert    : Option[Boolean] = None,
                   url          : Option[String] = None,
                   cacheTime    : Option[Int] = None)
-                 (implicit callbackQuery: CallbackQuery): Future[Boolean] = {
+                 (implicit callbackQuery: CallbackQuery): F[Boolean] = {
     request(AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime))
   }
 
@@ -80,7 +81,7 @@ trait Callbacks extends BotBase {
    */
   def prefixTag(tag: String)(s: String): String = tag + s
 
-  private def untag(tag: String)(action: Action[CallbackQuery])(implicit cbq: CallbackQuery) = {
+  private def untag(tag: String)(action: Action[F, CallbackQuery])(implicit cbq: CallbackQuery): F[Unit] = {
     action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))
   }
 }

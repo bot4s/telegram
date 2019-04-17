@@ -3,11 +3,12 @@ package com.bot4s.telegram.api
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import com.bot4s.telegram.future.BotExecutionContext
 import slogging.StrictLogging
 
 import scala.concurrent.{Future, Promise}
 
-trait WebRoutes extends BotBase with StrictLogging {
+trait WebRoutes extends BotBase[Future] with StrictLogging {
   _: BotExecutionContext with AkkaImplicits =>
 
   val port: Int

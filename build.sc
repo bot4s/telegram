@@ -16,6 +16,7 @@ object library {
   object Version {
     val circe              = "0.10.0"
     val cats               = "1.4.0"
+    val catsEffect         = "1.1.0"
     val rosHttp            = "2.2.0"
     val sttp               = "1.3.8"
     val slogging           = "0.6.1"
@@ -31,6 +32,7 @@ object library {
     val akkaHttp           = "10.1.5"
     val akkaHttpCors       = "0.3.1"
     val hammock            = "0.8.4"
+    val monix              = "3.0.0-RC1"
     val scalaJs            = "0.6.25"
     val scalaJsNodeFetch   = "0.4.2"
   }
@@ -39,6 +41,8 @@ object library {
   val akkaHttpTestkit    = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
   val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
   val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp::async-http-client-backend-cats::${Version.sttp}"
+  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest = ivy"org.scalamock::scalamock-scalatest-support::${Version.scalaMockScalaTest}"
@@ -52,6 +56,8 @@ object library {
   val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
   val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
   val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
+  val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
+  val monix              = ivy"io.monix::monix::${Version.monix}"
   val rosHttp            = ivy"fr.hmil::roshttp::${Version.rosHttp}"
   val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
   val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
@@ -214,4 +220,23 @@ object examples extends Module {
     def testFrameworks = Seq("org.scalatest.tools.Framework")
   }
 
+  object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions: _*)
+
+  class ExamplesCatsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("cats") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendCats, library.catsEffect)
+
+    override def sources = T.sources { build.millSourcePath / "examples" / "src-cats" }
+  }
+
+  object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
+
+  class ExamplesMonixModule(val crossScalaVersion: String) extends TelegramBot4sExamples("monix") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendMonix, library.monix)
+
+    override def sources = T.sources { build.millSourcePath / "examples" / "src-monix" }
+  }
 }

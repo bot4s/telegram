@@ -10,10 +10,12 @@ import akka.http.scaladsl.server.{Directive1, Route}
 import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods.{GetGameHighScores, SetGameScore}
 import com.bot4s.telegram.models.{CallbackQuery, ChatId, User}
+import com.bot4s.telegram.future.BotExecutionContext
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.semiauto.deriveDecoder
 import io.circe.{Decoder, Encoder}
 
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 /**
@@ -32,10 +34,9 @@ import scala.util.{Failure, Success}
   * or even better, submit a PR with your approach.
   */
 trait GameManager extends WebRoutes {
-  _: BotBase with BotExecutionContext with AkkaImplicits =>
+  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
 
   import com.bot4s.telegram.marshalling._
-  import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
 
   private def extractPayload: Directive1[Payload] = {
     headerValueByName('Referer).map { referer: String =>

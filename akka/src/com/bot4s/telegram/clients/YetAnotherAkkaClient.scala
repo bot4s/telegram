@@ -8,6 +8,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import akka.stream.scaladsl.{Sink, Source}
+import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.methods.{Request, Response}
 import io.circe.{Decoder, Encoder}
@@ -18,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.org")
                           (implicit system: ActorSystem, materializer: Materializer, ec: ExecutionContext)
-  extends RequestHandler with StrictLogging {
+  extends RequestHandler[Future] with StrictLogging {
 
   private val flow = Http().outgoingConnectionHttps(telegramHost)
 
