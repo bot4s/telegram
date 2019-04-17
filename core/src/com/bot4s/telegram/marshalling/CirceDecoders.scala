@@ -120,6 +120,9 @@ trait CirceDecoders extends StrictLogging {
   implicit val invoiceDecoder: Decoder[Invoice] = deriveDecoder[Invoice]
   implicit val shippingAddressDecoder: Decoder[ShippingAddress] = deriveDecoder[ShippingAddress]
 
+  implicit val pollDecoder: Decoder[Poll] = deriveDecoder[Poll]
+  implicit val pollOptionDecoder: Decoder[PollOption] = deriveDecoder[PollOption]
+
   implicit val shippingQueryDecoder: Decoder[ShippingQuery] = deriveDecoder[ShippingQuery]
   implicit val orderInfoDecoder: Decoder[OrderInfo] = deriveDecoder[OrderInfo]
   implicit val preCheckoutQueryDecoder: Decoder[PreCheckoutQuery] = deriveDecoder[PreCheckoutQuery]

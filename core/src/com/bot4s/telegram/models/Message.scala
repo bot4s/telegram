@@ -11,6 +11,7 @@ package com.bot4s.telegram.models
   * @param forwardFromChat        Optional For messages forwarded from a channel, information about the original channel
   * @param forwardFromMessageId   Integer Optional. For forwarded channel posts, identifier of the original message in the channel
   * @param forwardSignature       String Optional. For messages forwarded from channels, signature of the post author if present
+  * @param forwardSenderName      String Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
   * @param forwardDate            Optional For forwarded messages, date the original message was sent in Unix time
   * @param replyToMessage         Optional For replies, the original message. Note that the Message object in this field
   *                               will not contain further replyToMessage fields even if it itself is a reply.
@@ -38,6 +39,7 @@ package com.bot4s.telegram.models
   * @param contact                Optional Message is a shared contact, information about the contact
   * @param location               Optional Message is a shared location, information about the location
   * @param venue                  Venue Optional Message is a venue, information about the venue
+  * @param poll                   Poll Optional. Message is a native poll, information about the poll
   * @param leftChatMember         Optional A member was removed from the group, information about them (this member may be bot itself)
   * @param newChatTitle           Optional A group title was changed to this value
   * @param newChatPhoto           Optional A group photo was change to this value
@@ -66,6 +68,7 @@ case class  Message(
                forwardFromChat       : Option[Chat] = None,
                forwardFromMessageId  : Option[Int] = None,
                forwardSignature      : Option[String] = None,
+               forwardSenderName     : Option[String] = None,
                forwardDate           : Option[Int] = None,
                replyToMessage        : Option[Message] = None,
                editDate              : Option[Int] = None,
@@ -87,6 +90,7 @@ case class  Message(
                contact               : Option[Contact] = None,
                location              : Option[Location] = None,
                venue                 : Option[Venue] = None,
+               poll                  : Option[Poll] = None,
 
                leftChatMember        : Option[User] = None,
                newChatTitle          : Option[String] = None,

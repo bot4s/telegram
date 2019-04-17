@@ -16,6 +16,7 @@ package com.bot4s.telegram.models
   * @param callbackQuery       Optional New incoming callback query
   * @param shippingQuery       ShippingQuery Optional. New incoming shipping query. Only for invoices with flexible price
   * @param preCheckoutQuery    PreCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout
+  * @param poll                Poll Optional. New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
   */
 case class Update(
                    updateId           : Long,
@@ -27,7 +28,8 @@ case class Update(
                    chosenInlineResult : Option[ChosenInlineResult] = None,
                    callbackQuery      : Option[CallbackQuery] = None,
                    shippingQuery      : Option[ShippingQuery] = None,
-                   preCheckoutQuery   : Option[PreCheckoutQuery] = None
+                   preCheckoutQuery   : Option[PreCheckoutQuery] = None,
+                   poll               : Option[Poll] = None
                  ) {
 
   require(
@@ -40,7 +42,8 @@ case class Update(
       chosenInlineResult,
       callbackQuery,
       shippingQuery,
-      preCheckoutQuery
+      preCheckoutQuery,
+      poll
     ).count(_.isDefined) == 1,
     "Exactly one of the optional fields should be used"
   )
