@@ -1,6 +1,9 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
 import akka.http.scaladsl.model.headers.{HttpOrigin, HttpOriginRange}
+
+import ch.megard.akka.http.cors.scaladsl.model.{HttpHeaderRange, HttpOriginMatcher}
+
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import cats.instances.future._
@@ -80,7 +83,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   // Enable CORS for GitHub Pages.
   // Allows GitHub Pages to call cross-domain getScores and setScore.
   private val allowGitHub = CorsSettings.defaultSettings
-    .withAllowedOrigins(HttpOriginRange(HttpOrigin(GitHubPages.toString())))
+    .withAllowedOrigins(HttpOriginMatcher(HttpOrigin(GitHubPages.toString())))
 
   override def routes: Route =
     super.routes ~

@@ -7,32 +7,31 @@ import coursier.Cache
 import coursier.ivy.IvyRepository
 import coursier.maven.MavenRepository
 import mill.define.Target
-import mill.util.Loose
 
-val ScalaVersions = Seq("2.11.12", "2.12.7")
+val ScalaVersions = Seq("2.11.12", "2.12.8")
 
 object library {
 
   object Version {
-    val circe              = "0.10.0"
-    val cats               = "1.4.0"
-    val catsEffect         = "1.1.0"
+    val circe              = "0.11.1"
+    val cats               = "1.6.0"
+    val catsEffect         = "1.2.0"
     val rosHttp            = "2.2.0"
-    val sttp               = "1.3.8"
+    val sttp               = "1.5.12"
     val slogging           = "0.6.1"
-    val scalaTest          = "3.0.5"
+    val scalaTest          = "3.0.7"
     val scalaMock          = "3.6.0"
     val scalaMockScalaTest = "3.6.0"
     val scalaLogging       = "3.8.0"
     val logback            = "1.2.3"
     val scalajHttp         = "2.4.1"
-    val akkaVersion        = "2.5.17"
+    val akkaVersion        = "2.5.22"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
     val akkaHttp           = "10.1.5"
-    val akkaHttpCors       = "0.3.1"
+    val akkaHttpCors       = "0.4.0"
     val hammock            = "0.8.4"
-    val monix              = "3.0.0-RC1"
+    val monix              = "3.0.0-fbcb270"
     val scalaJs            = "0.6.25"
     val scalaJsNodeFetch   = "0.4.2"
   }
