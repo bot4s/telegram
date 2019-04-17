@@ -1,12 +1,10 @@
+// import $ivy.`ch.epfl.scala::mill-bloop:1.2.5`
+
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 import mill.scalajslib._
 import ammonite.ops._
-import coursier.Cache
-import coursier.ivy.IvyRepository
-import coursier.maven.MavenRepository
-import mill.define.Target
 
 val ScalaVersions = Seq("2.11.12", "2.12.8")
 
@@ -22,22 +20,24 @@ object library {
     val scalaTest          = "3.0.7"
     val scalaMock          = "3.6.0"
     val scalaMockScalaTest = "3.6.0"
-    val scalaLogging       = "3.8.0"
+    val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
     val scalajHttp         = "2.4.1"
     val akkaVersion        = "2.5.22"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.1.5"
+    val akkaHttp           = "10.1.8"
+    val akkaTestkit        = "2.5.22"
     val akkaHttpCors       = "0.4.0"
-    val hammock            = "0.8.4"
-    val monix              = "3.0.0-fbcb270"
-    val scalaJs            = "0.6.25"
+    val hammock            = "0.9.1"
+    val monix              = "3.0.0-RC2"
+    val scalaJs            = "0.6.27"
     val scalaJsNodeFetch   = "0.4.2"
   }
 
   val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
   val akkaHttpTestkit    = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaTestkit        = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
   val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
   val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
   val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp::async-http-client-backend-cats::${Version.sttp}"
@@ -186,7 +186,8 @@ class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with
   object test extends Tests {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm().test)
 
-    override def ivyDeps = Agg(
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.akkaTestkit,
       library.akkaHttpTestkit
     )
   }

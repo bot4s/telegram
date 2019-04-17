@@ -81,11 +81,4 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
         |}""".stripMargin)
       .isBot === User(id = 1, isBot=true, firstName="Pepe")
   }
-
-//  it should "correctly serialize top-level string members in ScalajHttp multipart requests" in {
-//    val caption = "  \n \t caption \n"
-//    val r = SendPhoto(ChatId(123), InputFile("fileid"), caption = Some(caption))
-//    val params = ScalajHttpMarshalling.marshall(r, "https://now.what.com").params
-//    assert(params.contains(("caption", caption)))
-//  }
 }
