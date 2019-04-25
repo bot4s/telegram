@@ -72,6 +72,7 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
 
     val response = sttpRequest
       .readTimeout(readTimeout)
+      .parseResponseIf(_ => true) // Always parse response
       .response(asJson[Response[R]])
       .send[F]()
 

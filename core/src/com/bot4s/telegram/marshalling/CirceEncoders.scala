@@ -282,6 +282,9 @@ trait CirceEncoders {
 
   implicit val unpinChatMessageEncoder: Encoder[UnpinChatMessage] = deriveEncoder[UnpinChatMessage]
 
+  implicit val sendPollEncoder: Encoder[SendPoll] = deriveEncoder[SendPoll]
+  implicit val StopPollEncoder: Encoder[StopPoll] = deriveEncoder[StopPoll]
+
   // Multipart methods
   implicit val addStickerToSetEncoder : Encoder[AddStickerToSet] = deriveEncoder[AddStickerToSet]
   implicit val createNewStickerSetEncoder : Encoder[CreateNewStickerSet] = deriveEncoder[CreateNewStickerSet]

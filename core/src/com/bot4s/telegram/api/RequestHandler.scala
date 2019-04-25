@@ -79,6 +79,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SendInvoice => sendRequest[R, SendInvoice](s)
       case s: SendLocation => sendRequest[R, SendLocation](s)
       case s: SendMessage => sendRequest[R, SendMessage](s)
+      case s: SendPoll => sendRequest[R, SendPoll](s)
       case s: SendVenue => sendRequest[R, SendVenue](s)
       case s: SetChatDescription => sendRequest[R, SetChatDescription](s)
       case s: SetChatStickerSet => sendRequest[R, SetChatStickerSet](s)
@@ -86,6 +87,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SetGameScore => sendRequest[R, SetGameScore](s)
       case s: SetStickerPositionInSet => sendRequest[R, SetStickerPositionInSet](s)
       case s: StopMessageLiveLocation => sendRequest[R, StopMessageLiveLocation](s)
+      case s: StopPoll => sendRequest[R, StopPoll](s)
       case s: UnbanChatMember => sendRequest[R, UnbanChatMember](s)
       case s: UnpinChatMessage => sendRequest[R, UnpinChatMessage](s)
 

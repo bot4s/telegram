@@ -10,6 +10,6 @@ package com.bot4s.telegram.models
   */
 case class Poll(id       : String,
                 question : String,
-                option   : Array[PollOption],
+                options  : Array[PollOption],
                 isClosed : Boolean
                )
