@@ -1,5 +1,3 @@
-// import $ivy.`ch.epfl.scala::mill-bloop:1.2.5`
-
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
@@ -66,7 +64,7 @@ object library {
   val scalaJsNodeFetch   = ivy"io.scalajs.npm::node-fetch::${Version.scalaJsNodeFetch}"
 }
 
-trait TelegramBot4sModule extends CrossScalaModule {
+trait Bot4sTelegramModule extends CrossScalaModule {
 
   override def scalacOptions = Seq(
     "-unchecked",
@@ -105,7 +103,7 @@ trait TelegramBot4sModule extends CrossScalaModule {
 
 }
 
-abstract class TelegramBot4sCrossPlatform(val platformSegment: String, location: String) extends TelegramBot4sModule {
+abstract class Bot4sTelegramCrossPlatform(val platformSegment: String, location: String) extends Bot4sTelegramModule {
 
   def millSourcePath = build.millSourcePath / location
 
@@ -121,7 +119,7 @@ abstract class TelegramBot4sCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "4.0.0-RC2"
+  override def publishVersion = "4.2.0-RC1"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
@@ -135,13 +133,13 @@ trait Publishable extends PublishModule {
   )
 }
 
-abstract class TelegramBot4sCore(platformSegment: String) extends TelegramBot4sCrossPlatform(platformSegment, "core")
+abstract class Bot4sTelegramCore(platformSegment: String) extends Bot4sTelegramCrossPlatform(platformSegment, "core")
 
 object core extends Module {
 
   object jvm extends Cross[CoreJvmModule](ScalaVersions: _ *)
 
-  class CoreJvmModule(val crossScalaVersion: String) extends TelegramBot4sCore("jvm") with Publishable {
+  class CoreJvmModule(val crossScalaVersion: String) extends Bot4sTelegramCore("jvm") with Publishable {
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.scalajHttp,
       library.sttpOkHttp
@@ -153,7 +151,7 @@ object core extends Module {
 
   object js extends Cross[CoreJsModule](ScalaVersions: _ *)
 
-  class CoreJsModule(val crossScalaVersion: String) extends TelegramBot4sCore("js")
+  class CoreJsModule(val crossScalaVersion: String) extends Bot4sTelegramCore("js")
     with ScalaJSModule with Publishable {
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
@@ -169,39 +167,42 @@ object core extends Module {
 
 }
 
+abstract class Bot4sTelegramAkka extends Bot4sTelegramCrossPlatform("jvm", "akka")
 
-object akka extends Cross[AkkaModule](ScalaVersions: _ *)
+object akka extends Module {
 
-class AkkaModule(val crossScalaVersion: String) extends TelegramBot4sModule with Publishable {
-  override def artifactName = "telegram-akka"
+  object jvm extends Cross[AkkaModule](ScalaVersions: _ *)
 
-  override def moduleDeps = Seq(core.jvm())
+  class AkkaModule(val crossScalaVersion: String) extends Bot4sTelegramAkka with Publishable {
+    override def artifactName = "telegram-akka"
 
-  override def ivyDeps = Agg(
-    library.akkaActor,
-    library.akkaHttp,
-    library.akkaStream
-  )
-
-  object test extends Tests {
-    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm().test)
+    override def moduleDeps = Seq(core.jvm())
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.akkaTestkit,
-      library.akkaHttpTestkit
+      library.akkaActor,
+      library.akkaHttp,
+      library.akkaStream
     )
-  }
 
+    object test extends Tests {
+      override def moduleDeps = super.moduleDeps ++ Seq(core.jvm().test)
+
+      override def ivyDeps = super.ivyDeps() ++ Agg(
+        library.akkaTestkit,
+        library.akkaHttpTestkit
+      )
+    }
+  }
 }
 
-abstract class TelegramBot4sExamples(platformSegment: String) extends TelegramBot4sCrossPlatform(platformSegment, "examples")
+abstract class Bot4sTelegramExamples(platformSegment: String) extends Bot4sTelegramCrossPlatform(platformSegment, "examples")
 
 object examples extends Module {
 
   object jvm extends Cross[ExamplesJvmModule](ScalaVersions: _ *)
 
-  class ExamplesJvmModule(val crossScalaVersion: String) extends TelegramBot4sExamples("jvm") {
-    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka())
+  class ExamplesJvmModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("jvm") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.scalajHttp,
@@ -212,7 +213,7 @@ object examples extends Module {
 
   object js extends Cross[ExamplesJsModule](ScalaVersions: _ *)
 
-  class ExamplesJsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("js") with ScalaJSModule {
+  class ExamplesJsModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("js") with ScalaJSModule {
     override def moduleDeps = super.moduleDeps ++ Seq(core.js())
 
     def scalaJSVersion = library.Version.scalaJs
@@ -222,20 +223,26 @@ object examples extends Module {
 
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions: _*)
 
-  class ExamplesCatsModule(val crossScalaVersion: String) extends TelegramBot4sExamples("cats") {
+  class ExamplesCatsModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("cats") {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendCats, library.catsEffect)
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.asyncHttpClientBackendCats,
+      library.catsEffect
+    )
 
     override def sources = T.sources { build.millSourcePath / "examples" / "src-cats" }
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
 
-  class ExamplesMonixModule(val crossScalaVersion: String) extends TelegramBot4sExamples("monix") {
+  class ExamplesMonixModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("monix") {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(library.asyncHttpClientBackendMonix, library.monix)
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.asyncHttpClientBackendMonix,
+      library.monix
+    )
 
     override def sources = T.sources { build.millSourcePath / "examples" / "src-monix" }
   }
