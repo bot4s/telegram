@@ -93,8 +93,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 ## Games
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/main/scala/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/main/scala/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
