@@ -82,6 +82,8 @@ trait CirceEncoders {
   implicit val videoNoteEncoder: Encoder[VideoNote] = deriveEncoder[VideoNote]
   implicit val voiceEncoder: Encoder[Voice] = deriveEncoder[Voice]
 
+  implicit val loginUrlEncoder: Encoder[LoginUrl] = deriveEncoder[LoginUrl]
+
   // Payments
   implicit val currencyEncoder: Encoder[Currency] = Encoder[String].contramap(c => c.asInstanceOf[TelegramCurrency].code)
   implicit val labeledPriceEncoder: Encoder[LabeledPrice] = deriveEncoder[LabeledPrice]

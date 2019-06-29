@@ -71,6 +71,9 @@ trait CirceDecoders extends StrictLogging {
   implicit val fileDecoder: Decoder[File] = deriveDecoder[File]
   implicit val callbackGameDecoder: Decoder[CallbackGame] = deriveDecoder[CallbackGame]
   implicit val inlineKeyboardButtonDecoder: Decoder[InlineKeyboardButton] = deriveDecoder[InlineKeyboardButton]
+
+  implicit val inlineKeyboardMarkupDecoder: Decoder[InlineKeyboardMarkup] = deriveDecoder[InlineKeyboardMarkup]
+
   implicit val keyboardButtonDecoder: Decoder[KeyboardButton] = deriveDecoder[KeyboardButton]
   implicit val locationDecoder: Decoder[Location] = deriveDecoder[Location]
 
@@ -132,6 +135,8 @@ trait CirceDecoders extends StrictLogging {
   implicit val responseParametersDecoder: Decoder[ResponseParameters] = deriveDecoder[ResponseParameters]
 
   implicit val updateDecoder: Decoder[Update] = deriveDecoder[Update]
+
+  implicit val loginUrlDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
 
   implicit def responseDecoder[T](implicit decT: Decoder[T]): Decoder[Response[T]] = deriveDecoder[Response[T]]
 

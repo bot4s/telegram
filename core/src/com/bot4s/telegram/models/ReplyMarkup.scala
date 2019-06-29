@@ -187,6 +187,8 @@ object InlineKeyboardMarkup {
   *
   * @param text               String Label text on the button
   * @param url                String Optional HTTP url to be opened when button is pressed
+  * @param loginUrl           LoginUrl Optional. An HTTP URL used to automatically authorize the user.
+  *                           Can be used as a replacement for the Telegram Login Widget.
   * @param callbackData       String Optional Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
   * @param switchInlineQuery  String Optional If set, pressing the button will prompt the user to select one of their chats,
   *                           open that chat and insert the bot's username and the specified inline query in the input field.
@@ -204,6 +206,7 @@ case class InlineKeyboardButton(
                                text              : String,
                                callbackData      : Option[String] = None,
                                url               : Option[String] = None,
+                               loginUrl          : Option[LoginUrl] = None,
                                switchInlineQuery : Option[String] = None,
                                switchInlineQueryCurrentChat : Option[String] = None,
                                callbackGame      : Option[CallbackGame] = None,
@@ -212,6 +215,7 @@ case class InlineKeyboardButton(
     Seq[Option[_]](
       callbackData,
       url,
+      loginUrl,
       switchInlineQuery,
       switchInlineQueryCurrentChat,
       callbackGame,

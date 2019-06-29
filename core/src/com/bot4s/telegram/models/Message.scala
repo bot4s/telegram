@@ -58,6 +58,8 @@ package com.bot4s.telegram.models
   * @param successfulPayment      Optional. Message is a service message about a successful payment, information about the payment.
   * @param connectedWebsite       String Optional. The domain name of the website on which the user has logged in.
   *                               [[https://core.telegram.org/widgets/login More about Telegram Login »]]
+  * @param replyMarkup            InlineKeyboardMarkup Optional. Inline keyboard attached to the message.
+  *                               login_url buttons are represented as ordinary url buttons.
   */
 case class  Message(
                messageId             : Int,
@@ -104,7 +106,8 @@ case class  Message(
                pinnedMessage         : Option[Message] = None,
                invoice               : Option[Invoice] = None,
                successfulPayment     : Option[SuccessfulPayment] = None,
-               connectedWebsite      : Option[String] = None
+               connectedWebsite      : Option[String] = None,
+               replyMarkup           : Option[InlineKeyboardMarkup] = None
                    ) {
 
   def source: Long = chat.id // ChatId.Chat(chat.id)
