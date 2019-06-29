@@ -35,6 +35,9 @@
     <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
   </a>
 </p>
+<p align="center">
+  <span class="badge-buymeacoffee"><a href="https://buymeacoffee.com/bot4s.telegram" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg" alt="Buy Me A Coffee donate button" /></a></span>
+</p>
 
 # bot4s.telegram
 Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
