@@ -1,6 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.ChatId
+import com.bot4s.telegram.models.{ChatId, ChatPermissions}
 
 /**
   * Use this method to restrict a user in a supergroup.
@@ -10,6 +10,7 @@ import com.bot4s.telegram.models.ChatId
   *
   * @param chatId                 Integer or String	Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
   * @param userId                 Integer	Yes	Unique identifier of the target user
+  * @param permissions            ChatPermissions New user permissions
   * @param untilDate              Integer Optional Date when restrictions will be lifted for the user, unix time.
   *                               If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
   * @param canSendMessages        Boolean	Optional Pass True, if the user can send text messages, contacts, locations and venues
@@ -20,9 +21,14 @@ import com.bot4s.telegram.models.ChatId
 case class RestrictChatMember(
                              chatId                : ChatId,
                              userId                : Int,
+                             permissions           : Option[ChatPermissions] = None,
                              untilDate             : Option[Int] = None,
+                             @Deprecated
                              canSendMessages       : Option[Boolean] = None,
+                             @Deprecated
                              canSendMediaMessages  : Option[Boolean] = None,
+                             @Deprecated
                              canSendOtherMessages  : Option[Boolean] = None,
+                             @Deprecated
                              canAddWebPagePreviews : Option[Boolean] = None
                              ) extends JsonRequest[Boolean]

@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://core.telegram.org/bots/api#recent-changes" title="Telegram Bot API">
-    <img src="https://img.shields.io/badge/Bot%20API-4.3%20(May%2031%2C%202019)-00aced.svg"/>
+    <img src="https://img.shields.io/badge/Bot%20API-4.4%20(July%2029%2C%202019)-00aced.svg"/>
   </a>
   <a href="https://t.me/bot4s_updates" title="Bot4s Telegram Channel">
     <img src="https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg"/>
@@ -65,16 +65,16 @@ Table of contents
 Add to your `build.sbt` file:
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "4.3.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "4.4.0-RC1"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.3.0-RC1"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "4.4.0-RC1"
 ```
 
 For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` project deps:
 ```scala
-ivy"com.bot4s::telegram-core:4.3.0-RC1", // core
-ivy"com.bot4s::telegram-akka:4.3.0-RC1"  // extra goodies
+ivy"com.bot4s::telegram-core:4.4.0-RC1", // core
+ivy"com.bot4s::telegram-akka:4.4.0-RC1"  // extra goodies
 ```
 
 ## Leaking bot tokens

@@ -3,7 +3,8 @@ package com.bot4s.telegram.methods
 import com.bot4s.telegram.models.{Message, ReplyMarkup}
 import com.bot4s.telegram.models.{ChatId, InputFile}
 
-/** Use this method to send .webp stickers. On success, the sent Message is returned.
+/**
+  * Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
   *
   * @param chatId               Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param sticker              InputFile or String Sticker to send.

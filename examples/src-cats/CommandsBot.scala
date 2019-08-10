@@ -1,4 +1,4 @@
-import cats.effect.Async
+import cats.effect.{Async, ContextShift}
 import cats.effect.Timer
 import cats.syntax.flatMap._
 import cats.syntax.functor._
@@ -17,7 +17,7 @@ import scala.util.Try
   *
   * @param token Bot's token.
   */
-class CommandsBot[F[_]: Async: Timer](token: String) extends ExampleBot[F](token)
+class CommandsBot[F[_]: Async: Timer : ContextShift](token: String) extends ExampleBot[F](token)
   with Polling[F]
   with Commands[F]
   with RegexCommands[F] {

@@ -4,32 +4,32 @@ import mill.scalalib.publish._
 import mill.scalajslib._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.11.12", "2.12.8")
+val ScalaVersions = Seq("2.11.12", "2.12.9")
 
 object library {
 
   object Version {
     val circe              = "0.11.1"
-    val cats               = "1.6.0"
-    val catsEffect         = "1.2.0"
+    val cats               = "1.6.1"
+    val catsEffect         = "1.4.0"
     val rosHttp            = "2.2.0"
-    val sttp               = "1.5.12"
+    val sttp               = "1.6.4"
     val slogging           = "0.6.1"
     val scalaTest          = "3.0.7"
     val scalaMock          = "3.6.0"
     val scalaMockScalaTest = "3.6.0"
     val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
-    val scalajHttp         = "2.4.1"
+    val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.5.22"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.1.8"
-    val akkaTestkit        = "2.5.22"
+    val akkaHttp           = "10.1.9"
+    val akkaTestkit        = "2.5.24"
     val akkaHttpCors       = "0.4.0"
     val hammock            = "0.9.1"
-    val monix              = "3.0.0-RC2"
-    val scalaJs            = "0.6.27"
+    val monix              = "3.0.0-RC3"
+    val scalaJs            = "0.6.28"
     val scalaJsNodeFetch   = "0.4.2"
   }
 
@@ -119,7 +119,7 @@ abstract class Bot4sTelegramCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "4.3.0-RC1"
+  override def publishVersion = "4.4.0-RC1"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",

@@ -508,7 +508,8 @@ case class InlineQueryResultCachedMpeg4Gif(
   * @param replyMarkup InlineKeyboardMarkup Optional An Inline keyboard attached to the message
   * @param inputMessageContent InputMessageContent Optional Content of the message to be sent instead of the sticker
   *
-  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
+  * Note: This will only work in Telegram versions released after 9 April, 2016 for static stickers and after 06 July, 2019 for animated stickers.
+  * Older clients will ignore them.
   */
 case class InlineQueryResultCachedSticker(
                                            id                  : String,

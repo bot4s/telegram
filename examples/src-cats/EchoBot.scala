@@ -1,11 +1,11 @@
-import cats.effect.Async
+import cats.effect.{Async, ContextShift}
 import cats.syntax.functor._
 
 import com.bot4s.telegram.cats.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
 
-class EchoBot[F[_]: Async](token: String) extends ExampleBot[F](token) with Polling[F] {
+class EchoBot[F[_]: Async : ContextShift](token: String) extends ExampleBot[F](token) with Polling[F] {
 
   override def receiveMessage(msg: Message): F[Unit] =
     msg.text.fold(unit) { text =>

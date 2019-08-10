@@ -94,6 +94,8 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val chatMemberDecoder: Decoder[ChatMember] = deriveDecoder[ChatMember]
 
+  implicit val chatPermissionsDecoder: Decoder[ChatPermissions] = deriveDecoder[ChatPermissions]
+
   implicit val maskPositionDecoder: Decoder[MaskPosition] = deriveDecoder[MaskPosition]
 
   implicit val userDecoder: Decoder[User] = deriveDecoder[User]

@@ -82,6 +82,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SendPoll => sendRequest[R, SendPoll](s)
       case s: SendVenue => sendRequest[R, SendVenue](s)
       case s: SetChatDescription => sendRequest[R, SetChatDescription](s)
+      case s: SetChatPermissions => sendRequest[R, SetChatPermissions](s)
       case s: SetChatStickerSet => sendRequest[R, SetChatStickerSet](s)
       case s: SetChatTitle => sendRequest[R, SetChatTitle](s)
       case s: SetGameScore => sendRequest[R, SetGameScore](s)
