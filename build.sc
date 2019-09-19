@@ -21,7 +21,7 @@ object library {
     val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
     val scalajHttp         = "2.4.2"
-    val akkaVersion        = "2.5.22"
+    val akkaVersion        = "2.5.23"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
     val akkaHttp           = "10.1.9"
