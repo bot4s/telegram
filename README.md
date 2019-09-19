@@ -173,7 +173,7 @@ class RandomBot(val token: String) extends TelegramBot
   onCommand('real | 'double | 'float) { implicit msg =>
     reply(rng.nextDouble().toString).void
   }
-  onCommand("/die" | "roll") { implicit msg =>
+  onCommand("/dice" | "roll") { implicit msg =>
     reply("⚀⚁⚂⚃⚄⚅" (rng.nextInt(6)).toString).void
   }
   onCommand("random" or "rnd") { implicit msg =>
