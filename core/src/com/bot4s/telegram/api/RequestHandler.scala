@@ -95,6 +95,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       // Multipart requests
       case s: AddStickerToSet => sendRequest[R, AddStickerToSet](s)
       case s: CreateNewStickerSet => sendRequest[R, CreateNewStickerSet](s)
+      case s: SendAnimation => sendRequest[R, SendAnimation](s)
       case s: SendAudio => sendRequest[R, SendAudio](s)
       case s: SendDocument => sendRequest[R, SendDocument](s)
       case s: SendMediaGroup => sendRequest[R, SendMediaGroup](s)

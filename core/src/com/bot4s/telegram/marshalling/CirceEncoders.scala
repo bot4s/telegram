@@ -292,6 +292,7 @@ trait CirceEncoders {
   // Multipart methods
   implicit val addStickerToSetEncoder : Encoder[AddStickerToSet] = deriveEncoder[AddStickerToSet]
   implicit val createNewStickerSetEncoder : Encoder[CreateNewStickerSet] = deriveEncoder[CreateNewStickerSet]
+  implicit val sendAnimationEncoder : Encoder[SendAnimation] = deriveEncoder[SendAnimation]
   implicit val sendAudioEncoder : Encoder[SendAudio] = deriveEncoder[SendAudio]
   implicit val sendDocumentEncoder : Encoder[SendDocument] = deriveEncoder[SendDocument]
   implicit val sendMediaGroupEncoder : Encoder[SendMediaGroup] = deriveEncoder[SendMediaGroup]
