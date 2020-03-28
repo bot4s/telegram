@@ -18,19 +18,17 @@ package com.bot4s.telegram.models
   * @param preCheckoutQuery    PreCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout
   * @param poll                Poll Optional. New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
   */
-case class Update(
-                   updateId           : Long,
-                   message            : Option[Message] = None,
-                   editedMessage      : Option[Message] = None,
-                   channelPost        : Option[Message] = None,
-                   editedChannelPost  : Option[Message] = None,
-                   inlineQuery        : Option[InlineQuery] = None,
-                   chosenInlineResult : Option[ChosenInlineResult] = None,
-                   callbackQuery      : Option[CallbackQuery] = None,
-                   shippingQuery      : Option[ShippingQuery] = None,
-                   preCheckoutQuery   : Option[PreCheckoutQuery] = None,
-                   poll               : Option[Poll] = None
-                 ) {
+case class Update(updateId: Long,
+                  message: Option[Message] = None,
+                  editedMessage: Option[Message] = None,
+                  channelPost: Option[Message] = None,
+                  editedChannelPost: Option[Message] = None,
+                  inlineQuery: Option[InlineQuery] = None,
+                  chosenInlineResult: Option[ChosenInlineResult] = None,
+                  callbackQuery: Option[CallbackQuery] = None,
+                  shippingQuery: Option[ShippingQuery] = None,
+                  preCheckoutQuery: Option[PreCheckoutQuery] = None,
+                  poll: Option[Poll] = None) {
 
   require(
     Seq[Option[_]](

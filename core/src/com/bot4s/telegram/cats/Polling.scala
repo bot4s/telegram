@@ -6,13 +6,14 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.traverse._
 import com.bot4s.telegram.api.{Polling => BasePolling}
+import com.bot4s.telegram.log.Logger
 import com.bot4s.telegram.methods.{DeleteWebhook, GetMe}
 import com.bot4s.telegram.models.User
-import slogging.StrictLogging
 
 case class PollingState(botUser: User, offset: Option[Long])
 
-trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
+trait Polling[F[_]] extends BasePolling[F] {
+  val logger: Logger[F]
 
   implicit val monad: MonadError[F, Throwable]
 
@@ -26,18 +27,17 @@ trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
         }
       }
       nextOffset = updates
-        .foldLeft(state.offset) { case (acc, u) => Some(acc.fold(u.updateId)(u.updateId max _)) }
+        .foldLeft(state.offset) {
+          case (acc, u) => Some(acc.fold(u.updateId)(u.updateId max _))
+        }
       _ <- poll(state.copy(offset = nextOffset))
     } yield ()
 
   def startPolling(): F[Unit] =
-    request(DeleteWebhook).ifM(
-      for {
-        getMe <- request(GetMe)
-        _ <- poll(PollingState(getMe, None))
-      } yield (),
-      monad.raiseError(new Exception("Can not remove webhook"))
-    )
+    request(DeleteWebhook).ifM(for {
+      getMe <- request(GetMe)
+      _ <- poll(PollingState(getMe, None))
+    } yield (), monad.raiseError(new Exception("Can not remove webhook")))
 
   override def run(): F[Unit] = startPolling()
 }

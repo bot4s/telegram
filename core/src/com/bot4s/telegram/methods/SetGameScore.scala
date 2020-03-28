@@ -20,15 +20,14 @@ import com.bot4s.telegram.models.ChatId
   * @param messageId          Integer Optional Required if inline_message_id is not specified. Unique identifier of the sent message
   * @param inlineMessageId    String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   */
-case class SetGameScore(
-                       userId             : Int,
-                       score              : Long,
-                       force              : Option[Boolean] = None,
-                       disableEditMessage : Option[Boolean] = None,
-                       chatId             : Option[ChatId] = None,
-                       messageId          : Option[Int] = None,
-                       inlineMessageId    : Option[String] = None
-                       ) extends JsonRequest[Either[Boolean, Message]] {
+case class SetGameScore(userId: Int,
+                        score: Long,
+                        force: Option[Boolean] = None,
+                        disableEditMessage: Option[Boolean] = None,
+                        chatId: Option[ChatId] = None,
+                        messageId: Option[Int] = None,
+                        inlineMessageId: Option[String] = None)
+    extends JsonRequest[Either[Boolean, Message]] {
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
@@ -36,6 +35,8 @@ case class SetGameScore(
   }
 
   if (chatId.isEmpty && messageId.isEmpty)
-    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+    require(
+      inlineMessageId.isDefined,
+      "Required if chatId and messageId are not specified"
+    )
 }
-

@@ -2,6 +2,7 @@ package com.bot4s.telegram.api
 
 import cats.instances.future._
 import com.bot4s.telegram.api.declarative._
+import com.bot4s.telegram.future.GlobalExecutionContext
 import com.bot4s.telegram.models.{InlineQuery, Update}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -14,6 +15,7 @@ class InlineQueriesSuite extends FlatSpec with MockFactory with TestUtils {
   trait Fixture {
     val handler = mockFunction[InlineQuery, Future[Unit]]
     val bot = new TestBot with InlineQueries[Future] with RegexCommands[Future]
+    with GlobalExecutionContext
   }
 
   "Inline query filter" should "accept matches" in new Fixture {
@@ -30,11 +32,13 @@ class InlineQueriesSuite extends FlatSpec with MockFactory with TestUtils {
   }
 
   "onInlineQuery" should "catch all messages" in new Fixture {
-    val queries = (0 until 100).map (t => inlineQuery(t.toString))
+    val queries = (0 until 100).map(t => inlineQuery(t.toString))
     for (q <- queries)
       handler.expects(q).returning(Future.successful(())).once()
     bot.onInlineQuery(handler)
-    val r = Future.traverse(queries) { q => bot.receiveUpdate(Update(123, inlineQuery = Some(q)), None) }
+    val r = Future.traverse(queries) { q =>
+      bot.receiveUpdate(Update(123, inlineQuery = Some(q)), None)
+    }
     r.get
   }
 
@@ -45,4 +49,3 @@ class InlineQueriesSuite extends FlatSpec with MockFactory with TestUtils {
     bot.receiveInlineQuery(inlineQuery("/cmd 1234")).get
   }
 }
-

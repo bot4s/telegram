@@ -11,12 +11,11 @@ package com.bot4s.telegram.models
   * @param canInviteUsers         Boolean Optional. True, if the user is allowed to invite new users to the chat
   * @param canPinMessages         Boolean Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
   */
-case class ChatPermissions(canSendMessages       : Option[Boolean] = None,
-                           canSendMediaMessages  : Option[Boolean] = None,
-                           canSendPolls          : Option[Boolean] = None,
-                           canSendOtherMessages  : Option[Boolean] = None,
-                           canAddWebPagePreviews : Option[Boolean] = None,
-                           canChangeInfo         : Option[Boolean] = None,
-                           canInviteUsers        : Option[Boolean] = None,
-                           canPinMessages        : Option[Boolean] = None
-                          )
+case class ChatPermissions(canSendMessages: Option[Boolean] = None,
+                           canSendMediaMessages: Option[Boolean] = None,
+                           canSendPolls: Option[Boolean] = None,
+                           canSendOtherMessages: Option[Boolean] = None,
+                           canAddWebPagePreviews: Option[Boolean] = None,
+                           canChangeInfo: Option[Boolean] = None,
+                           canInviteUsers: Option[Boolean] = None,
+                           canPinMessages: Option[Boolean] = None)

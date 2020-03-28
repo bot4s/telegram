@@ -9,7 +9,11 @@ import com.bot4s.telegram.models.{ChatId, MaskPositionType, _}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FlatSpec, Matchers}
 
-class MarshallingSuite extends FlatSpec with MockFactory with Matchers with TestUtils {
+class MarshallingSuite
+    extends FlatSpec
+    with MockFactory
+    with Matchers
+    with TestUtils {
 
   behavior of "Circe JSON marshalling"
 
@@ -62,23 +66,23 @@ class MarshallingSuite extends FlatSpec with MockFactory with Matchers with Test
   }
 
   it should "correctly de/serialize Message.migrateToChatId" in {
-    fromJson[Message](
-      """{
+    fromJson[Message]("""{
         |"message_id": 1,
         |"date": 1,
         |"chat": {"id": 123, "type": "private"},
         |"migrate_to_chat_id": 12345678901234567
-        |}""".stripMargin)
-      .migrateToChatId === 12345678901234567L
+        |}""".stripMargin).migrateToChatId === 12345678901234567L
   }
 
   it should "correctly parse User" in {
-    fromJson[User](
-      """{
+    fromJson[User]("""{
         |"id": 123,
         |"is_bot": true,
         |"first_name": "Pepe"
-        |}""".stripMargin)
-      .isBot === User(id = 1, isBot=true, firstName="Pepe")
+        |}""".stripMargin).isBot === User(
+      id = 1,
+      isBot = true,
+      firstName = "Pepe"
+    )
   }
 }

@@ -11,8 +11,6 @@ package com.bot4s.telegram.models
   * @param fileSize  Optional File size, if known
   * @param filePath  Optional File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
   */
-case class File(
-                 fileId   : String,
-                 fileSize : Option[Int] = None,
-                 filePath : Option[String] = None
-               )
+case class File(fileId: String,
+                fileSize: Option[Int] = None,
+                filePath: Option[String] = None)

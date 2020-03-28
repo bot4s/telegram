@@ -18,13 +18,16 @@ import com.bot4s.telegram.models.ShippingOption
   *                         (e.g. "Sorry, delivery to your desired address is unavailable').
   *                         Telegram will display this message to the user.
   */
-case class AnswerShippingQuery(
-                              shippingQueryId : String,
-                              ok              : Boolean,
-                              shippingOptions : Option[Array[ShippingOption]] = None,
-                              errorMessage    : Option[String] = None
-                              ) extends JsonRequest[Boolean] {
+case class AnswerShippingQuery(shippingQueryId: String,
+                               ok: Boolean,
+                               shippingOptions: Option[Array[ShippingOption]] =
+                                 None,
+                               errorMessage: Option[String] = None)
+    extends JsonRequest[Boolean] {
 
-  require(!ok || shippingOptions.isDefined, "shippingOptions required if ok is True")
+  require(
+    !ok || shippingOptions.isDefined,
+    "shippingOptions required if ok is True"
+  )
   require(ok || errorMessage.isDefined, "errorMessage required if ok is False")
 }

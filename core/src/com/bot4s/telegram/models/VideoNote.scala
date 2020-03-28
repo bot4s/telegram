@@ -9,10 +9,8 @@ package com.bot4s.telegram.models
   * @param thumb    PhotoSize Optional. Video thumbnail
   * @param fileSize Integer Optional. File size
   */
-case class VideoNote(
-                    fileId   : String,
-                    length   : Int,
-                    duration : Int,
-                    thumb    : Option[PhotoSize] = None,
-                    fileSize : Option[Int] = None
-                    )
+case class VideoNote(fileId: String,
+                     length: Int,
+                     duration: Int,
+                     thumb: Option[PhotoSize] = None,
+                     fileSize: Option[Int] = None)

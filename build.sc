@@ -4,20 +4,20 @@ import mill.scalalib.publish._
 import mill.scalajslib._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.11.12", "2.12.9")
+val ScalaVersions = Seq("2.12.10")
 
 object library {
 
   object Version {
-    val circe              = "0.11.1"
-    val cats               = "1.6.1"
-    val catsEffect         = "1.4.0"
+    val circe              = "0.12.3"
+    val circeGenericExtras = "0.13.0"
+    val cats               = "2.0.0"
+    val catsEffect         = "2.1.2"
     val rosHttp            = "2.2.0"
-    val sttp               = "1.6.4"
-    val slogging           = "0.6.1"
-    val scalaTest          = "3.0.7"
-    val scalaMock          = "3.6.0"
-    val scalaMockScalaTest = "3.6.0"
+    val sttp               = "2.0.6" //    val sttp               = "1.6.4"
+    // val slogging           = "0.6.1"
+    val scalaTest          = "3.1.0"
+    val scalaMock          = "4.4.0"
     val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
     val scalajHttp         = "2.4.2"
@@ -28,7 +28,7 @@ object library {
     val akkaTestkit        = "2.5.24"
     val akkaHttpCors       = "0.4.0"
     val hammock            = "0.9.1"
-    val monix              = "3.0.0-RC3"
+    val monix              = "3.1.0"
     val scalaJs            = "0.6.28"
     val scalaJsNodeFetch   = "0.4.2"
   }
@@ -38,17 +38,17 @@ object library {
   val akkaTestkit        = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
   val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
   val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp::async-http-client-backend-cats::${Version.sttp}"
-  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp::async-http-client-backend-monix::${Version.sttp}"
+  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp.client::async-http-client-backend-cats::${Version.sttp}"
+  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
-  val scalaMockScalaTest = ivy"org.scalamock::scalamock-scalatest-support::${Version.scalaMockScalaTest}"
+  val scalaMockScalaTest = ivy"org.scalamock::scalamock::${Version.scalaMock}"
   val akkaHttpCors       = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
   val scalaTest          = ivy"org.scalatest::scalatest::${Version.scalaTest}"
   val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
   val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
   val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
-  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circe}"
+  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circeGenericExtras}"
   val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
   val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
   val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
@@ -56,10 +56,10 @@ object library {
   val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
   val monix              = ivy"io.monix::monix::${Version.monix}"
   val rosHttp            = ivy"fr.hmil::roshttp::${Version.rosHttp}"
-  val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
-  val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
-  val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
-  val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
+  val sttpCore           = ivy"com.softwaremill.sttp.client::core::${Version.sttp}"
+  val sttpCirce          = ivy"com.softwaremill.sttp.client::circe::${Version.sttp}"
+  val sttpOkHttp         = ivy"com.softwaremill.sttp.client::okhttp-backend::${Version.sttp}"
+  // val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
   val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
   val scalaJsNodeFetch   = ivy"io.scalajs.npm::node-fetch::${Version.scalaJsNodeFetch}"
 }
@@ -75,9 +75,9 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     "-unchecked",
     //"-Xfatal-warnings",
     "-Xlint:_",
-    "-Yno-adapted-args",
+    // "-Yno-adapted-args",
     "-Ywarn-dead-code",
-    "-Ypartial-unification"
+    //"-Ypartial-unification"
   )
 
   override def ivyDeps = Agg(
@@ -89,7 +89,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     library.catsCore,
     library.catsFree,
     library.sttpCore,
-    library.slogging
+    //ibrary.slogging
   )
 
   trait Tests extends super.Tests {

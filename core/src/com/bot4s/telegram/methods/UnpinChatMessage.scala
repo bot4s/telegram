@@ -10,6 +10,4 @@ import com.bot4s.telegram.models.ChatId
   *
   * @param chatId Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   */
-case class UnpinChatMessage(
-                             chatId: ChatId
-                           ) extends JsonRequest[Boolean]
+case class UnpinChatMessage(chatId: ChatId) extends JsonRequest[Boolean]

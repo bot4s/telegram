@@ -10,9 +10,8 @@ import com.bot4s.telegram.models.ChatId
   * @param disableNotification  Boolean Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
   * @param messageId            Integer Unique message identifier
   */
-case class ForwardMessage(
-                         chatId              : ChatId,
-                         fromChatId          : ChatId,
-                         disableNotification : Option[Boolean] = None,
-                         messageId           : Int
-                         ) extends JsonRequest[Message]
+case class ForwardMessage(chatId: ChatId,
+                          fromChatId: ChatId,
+                          disableNotification: Option[Boolean] = None,
+                          messageId: Int)
+    extends JsonRequest[Message]

@@ -15,7 +15,8 @@ import scala.collection.mutable
 trait ChannelPosts[F[_]] extends BotBase[F] {
 
   private val channelPostActions = mutable.ArrayBuffer[Action[F, Message]]()
-  private val editedChannelPostActions = mutable.ArrayBuffer[Action[F, Message]]()
+  private val editedChannelPostActions =
+    mutable.ArrayBuffer[Action[F, Message]]()
 
   /**
     * Executes `action` for every channel post.

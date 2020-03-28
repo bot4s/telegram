@@ -7,19 +7,27 @@ import com.bot4s.telegram.models.Message
   */
 trait ChatActions[F[_]] {
   _: BotBase[F] =>
-  def typing(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.Typing))
+  def typing(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.Typing))
 
-  def uploadingPhoto(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadPhoto))
+  def uploadingPhoto(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.UploadPhoto))
 
-  def recordingVideo(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.RecordVideo))
+  def recordingVideo(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.RecordVideo))
 
-  def uploadingVideo(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadVideo))
+  def uploadingVideo(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.UploadVideo))
 
-  def recordingAudio(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.RecordAudio))
+  def recordingAudio(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.RecordAudio))
 
-  def uploadingAudio(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadAudio))
+  def uploadingAudio(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.UploadAudio))
 
-  def uploadingDocument(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadDocument))
+  def uploadingDocument(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.UploadDocument))
 
-  def findingLocation(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.FindLocation))
+  def findingLocation(implicit msg: Message) =
+    request(SendChatAction(msg.source, ChatAction.FindLocation))
 }

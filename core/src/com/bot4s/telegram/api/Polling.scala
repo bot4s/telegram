@@ -1,10 +1,9 @@
 package com.bot4s.telegram.api
 
+import com.bot4s.telegram.log._
 import com.bot4s.telegram.methods.GetUpdates
 import com.bot4s.telegram.models.Update
-import slogging.StrictLogging
-
-import scala.concurrent.duration.{Duration, _}
+import scala.concurrent.duration._
 
 /** Provides updates by (long) polling Telegram servers.
   *
@@ -13,7 +12,9 @@ import scala.concurrent.duration.{Duration, _}
   * It relies on the underlying HTTP client which should support a timeout
   * allowing the connection to idle for a duration of at least 'pollingTimeout'.
   */
-private[telegram] trait Polling[F[_]] extends BotBase[F] with StrictLogging {
+private[telegram] trait Polling[F[_]] extends BotBase[F] {
+
+  val logger: Logger[F]
 
   /**
     * Long-polling timeout in seconds.

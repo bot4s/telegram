@@ -15,12 +15,10 @@ import com.bot4s.telegram.models.Currency.Currency
   * @param telegramPaymentChargeId  String Telegram payment identifier
   * @param providerPaymentChargeId  String Provider payment identifier
   */
-case class SuccessfulPayment(
-                            currency                : Currency,
-                            totalAmount             : Long,
-                            invoicePayload          : String,
-                            shippingOptionId        : Option[String] = None,
-                            orderInfo               : Option[OrderInfo] = None,
-                            telegramPaymentChargeId : String,
-                            providerPaymentChargeId : String
-                            )
+case class SuccessfulPayment(currency: Currency,
+                             totalAmount: Long,
+                             invoicePayload: String,
+                             shippingOptionId: Option[String] = None,
+                             orderInfo: Option[OrderInfo] = None,
+                             telegramPaymentChargeId: String,
+                             providerPaymentChargeId: String)

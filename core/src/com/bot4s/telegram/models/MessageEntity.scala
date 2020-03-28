@@ -15,10 +15,8 @@ import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
   * @param url     String Optional For "text_link" only, url that will be opened after user taps on the text
   * @param user    User Optional. For "text_mention" only, the mentioned user
   */
-case class MessageEntity(
-                        `type` : MessageEntityType,
-                        offset : Int,
-                        length : Int,
-                        url    : Option[String] = None,
-                        user   : Option[User] = None
-                        )
+case class MessageEntity(`type`: MessageEntityType,
+                         offset: Int,
+                         length: Int,
+                         url: Option[String] = None,
+                         user: Option[User] = None)

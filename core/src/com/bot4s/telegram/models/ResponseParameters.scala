@@ -8,7 +8,5 @@ package com.bot4s.telegram.models
   *                         But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
   * @param retryAfter       Integer Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be repeated
   */
-case class ResponseParameters(
-                               migrateToChatId : Option[Long] = None,
-                               retryAfter      : Option[Int] = None
-                             )
+case class ResponseParameters(migrateToChatId: Option[Long] = None,
+                              retryAfter: Option[Int] = None)

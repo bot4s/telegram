@@ -1,6 +1,7 @@
 package com.bot4s.telegram.api
 
 import com.bot4s.telegram.api.declarative.RegexCommands
+import com.bot4s.telegram.future.GlobalExecutionContext
 import com.bot4s.telegram.models.Message
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -12,7 +13,7 @@ class RegexCommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[Message, Seq[String], Future[Unit]]
-    val bot = new TestBot with RegexCommands[Future]
+    val bot = new TestBot with RegexCommands[Future] with GlobalExecutionContext
   }
 
   behavior of "RegexCommands"

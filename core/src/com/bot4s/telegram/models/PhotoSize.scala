@@ -7,9 +7,7 @@ package com.bot4s.telegram.models
   * @param height    Photo height
   * @param fileSize  Optional File size
   */
-case class PhotoSize(
-                      fileId   : String,
-                      width    : Int,
-                      height   : Int,
-                      fileSize : Option[Int] = None
-                    )
+case class PhotoSize(fileId: String,
+                     width: Int,
+                     height: Int,
+                     fileSize: Option[Int] = None)

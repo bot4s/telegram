@@ -13,14 +13,12 @@ package com.bot4s.telegram.models
   *                      For mask stickers, the position where the mask should be placed
   * @param fileSize      Integer Optional. File size
   */
-case class Sticker(
-                    fileId       : String,
-                    width        : Int,
-                    height       : Int,
-                    isAnimated   : Boolean,
-                    thumb        : Option[PhotoSize] = None,
-                    emoji        : Option[String] = None,
-                    setName      : Option[String] = None,
-                    maskPosition : Option[MaskPosition] = None,
-                    fileSize     : Option[Int] = None
-                  )
+case class Sticker(fileId: String,
+                   width: Int,
+                   height: Int,
+                   isAnimated: Boolean,
+                   thumb: Option[PhotoSize] = None,
+                   emoji: Option[String] = None,
+                   setName: Option[String] = None,
+                   maskPosition: Option[MaskPosition] = None,
+                   fileSize: Option[Int] = None)

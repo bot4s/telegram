@@ -25,18 +25,17 @@ import com.bot4s.telegram.models.{ChatId, InputFile}
   *                             A JSON-serialized object for an inline keyboard, custom reply keyboard,
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
-case class SendVideo(
-                      chatId              : ChatId,
-                      video               : InputFile,
-                      duration            : Option[Int] = None,
-                      width               : Option[Int] = None,
-                      height              : Option[Int] = None,
-                      caption             : Option[String] = None,
-                      parseMode           : Option[ParseMode] = None,
-                      supportsStreaming   : Option[Boolean] = None,
-                      disableNotification : Option[Boolean] = None,
-                      replyToMessageId    : Option[Long] = None,
-                      replyMarkup         : Option[ReplyMarkup] = None
-                    ) extends MultipartRequest[Message] {
+case class SendVideo(chatId: ChatId,
+                     video: InputFile,
+                     duration: Option[Int] = None,
+                     width: Option[Int] = None,
+                     height: Option[Int] = None,
+                     caption: Option[String] = None,
+                     parseMode: Option[ParseMode] = None,
+                     supportsStreaming: Option[Boolean] = None,
+                     disableNotification: Option[Boolean] = None,
+                     replyToMessageId: Option[Long] = None,
+                     replyMarkup: Option[ReplyMarkup] = None)
+    extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("video" -> video)
 }

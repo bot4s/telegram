@@ -13,12 +13,12 @@ import com.bot4s.telegram.models.InputFile
   * @param emojis        String One or more emoji corresponding to the sticker
   * @param maskPosition  MaskPosition Optional Position where the mask should be placed on faces
   */
-case class AddStickerToSet(
-                            userId       : Int,
-                            name         : String,
-                            pngSticker   : InputFile,
-                            emojis       : String,
-                            maskPosition : Option[MaskPosition] = None
-                          ) extends MultipartRequest[Boolean] {
-  override def getFiles: List[(String, InputFile)] = List("pngSticker" -> pngSticker)
+case class AddStickerToSet(userId: Int,
+                           name: String,
+                           pngSticker: InputFile,
+                           emojis: String,
+                           maskPosition: Option[MaskPosition] = None)
+    extends MultipartRequest[Boolean] {
+  override def getFiles: List[(String, InputFile)] =
+    List("pngSticker" -> pngSticker)
 }

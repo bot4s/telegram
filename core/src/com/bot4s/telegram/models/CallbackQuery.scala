@@ -19,12 +19,10 @@ package com.bot4s.telegram.models
   *   It is, therefore, necessary to react by calling answerCallbackQuery even if no notification to the user
   *   is needed (e.g., without specifying any of the optional parameters).
   */
-case class CallbackQuery(
-                        id              : String,
-                        from            : User,
-                        message         : Option[Message] = None,
-                        inlineMessageId : Option[String] = None,
-                        chatInstance    : String,
-                        data            : Option[String] = None,
-                        gameShortName   : Option[String] = None
-                        )
+case class CallbackQuery(id: String,
+                         from: User,
+                         message: Option[Message] = None,
+                         inlineMessageId: Option[String] = None,
+                         chatInstance: String,
+                         data: Option[String] = None,
+                         gameShortName: Option[String] = None)

@@ -8,10 +8,8 @@ package com.bot4s.telegram.models
   * @param userId       Optional Contact's user identifier in Telegram
   * @param vcard        String Optional. Additional data about the contact in the form of a vCard
   */
-case class Contact(
-                    phoneNumber : String,
-                    firstName   : String,
-                    lastName    : Option[String] = None,
-                    userId      : Option[Int] = None,
-                    vcard       : Option[String] = None
-                  )
+case class Contact(phoneNumber: String,
+                   firstName: String,
+                   lastName: Option[String] = None,
+                   userId: Option[Int] = None,
+                   vcard: Option[String] = None)

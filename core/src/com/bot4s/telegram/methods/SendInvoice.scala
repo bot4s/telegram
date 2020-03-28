@@ -35,26 +35,25 @@ import com.bot4s.telegram.models.Message
   *                             If empty, one 'Pay total price' button will be shown.
   *                             If not empty, the first button must be a Pay button.
   */
-case class SendInvoice(
-                      chatId              : Long,
-                      title               : String,
-                      description         : String,
-                      payload             : String,
-                      providerToken       : String,
-                      startParameter      : String,
-                      currency            : Currency,
-                      prices              : Array[LabeledPrice],
-                      providerData        : Option[String] = None,
-                      photoUrl            : Option[String] = None,
-                      photoSize           : Option[Int] = None,
-                      photoWidth          : Option[Int] = None,
-                      photoHeight         : Option[Int] = None,
-                      needName            : Option[Boolean] = None,
-                      needPhoneNumber     : Option[Boolean] = None,
-                      needEmail           : Option[Boolean] = None,
-                      needShippingAddress : Option[Boolean] = None,
-                      isFlexible          : Option[Boolean] = None,
-                      disableNotification : Option[Int] = None,
-                      replyToMessageId    : Option[Long] = None,
-                      replyMarkup         : Option[InlineKeyboardMarkup] = None
-                      ) extends JsonRequest[Message]
+case class SendInvoice(chatId: Long,
+                       title: String,
+                       description: String,
+                       payload: String,
+                       providerToken: String,
+                       startParameter: String,
+                       currency: Currency,
+                       prices: Array[LabeledPrice],
+                       providerData: Option[String] = None,
+                       photoUrl: Option[String] = None,
+                       photoSize: Option[Int] = None,
+                       photoWidth: Option[Int] = None,
+                       photoHeight: Option[Int] = None,
+                       needName: Option[Boolean] = None,
+                       needPhoneNumber: Option[Boolean] = None,
+                       needEmail: Option[Boolean] = None,
+                       needShippingAddress: Option[Boolean] = None,
+                       isFlexible: Option[Boolean] = None,
+                       disableNotification: Option[Int] = None,
+                       replyToMessageId: Option[Long] = None,
+                       replyMarkup: Option[InlineKeyboardMarkup] = None)
+    extends JsonRequest[Message]

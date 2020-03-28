@@ -11,17 +11,20 @@ import com.bot4s.telegram.models.ChatId
   * @param inlineMessageId  String Required if chat_id and message_id are not specified. Identifier of the inline message
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
   */
-case class EditMessageReplyMarkup(
-                                 chatId          : Option[ChatId] = None,
-                                 messageId       : Option[Int] = None,
-                                 inlineMessageId : Option[String] = None,
-                                 replyMarkup     : Option[InlineKeyboardMarkup] = None
-                                 ) extends JsonRequest[Either[Boolean, Message]] {
+case class EditMessageReplyMarkup(chatId: Option[ChatId] = None,
+                                  messageId: Option[Int] = None,
+                                  inlineMessageId: Option[String] = None,
+                                  replyMarkup: Option[InlineKeyboardMarkup] =
+                                    None)
+    extends JsonRequest[Either[Boolean, Message]] {
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
     require(messageId.isDefined, "Required if inlineMessageId is not specified")
   }
 
   if (chatId.isEmpty && messageId.isEmpty)
-    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+    require(
+      inlineMessageId.isDefined,
+      "Required if chatId and messageId are not specified"
+    )
 }

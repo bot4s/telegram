@@ -10,10 +10,8 @@ package com.bot4s.telegram.models
   * @param query     String Text of the query
   * @param offset    String Offset of the results to be returned, can be controlled by the bot
   */
-case class InlineQuery(
-                      id       : String,
-                      from     : User,
-                      location : Option[Location] = None,
-                      query    : String,
-                      offset   : String
-                      )
+case class InlineQuery(id: String,
+                       from: User,
+                       location: Option[Location] = None,
+                       query: String,
+                       offset: String)

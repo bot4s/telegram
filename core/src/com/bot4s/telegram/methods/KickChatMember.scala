@@ -17,8 +17,7 @@ import com.bot4s.telegram.models.ChatId
   * @param untilDate  Integer Optional Date when the user will be unbanned, unix time.
   *                   If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
   */
-case class KickChatMember(
-                         chatId    : ChatId,
-                         userId    : Int,
-                         untilDate : Option[Int] = None
-                         ) extends JsonRequest[Boolean]
+case class KickChatMember(chatId: ChatId,
+                          userId: Int,
+                          untilDate: Option[Int] = None)
+    extends JsonRequest[Boolean]

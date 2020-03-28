@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 trait TelegramBot extends BotBase[Future] with GlobalExecutionContext {
-  override val monad = MonadError[Future, Throwable]
+  val monad: MonadError[Future, Throwable] = MonadError[Future, Throwable]
 }
 
 trait BotExecutionContext {
@@ -16,5 +16,6 @@ trait BotExecutionContext {
 }
 
 trait GlobalExecutionContext extends BotExecutionContext {
-  override implicit val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+  override implicit val executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.global
 }

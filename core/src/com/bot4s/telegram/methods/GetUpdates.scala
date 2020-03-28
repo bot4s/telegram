@@ -19,9 +19,8 @@ import com.bot4s.telegram.models.UpdateType.UpdateType
   *   1. This method will not work if an outgoing webhook is set up.
   *   2. In order to avoid getting duplicate updates, recalculate offset after each server response.
   */
-case class GetUpdates(
-                       offset         : Option[Long] = None,
-                       limit          : Option[Int] = None,
-                       timeout        : Option[Int] = None,
-                       allowedUpdates : Option[Seq[UpdateType]] = None
-                     ) extends JsonRequest[Seq[Update]]
+case class GetUpdates(offset: Option[Long] = None,
+                      limit: Option[Int] = None,
+                      timeout: Option[Int] = None,
+                      allowedUpdates: Option[Seq[UpdateType]] = None)
+    extends JsonRequest[Seq[Update]]

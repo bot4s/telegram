@@ -13,10 +13,10 @@ import com.bot4s.telegram.models.{ChatId, Message, ReplyMarkup}
   * @param replyToMessageId     If the message is a reply, ID of the original message
   * @param replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
   */
-case class SendPoll(chatId              : ChatId,
-                    question            : String,
-                    options             : Array[String],
-                    disableNotification : Option[Boolean] = None,
-                    replyToMessageId    : Option[Int] = None,
-                    replyMarkup         : Option[ReplyMarkup] = None
-                   ) extends JsonRequest[Message]
+case class SendPoll(chatId: ChatId,
+                    question: String,
+                    options: Array[String],
+                    disableNotification: Option[Boolean] = None,
+                    replyToMessageId: Option[Int] = None,
+                    replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Message]

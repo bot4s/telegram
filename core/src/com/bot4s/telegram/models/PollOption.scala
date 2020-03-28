@@ -6,6 +6,4 @@ package com.bot4s.telegram.models
   * @param text        Option text, 1-100 characters
   * @param voterCount  Number of users that voted for this option
   */
-case class PollOption(text       : String,
-                      voterCount : Int
-                     )
+case class PollOption(text: String, voterCount: Int)

@@ -27,9 +27,8 @@ trait Callbacks[F[_]] extends BotBase[F] {
     * @param action Handler to process the filtered callback query.
     */
   def onCallbackWithTag(tag: String)(action: Action[F, CallbackQuery]): Unit = {
-    when(onCallbackQuery, hasTag(tag)) {
-      cbq =>
-        untag(tag)(action)(cbq)
+    when(onCallbackQuery, hasTag(tag)) { cbq =>
+      untag(tag)(action)(cbq)
     }
   }
 
@@ -61,27 +60,32 @@ trait Callbacks[F[_]] extends BotBase[F] {
     *
     * @return A future containing the result of the AnswerCallbackQuery request.
     */
-  def ackCallback(text         : Option[String] = None,
-                  showAlert    : Option[Boolean] = None,
-                  url          : Option[String] = None,
-                  cacheTime    : Option[Int] = None)
-                 (implicit callbackQuery: CallbackQuery): F[Boolean] = {
-    request(AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime))
+  def ackCallback(
+    text: Option[String] = None,
+    showAlert: Option[Boolean] = None,
+    url: Option[String] = None,
+    cacheTime: Option[Int] = None
+  )(implicit callbackQuery: CallbackQuery): F[Boolean] = {
+    request(
+      AnswerCallbackQuery(callbackQuery.id, text, showAlert, url, cacheTime)
+    )
   }
 
- /**
-   * Helper to tag 'callbackData' in inline markups.
-   * Usage:
-   *
-   * {{{
-   *   def tag = prefixTag("MY_TAG") _
-   *
-   *   ... callbackData = tag("some data")
-   * }}}
-   */
+  /**
+    * Helper to tag 'callbackData' in inline markups.
+    * Usage:
+    *
+    * {{{
+    *   def tag = prefixTag("MY_TAG") _
+    *
+    *   ... callbackData = tag("some data")
+    * }}}
+    */
   def prefixTag(tag: String)(s: String): String = tag + s
 
-  private def untag(tag: String)(action: Action[F, CallbackQuery])(implicit cbq: CallbackQuery): F[Unit] = {
+  private def untag(
+    tag: String
+  )(action: Action[F, CallbackQuery])(implicit cbq: CallbackQuery): F[Unit] = {
     action(cbq.copy(data = cbq.data.map(_.stripPrefix(tag))))
   }
 }

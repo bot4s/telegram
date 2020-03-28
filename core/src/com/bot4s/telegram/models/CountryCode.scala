@@ -7,9 +7,7 @@ import scala.language.implicitConversions
   */
 object CountryCode extends Enumeration {
   type CountryCode = Value
-  sealed case class Country(
-                                code        : String,
-                                englishName : String) extends Val(code)
+  sealed case class Country(code: String, englishName: String) extends Val(code)
 
   implicit def valueToCountry(v: Value): Country = v.asInstanceOf[Country]
 
@@ -43,7 +41,8 @@ object CountryCode extends Enumeration {
   val BM = Country(code = "BM", englishName = "Bermuda")
   val BN = Country(code = "BN", englishName = "Brunei")
   val BO = Country(code = "BO", englishName = "Bolivia")
-  val BQ = Country(code = "BQ", englishName = "Bonaire, Sint Eustatius and Saba")
+  val BQ =
+    Country(code = "BQ", englishName = "Bonaire, Sint Eustatius and Saba")
   val BR = Country(code = "BR", englishName = "Brazil")
   val BS = Country(code = "BS", englishName = "Bahamas")
   val BT = Country(code = "BT", englishName = "Bhutan")
@@ -53,7 +52,8 @@ object CountryCode extends Enumeration {
   val BZ = Country(code = "BZ", englishName = "Belize")
   val CA = Country(code = "CA", englishName = "Canada")
   val CC = Country(code = "CC", englishName = "Cocos Islands")
-  val CD = Country(code = "CD", englishName = "The Democratic Republic Of Congo")
+  val CD =
+    Country(code = "CD", englishName = "The Democratic Republic Of Congo")
   val CF = Country(code = "CF", englishName = "Central African Republic")
   val CG = Country(code = "CG", englishName = "Congo")
   val CH = Country(code = "CH", englishName = "Switzerland")
@@ -103,13 +103,17 @@ object CountryCode extends Enumeration {
   val GP = Country(code = "GP", englishName = "Guadeloupe")
   val GQ = Country(code = "GQ", englishName = "Equatorial Guinea")
   val GR = Country(code = "GR", englishName = "Greece")
-  val GS = Country(code = "GS", englishName = "South Georgia And The South Sandwich Islands")
+  val GS = Country(
+    code = "GS",
+    englishName = "South Georgia And The South Sandwich Islands"
+  )
   val GT = Country(code = "GT", englishName = "Guatemala")
   val GU = Country(code = "GU", englishName = "Guam")
   val GW = Country(code = "GW", englishName = "Guinea-Bissau")
   val GY = Country(code = "GY", englishName = "Guyana")
   val HK = Country(code = "HK", englishName = "Hong Kong")
-  val HM = Country(code = "HM", englishName = "Heard Island And McDonald Islands")
+  val HM =
+    Country(code = "HM", englishName = "Heard Island And McDonald Islands")
   val HN = Country(code = "HN", englishName = "Honduras")
   val HR = Country(code = "HR", englishName = "Croatia")
   val HT = Country(code = "HT", englishName = "Haiti")
@@ -245,12 +249,14 @@ object CountryCode extends Enumeration {
   val TZ = Country(code = "TZ", englishName = "Tanzania")
   val UA = Country(code = "UA", englishName = "Ukraine")
   val UG = Country(code = "UG", englishName = "Uganda")
-  val UM = Country(code = "UM", englishName = "United States Minor Outlying Islands")
+  val UM =
+    Country(code = "UM", englishName = "United States Minor Outlying Islands")
   val US = Country(code = "US", englishName = "United States")
   val UY = Country(code = "UY", englishName = "Uruguay")
   val UZ = Country(code = "UZ", englishName = "Uzbekistan")
   val VA = Country(code = "VA", englishName = "Vatican")
-  val VC = Country(code = "VC", englishName = "Saint Vincent And The Grenadines")
+  val VC =
+    Country(code = "VC", englishName = "Saint Vincent And The Grenadines")
   val VE = Country(code = "VE", englishName = "Venezuela")
   val VG = Country(code = "VG", englishName = "British Virgin Islands")
   val VI = Country(code = "VI", englishName = "U.S. Virgin Islands")

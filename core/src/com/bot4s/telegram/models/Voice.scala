@@ -7,9 +7,7 @@ package com.bot4s.telegram.models
   * @param mimeType  Optional MIME type of the file as defined by sender
   * @param fileSize  Optional File size
   */
-case class Voice(
-                fileId   : String,
-                duration : Int,
-                mimeType : Option[String] = None,
-                fileSize : Option[Int] = None
-                )
+case class Voice(fileId: String,
+                 duration: Int,
+                 mimeType: Option[String] = None,
+                 fileSize: Option[Int] = None)

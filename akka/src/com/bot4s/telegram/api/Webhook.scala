@@ -4,9 +4,9 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
+import com.bot4s.telegram.log.StrictLogging
 import com.bot4s.telegram.methods.SetWebhook
 import com.bot4s.telegram.models.{InputFile, Update}
-import slogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -15,8 +15,11 @@ import scala.util.control.NonFatal
   *
   * Automatically registers the webhook on run().
   */
-trait Webhook extends WebRoutes with StrictLogging {
-  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+trait Webhook extends WebRoutes {
+  _: BotBase[Future]
+    with BotExecutionContext
+    with AkkaImplicits
+    with StrictLogging =>
 
   import com.bot4s.telegram.marshalling._
   import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
@@ -63,7 +66,9 @@ trait Webhook extends WebRoutes with StrictLogging {
       SetWebhook(
         url = webhookUrl,
         certificate = certificate,
-        allowedUpdates = allowedUpdates)).flatMap {
+        allowedUpdates = allowedUpdates
+      )
+    ).flatMap {
       case true => super.run() // spawn WebRoutes
       case false =>
         logger.error("Failed to set webhook")

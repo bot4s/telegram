@@ -6,8 +6,4 @@ package com.bot4s.telegram.models
   * @param user      User User
   * @param score     Integer Score
   */
-case class GameHighScore(
-                        position : Long,
-                        user     : User,
-                        score    : Long
-                        )
+case class GameHighScore(position: Long, user: User, score: Long)

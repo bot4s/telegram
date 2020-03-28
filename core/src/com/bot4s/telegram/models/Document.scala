@@ -8,10 +8,8 @@ package com.bot4s.telegram.models
   * @param mimeType  Optional MIME type of the file as defined by sender
   * @param fileSize  Optional File size
   */
-case class Document(
-                     fileId   : String,
-                     thumb    : Option[PhotoSize] = None,
-                     fileName : Option[String] = None,
-                     mimeType : Option[String] = None,
-                     fileSize : Option[Int] = None
-                   )
+case class Document(fileId: String,
+                    thumb: Option[PhotoSize] = None,
+                    fileName: Option[String] = None,
+                    mimeType: Option[String] = None,
+                    fileSize: Option[Int] = None)

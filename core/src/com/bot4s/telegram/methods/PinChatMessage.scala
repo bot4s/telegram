@@ -13,8 +13,7 @@ import com.bot4s.telegram.models.ChatId
   * @param disableNotification  Boolean	Optional Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
   *                             Notifications are always disabled in channels.
   */
-case class PinChatMessage(
-                           chatId              : ChatId,
-                           messageId           : Int,
-                           disableNotification : Option[Boolean] = None
-                         ) extends JsonRequest[Boolean]
+case class PinChatMessage(chatId: ChatId,
+                          messageId: Int,
+                          disableNotification: Option[Boolean] = None)
+    extends JsonRequest[Boolean]

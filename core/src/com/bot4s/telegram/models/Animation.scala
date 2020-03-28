@@ -9,10 +9,8 @@ package com.bot4s.telegram.models
   * @param mimeType  String Optional. MIME type of the file as defined by sender
   * @param fileSize  Integer Optional. File size
   */
-case class Animation(
-                    fileId   : String,
-                    thumb    : Option[PhotoSize] = None,
-                    fileName : Option[String] = None,
-                    mimeType : Option[String] = None,
-                    fileSize : Option[Int] = None
-                    )
+case class Animation(fileId: String,
+                     thumb: Option[PhotoSize] = None,
+                     fileName: Option[String] = None,
+                     mimeType: Option[String] = None,
+                     fileSize: Option[Int] = None)

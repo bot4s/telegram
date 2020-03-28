@@ -5,7 +5,4 @@ package com.bot4s.telegram.models
   * @param longitude  Longitude as defined by sender
   * @param latitude   Latitude as defined by sender
   */
-case class Location(
-                     longitude : Double,
-                     latitude  : Double
-                   )
+case class Location(longitude: Double, latitude: Double)

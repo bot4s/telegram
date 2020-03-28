@@ -11,6 +11,4 @@ import com.bot4s.telegram.models.File
   *
   * @param fileId String File identifier to get info about
   */
-case class GetFile(
-                  fileId : String
-                  ) extends JsonRequest[File]
+case class GetFile(fileId: String) extends JsonRequest[File]

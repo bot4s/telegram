@@ -13,7 +13,7 @@ sealed trait ChatId {
 
 object ChatId {
   implicit def fromChat[T](id: Long): ChatId = ChatId(id)
-  implicit def fromChannel[T](id: String) : ChatId = ChatId(id)
+  implicit def fromChannel[T](id: String): ChatId = ChatId(id)
 
   final case class Chat(id: Long) extends ChatId {
     override def isChannel: Boolean = false

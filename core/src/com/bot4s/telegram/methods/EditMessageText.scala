@@ -15,15 +15,14 @@ import com.bot4s.telegram.models.ChatId
   * @param disableWebPagePreview  Boolean Optional Disables link previews for links in this message
   * @param replyMarkup            InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
   */
-case class EditMessageText(
-                          chatId                : Option[ChatId] = None,
-                          messageId             : Option[Int] = None,
-                          inlineMessageId       : Option[String] = None,
-                          text                  : String,
-                          parseMode             : Option[ParseMode] = None,
-                          disableWebPagePreview : Option[Boolean] = None,
-                          replyMarkup           : Option[ReplyMarkup] = None
-                          ) extends JsonRequest[Either[Boolean, Message]] {
+case class EditMessageText(chatId: Option[ChatId] = None,
+                           messageId: Option[Int] = None,
+                           inlineMessageId: Option[String] = None,
+                           text: String,
+                           parseMode: Option[ParseMode] = None,
+                           disableWebPagePreview: Option[Boolean] = None,
+                           replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Either[Boolean, Message]] {
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
@@ -31,5 +30,8 @@ case class EditMessageText(
   }
 
   if (chatId.isEmpty && messageId.isEmpty)
-    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+    require(
+      inlineMessageId.isDefined,
+      "Required if chatId and messageId are not specified"
+    )
 }

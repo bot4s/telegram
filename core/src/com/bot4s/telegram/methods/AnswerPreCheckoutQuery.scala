@@ -19,10 +19,13 @@ package com.bot4s.telegram.methods
   *                               Please choose a different color or garment!").
   *                            Telegram will display this message to the user.
   */
-case class AnswerPreCheckoutQuery(preCheckoutQueryId : String,
-                                  ok                 : Boolean,
-                                  errorMessage       : Option[String] = None
-                                 ) extends JsonRequest[Boolean] {
+case class AnswerPreCheckoutQuery(preCheckoutQueryId: String,
+                                  ok: Boolean,
+                                  errorMessage: Option[String] = None)
+    extends JsonRequest[Boolean] {
 
-  require(ok || errorMessage.isDefined, "errorMessage is required if ok is False")
+  require(
+    ok || errorMessage.isDefined,
+    "errorMessage is required if ok is False"
+  )
 }

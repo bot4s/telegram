@@ -18,7 +18,8 @@ trait Messages[F[_]] extends BotBase[F] {
 
   private val messageActions = mutable.ArrayBuffer[Action[F, Message]]()
   private val editedMessageActions = mutable.ArrayBuffer[Action[F, Message]]()
-  private val extMessageActions = mutable.ArrayBuffer[Action[F, (Message, Option[User])]]()
+  private val extMessageActions =
+    mutable.ArrayBuffer[Action[F, (Message, Option[User])]]()
 
   /**
     * Executes `action` for every incoming message.
@@ -60,13 +61,14 @@ trait Messages[F[_]] extends BotBase[F] {
     *                              Optional Additional interface options.
     *                              A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
     */
-  def reply(text                  : String,
-            parseMode             : Option[ParseMode] = None,
-            disableWebPagePreview : Option[Boolean] = None,
-            disableNotification   : Option[Boolean] = None,
-            replyToMessageId      : Option[Int] = None,
-            replyMarkup           : Option[ReplyMarkup] = None)
-           (implicit message: Message): F[Message] = {
+  def reply(
+    text: String,
+    parseMode: Option[ParseMode] = None,
+    disableWebPagePreview: Option[Boolean] = None,
+    disableNotification: Option[Boolean] = None,
+    replyToMessageId: Option[Int] = None,
+    replyMarkup: Option[ReplyMarkup] = None
+  )(implicit message: Message): F[Message] = {
     request(
       SendMessage(
         message.source,
@@ -82,8 +84,8 @@ trait Messages[F[_]] extends BotBase[F] {
 
   /**
     * Sends text replies in Markdown format.
- *
- * @param text                     Text of the message to be sent
+    *
+    * @param text                     Text of the message to be sent
     * @param disableWebPagePreview Optional Disables link previews for links in this message
     * @param disableNotification   Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
     * @param replyToMessageId      Optional If the message is a reply, ID of the original message
@@ -94,12 +96,13 @@ trait Messages[F[_]] extends BotBase[F] {
     *                              Optional Additional interface options.
     *                              A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
     */
-  def replyMd(text                  : String,
-            disableWebPagePreview : Option[Boolean] = None,
-            disableNotification   : Option[Boolean] = None,
-            replyToMessageId      : Option[Int] = None,
-            replyMarkup           : Option[ReplyMarkup] = None)
-           (implicit message: Message): F[Message] = {
+  def replyMd(
+    text: String,
+    disableWebPagePreview: Option[Boolean] = None,
+    disableNotification: Option[Boolean] = None,
+    replyToMessageId: Option[Int] = None,
+    replyMarkup: Option[ReplyMarkup] = None
+  )(implicit message: Message): F[Message] = {
     reply(
       text,
       Some(ParseMode.Markdown),
@@ -140,6 +143,8 @@ trait Messages[F[_]] extends BotBase[F] {
     *   }
     * }}}
     */
-  def using[T](extractor: Extractor[Message, T])(actionT: Action[F, T])(implicit msg: Message): F[Unit] =
+  def using[T](
+    extractor: Extractor[Message, T]
+  )(actionT: Action[F, T])(implicit msg: Message): F[Unit] =
     extractor(msg).fold(unit)(actionT)
 }

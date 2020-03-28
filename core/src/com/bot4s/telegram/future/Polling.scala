@@ -1,14 +1,14 @@
 package com.bot4s.telegram.future
 
 import com.bot4s.telegram.api.{Polling => BasePolling}
+import com.bot4s.telegram.log.Logger
 import com.bot4s.telegram.methods.{DeleteWebhook, GetMe}
 import com.bot4s.telegram.models.{Update, User}
-import slogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLogging {
+trait Polling extends BasePolling[Future] with BotExecutionContext {
 
   private type OffsetUpdates = (Option[Long], Seq[Update], User)
 
@@ -17,24 +17,25 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
   private def poll(seed: Future[OffsetUpdates]): Future[OffsetUpdates] = {
     seed.flatMap {
       case (offset, updates, user) =>
-
         val maxOffset = updates
           .map(_.updateId)
-          .foldLeft(offset) {
-            (acc, e) =>
-              Some(acc.fold(e)(e max _))
+          .foldLeft(offset) { (acc, e) =>
+            Some(acc.fold(e)(e max _))
           }
 
         // Spawn next request before processing updates.
-        val f = if (polling == null) seed
-        else
-          poll(
-            pollingGetUpdates(maxOffset.map(_ + 1)).recover {
-              case NonFatal(e) =>
-                logger.error("GetUpdates failed", e)
-                Seq.empty[Update]
-            }.map((maxOffset, _, user))
-          )
+        val f =
+          if (polling == null) seed
+          else
+            poll(
+              pollingGetUpdates(maxOffset.map(_ + 1))
+                .recover {
+                  case NonFatal(e) =>
+                    logger.error("GetUpdates failed", e)
+                    Seq.empty[Update]
+                }
+                .map((maxOffset, _, user))
+            )
 
         for (u <- updates) {
           try {
@@ -53,9 +54,7 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
   private def startPolling(user: User): Future[Unit] = {
     logger.info(s"Starting (long) polling: timeout=$pollingTimeout seconds")
     polling = poll(Future.successful((None, Seq(), user))).map(_ => ())
-    polling.onComplete {
-      case _ => logger.info("Long polling terminated")
-    }
+    polling.onComplete(_ => logger.info("Long polling terminated"))
     polling
   }
 

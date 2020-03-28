@@ -6,7 +6,11 @@ import cats.syntax.functor._
 import cats.syntax.traverse._
 import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.methods.AnswerInlineQuery
-import com.bot4s.telegram.models.{ChosenInlineResult, InlineQuery, InlineQueryResult}
+import com.bot4s.telegram.models.{
+  ChosenInlineResult,
+  InlineQuery,
+  InlineQueryResult
+}
 
 import scala.collection.mutable
 
@@ -16,7 +20,8 @@ import scala.collection.mutable
 trait InlineQueries[F[_]] extends BotBase[F] {
 
   private val inlineQueryActions = mutable.ArrayBuffer[Action[F, InlineQuery]]()
-  private val chosenInlineResultActions = mutable.ArrayBuffer[Action[F, ChosenInlineResult]]()
+  private val chosenInlineResultActions =
+    mutable.ArrayBuffer[Action[F, ChosenInlineResult]]()
 
   /**
     * Executes 'action' for every inline query.
@@ -44,16 +49,23 @@ trait InlineQueries[F[_]] extends BotBase[F] {
     * @param switchPmParameter  String Optional Parameter for the start message sent to the bot when user presses the switch buttonExample: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an oauth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
     */
   def answerInlineQuery(
-                    results           : Seq[InlineQueryResult],
-                    cacheTime         : Option[Int] = None,
-                    isPersonal        : Option[Boolean] = None,
-                    nextOffset        : Option[String] = None,
-                    switchPmText      : Option[String] = None,
-                    switchPmParameter : Option[String] = None)
-                 (implicit inlineQuery: InlineQuery): F[Boolean] =
+    results: Seq[InlineQueryResult],
+    cacheTime: Option[Int] = None,
+    isPersonal: Option[Boolean] = None,
+    nextOffset: Option[String] = None,
+    switchPmText: Option[String] = None,
+    switchPmParameter: Option[String] = None
+  )(implicit inlineQuery: InlineQuery): F[Boolean] =
     request(
-      AnswerInlineQuery(inlineQuery.id, results, cacheTime, isPersonal,
-        nextOffset, switchPmText, switchPmParameter)
+      AnswerInlineQuery(
+        inlineQuery.id,
+        results,
+        cacheTime,
+        isPersonal,
+        nextOffset,
+        switchPmText,
+        switchPmParameter
+      )
     )
 
   override def receiveInlineQuery(inlineQuery: InlineQuery): F[Unit] =
@@ -62,9 +74,13 @@ trait InlineQueries[F[_]] extends BotBase[F] {
       _ <- super.receiveInlineQuery(inlineQuery)
     } yield ()
 
-  override def receiveChosenInlineResult(chosenInlineResult: ChosenInlineResult): F[Unit] =
+  override def receiveChosenInlineResult(
+    chosenInlineResult: ChosenInlineResult
+  ): F[Unit] =
     for {
-      _ <- chosenInlineResultActions.toList.traverse(action => action(chosenInlineResult))
+      _ <- chosenInlineResultActions.toList.traverse(
+        action => action(chosenInlineResult)
+      )
       _ <- super.receiveChosenInlineResult(chosenInlineResult)
     } yield ()
 }

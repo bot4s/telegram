@@ -20,14 +20,14 @@ import com.bot4s.telegram.models.{ChatId, InputFile}
   * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
   * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply Optional
   */
-case class SendVideoNote(
-                          chatId              : ChatId,
-                          videoNote           : InputFile,
-                          duration            : Option[Int] = None,
-                          length              : Option[Int] = None,
-                          disableNotification : Option[Boolean] = None,
-                          replyToMessageId    : Option[Int] = None,
-                          replyMarkup         : Option[ReplyMarkup] = None
-                        ) extends MultipartRequest[Message] {
-  override def getFiles: List[(String, InputFile)] = List("videoNote" -> videoNote)
+case class SendVideoNote(chatId: ChatId,
+                         videoNote: InputFile,
+                         duration: Option[Int] = None,
+                         length: Option[Int] = None,
+                         disableNotification: Option[Boolean] = None,
+                         replyToMessageId: Option[Int] = None,
+                         replyMarkup: Option[ReplyMarkup] = None)
+    extends MultipartRequest[Message] {
+  override def getFiles: List[(String, InputFile)] =
+    List("videoNote" -> videoNote)
 }

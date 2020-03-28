@@ -26,8 +26,9 @@ trait RegexCommands[F[_]] extends Messages[F] with InlineQueries[F] {
     */
   def onRegex(r: Regex)(actionWithArgs: ActionWithArgs[F, Message]): Unit = {
     onMessage { msg =>
-      msg.text.map(_.trim).collect { case r(args @ _*) =>
-        actionWithArgs(msg)(args)
+      msg.text.map(_.trim).collect {
+        case r(args @ _*) =>
+          actionWithArgs(msg)(args)
       } getOrElse unit
     }
   }
@@ -40,11 +41,13 @@ trait RegexCommands[F[_]] extends Messages[F] with InlineQueries[F] {
     * '''Warning:'''
     *   Absent optional groups won't be ignored, `null` will be passed instead.
     */
-  def onRegexInline(r: Regex)(actionWithArgs: ActionWithArgs[F, InlineQuery]): Unit = {
+  def onRegexInline(
+    r: Regex
+  )(actionWithArgs: ActionWithArgs[F, InlineQuery]): Unit = {
     onInlineQuery { iq =>
       iq.query.trim match {
         case r(args @ _*) => actionWithArgs(iq)(args)
-        case _ => unit
+        case _            => unit
       }
     }
   }

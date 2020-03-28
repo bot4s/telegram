@@ -10,12 +10,10 @@ package com.bot4s.telegram.models
   * @param fileSize   Optional File size
   * @param thumb      PhotoSize Optional. Thumbnail of the album cover to which the music file belongs
   */
-case class Audio(
-                  fileId    : String,
-                  duration  : Int,
-                  performer : Option[String] = None,
-                  title     : Option[String] = None,
-                  mimeType  : Option[String] = None,
-                  fileSize  : Option[Int] = None,
-                  thumb     : Option[PhotoSize]
-                )
+case class Audio(fileId: String,
+                 duration: Int,
+                 performer: Option[String] = None,
+                 title: Option[String] = None,
+                 mimeType: Option[String] = None,
+                 fileSize: Option[Int] = None,
+                 thumb: Option[PhotoSize])

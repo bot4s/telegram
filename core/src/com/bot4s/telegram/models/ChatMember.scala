@@ -23,23 +23,21 @@ import MemberStatus.MemberStatus
   * @param canSendOtherMessages   Boolean	Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
   * @param canAddWebPagePreviews  Boolean	Optional. Restricted only. True, if user may add web page previews to his messages, implies can_send_media_messages
   */
-case class ChatMember(
-                     user                  : User,
-                     status                : MemberStatus,
-                     untilDate             : Option[Int] = None,
-                     canBeEdited           : Option[Boolean] = None,
-                     canChangeInfo         : Option[Boolean] = None,
-                     canPostMessages       : Option[Boolean] = None,
-                     canEditMessages       : Option[Boolean] = None,
-                     canDeleteMessages     : Option[Boolean] = None,
-                     canInviteUsers        : Option[Boolean] = None,
-                     canRestrictMembers    : Option[Boolean] = None,
-                     canPinMessages        : Option[Boolean] = None,
-                     canPromoteMembers     : Option[Boolean] = None,
-                     isMember              : Option[Boolean] = None,
-                     canSendMessages       : Option[Boolean] = None,
-                     canSendMediaMessages  : Option[Boolean] = None,
-                     canSendPolls          : Option[Boolean] = None,
-                     canSendOtherMessages  : Option[Boolean] = None,
-                     canAddWebPagePreviews : Option[Boolean] = None
-                     )
+case class ChatMember(user: User,
+                      status: MemberStatus,
+                      untilDate: Option[Int] = None,
+                      canBeEdited: Option[Boolean] = None,
+                      canChangeInfo: Option[Boolean] = None,
+                      canPostMessages: Option[Boolean] = None,
+                      canEditMessages: Option[Boolean] = None,
+                      canDeleteMessages: Option[Boolean] = None,
+                      canInviteUsers: Option[Boolean] = None,
+                      canRestrictMembers: Option[Boolean] = None,
+                      canPinMessages: Option[Boolean] = None,
+                      canPromoteMembers: Option[Boolean] = None,
+                      isMember: Option[Boolean] = None,
+                      canSendMessages: Option[Boolean] = None,
+                      canSendMediaMessages: Option[Boolean] = None,
+                      canSendPolls: Option[Boolean] = None,
+                      canSendOtherMessages: Option[Boolean] = None,
+                      canAddWebPagePreviews: Option[Boolean] = None)

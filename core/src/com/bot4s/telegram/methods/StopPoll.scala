@@ -10,7 +10,7 @@ import com.bot4s.telegram.models.{ChatId, Poll, ReplyMarkup}
   * @param messageId    Identifier of the original message with the poll
   * @param replyMarkup  A JSON-serialized object for a new message inline keyboard.
   */
-case class StopPoll(chatId      : ChatId,
-                    messageId   : Option[Int] = None,
-                    replyMarkup : Option[ReplyMarkup] = None
-                   ) extends JsonRequest[Poll]
+case class StopPoll(chatId: ChatId,
+                    messageId: Option[Int] = None,
+                    replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Poll]

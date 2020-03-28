@@ -19,6 +19,7 @@ package com.bot4s.telegram.methods
   * @tparam R Expected result type.
   */
 trait Request[R] {
+
   /** Extract request URL from class name.
     */
   def methodName: String = getClass.getSimpleName.takeWhile('$' != _)

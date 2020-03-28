@@ -13,12 +13,10 @@ import com.bot4s.telegram.models.Currency.Currency
   * @param shippingOptionId  String Optional. Identifier of the shipping option chosen by the user
   * @param orderInfo         OrderInfo Optional. Order info provided by the user
   */
-case class PreCheckoutQuery(
-                           id               : String,
-                           from             : User,
-                           currency         : Currency,
-                           totalAmount      : Long,
-                           invoicePayload   : String,
-                           shippingOptionId : Option[String] = None,
-                           orderInfo        : Option[OrderInfo] = None
-                           )
+case class PreCheckoutQuery(id: String,
+                            from: User,
+                            currency: Currency,
+                            totalAmount: Long,
+                            invoicePayload: String,
+                            shippingOptionId: Option[String] = None,
+                            orderInfo: Option[OrderInfo] = None)

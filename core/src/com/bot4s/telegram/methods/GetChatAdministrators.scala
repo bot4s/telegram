@@ -8,4 +8,5 @@ import com.bot4s.telegram.models.{ChatId, ChatMember}
   *
   * @param chatId Integer or String Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
   */
-case class GetChatAdministrators(chatId: ChatId) extends JsonRequest[Seq[ChatMember]]
+case class GetChatAdministrators(chatId: ChatId)
+    extends JsonRequest[Seq[ChatMember]]

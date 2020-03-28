@@ -18,17 +18,16 @@ import com.bot4s.telegram.models.{ChatId, ChatPermissions}
   * @param canSendOtherMessages   Boolean	Optional Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
   * @param canAddWebPagePreviews  Boolean Optional Pass True, if the user may add web page previews to their messages, implies can_send_media_messages
   */
-case class RestrictChatMember(
-                             chatId                : ChatId,
-                             userId                : Int,
-                             permissions           : Option[ChatPermissions] = None,
-                             untilDate             : Option[Int] = None,
-                             @Deprecated
-                             canSendMessages       : Option[Boolean] = None,
-                             @Deprecated
-                             canSendMediaMessages  : Option[Boolean] = None,
-                             @Deprecated
-                             canSendOtherMessages  : Option[Boolean] = None,
-                             @Deprecated
-                             canAddWebPagePreviews : Option[Boolean] = None
-                             ) extends JsonRequest[Boolean]
+case class RestrictChatMember(chatId: ChatId,
+                              userId: Int,
+                              permissions: Option[ChatPermissions] = None,
+                              untilDate: Option[Int] = None,
+                              @Deprecated
+                              canSendMessages: Option[Boolean] = None,
+                              @Deprecated
+                              canSendMediaMessages: Option[Boolean] = None,
+                              @Deprecated
+                              canSendOtherMessages: Option[Boolean] = None,
+                              @Deprecated
+                              canAddWebPagePreviews: Option[Boolean] = None)
+    extends JsonRequest[Boolean]

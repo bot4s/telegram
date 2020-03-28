@@ -19,13 +19,12 @@ import com.bot4s.telegram.models.ChatId
   *                             instructions to hide keyboard or to force a reply from the user.
   *
   */
-case class SendContact(
-                      chatId              : ChatId,
-                      phoneNumber         : String,
-                      firstName           : String,
-                      lastName            : Option[String] = None,
-                      vcard               : Option[String] = None,
-                      disableNotification : Option[Boolean] = None,
-                      replyToMessageId    : Option[Int] = None,
-                      replyMarkup         : Option[ReplyMarkup] = None
-                      ) extends JsonRequest[Message]
+case class SendContact(chatId: ChatId,
+                       phoneNumber: String,
+                       firstName: String,
+                       lastName: Option[String] = None,
+                       vcard: Option[String] = None,
+                       disableNotification: Option[Boolean] = None,
+                       replyToMessageId: Option[Int] = None,
+                       replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Message]

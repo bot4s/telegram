@@ -13,9 +13,9 @@ import com.bot4s.telegram.models.ChatId
   * @param inlineMessageId  String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   * @param replyMarkup      InlineKeyboardMarkup Optional	A JSON-serialized object for a new inline keyboard.
   */
-case class StopMessageLiveLocation(
-                                    chatId          : Option[ChatId] = None,
-                                    messageId       : Option[Int] = None,
-                                    inlineMessageId : Option[Int] = None,
-                                    replyMarkup     : Option[InlineKeyboardMarkup] = None
-                                  ) extends JsonRequest[Message Either Boolean]
+case class StopMessageLiveLocation(chatId: Option[ChatId] = None,
+                                   messageId: Option[Int] = None,
+                                   inlineMessageId: Option[Int] = None,
+                                   replyMarkup: Option[InlineKeyboardMarkup] =
+                                     None)
+    extends JsonRequest[Message Either Boolean]

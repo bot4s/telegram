@@ -5,15 +5,15 @@ import java.nio.file.Files
 
 import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
-import com.bot4s.telegram.methods.{Request, JsonRequest, MultipartRequest, Response}
+import com.bot4s.telegram.log.Logger
+import com.bot4s.telegram.methods.{JsonRequest, MultipartRequest, Request, Response}
 import com.bot4s.telegram.models.InputFile
 import com.bot4s.telegram.marshalling
 import io.circe.parser.parse
 import io.circe.{Decoder, Encoder}
 import scalaj.http.{Http, MultiPart}
-import slogging.StrictLogging
 
-import scala.concurrent.{ExecutionContext, Future, blocking}
+import scala.concurrent.{blocking, ExecutionContext, Future}
 
 /** Scalaj-http Telegram Bot API client
   *
@@ -27,8 +27,9 @@ import scala.concurrent.{ExecutionContext, Future, blocking}
   * @param token Bot token
   */
 class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHost: String = "api.telegram.org")
-                      (implicit ec: ExecutionContext) extends RequestHandler[Future] with StrictLogging {
+                      (implicit ec: ExecutionContext) extends RequestHandler[Future] {
 
+  val logger = Logger.apply
   val connectionTimeoutMs = 10000
   val readTimeoutMs = 50000
 

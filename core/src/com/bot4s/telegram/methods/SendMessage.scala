@@ -47,12 +47,11 @@ import com.bot4s.telegram.models.ChatId
   *                               A JSON-serialized object for an inline keyboard, custom reply keyboard,
   *                               instructions to hide reply keyboard or to force a reply from the user.
   */
-case class SendMessage(
-                 chatId                : ChatId,
-                 text                  : String,
-                 parseMode             : Option[ParseMode] = None,
-                 disableWebPagePreview : Option[Boolean] = None,
-                 disableNotification   : Option[Boolean] = None,
-                 replyToMessageId      : Option[Int] = None,
-                 replyMarkup           : Option[ReplyMarkup] = None
-                 ) extends JsonRequest[Message]
+case class SendMessage(chatId: ChatId,
+                       text: String,
+                       parseMode: Option[ParseMode] = None,
+                       disableWebPagePreview: Option[Boolean] = None,
+                       disableNotification: Option[Boolean] = None,
+                       replyToMessageId: Option[Int] = None,
+                       replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Message]

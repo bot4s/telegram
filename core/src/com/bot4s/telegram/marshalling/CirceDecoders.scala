@@ -17,11 +17,10 @@ import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.Decoder
 import io.circe.generic.semiauto._
-import slogging.StrictLogging
 
 /** Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
   */
-trait CirceDecoders extends StrictLogging {
+trait CirceDecoders {
 
   implicit val memberStatusDecoder: Decoder[MemberStatus] =
     Decoder[String].map(s => MemberStatus.withName(pascalize(s)))
@@ -32,15 +31,12 @@ trait CirceDecoders extends StrictLogging {
     Decoder[String].map(s => ChatType.withName(pascalize(s)))
 
   implicit val messageEntityTypeDecoder: Decoder[MessageEntityType] =
-    Decoder[String].map {
-      s =>
-        try {
-          MessageEntityType.withName(pascalize(s))
-        } catch {
-          case e: NoSuchElementException =>
-            logger.warn(s"Unexpected MessageEntityType: '$s', fallback to Unknown.")
-            MessageEntityType.Unknown
-        }
+    Decoder[String].map { s =>
+      try {
+        MessageEntityType.withName(pascalize(s))
+      } catch {
+        case _: NoSuchElementException => MessageEntityType.Unknown
+      }
     }
 
   implicit val parseModeDecoder: Decoder[ParseMode] =
@@ -69,80 +65,110 @@ trait CirceDecoders extends StrictLogging {
   implicit val contactDecoder: Decoder[Contact] = deriveDecoder[Contact]
   implicit val documentDecoder: Decoder[Document] = deriveDecoder[Document]
   implicit val fileDecoder: Decoder[File] = deriveDecoder[File]
-  implicit val callbackGameDecoder: Decoder[CallbackGame] = deriveDecoder[CallbackGame]
-  implicit val inlineKeyboardButtonDecoder: Decoder[InlineKeyboardButton] = deriveDecoder[InlineKeyboardButton]
+  implicit val callbackGameDecoder: Decoder[CallbackGame] =
+    deriveDecoder[CallbackGame]
+  implicit val inlineKeyboardButtonDecoder: Decoder[InlineKeyboardButton] =
+    deriveDecoder[InlineKeyboardButton]
 
-  implicit val inlineKeyboardMarkupDecoder: Decoder[InlineKeyboardMarkup] = deriveDecoder[InlineKeyboardMarkup]
+  implicit val inlineKeyboardMarkupDecoder: Decoder[InlineKeyboardMarkup] =
+    deriveDecoder[InlineKeyboardMarkup]
 
-  implicit val keyboardButtonDecoder: Decoder[KeyboardButton] = deriveDecoder[KeyboardButton]
+  implicit val keyboardButtonDecoder: Decoder[KeyboardButton] =
+    deriveDecoder[KeyboardButton]
   implicit val locationDecoder: Decoder[Location] = deriveDecoder[Location]
 
-  implicit val messageEntityDecoder: Decoder[MessageEntity] = deriveDecoder[MessageEntity]
+  implicit val messageEntityDecoder: Decoder[MessageEntity] =
+    deriveDecoder[MessageEntity]
 
-  implicit val webhookInfoDecoder: Decoder[WebhookInfo] = deriveDecoder[WebhookInfo]
+  implicit val webhookInfoDecoder: Decoder[WebhookInfo] =
+    deriveDecoder[WebhookInfo]
 
   implicit val photoSizeDecoder: Decoder[PhotoSize] = deriveDecoder[PhotoSize]
 
-  implicit val replyMarkupDecoder: Decoder[ReplyMarkup] = deriveDecoder[ReplyMarkup]
+  implicit val replyMarkupDecoder: Decoder[ReplyMarkup] =
+    deriveDecoder[ReplyMarkup]
 
   implicit val stickerDecoder: Decoder[Sticker] = deriveDecoder[Sticker]
 
   implicit val messageDecoder: Decoder[Message] = deriveDecoder[Message]
-  implicit val callbackQueryDecoder: Decoder[CallbackQuery] = deriveDecoder[CallbackQuery]
+  implicit val callbackQueryDecoder: Decoder[CallbackQuery] =
+    deriveDecoder[CallbackQuery]
 
-  implicit val stickerSetDecoder: Decoder[StickerSet] = deriveDecoder[StickerSet]
+  implicit val stickerSetDecoder: Decoder[StickerSet] =
+    deriveDecoder[StickerSet]
 
-  implicit val chatMemberDecoder: Decoder[ChatMember] = deriveDecoder[ChatMember]
+  implicit val chatMemberDecoder: Decoder[ChatMember] =
+    deriveDecoder[ChatMember]
 
-  implicit val chatPermissionsDecoder: Decoder[ChatPermissions] = deriveDecoder[ChatPermissions]
+  implicit val chatPermissionsDecoder: Decoder[ChatPermissions] =
+    deriveDecoder[ChatPermissions]
 
-  implicit val maskPositionDecoder: Decoder[MaskPosition] = deriveDecoder[MaskPosition]
+  implicit val maskPositionDecoder: Decoder[MaskPosition] =
+    deriveDecoder[MaskPosition]
 
   implicit val userDecoder: Decoder[User] = deriveDecoder[User]
-  implicit val userProfilePhotosDecoder: Decoder[UserProfilePhotos] = deriveDecoder[UserProfilePhotos]
+  implicit val userProfilePhotosDecoder: Decoder[UserProfilePhotos] =
+    deriveDecoder[UserProfilePhotos]
   implicit val venueDecoder: Decoder[Venue] = deriveDecoder[Venue]
   implicit val videoDecoder: Decoder[Video] = deriveDecoder[Video]
   implicit val videoNoteDecoder: Decoder[VideoNote] = deriveDecoder[VideoNote]
   implicit val voiceDecoder: Decoder[Voice] = deriveDecoder[Voice]
 
-  implicit val gameHighScoreDecoder: Decoder[GameHighScore] = deriveDecoder[GameHighScore]
+  implicit val gameHighScoreDecoder: Decoder[GameHighScore] =
+    deriveDecoder[GameHighScore]
   implicit val animationDecoder: Decoder[Animation] = deriveDecoder[Animation]
   implicit val gameDecoder: Decoder[Game] = deriveDecoder[Game]
 
-  implicit val inlineQueryDecoder: Decoder[InlineQuery] = deriveDecoder[InlineQuery]
-  implicit val chosenInlineQueryDecoder: Decoder[ChosenInlineResult] = deriveDecoder[ChosenInlineResult]
+  implicit val inlineQueryDecoder: Decoder[InlineQuery] =
+    deriveDecoder[InlineQuery]
+  implicit val chosenInlineQueryDecoder: Decoder[ChosenInlineResult] =
+    deriveDecoder[ChosenInlineResult]
 
   implicit val inputContactMessageContent: Decoder[InputContactMessageContent] =
     deriveDecoder[InputContactMessageContent]
-  implicit val inputVenueMessageContentDecoder: Decoder[InputVenueMessageContent] =
+  implicit val inputVenueMessageContentDecoder
+    : Decoder[InputVenueMessageContent] =
     deriveDecoder[InputVenueMessageContent]
-  implicit val inputLocationMessageContentDecoder: Decoder[InputLocationMessageContent] =
+  implicit val inputLocationMessageContentDecoder
+    : Decoder[InputLocationMessageContent] =
     deriveDecoder[InputLocationMessageContent]
-  implicit val inputTextMessageContentDecoder: Decoder[InputTextMessageContent] =
+  implicit val inputTextMessageContentDecoder
+    : Decoder[InputTextMessageContent] =
     deriveDecoder[InputTextMessageContent]
 
-  implicit val labeledPriceDecoder: Decoder[LabeledPrice] = deriveDecoder[LabeledPrice]
+  implicit val labeledPriceDecoder: Decoder[LabeledPrice] =
+    deriveDecoder[LabeledPrice]
   implicit val invoiceDecoder: Decoder[Invoice] = deriveDecoder[Invoice]
-  implicit val shippingAddressDecoder: Decoder[ShippingAddress] = deriveDecoder[ShippingAddress]
+  implicit val shippingAddressDecoder: Decoder[ShippingAddress] =
+    deriveDecoder[ShippingAddress]
 
   implicit val pollDecoder: Decoder[Poll] = deriveDecoder[Poll]
-  implicit val pollOptionDecoder: Decoder[PollOption] = deriveDecoder[PollOption]
+  implicit val pollOptionDecoder: Decoder[PollOption] =
+    deriveDecoder[PollOption]
 
-  implicit val shippingQueryDecoder: Decoder[ShippingQuery] = deriveDecoder[ShippingQuery]
+  implicit val shippingQueryDecoder: Decoder[ShippingQuery] =
+    deriveDecoder[ShippingQuery]
   implicit val orderInfoDecoder: Decoder[OrderInfo] = deriveDecoder[OrderInfo]
-  implicit val preCheckoutQueryDecoder: Decoder[PreCheckoutQuery] = deriveDecoder[PreCheckoutQuery]
-  implicit val shippingOptionDecoder: Decoder[ShippingOption] = deriveDecoder[ShippingOption]
-  implicit val successfulPaymentDecoder: Decoder[SuccessfulPayment] = deriveDecoder[SuccessfulPayment]
+  implicit val preCheckoutQueryDecoder: Decoder[PreCheckoutQuery] =
+    deriveDecoder[PreCheckoutQuery]
+  implicit val shippingOptionDecoder: Decoder[ShippingOption] =
+    deriveDecoder[ShippingOption]
+  implicit val successfulPaymentDecoder: Decoder[SuccessfulPayment] =
+    deriveDecoder[SuccessfulPayment]
 
-  implicit val responseParametersDecoder: Decoder[ResponseParameters] = deriveDecoder[ResponseParameters]
+  implicit val responseParametersDecoder: Decoder[ResponseParameters] =
+    deriveDecoder[ResponseParameters]
 
   implicit val updateDecoder: Decoder[Update] = deriveDecoder[Update]
 
   implicit val loginUrlDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
 
-  implicit def responseDecoder[T](implicit decT: Decoder[T]): Decoder[Response[T]] = deriveDecoder[Response[T]]
+  implicit def responseDecoder[T](
+    implicit decT: Decoder[T]
+  ): Decoder[Response[T]] = deriveDecoder[Response[T]]
 
-  implicit def eitherDecoder[A, B](implicit decA: Decoder[A], decB: Decoder[B]): Decoder[Either[A, B]] = {
+  implicit def eitherDecoder[A, B](implicit decA: Decoder[A],
+                                   decB: Decoder[B]): Decoder[Either[A, B]] = {
     val l: Decoder[Either[A, B]] = decA.map(Left.apply)
     val r: Decoder[Either[A, B]] = decB.map(Right.apply)
     l or r

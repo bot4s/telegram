@@ -4,12 +4,12 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
-import slogging.StrictLogging
+import com.bot4s.telegram.log.StrictLogging
 
 import scala.concurrent.{Future, Promise}
 
-trait WebRoutes extends BotBase[Future] with StrictLogging {
-  _: BotExecutionContext with AkkaImplicits =>
+trait WebRoutes extends BotBase[Future] {
+  _: BotExecutionContext with AkkaImplicits with StrictLogging =>
 
   val port: Int
   val interfaceIp: String = "::0"
@@ -45,9 +45,9 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
     }
     super.shutdown()
     for {
-       b <- bindingFuture
-       _ <- b.unbind()
-       t <- system.terminate()
+      b <- bindingFuture
+      _ <- b.unbind()
+      t <- system.terminate()
     } /* do */ {
       eol.success(())
       eol = null

@@ -25,15 +25,16 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     * }}}
     */
   def onCommand(filter: CommandFilterMagnet)(action: Action[F, Message]): Unit =
-    onExtMessage { case (message, botUser) =>
-      using(command) { cmd =>
-        val appliedFilter = filter.to(botUser.flatMap(_.username))
-        if (appliedFilter.accept(cmd)) {
-          action(message)
-        } else {
-          unit
-        }
-      } (message)
+    onExtMessage {
+      case (message, botUser) =>
+        using(command) { cmd =>
+          val appliedFilter = filter.to(botUser.flatMap(_.username))
+          if (appliedFilter.accept(cmd)) {
+            action(message)
+          } else {
+            unit
+          }
+        }(message)
     }
 
   /**
@@ -68,7 +69,6 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     *   }
     * }}}
     */
-
   def withArgs(action: Action[F, Args])(implicit msg: Message): F[Unit] = {
     using(commandArguments)(action)
   }
@@ -81,7 +81,7 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
       val cmdRe = """^(?:\s*/)(\w+)(?:@(\w+))?""".r // /cmd@recipient
       cmdRe.findFirstIn(text) flatMap {
         case cmdRe(cmd, recipient) => Some(Command(cmd, Option(recipient)))
-        case _ => None
+        case _                     => None
       }
     }
   }
@@ -94,7 +94,8 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
   /**
     * Tokenize message text.
     */
-  def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
+  def textTokens(msg: Message): Option[Args] =
+    msg.text.map(_.trim.split("\\s+"))
 }
 
 trait CommandFilterMagnet {
@@ -102,14 +103,18 @@ trait CommandFilterMagnet {
 
   def accept(command: Command): Boolean
 
-  def or(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
-    override def accept(command: Command) = self.accept(command) || other.accept(command)
-    override def to(r: Option[String]) = self.to(r).or(other.to(r))
-  }
-  def and(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
-    override def accept(command: Command) = self.accept(command) && other.accept(command)
-    override def to(r: Option[String]) = self.to(r).and(other.to(r))
-  }
+  def or(other: CommandFilterMagnet): CommandFilterMagnet =
+    new CommandFilterMagnet {
+      override def accept(command: Command) =
+        self.accept(command) || other.accept(command)
+      override def to(r: Option[String]) = self.to(r).or(other.to(r))
+    }
+  def and(other: CommandFilterMagnet): CommandFilterMagnet =
+    new CommandFilterMagnet {
+      override def accept(command: Command) =
+        self.accept(command) && other.accept(command)
+      override def to(r: Option[String]) = self.to(r).and(other.to(r))
+    }
   def |(other: CommandFilterMagnet) = or(other)
   def &(other: CommandFilterMagnet) = and(other)
   def not: CommandFilterMagnet = new CommandFilterMagnet {

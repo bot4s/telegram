@@ -3,17 +3,25 @@ package com.bot4s.telegram.api
 import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
 import com.bot4s.telegram.api.declarative.{CommandImplicits, Commands}
 import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.methods.{Request, GetMe}
+import com.bot4s.telegram.methods.{GetMe, Request}
 import com.bot4s.telegram.models.{Message, User}
 import com.bot4s.telegram.future.GlobalExecutionContext
+import com.bot4s.telegram.log.{Logger, StrictLogging}
 import io.circe.{Decoder, Encoder}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.{ExecutionContext, Future}
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
+class CommandsSuite
+    extends FlatSpec
+    with MockFactory
+    with TestUtils
+    with CommandImplicits
+//    with StrictLogging
+    {
+
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
   import marshalling._
 
@@ -25,14 +33,20 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
 
     val botUser = User(123, false, "FirstName", username = Some("TestBot"))
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
+      val log = logger(executionContext)
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
-        def sendRequest[R, T <: Request[_ /* R */]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
+        val logger: Logger[Future] = log
+
+        def sendRequest[R, T <: Request[_ /* R */ ]](
+          request: T
+        )(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
         override def apply[R](request: Request[R]): Future[R] = request match {
-          case GetMe => Future.successful({
-            val jsonUser = toJson[User](botUser)
-            fromJson[User](jsonUser)(userDecoder)
-          })
+          case GetMe =>
+            Future.successful({
+              val jsonUser = toJson[User](botUser)
+              fromJson[User](jsonUser)(userDecoder)
+            })
         }
       }
 

@@ -12,8 +12,8 @@ import com.bot4s.telegram.models.{File, InputFile}
   *                    dimensions must not exceed 512px, and either width or height must be exactly 512px.
   *                    [[https://core.telegram.org/bots/api#sending-files More info on Sending Files]]
   */
-case class UploadStickerFile(
-                              userId     : Int,
-                              pngSticker : InputFile) extends MultipartRequest[File] {
-  override def getFiles: List[(String, InputFile)] = List("png_sticker" -> pngSticker)
+case class UploadStickerFile(userId: Int, pngSticker: InputFile)
+    extends MultipartRequest[File] {
+  override def getFiles: List[(String, InputFile)] =
+    List("png_sticker" -> pngSticker)
 }

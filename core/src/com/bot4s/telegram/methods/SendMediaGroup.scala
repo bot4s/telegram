@@ -12,19 +12,25 @@ import com.bot4s.telegram.models._
   * @param disableNotification  Boolean Optional Sends the messages silently. Users will receive a notification with no sound.
   * @param replyToMessageId     Integer Optional If the messages are a reply, ID of the original message
   */
-case class SendMediaGroup(chatId              : ChatId,
-                          media               : Array[InputMedia],
-                          disableNotification : Option[Boolean] = None,
-                          replyToMessageId    : Option[Int] = None) extends MultipartRequest[Array[Message]] {
+case class SendMediaGroup(chatId: ChatId,
+                          media: Array[InputMedia],
+                          disableNotification: Option[Boolean] = None,
+                          replyToMessageId: Option[Int] = None)
+    extends MultipartRequest[Array[Message]] {
 
   override def getFiles: List[(String, InputFile)] = {
     val attachPrefix = "attach://"
     media.toList.flatMap {
-      case photo: InputMediaPhoto => photo.photo.map(photo.media.stripPrefix(attachPrefix) -> _)
-      case video: InputMediaVideo => video.video.map(video.media.stripPrefix(attachPrefix) -> _)
-      case audio: InputMediaAudio => audio.audio.map(audio.media.stripPrefix(attachPrefix) -> _)
-      case document: InputMediaDocument => document.document.map(document.media.stripPrefix(attachPrefix) -> _)
-      case animation: InputMediaAnimation => animation.animation.map(animation.media.stripPrefix(attachPrefix) -> _)
+      case photo: InputMediaPhoto =>
+        photo.photo.map(photo.media.stripPrefix(attachPrefix) -> _)
+      case video: InputMediaVideo =>
+        video.video.map(video.media.stripPrefix(attachPrefix) -> _)
+      case audio: InputMediaAudio =>
+        audio.audio.map(audio.media.stripPrefix(attachPrefix) -> _)
+      case document: InputMediaDocument =>
+        document.document.map(document.media.stripPrefix(attachPrefix) -> _)
+      case animation: InputMediaAnimation =>
+        animation.animation.map(animation.media.stripPrefix(attachPrefix) -> _)
     }
   }
 }

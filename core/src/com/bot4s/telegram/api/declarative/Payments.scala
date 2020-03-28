@@ -15,8 +15,10 @@ import scala.collection.mutable
   */
 trait Payments[F[_]] extends BotBase[F] {
 
-  private val shippingQueryActions = mutable.ArrayBuffer[Action[F, ShippingQuery]]()
-  private val preCheckoutQueryActions = mutable.ArrayBuffer[Action[F, PreCheckoutQuery]]()
+  private val shippingQueryActions =
+    mutable.ArrayBuffer[Action[F, ShippingQuery]]()
+  private val preCheckoutQueryActions =
+    mutable.ArrayBuffer[Action[F, PreCheckoutQuery]]()
 
   /**
     * Executes 'action' for every shipping query.
@@ -38,9 +40,13 @@ trait Payments[F[_]] extends BotBase[F] {
       _ <- super.receiveShippingQuery(shippingQuery)
     } yield ()
 
-  override def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): F[Unit] =
+  override def receivePreCheckoutQuery(
+    preCheckoutQuery: PreCheckoutQuery
+  ): F[Unit] =
     for {
-      _ <- preCheckoutQueryActions.toList.traverse(action => action(preCheckoutQuery))
+      _ <- preCheckoutQueryActions.toList.traverse(
+        action => action(preCheckoutQuery)
+      )
       _ <- super.receivePreCheckoutQuery(preCheckoutQuery)
     } yield ()
 }

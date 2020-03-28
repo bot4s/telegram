@@ -14,8 +14,11 @@ trait CaseConversions {
 
   def pascalize(word: String): String = {
     val lst = word.split("_").toList
-    (lst.headOption.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1)).get ::
-      lst.tail.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1))).mkString("")
+    (lst.headOption
+      .map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1))
+      .get ::
+      lst.tail.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1)))
+      .mkString("")
   }
 
   def snakenize(word: String): String = {
@@ -23,10 +26,15 @@ trait CaseConversions {
     val firstPattern = "([A-Z]+)([A-Z][a-z])".r
     val secondPattern = "([a-z\\d])([A-Z])".r
     val replacementPattern = "$1_$2"
-    spacesPattern.replaceAllIn(
-      secondPattern.replaceAllIn(
-        firstPattern.replaceAllIn(
-          word, replacementPattern), replacementPattern), "_").toLowerCase
+    spacesPattern
+      .replaceAllIn(
+        secondPattern.replaceAllIn(
+          firstPattern.replaceAllIn(word, replacementPattern),
+          replacementPattern
+        ),
+        "_"
+      )
+      .toLowerCase
   }
 }
 

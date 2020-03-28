@@ -22,11 +22,9 @@ import com.bot4s.telegram.models.CountryCode.CountryCode
   * @param streetLine2  String Second line for the address
   * @param postCode     String Address post code
   */
-case class ShippingAddress(
-                          countryCode : CountryCode,
-                          state       : String,
-                          city        : String,
-                          streetLine1 : String,
-                          streetLine2 : String,
-                          postCode    : String
-                          )
+case class ShippingAddress(countryCode: CountryCode,
+                           state: String,
+                           city: String,
+                           streetLine1: String,
+                           streetLine2: String,
+                           postCode: String)

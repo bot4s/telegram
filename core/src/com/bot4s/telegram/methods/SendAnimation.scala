@@ -19,18 +19,18 @@ import com.bot4s.telegram.models.{ChatId, InputFile, Message, ReplyMarkup}
   * @param replyToMessageId    Integer 	Optional 	If the message is a reply, ID of the original message
   * @param replyMarkup         InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply 	Optional 	Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
   */
-case class SendAnimation(chatId              : ChatId,
-                         animation           : InputFile,
-                         duration            : Option[Int] = None,
-                         width               : Option[Int] = None,
-                         height              : Option[Int] = None,
-                         thumb               : Option[InputFile] = None,
-                         caption             : Option[String] = None,
-                         parseMode           : Option[ParseMode] = None,
-                         disableNotification : Option[Boolean] = None,
-                         replyToMessageId    : Option[Int] = None,
-                         replyMarkup         : Option[ReplyMarkup] = None
-                        ) extends MultipartRequest[Message] {
+case class SendAnimation(chatId: ChatId,
+                         animation: InputFile,
+                         duration: Option[Int] = None,
+                         width: Option[Int] = None,
+                         height: Option[Int] = None,
+                         thumb: Option[InputFile] = None,
+                         caption: Option[String] = None,
+                         parseMode: Option[ParseMode] = None,
+                         disableNotification: Option[Boolean] = None,
+                         replyToMessageId: Option[Int] = None,
+                         replyMarkup: Option[ReplyMarkup] = None)
+    extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = {
     List("animation" -> animation) ++ (thumb.map(t => "thumb" -> t)).toList
   }

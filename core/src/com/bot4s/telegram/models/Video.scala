@@ -10,12 +10,10 @@ package com.bot4s.telegram.models
   * @param mimeType  Optional Mime type of a file as defined by sender
   * @param fileSize  Optional File size
   */
-case class Video(
-                  fileId   : String,
-                  width    : Int,
-                  height   : Int,
-                  duration : Int,
-                  thumb    : Option[PhotoSize] = None,
-                  mimeType : Option[String] = None,
-                  fileSize : Option[Int] = None
-                )
+case class Video(fileId: String,
+                 width: Int,
+                 height: Int,
+                 duration: Int,
+                 thumb: Option[PhotoSize] = None,
+                 mimeType: Option[String] = None,
+                 fileSize: Option[Int] = None)

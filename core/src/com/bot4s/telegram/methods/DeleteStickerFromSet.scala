@@ -6,5 +6,4 @@ package com.bot4s.telegram.methods
   *
   * @param sticker String	File identifier of the sticker
   */
-case class DeleteStickerFromSet(sticker: String)
-  extends JsonRequest[Boolean]
+case class DeleteStickerFromSet(sticker: String) extends JsonRequest[Boolean]

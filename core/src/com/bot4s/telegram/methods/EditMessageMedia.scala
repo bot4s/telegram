@@ -15,13 +15,12 @@ import com.bot4s.telegram.models._
   * @param media            InputMedia 	Yes 	A JSON-serialized object for a new media content of the message
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for a new inline keyboard.
   */
-case class EditMessageMedia(
-                             chatId          : Option[ChatId] = None,
-                             messageId       : Option[Int] = None,
-                             inlineMessageId : Option[String] = None,
-                             media           : InputMedia,
-                             replyMarkup     : Option[InlineKeyboardMarkup] = None
-                           ) extends MultipartRequest[Either[Boolean, Message]] {
+case class EditMessageMedia(chatId: Option[ChatId] = None,
+                            messageId: Option[Int] = None,
+                            inlineMessageId: Option[String] = None,
+                            media: InputMedia,
+                            replyMarkup: Option[InlineKeyboardMarkup] = None)
+    extends MultipartRequest[Either[Boolean, Message]] {
 
   override def getFiles: List[(String, InputFile)] = {
     media.getFiles

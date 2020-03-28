@@ -13,7 +13,5 @@ import com.bot4s.telegram.models.ChatId
   * @param chatId  Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
   * @param title   String	New chat title, 1-255 characters
   */
-case class SetChatTitle(
-                         chatId : ChatId,
-                         title  : String
-                       ) extends JsonRequest[Boolean]
+case class SetChatTitle(chatId: ChatId, title: String)
+    extends JsonRequest[Boolean]

@@ -11,6 +11,7 @@ import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods.{GetGameHighScores, SetGameScore}
 import com.bot4s.telegram.models.{CallbackQuery, ChatId, User}
 import com.bot4s.telegram.future.BotExecutionContext
+import com.bot4s.telegram.log.StrictLogging
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.semiauto.deriveDecoder
 import io.circe.{Decoder, Encoder}
@@ -34,7 +35,10 @@ import scala.util.{Failure, Success}
   * or even better, submit a PR with your approach.
   */
 trait GameManager extends WebRoutes {
-  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  _: BotBase[Future]
+    with BotExecutionContext
+    with AkkaImplicits
+    with StrictLogging =>
 
   import com.bot4s.telegram.marshalling._
 
@@ -51,18 +55,26 @@ trait GameManager extends WebRoutes {
       path("games" / "api" / "setScore") &
       parameter("score".as[Long]) &
       extractPayload) { (score, payload) =>
-
-      onComplete(request(
-        SetGameScore(payload.user.id,
-          score,
-          chatId = payload.chatId,
-          messageId = payload.messageId,
-          inlineMessageId = payload.inlineMessageId))) {
+      onComplete(
+        request(
+          SetGameScore(
+            payload.user.id,
+            score,
+            chatId = payload.chatId,
+            messageId = payload.messageId,
+            inlineMessageId = payload.inlineMessageId
+          )
+        )
+      ) {
 
         case Success(value) => complete(StatusCodes.OK)
         case Failure(ex) =>
-          complete((StatusCodes.InternalServerError,
-            s"An error occurred: ${ex.getMessage}"))
+          complete(
+            (
+              StatusCodes.InternalServerError,
+              s"An error occurred: ${ex.getMessage}"
+            )
+          )
       }
     } ~
       (get &
@@ -71,8 +83,12 @@ trait GameManager extends WebRoutes {
         onComplete(request(payload.toGetGameHighScores)) {
           case Success(scores) => complete(marshalling.toJson(scores))
           case Failure(ex) =>
-            complete((StatusCodes.InternalServerError,
-              s"An error occurred: ${ex.getMessage}"))
+            complete(
+              (
+                StatusCodes.InternalServerError,
+                s"An error occurred: ${ex.getMessage}"
+              )
+            )
         }
       }
   }
@@ -81,20 +97,21 @@ trait GameManager extends WebRoutes {
 /**
   * Data shared with the game.
   */
-case class Payload(
-                    user            : User,
-                    chatId          : Option[ChatId] = None,
-                    messageId       : Option[Int] = None,
-                    inlineMessageId : Option[String] = None,
-                    gameManagerHost : String,
-                    gameShortName   : String) {
+case class Payload(user: User,
+                   chatId: Option[ChatId] = None,
+                   messageId: Option[Int] = None,
+                   inlineMessageId: Option[String] = None,
+                   gameManagerHost: String,
+                   gameShortName: String) {
 
-  def toGetGameHighScores = GetGameHighScores(user.id, chatId, messageId, inlineMessageId)
+  def toGetGameHighScores =
+    GetGameHighScores(user.id, chatId, messageId, inlineMessageId)
 
   def base64Encode: String = {
     val payloadJson = marshalling.toJson[Payload](this)
     val encodedPayload = Base64.getEncoder.encodeToString(
-      payloadJson.getBytes(StandardCharsets.UTF_8))
+      payloadJson.getBytes(StandardCharsets.UTF_8)
+    )
 
     encodedPayload
   }
@@ -104,21 +121,26 @@ object Payload {
 
   def base64Decode(encodedPayload: String): Payload = {
     val base64payload = URLDecoder.decode(encodedPayload, "UTF-8")
-    val jsonPayload = new String(Base64.getDecoder.decode(base64payload),
-      StandardCharsets.UTF_8)
+    val jsonPayload = new String(
+      Base64.getDecoder.decode(base64payload),
+      StandardCharsets.UTF_8
+    )
     val payload = marshalling.fromJson[Payload](jsonPayload)
 
     payload
   }
 
-  def forCallbackQuery(gameManagerHost: String)(implicit cbq: CallbackQuery): Payload = {
+  def forCallbackQuery(
+    gameManagerHost: String
+  )(implicit cbq: CallbackQuery): Payload = {
     Payload(
       cbq.from,
       cbq.message.map(_.source),
       cbq.message.map(_.messageId),
       cbq.inlineMessageId,
       gameManagerHost,
-      cbq.gameShortName.get) // throws if not a game callback
+      cbq.gameShortName.get
+    ) // throws if not a game callback
   }
 
   import marshalling._

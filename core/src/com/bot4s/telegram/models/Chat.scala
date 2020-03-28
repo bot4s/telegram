@@ -21,20 +21,18 @@ import com.bot4s.telegram.models.ChatType.ChatType
   * @param stickerSetName    String Optional. For supergroups, name of group sticker set. Returned only in getChat.
   * @param canSetStickerSet  Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
   */
-case class Chat(
-                 id            : Long,
-                 `type`        : ChatType,
-                 title         : Option[String] = None,
-                 username      : Option[String] = None,
-                 firstName     : Option[String] = None,
-                 lastName      : Option[String] = None,
-                 @Deprecated
-                 allMembersAreAdministrators : Option[Boolean] = None,
-                 photo         : Option[ChatPhoto] = None,
-                 description   : Option[String] = None,
-                 inviteLink    : Option[String] = None,
-                 pinnedMessage : Option[Message] = None,
-                 permissions   : Option[ChatPermissions] = None,
-                 stickerSetName: Option[String] = None,
-                 canSetStickerSet : Option[Boolean] = None
-               )
+case class Chat(id: Long,
+                `type`: ChatType,
+                title: Option[String] = None,
+                username: Option[String] = None,
+                firstName: Option[String] = None,
+                lastName: Option[String] = None,
+                @Deprecated
+                allMembersAreAdministrators: Option[Boolean] = None,
+                photo: Option[ChatPhoto] = None,
+                description: Option[String] = None,
+                inviteLink: Option[String] = None,
+                pinnedMessage: Option[Message] = None,
+                permissions: Option[ChatPermissions] = None,
+                stickerSetName: Option[String] = None,
+                canSetStickerSet: Option[Boolean] = None)

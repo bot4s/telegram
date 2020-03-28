@@ -8,9 +8,7 @@ package com.bot4s.telegram.models
   * @param invoicePayload   String Bot specified invoice payload
   * @param shippingAddress  ShippingAddress User specified shipping address
   */
-case class ShippingQuery(
-                          id              : String,
-                          from            : User,
-                          invoicePayload  : String,
-                          shippingAddress : ShippingAddress
-                        )
+case class ShippingQuery(id: String,
+                         from: User,
+                         invoicePayload: String,
+                         shippingAddress: ShippingAddress)

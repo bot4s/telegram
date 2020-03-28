@@ -19,10 +19,9 @@ package com.bot4s.telegram.methods
   *                        Telegram apps will support caching starting in version 3.14. Defaults to 0.
   *
   */
-case class AnswerCallbackQuery(
-                                callbackQueryId : String,
-                                text            : Option[String] = None,
-                                showAlert       : Option[Boolean] = None,
-                                url             : Option[String] = None,
-                                cacheTime       : Option[Int] = None
-                              ) extends JsonRequest[Boolean]
+case class AnswerCallbackQuery(callbackQueryId: String,
+                               text: Option[String] = None,
+                               showAlert: Option[Boolean] = None,
+                               url: Option[String] = None,
+                               cacheTime: Option[Int] = None)
+    extends JsonRequest[Boolean]

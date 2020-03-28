@@ -14,10 +14,8 @@ import com.bot4s.telegram.models.ResponseParameters
   * @param errorCode    Optional Integer Error code
   * @tparam R           Expected result type
   */
-case class Response[R](
-                           ok          : Boolean,
-                           result      : Option[R] = None,
-                           description : Option[String] = None,
-                           errorCode   : Option[Int] = None,
-                           parameters  : Option[ResponseParameters] = None
-                         )
+case class Response[R](ok: Boolean,
+                       result: Option[R] = None,
+                       description: Option[String] = None,
+                       errorCode: Option[Int] = None,
+                       parameters: Option[ResponseParameters] = None)

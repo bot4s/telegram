@@ -8,10 +8,8 @@ package com.bot4s.telegram.models
   * @param lastErrorDate         Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
   * @param lastErrorMessage      Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
   */
-case class WebhookInfo(
-                      url                  : String,
-                      hasCustomCertificate : Boolean,
-                      pendingUpdateCount   : Int,
-                      lastErrorDate        : Option[Int] = None,
-                      lastErrorMessage     : Option[String] = None
-                      )
+case class WebhookInfo(url: String,
+                       hasCustomCertificate: Boolean,
+                       pendingUpdateCount: Int,
+                       lastErrorDate: Option[Int] = None,
+                       lastErrorMessage: Option[String] = None)

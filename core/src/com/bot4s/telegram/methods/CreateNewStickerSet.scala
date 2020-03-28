@@ -21,14 +21,14 @@ import com.bot4s.telegram.models.InputFile
   * @param containsMasks  Boolean Optional Pass True, if a set of mask stickers should be created
   * @param maskPosition   MaskPosition Optional Position where the mask should be placed on faces
   */
-case class CreateNewStickerSet(
-                              userId        : Int,
-                              name          : String,
-                              title         : String,
-                              pngSticker    : InputFile,
-                              emojis        : String,
-                              containsMasks : Option[Boolean] = None,
-                              maskPosition  : Option[MaskPosition] = None
-                              ) extends MultipartRequest[Boolean] {
-  override def getFiles: List[(String, InputFile)] = List("png_sticker" -> pngSticker)
+case class CreateNewStickerSet(userId: Int,
+                               name: String,
+                               title: String,
+                               pngSticker: InputFile,
+                               emojis: String,
+                               containsMasks: Option[Boolean] = None,
+                               maskPosition: Option[MaskPosition] = None)
+    extends MultipartRequest[Boolean] {
+  override def getFiles: List[(String, InputFile)] =
+    List("png_sticker" -> pngSticker)
 }

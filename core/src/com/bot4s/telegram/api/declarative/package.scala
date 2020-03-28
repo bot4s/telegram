@@ -24,14 +24,16 @@ package object declarative {
     * @param action Action executed if the filter pass.
     *
     */
-   def when[F[_]: Applicative, T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])(action: Action[F, T]): Unit = {
-    val newAction = {
-      t: T =>
-        if (filter(t)) {
-          action(t)
-        } else {
-          Applicative[F].pure(())
-        }
+  def when[F[_]: Applicative, T](
+    actionInstaller: Action[F, T] => Unit,
+    filter: Filter[T]
+  )(action: Action[F, T]): Unit = {
+    val newAction = { t: T =>
+      if (filter(t)) {
+        action(t)
+      } else {
+        Applicative[F].pure(())
+      }
     }
     actionInstaller(newAction)
   }
@@ -52,14 +54,15 @@ package object declarative {
     * @param action Action executed if the filter pass.
     * @param elseAction Action executed if the filter does not pass.
     */
-  def whenOrElse[F[_], T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])
-                         (action: Action[F, T])(elseAction: Action[F, T]): Unit = {
-    val newAction = {
-      t: T =>
-        if (filter(t))
-          action(t)
-        else
-          elseAction(t)
+  def whenOrElse[F[_], T](
+    actionInstaller: Action[F, T] => Unit,
+    filter: Filter[T]
+  )(action: Action[F, T])(elseAction: Action[F, T]): Unit = {
+    val newAction = { t: T =>
+      if (filter(t))
+        action(t)
+      else
+        elseAction(t)
     }
     actionInstaller(newAction)
   }

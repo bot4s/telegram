@@ -15,14 +15,13 @@ import com.bot4s.telegram.models.ChatId
   *                             fixed-width text or inline URLs in the media caption.
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
   */
-case class EditMessageCaption(
-                               chatId                : Option[ChatId] = None,
-                               messageId             : Option[Int] = None,
-                               inlineMessageId       : Option[String] = None,
-                               caption               : Option[String] = None,
-                               parseMode             : Option[ParseMode] = None,
-                               replyMarkup           : Option[ReplyMarkup] = None
-                             ) extends JsonRequest[Message Either Boolean] {
+case class EditMessageCaption(chatId: Option[ChatId] = None,
+                              messageId: Option[Int] = None,
+                              inlineMessageId: Option[String] = None,
+                              caption: Option[String] = None,
+                              parseMode: Option[ParseMode] = None,
+                              replyMarkup: Option[ReplyMarkup] = None)
+    extends JsonRequest[Message Either Boolean] {
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
@@ -30,5 +29,8 @@ case class EditMessageCaption(
   }
 
   if (chatId.isEmpty && messageId.isEmpty)
-    require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+    require(
+      inlineMessageId.isDefined,
+      "Required if chatId and messageId are not specified"
+    )
 }

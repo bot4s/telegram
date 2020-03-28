@@ -15,9 +15,8 @@ import com.bot4s.telegram.models.{ChatId, GameHighScore}
   * @param messageId        Integer Optional Required if inline_message_id is not specified. Unique identifier of the sent message
   * @param inlineMessageId  String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   */
-case class GetGameHighScores(
-                            userId          : Int,
-                            chatId          : Option[ChatId] = None,
-                            messageId       : Option[Int] = None,
-                            inlineMessageId : Option[String] = None
-                            ) extends JsonRequest[Seq[GameHighScore]]
+case class GetGameHighScores(userId: Int,
+                             chatId: Option[ChatId] = None,
+                             messageId: Option[Int] = None,
+                             inlineMessageId: Option[String] = None)
+    extends JsonRequest[Seq[GameHighScore]]

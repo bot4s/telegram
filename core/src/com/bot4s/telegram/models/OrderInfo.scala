@@ -8,9 +8,7 @@ package com.bot4s.telegram.models
   * @param email            String Optional. User email
   * @param shippingAddress  ShippingAddress Optional. User shipping address
   */
-case class OrderInfo(
-                    name            : Option[String] = None,
-                    phoneNumber     : Option[String] = None,
-                    email           : Option[String] = None,
-                    shippingAddress : Option[ShippingAddress] = None
-                    )
+case class OrderInfo(name: Option[String] = None,
+                     phoneNumber: Option[String] = None,
+                     email: Option[String] = None,
+                     shippingAddress: Option[ShippingAddress] = None)

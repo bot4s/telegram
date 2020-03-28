@@ -24,15 +24,14 @@ import com.bot4s.telegram.models.{ChatId, InputFile}
   *                             A JSON-serialized object for an inline keyboard, custom reply keyboard,
   *                             instructions to hide reply keyboard or to force a reply from the user.
   */
-case class SendVoice(
-                      chatId              : ChatId,
-                      voice               : InputFile,
-                      caption             : Option[String] = None,
-                      parseMode           : Option[ParseMode] = None,
-                      duration            : Option[Int] = None,
-                      disableNotification : Option[Boolean] = None,
-                      replyToMessageId    : Option[Int] = None,
-                      replyMarkup         : Option[ReplyMarkup] = None
-                    ) extends MultipartRequest[Message] {
+case class SendVoice(chatId: ChatId,
+                     voice: InputFile,
+                     caption: Option[String] = None,
+                     parseMode: Option[ParseMode] = None,
+                     duration: Option[Int] = None,
+                     disableNotification: Option[Boolean] = None,
+                     replyToMessageId: Option[Int] = None,
+                     replyMarkup: Option[ReplyMarkup] = None)
+    extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("voice" -> voice)
 }

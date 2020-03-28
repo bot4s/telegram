@@ -16,10 +16,11 @@ import com.bot4s.telegram.models.ChatId
   * @param longitude        Float number Yes	Longitude of new location
   * @param replyMarkup      InlineKeyboardMarkup Optional A JSON-serialized object for a new inline keyboard.
   */
-case class EditMessageLiveLocation(chatId          : Option[ChatId] = None,
-                                   messageId       : Option[Int] = None,
-                                   inlineMessageId : Option[Int] = None,
-                                   latitude        : Option[Double] = None,
-                                   longitude       : Option[Double] = None,
-                                   replyMarkup     : Option[InlineKeyboardMarkup] = None
-                                  ) extends JsonRequest[Message Either Boolean]
+case class EditMessageLiveLocation(chatId: Option[ChatId] = None,
+                                   messageId: Option[Int] = None,
+                                   inlineMessageId: Option[Int] = None,
+                                   latitude: Option[Double] = None,
+                                   longitude: Option[Double] = None,
+                                   replyMarkup: Option[InlineKeyboardMarkup] =
+                                     None)
+    extends JsonRequest[Message Either Boolean]

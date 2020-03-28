@@ -13,15 +13,6 @@ package com.bot4s.telegram.methods
   */
 object ChatAction extends Enumeration {
   type ChatAction = Value
-  val
-  Typing,
-  UploadPhoto,
-  RecordVideo,
-  UploadVideo,
-  RecordAudio,
-  UploadAudio,
-  UploadDocument,
-  FindLocation,
-  RecordVideoNote,
-  UploadVideoNote = Value
+  val Typing, UploadPhoto, RecordVideo, UploadVideo, RecordAudio, UploadAudio,
+  UploadDocument, FindLocation, RecordVideoNote, UploadVideoNote = Value
 }

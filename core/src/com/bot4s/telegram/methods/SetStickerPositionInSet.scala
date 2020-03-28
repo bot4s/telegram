@@ -7,6 +7,5 @@ package com.bot4s.telegram.methods
   * @param sticker   String File identifier of the sticker
   * @param position  Integer New sticker position in the set, zero-based
   */
-case class SetStickerPositionInSet(
-                                    sticker  : String,
-                                    position : Int) extends JsonRequest[Boolean]
+case class SetStickerPositionInSet(sticker: String, position: Int)
+    extends JsonRequest[Boolean]

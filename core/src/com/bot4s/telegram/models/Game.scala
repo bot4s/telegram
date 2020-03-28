@@ -12,11 +12,9 @@ package com.bot4s.telegram.models
   * @param textEntities  Array of MessageEntity Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
   * @param animation     Animation Optional. Animation that will be displayed in the game message in chats. Upload via BotFather
   */
-case class Game(
-               title        : String,
-               description  : String,
-               photo        : Array[PhotoSize],
-               text         : Option[String] = None,
-               textEntities : Option[Array[MessageEntity]] = None,
-               animation    : Option[Animation] = None
-               )
+case class Game(title: String,
+                description: String,
+                photo: Array[PhotoSize],
+                text: Option[String] = None,
+                textEntities: Option[Array[MessageEntity]] = None,
+                animation: Option[Animation] = None)

@@ -9,7 +9,5 @@ import com.bot4s.telegram.models.ChatId
   * @param chatId Integer or String Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
   * @param userId Integer Unique identifier of the target user
   */
-case class UnbanChatMember(
-                          chatId: ChatId,
-                          userId: Int
-                          ) extends JsonRequest[Boolean]
+case class UnbanChatMember(chatId: ChatId, userId: Int)
+    extends JsonRequest[Boolean]
