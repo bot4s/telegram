@@ -13,9 +13,10 @@ import org.scalatest.FlatSpec
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
+class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   import marshalling._
+  import CommandImplicits._
 
   trait Fixture {
     val handler = mockFunction[Message, Future[Unit]]
@@ -35,6 +36,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
           })
         }
       }
+      //import CommandImplicits._
 
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
@@ -49,12 +51,12 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
   it should "ignore non-declared commands" in new Fixture {
     handlerHello.expects(*).never()
     handlerHelloWorld.expects(*).never()
-    bot.receiveExtMessage((textMessage("/cocou"), None)).get
+    bot.receiveExtMessage((textMessage("/coucou"), None)).get
   }
 
   it should "match string command" in new Fixture {
     handler.expects(*).returning(Future.successful(())).once()
-    bot.onCommand("/cmd")(handler)
+    bot.onCommand(stringToCommandFilter("/cmd"))(handler)
     bot.receiveExtMessage((textMessage("/cmd"), None)).get
   }
 
@@ -70,7 +72,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
 
   it should "match Symbol command" in new Fixture {
     handler.expects(*).returning(Future.successful(())).once()
-    bot.onCommand('cmd)(handler)
+    bot.onCommand(symbolToCommandFilter('cmd))(handler)
     bot.receiveExtMessage((textMessage("/cmd"), None)).get
   }
 

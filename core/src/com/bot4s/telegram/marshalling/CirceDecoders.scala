@@ -17,7 +17,7 @@ import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.Decoder
 import io.circe.generic.semiauto._
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 /** Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
   */

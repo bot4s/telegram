@@ -8,7 +8,7 @@ case class Command(cmd: String, recipient: Option[String])
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands[F[_]] extends Messages[F] with CommandImplicits {
+trait Commands[F[_]] extends Messages[F] {
   _: BotBase[F] =>
 
   /**
@@ -122,7 +122,7 @@ trait CommandFilterMagnet {
   def @@(r: Option[String]) = to(r)
 }
 
-trait CommandImplicits {
+object CommandImplicits {
   implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 

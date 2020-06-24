@@ -1,23 +1,22 @@
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
-import mill.scalajslib._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.11.12", "2.12.9")
+//val ScalaVersions = Seq("2.11.12", "2.12.9", "2.13.2")
+//val ScalaVersions = Seq("2.13.3")
+val ScalaVersions = Seq("2.12.9")
 
 object library {
 
   object Version {
-    val circe              = "0.11.1"
-    val cats               = "1.6.1"
-    val catsEffect         = "1.4.0"
+    val circe              = "0.12.0-M3"
+    val cats               = "2.0.0-RC3"
+    val catsEffect         = "2.0.0"
     val rosHttp            = "2.2.0"
-    val sttp               = "1.6.4"
-    val slogging           = "0.6.1"
-    val scalaTest          = "3.0.7"
-    val scalaMock          = "3.6.0"
-    val scalaMockScalaTest = "3.6.0"
+    val sttp               = "1.6.8"
+    val scalaTest          = "3.0.8"
+    val scalaMockScalaTest = "4.4.0"
     val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
     val scalajHttp         = "2.4.2"
@@ -26,11 +25,9 @@ object library {
     val akkaStream         = akkaVersion
     val akkaHttp           = "10.1.9"
     val akkaTestkit        = "2.5.24"
-    val akkaHttpCors       = "0.4.0"
+    val akkaHttpCors       = "0.4.1"
     val hammock            = "0.9.1"
-    val monix              = "3.0.0-RC3"
-    val scalaJs            = "0.6.28"
-    val scalaJsNodeFetch   = "0.4.2"
+    val monix              = "3.0.0"
   }
 
   val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
@@ -42,7 +39,7 @@ object library {
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
-  val scalaMockScalaTest = ivy"org.scalamock::scalamock-scalatest-support::${Version.scalaMockScalaTest}"
+  val scalaMockScalaTest = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
   val akkaHttpCors       = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
   val scalaTest          = ivy"org.scalatest::scalatest::${Version.scalaTest}"
   val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
@@ -59,10 +56,9 @@ object library {
   val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
   val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
   val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
-  val slogging           = ivy"biz.enef::slogging::${Version.slogging}"
   val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
-  val scalaJsNodeFetch   = ivy"io.scalajs.npm::node-fetch::${Version.scalaJsNodeFetch}"
 }
+
 
 trait Bot4sTelegramModule extends CrossScalaModule {
 
@@ -75,9 +71,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     "-unchecked",
     //"-Xfatal-warnings",
     "-Xlint:_",
-    "-Yno-adapted-args",
-    "-Ywarn-dead-code",
-    "-Ypartial-unification"
+    "-Ywarn-dead-code"
   )
 
   override def ivyDeps = Agg(
@@ -89,13 +83,13 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     library.catsCore,
     library.catsFree,
     library.sttpCore,
-    library.slogging
+    library.scalaLogging
   )
 
   trait Tests extends super.Tests {
     override def ivyDeps = Agg(
       library.scalaTest,
-      library.scalaMockScalaTest,
+      library.scalaMockScalaTest
     )
 
     def testFrameworks = Seq("org.scalatest.tools.Framework")
@@ -149,22 +143,6 @@ object core extends Module {
 
   }
 
-  object js extends Cross[CoreJsModule](ScalaVersions: _ *)
-
-  class CoreJsModule(val crossScalaVersion: String) extends Bot4sTelegramCore("js")
-    with ScalaJSModule with Publishable {
-
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalaJsNodeFetch
-    )
-
-    def scalaJSVersion = library.Version.scalaJs
-
-    def testFrameworks = Seq("org.scalatest.tools.Framework")
-
-    //object test extends Tests
-  }
-
 }
 
 abstract class Bot4sTelegramAkka extends Bot4sTelegramCrossPlatform("jvm", "akka")
@@ -211,15 +189,7 @@ object examples extends Module {
     )
   }
 
-  object js extends Cross[ExamplesJsModule](ScalaVersions: _ *)
 
-  class ExamplesJsModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("js") with ScalaJSModule {
-    override def moduleDeps = super.moduleDeps ++ Seq(core.js())
-
-    def scalaJSVersion = library.Version.scalaJs
-
-    def testFrameworks = Seq("org.scalatest.tools.Framework")
-  }
 
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions: _*)
 

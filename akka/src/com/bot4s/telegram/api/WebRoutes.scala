@@ -4,7 +4,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{Future, Promise}
 

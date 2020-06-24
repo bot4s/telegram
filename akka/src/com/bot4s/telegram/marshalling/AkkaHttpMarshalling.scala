@@ -57,7 +57,7 @@ object AkkaHttpMarshalling {
             }
           })
 
-          val params = fields.getOrElse(Map())
+          val params = fields.getOrElse(Map()).toMap
           val paramParts = params.map { case (key, value) => Multipart.FormData.BodyPart(key, HttpEntity(value)) }
 
           Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts): _*).toEntity())

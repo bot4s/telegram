@@ -3,7 +3,7 @@ package com.bot4s.telegram.future
 import com.bot4s.telegram.api.{Polling => BasePolling}
 import com.bot4s.telegram.methods.{DeleteWebhook, GetMe}
 import com.bot4s.telegram.models.{Update, User}
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal

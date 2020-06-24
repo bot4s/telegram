@@ -2,7 +2,7 @@ package com.bot4s.telegram.api
 
 import com.bot4s.telegram.methods.GetUpdates
 import com.bot4s.telegram.models.Update
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration.{Duration, _}
 

@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
 import com.bot4s.telegram.methods.SetWebhook
 import com.bot4s.telegram.models.{InputFile, Update}
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
