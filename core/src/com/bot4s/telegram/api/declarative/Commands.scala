@@ -8,7 +8,7 @@ case class Command(cmd: String, recipient: Option[String])
 /**
   * Provides a declarative interface to define commands.
   */
-trait Commands[F[_]] extends Messages[F] {
+trait Commands[F[_]] extends Messages[F] with CommandImplicits {
   _: BotBase[F] =>
 
   /**
@@ -44,7 +44,7 @@ trait Commands[F[_]] extends Messages[F] {
     *   onCommand(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
     * }}}
     */
-  def onCommand(filter: Filter[Command])(action: Action[F, Message]): Unit = {
+  def onCommandWithFilter(filter: Filter[Command])(action: Action[F, Message]): Unit = {
     onMessage { implicit msg =>
       using(command) { cmd =>
         if (filter(cmd)) {
@@ -123,7 +123,7 @@ trait CommandFilterMagnet {
 }
 
 trait CommandImplicits {
-  def stringToCommandFilter(s: String) = CommandFilterMagnet {
+  implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 
     require(target.matches("""\w+"""))
@@ -133,7 +133,7 @@ trait CommandImplicits {
     }
   }
 
-  def symbolToCommandFilter(s: Symbol) = {
+  implicit def symbolToCommandFilter(s: Symbol) = {
     stringToCommandFilter(s.name)
   }
 }

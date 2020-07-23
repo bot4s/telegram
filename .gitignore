@@ -24,6 +24,7 @@ out/
 .worksheet
 .idea
 .idea_modules
+.metals
 
 credentials.*
 

@@ -35,11 +35,10 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
           })
         }
       }
-      //import CommandImplicits._
 
-      onCommand(stringToCommandFilter("/hello"))(handlerHello)
-      onCommand(stringToCommandFilter("/helloWorld"))(handlerHelloWorld)
-      onCommand(stringToCommandFilter("/respect") & RespectRecipient)(handlerRespect)
+      onCommand("/hello")(handlerHello)
+      onCommand("/helloWorld")(handlerHelloWorld)
+      onCommand("/respect" & RespectRecipient)(handlerRespect)
     }
 
     bot.run()
@@ -55,13 +54,13 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
 
   it should "match string command" in new Fixture {
     handler.expects(*).returning(Future.successful(())).once()
-    bot.onCommand(stringToCommandFilter("/cmd"))(handler)
+    bot.onCommand("/cmd")(handler)
     bot.receiveExtMessage((textMessage("/cmd"), None)).get
   }
 
   it should "match String command sequence" in new Fixture {
     handler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand(stringToCommandFilter("/a") | stringToCommandFilter("/b"))(handler)
+    bot.onCommand("/a" | "/b")(handler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("/a"), None))
       _ <- bot.receiveExtMessage((textMessage("/b"), None))
@@ -122,7 +121,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Future[Unit]]
     commandHandler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand(stringToCommandFilter("command") | stringToCommandFilter("/another"))(commandHandler)
+    bot.onCommand("command" | "/another")(commandHandler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("command"), None))
       _ <- bot.receiveExtMessage((textMessage("another"), None))
