@@ -3,9 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import ammonite.ops._
 
-//val ScalaVersions = Seq("2.11.12", "2.12.9", "2.13.2")
-//val ScalaVersions = Seq("2.13.3")
-val ScalaVersions = Seq("2.12.9")
+val ScalaVersions = Seq("2.11.12", "2.12.9", "2.13.3")
 
 object library {
 

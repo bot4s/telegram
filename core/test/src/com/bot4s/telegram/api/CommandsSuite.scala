@@ -13,10 +13,9 @@ import org.scalatest.FlatSpec
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
+class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
 
   import marshalling._
-  import CommandImplicits._
 
   trait Fixture {
     val handler = mockFunction[Message, Future[Unit]]
@@ -38,9 +37,9 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
       }
       //import CommandImplicits._
 
-      onCommand("/hello")(handlerHello)
-      onCommand("/helloWorld")(handlerHelloWorld)
-      onCommand("/respect" & RespectRecipient)(handlerRespect)
+      onCommand(stringToCommandFilter("/hello"))(handlerHello)
+      onCommand(stringToCommandFilter("/helloWorld"))(handlerHelloWorld)
+      onCommand(stringToCommandFilter("/respect") & RespectRecipient)(handlerRespect)
     }
 
     bot.run()
@@ -62,7 +61,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match String command sequence" in new Fixture {
     handler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand("/a" | "/b")(handler)
+    bot.onCommand(stringToCommandFilter("/a") | stringToCommandFilter("/b"))(handler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("/a"), None))
       _ <- bot.receiveExtMessage((textMessage("/b"), None))
@@ -78,7 +77,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
 
   it should "match Symbol command sequence" in new Fixture {
     handler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand('a | 'b)(handler)
+    bot.onCommand(symbolToCommandFilter('a) | symbolToCommandFilter('b))(handler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("/a"), None))
       _ <- bot.receiveExtMessage((textMessage("/b"), None))
@@ -123,7 +122,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils {
   it should "support commands without '/' suffix" in new Fixture {
     val commandHandler = mockFunction[Message, Future[Unit]]
     commandHandler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand("command" | "/another")(commandHandler)
+    bot.onCommand(stringToCommandFilter("command") | stringToCommandFilter("/another"))(commandHandler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("command"), None))
       _ <- bot.receiveExtMessage((textMessage("another"), None))

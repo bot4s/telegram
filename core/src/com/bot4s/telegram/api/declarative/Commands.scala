@@ -122,8 +122,8 @@ trait CommandFilterMagnet {
   def @@(r: Option[String]) = to(r)
 }
 
-object CommandImplicits {
-  implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
+trait CommandImplicits {
+  def stringToCommandFilter(s: String) = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 
     require(target.matches("""\w+"""))
@@ -133,7 +133,7 @@ object CommandImplicits {
     }
   }
 
-  implicit def symbolToCommandFilter(s: Symbol) = {
+  def symbolToCommandFilter(s: Symbol) = {
     stringToCommandFilter(s.name)
   }
 }
