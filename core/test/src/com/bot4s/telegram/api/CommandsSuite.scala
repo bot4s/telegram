@@ -70,13 +70,13 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
 
   it should "match Symbol command" in new Fixture {
     handler.expects(*).returning(Future.successful(())).once()
-    bot.onCommand(symbolToCommandFilter('cmd))(handler)
+    bot.onCommand('cmd)(handler)
     bot.receiveExtMessage((textMessage("/cmd"), None)).get
   }
 
   it should "match Symbol command sequence" in new Fixture {
     handler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand(symbolToCommandFilter('a) | symbolToCommandFilter('b))(handler)
+    bot.onCommand('a | 'b)(handler)
     (for {
       _ <- bot.receiveExtMessage((textMessage("/a"), None))
       _ <- bot.receiveExtMessage((textMessage("/b"), None))
