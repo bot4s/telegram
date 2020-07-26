@@ -34,7 +34,7 @@ import scala.util.{Failure, Success}
   * or even better, submit a PR with your approach.
   */
 trait GameManager extends WebRoutes {
-  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
 
   import com.bot4s.telegram.marshalling._
 

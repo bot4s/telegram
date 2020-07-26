@@ -16,7 +16,7 @@ import scala.util.control.NonFatal
   * Automatically registers the webhook on run().
   */
 trait Webhook extends WebRoutes with StrictLogging {
-  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
 
   import com.bot4s.telegram.marshalling._
   import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._

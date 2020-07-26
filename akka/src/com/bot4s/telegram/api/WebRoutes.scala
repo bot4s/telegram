@@ -9,7 +9,7 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.concurrent.{Future, Promise}
 
 trait WebRoutes extends BotBase[Future] with StrictLogging {
-  _: BotExecutionContext with AkkaImplicits =>
+  this: BotExecutionContext with AkkaImplicits =>
 
   val port: Int
   val interfaceIp: String = "::0"
