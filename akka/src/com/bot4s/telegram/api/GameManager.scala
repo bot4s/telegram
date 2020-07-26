@@ -122,6 +122,6 @@ object Payload {
   }
 
   import marshalling._
-  implicit val payloadEncoder: Encoder[Payload] = deriveEncoder[Payload]
+  implicit val payloadEncoder: Encoder[Payload] = deriveConfiguredEncoder[Payload]
   implicit val payloadDecoder: Decoder[Payload] = deriveDecoder[Payload]
 }

@@ -3,7 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.11.12", "2.12.9", "2.13.3")
+val ScalaVersions = Seq(/*"2.11.12", "2.12.9", */"2.13.3")
 
 object library {
 
@@ -12,7 +12,7 @@ object library {
     val cats               = "2.1.1"
     val catsEffect         = "2.1.4"
     val rosHttp            = "3.0.0"
-    val sttp               = "1.7.2" // TODO: migrate to 2.0
+    val sttp               = "1.7.2" // TODO: migrate to 2.x
     val scalaTest          = "3.2.0"
     val scalaMockScalaTest = "5.0.0"
     val scalaLogging       = "3.9.2"
@@ -22,7 +22,7 @@ object library {
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
     val akkaHttp           = "10.1.12"
-    val akkaTestkit        = "2.5.24"
+    val akkaTestkit        = akkaVersion
     val akkaHttpCors       = "1.0.0"
     val hammock            = "0.11.0"
     val monix              = "3.2.2"

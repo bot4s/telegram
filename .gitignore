@@ -25,6 +25,7 @@ out/
 .idea
 .idea_modules
 .metals
+.coursier
 
 credentials.*
 

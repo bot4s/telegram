@@ -7,9 +7,10 @@ import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import com.bot4s.telegram.models.{ChatId, MaskPositionType, _}
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 
-class MarshallingSuite extends FlatSpec with MockFactory with Matchers with TestUtils {
+class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with TestUtils {
 
   behavior of "Circe JSON marshalling"
 

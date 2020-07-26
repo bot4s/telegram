@@ -3,12 +3,12 @@ package com.bot4s.telegram.api
 import com.bot4s.telegram.api.declarative.RegexCommands
 import com.bot4s.telegram.models.Message
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
-class RegexCommandsSuite extends FlatSpec with MockFactory with TestUtils {
+class RegexCommandsSuite extends AnyFlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[Message, Seq[String], Future[Unit]]

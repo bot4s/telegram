@@ -9,9 +9,10 @@ import com.bot4s.telegram.api.TestUtils
 import com.bot4s.telegram.marshalling.AkkaHttpMarshalling.underscore_case_marshaller
 import com.bot4s.telegram.methods.SendDocument
 import com.bot4s.telegram.models.{AkkaInputFile, InputFile}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.funsuite.AnyFunSuite
 
-class AkkaHttpMarshallingSuite extends FunSuite with ScalatestRouteTest with Matchers with TestUtils {
+class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with Matchers with TestUtils {
 
   test("Correctly serialize top-level string members in Akka multipart requests") {
     val captionWithLineBreak = "this is a line\nand then\t another line"
