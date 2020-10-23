@@ -2,7 +2,8 @@ package com.bot4s.telegram.models
 
 /** This object represents a sticker.
   *
-  * @param fileId        Unique identifier for this file
+  * @param fileId        Identifier for this file
+  * @param fileUniqueId  Unique identifier for this file
   * @param width         Sticker width
   * @param height        Sticker height
   * @param isAnimated    Boolean True, if the sticker is animated
@@ -15,6 +16,7 @@ package com.bot4s.telegram.models
   */
 case class Sticker(
                     fileId       : String,
+                    fileUniqueId : String,
                     width        : Int,
                     height       : Int,
                     isAnimated   : Boolean,
