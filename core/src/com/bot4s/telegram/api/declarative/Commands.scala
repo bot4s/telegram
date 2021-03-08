@@ -41,7 +41,7 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
     * Implicits are provided for "string" and 'symbol.
     * @example {{{
-    *   onCommand(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
+    *   onCommandWithFilter(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
     * }}}
     */
   def onCommandWithFilter(filter: Filter[Command])(action: Action[F, Message]): Unit = {
@@ -123,6 +123,9 @@ trait CommandFilterMagnet {
 }
 
 trait CommandImplicits {
+  def unary_+(s: String) = stringToCommandFilter(s)
+  def unary_+(s: Symbol) = symbolToCommandFilter(s)
+
   implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 

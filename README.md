@@ -115,9 +115,9 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 `bot4s.telegram` uses [mill](https://www.lihaoyi.com/mill/).
 
 ```
-$ mill -i "examples.jvm[2.13.3].console"
-[84/84] examples[2.12.6].console 
-Welcome to Scala 2.12.6 (OpenJDK 64-Bit Server VM, Java 1.8.0_162).
+$ mill examples.jvm[2.12.13].console
+[79/79] examples.jvm[2.12.13].console
+Welcome to Scala 2.12.13 (OpenJDK 64-Bit Server VM, Java 11.0.10).
 Type in expressions for evaluation. Or try :help.
 
 scala> new RandomBot("BOT_TOKEN").run()
