@@ -53,7 +53,7 @@ object AkkaHttpMarshalling {
           val fields = io.circe.parser.parse(marshalling.toJson(request)).fold(throw _, _.asObject.map {
             _.toMap.mapValues {
               json =>
-                json.asString.getOrElse(marshalling.printer.pretty(json))
+                json.asString.getOrElse(marshalling.printer.print(json))
             }
           })
 

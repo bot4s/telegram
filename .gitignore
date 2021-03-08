@@ -26,6 +26,8 @@ out/
 .idea_modules
 .metals
 .coursier
+.bloop
+.vscode
 
 credentials.*
 

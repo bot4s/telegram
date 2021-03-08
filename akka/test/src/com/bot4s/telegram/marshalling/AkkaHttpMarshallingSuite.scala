@@ -5,7 +5,6 @@ import akka.http.scaladsl.model.RequestEntity
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.{ScalatestRouteTest, RouteTestTimeout}
 import akka.util.ByteString
-import akka.actor.ActorSystem
 
 import com.bot4s.telegram.api.TestUtils
 import com.bot4s.telegram.marshalling.AkkaHttpMarshalling.underscore_case_marshaller
@@ -18,7 +17,7 @@ import concurrent.duration._
 
 class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with Matchers with TestUtils {
 
-  implicit def default(implicit system: ActorSystem) = RouteTestTimeout(5.seconds)
+  implicit def defaultTimeout = RouteTestTimeout(5.seconds)
 
   test("Correctly serialize top-level string members in Akka multipart requests") {
     val captionWithLineBreak = "this is a line\nand then\t another line"
@@ -27,7 +26,7 @@ class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with 
 
     val entity = SendDocument(channelId, InputFile(fileId), caption = Some(captionWithLineBreak))
     Post("/", Marshal(entity).to[RequestEntity]) ~> {
-      formFields(('caption, 'chat_id, 'document)) {
+      formFields('caption, 'chat_id, 'document) {
         (caption, chat_id, document) => complete(caption + chat_id + document)
       }
     } ~> check {
