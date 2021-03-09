@@ -1,10 +1,8 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.declarative.{Callbacks, Commands, CommandFilterMagnet}
+import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
 import com.bot4s.telegram.api.{AkkaDefaults, GameManager, Payload}
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
@@ -43,7 +41,7 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
 
   val Play2048 = "play_2048"
 
-  onCommand((Play2048: CommandFilterMagnet) or "2048" or "start") { implicit msg =>
+  onCommand(Play2048 or "2048" or "start") { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
     ).void
@@ -64,6 +62,11 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
     acked.getOrElse(ackCallback()).void
   }
 
+  // Note: These imports need to be here, because the Directives 
+  //       import conflicts with implicit conversions
+  import akka.http.scaladsl.server.Directives._
+  import akka.http.scaladsl.server.Route
+  
   override def routes: Route =
     super.routes ~
       gameManagerRoute ~ {
