@@ -20,7 +20,7 @@ object Implicits {
 
     def altWithUrl(url: String) = s"[$s]($url)"
 
-    def mention(userId: Int) = s"[$s](tg://user?id=$userId)"
+    def mention(userId: Long) = s"[$s](tg://user?id=$userId)"
 
     def inlineCode = s"`$s`"
 

@@ -13,7 +13,7 @@ import com.bot4s.telegram.models.{File, InputFile}
   *                    [[https://core.telegram.org/bots/api#sending-files More info on Sending Files]]
   */
 case class UploadStickerFile(
-                              userId     : Int,
+                              userId     : Long,
                               pngSticker : InputFile) extends MultipartRequest[File] {
   override def getFiles: List[(String, InputFile)] = List("png_sticker" -> pngSticker)
 }

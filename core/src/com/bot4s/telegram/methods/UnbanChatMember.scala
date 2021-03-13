@@ -11,5 +11,5 @@ import com.bot4s.telegram.models.ChatId
   */
 case class UnbanChatMember(
                           chatId: ChatId,
-                          userId: Int
+                          userId: Long
                           ) extends JsonRequest[Boolean]

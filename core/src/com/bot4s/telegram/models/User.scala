@@ -10,7 +10,7 @@ package com.bot4s.telegram.models
   * @param languageCode String Optional. IETF language tag of the user's language
   */
 case class User(
-                 id           : Int,
+                 id           : Long,
                  isBot        : Boolean,
                  firstName    : String,
                  lastName     : Option[String] = None,

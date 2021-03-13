@@ -20,7 +20,7 @@ import com.bot4s.telegram.models.{ChatId, ChatPermissions}
   */
 case class RestrictChatMember(
                              chatId                : ChatId,
-                             userId                : Int,
+                             userId                : Long,
                              permissions           : Option[ChatPermissions] = None,
                              untilDate             : Option[Int] = None,
                              @Deprecated
