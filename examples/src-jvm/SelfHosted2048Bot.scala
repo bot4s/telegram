@@ -1,5 +1,8 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
+import akka.http.scaladsl.server.Directives.{pathPrefix, getFromResourceDirectory}
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.RouteConcatenation._
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
@@ -61,11 +64,6 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
 
     acked.getOrElse(ackCallback()).void
   }
-
-  // Note: These imports need to be here, because the Directives 
-  //       import conflicts with implicit conversions
-  import akka.http.scaladsl.server.Directives._
-  import akka.http.scaladsl.server.Route
   
   override def routes: Route =
     super.routes ~
