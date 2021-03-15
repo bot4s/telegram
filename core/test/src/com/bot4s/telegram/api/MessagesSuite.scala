@@ -4,12 +4,12 @@ import cats.instances.future._
 import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.models.{Message, Update}
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
-class MessagesSuite extends FlatSpec with MockFactory with TestUtils {
+class MessagesSuite extends AnyFlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[Message, Future[Unit]]

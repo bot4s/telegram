@@ -53,11 +53,11 @@ object AkkaHttpMarshalling {
           val fields = io.circe.parser.parse(marshalling.toJson(request)).fold(throw _, _.asObject.map {
             _.toMap.mapValues {
               json =>
-                json.asString.getOrElse(marshalling.printer.pretty(json))
+                json.asString.getOrElse(marshalling.printer.print(json))
             }
           })
 
-          val params = fields.getOrElse(Map())
+          val params = fields.getOrElse(Map()).toMap
           val paramParts = params.map { case (key, value) => Multipart.FormData.BodyPart(key, HttpEntity(value)) }
 
           Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts): _*).toEntity())

@@ -22,6 +22,7 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     *   onCommand('echo) { implicit msg => ... }
     *   onCommand('hi | 'hello | 'hey) { implicit msg => ... }
     *   onCommand("/adieu" | "/bye") { implicit msg => ... }
+    *   onCommand(cmd => cmd.cmd.contains("help")) { implicit msg => ... }
     * }}}
     */
   def onCommand(filter: CommandFilterMagnet)(action: Action[F, Message]): Unit =
@@ -37,26 +38,6 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     }
 
   /**
-    * Receives /commands with the specified action.
-    * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
-    * Implicits are provided for "string" and 'symbol.
-    * @example {{{
-    *   onCommand(_.cmd.equalsIgnoreCase("hello")) { implicit msg => ... }
-    * }}}
-    */
-  def onCommand(filter: Filter[Command])(action: Action[F, Message]): Unit = {
-    onMessage { implicit msg =>
-      using(command) { cmd =>
-        if (filter(cmd)) {
-          action(msg)
-        } else {
-          unit
-        }
-      }
-    }
-  }
-
-  /**
     * Extract command arguments from the message's text; if present.
     * The first token, the /command, is dropped.
     *
@@ -68,7 +49,6 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     *   }
     * }}}
     */
-
   def withArgs(action: Action[F, Args])(implicit msg: Message): F[Unit] = {
     using(commandArguments)(action)
   }

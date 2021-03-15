@@ -1,11 +1,11 @@
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.{Path, Query}
-import akka.http.scaladsl.model.headers.{HttpOrigin, HttpOriginRange}
-
-import ch.megard.akka.http.cors.scaladsl.model.{HttpHeaderRange, HttpOriginMatcher}
-
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.model.headers.HttpOrigin
+import akka.http.scaladsl.server.RouteConcatenation._
 import akka.http.scaladsl.server.Route
+
+import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
+
 import cats.instances.future._
 import cats.syntax.functor._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors

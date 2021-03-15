@@ -12,7 +12,7 @@ import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.methods.{Request, Response}
 import io.circe.{Decoder, Encoder}
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 import com.bot4s.telegram.marshalling.responseDecoder
 
 import scala.concurrent.{ExecutionContext, Future}

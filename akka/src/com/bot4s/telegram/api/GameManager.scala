@@ -34,7 +34,7 @@ import scala.util.{Failure, Success}
   * or even better, submit a PR with your approach.
   */
 trait GameManager extends WebRoutes {
-  _: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
 
   import com.bot4s.telegram.marshalling._
 
@@ -122,6 +122,6 @@ object Payload {
   }
 
   import marshalling._
-  implicit val payloadEncoder: Encoder[Payload] = deriveEncoder[Payload]
+  implicit val payloadEncoder: Encoder[Payload] = deriveConfiguredEncoder[Payload]
   implicit val payloadDecoder: Decoder[Payload] = deriveDecoder[Payload]
 }

@@ -24,6 +24,10 @@ out/
 .worksheet
 .idea
 .idea_modules
+.metals
+.coursier
+.bloop
+.vscode
 
 credentials.*
 

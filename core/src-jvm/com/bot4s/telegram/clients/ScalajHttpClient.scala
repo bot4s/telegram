@@ -11,7 +11,7 @@ import com.bot4s.telegram.marshalling
 import io.circe.parser.parse
 import io.circe.{Decoder, Encoder}
 import scalaj.http.{Http, MultiPart}
-import slogging.StrictLogging
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ExecutionContext, Future, blocking}
 
@@ -87,7 +87,7 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
 
         val params = fields.getOrElse(Map())
 
-        Http(url).params(params ++ fileIdsParams).postMulti(parts: _*)
+        Http(url).params((params ++ fileIdsParams).toSeq).postMulti(parts: _*)
     }
 
     import marshalling.responseDecoder

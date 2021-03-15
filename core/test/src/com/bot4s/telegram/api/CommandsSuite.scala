@@ -8,12 +8,12 @@ import com.bot4s.telegram.models.{Message, User}
 import com.bot4s.telegram.future.GlobalExecutionContext
 import io.circe.{Decoder, Encoder}
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 
-class CommandsSuite extends FlatSpec with MockFactory with TestUtils with CommandImplicits {
+class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with CommandImplicits {
 
   import marshalling._
 
@@ -49,7 +49,7 @@ class CommandsSuite extends FlatSpec with MockFactory with TestUtils with Comman
   it should "ignore non-declared commands" in new Fixture {
     handlerHello.expects(*).never()
     handlerHelloWorld.expects(*).never()
-    bot.receiveExtMessage((textMessage("/cocou"), None)).get
+    bot.receiveExtMessage((textMessage("/coucou"), None)).get
   }
 
   it should "match string command" in new Fixture {
