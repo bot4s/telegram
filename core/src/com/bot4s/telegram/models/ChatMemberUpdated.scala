@@ -10,7 +10,7 @@ package com.bot4s.telegram.models
   * @param inviteLink             Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
   */
 case class  ChatMemberUpdated(
-               from                  : Option[User] = None,
+               from                  : User,
                date                  : Int,
                chat                  : Chat,
                oldChatMember         : ChatMember,
