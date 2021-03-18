@@ -34,8 +34,8 @@ case class Update(
                    shippingQuery      : Option[ShippingQuery] = None,
                    preCheckoutQuery   : Option[PreCheckoutQuery] = None,
                    poll               : Option[Poll] = None,
-                   myChatMember	      : Option[ChatMemberUpdated] = None,
-                   chatMember	      : Option[ChatMemberUpdated] = None
+                   myChatMember       : Option[ChatMemberUpdated] = None,
+                   chatMember         : Option[ChatMemberUpdated] = None
                  ) {
 
   require(
