@@ -15,5 +15,5 @@ case class  ChatMemberUpdated(
                chat                  : Chat,
                oldChatMember         : ChatMember,
                newChatMember         : ChatMember,
-               inviteLink            : ChatInviteLink
+               inviteLink            : Option[ChatInviteLink] = None
                    )
