@@ -17,6 +17,10 @@ package com.bot4s.telegram.models
   * @param shippingQuery       ShippingQuery Optional. New incoming shipping query. Only for invoices with flexible price
   * @param preCheckoutQuery    PreCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout
   * @param poll                Poll Optional. New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
+  * @param myChatMember        Optional. The bot's chat member status was updated in a chat. For private chats,
+  *                            this update is received only when the bot is blocked or unblocked by the user.
+  * @param chatMember          Optional. A chat member's status was updated in a chat. The bot must be an administrator
+  *                            in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
   */
 case class Update(
                    updateId           : Long,
@@ -29,7 +33,9 @@ case class Update(
                    callbackQuery      : Option[CallbackQuery] = None,
                    shippingQuery      : Option[ShippingQuery] = None,
                    preCheckoutQuery   : Option[PreCheckoutQuery] = None,
-                   poll               : Option[Poll] = None
+                   poll               : Option[Poll] = None,
+                   myChatMember	      : Option[ChatMemberUpdated] = None,
+                   chatMember	      : Option[ChatMemberUpdated] = None
                  ) {
 
   require(
@@ -43,7 +49,9 @@ case class Update(
       callbackQuery,
       shippingQuery,
       preCheckoutQuery,
-      poll
+      poll,
+      myChatMember,
+      chatMember
     ).count(_.isDefined) == 1,
     "Exactly one of the optional fields should be used"
   )
