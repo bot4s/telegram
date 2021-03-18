@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-/** This object represents a message.
+/** This object represents an invite link for a chat.
   *
   * @param creator                Creator of the link
   * @param expireDate             Optional. Point in time (Unix timestamp) when the link will expire or has been expired
