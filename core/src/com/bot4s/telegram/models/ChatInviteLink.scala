@@ -13,10 +13,10 @@ package com.bot4s.telegram.models
   */
 case class  ChatInviteLink(
                creator               : User,
-               expireDate            : Int,
+               expireDate            : Option[Int],
                inviteLink            : String,
                isPrimary             : Boolean,
                isRevoked             : Boolean,
-               memberLimit           : ChatMember
+               memberLimit           : Option[Int]
                    ) {
 }
