@@ -211,6 +211,11 @@ trait CirceEncoders {
   implicit val forwardMessageEncoder: Encoder[ForwardMessage] = deriveConfiguredEncoder[ForwardMessage]
   implicit val getUpdatesEncoder: Encoder[GetUpdates] = deriveConfiguredEncoder[GetUpdates]
 
+  // for v5.1 support
+  implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink] = deriveConfiguredEncoder[ChatInviteLink]
+  implicit val chatMemberUpdatedEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
+
+ 
   // Ignore InputFiles as JSON.
   implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ ⇒ io.circe.Json.Null)
 
