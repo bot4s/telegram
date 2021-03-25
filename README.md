@@ -22,8 +22,8 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://travis-ci.org/bot4s/telegram" title="Travis CI Build Status">
-    <img src="https://travis-ci.org/bot4s/telegram.svg"/>
+  <a href="https://github.com/bot4s/telegram/actions/workflows/build.yml" title="Github Action Build Status">
+    <img src="https://github.com/bot4s/telegram/actions/workflows/build.yml/badge.svg?branch=master" />
   </a>
   <a href="https://www.codacy.com/app/mukel/telegram?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bot4s/telegram&amp;utm_campaign=Badge_Grade" title="Codacy Badge">
     <img src="https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc"/>
