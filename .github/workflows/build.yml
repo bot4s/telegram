@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  compile-all:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - uses: jodersky/setup-mill@v0.2.3
+      with:
+        mill-version: 0.7.3
+    - name: Compile
+      run: mill '_._[_].compile'
+    - name: Test
+      run: mill '_._[_].test'
