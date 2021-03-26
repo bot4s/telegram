@@ -279,6 +279,8 @@ trait CirceEncoders {
 
   implicit val setChatDescriptionEncoder: Encoder[SetChatDescription] = deriveConfiguredEncoder[SetChatDescription]
 
+  implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] = deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
+
   implicit val setChatPermissionsEncoder: Encoder[SetChatPermissions] = deriveConfiguredEncoder[SetChatPermissions]
 
   implicit val setChatStickerSetEncoder: Encoder[SetChatStickerSet] = deriveConfiguredEncoder[SetChatStickerSet]
