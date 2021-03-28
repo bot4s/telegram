@@ -221,7 +221,7 @@ trait CirceEncoders {
 
  
   // Ignore InputFiles as JSON.
-  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ ⇒ io.circe.Json.Null)
+  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ => io.circe.Json.Null)
 
   implicit val sendLocationEncoder: Encoder[SendLocation] = deriveConfiguredEncoder[SendLocation]
   implicit val sendVenueEncoder: Encoder[SendVenue] = deriveConfiguredEncoder[SendVenue]

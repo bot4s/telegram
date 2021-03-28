@@ -37,3 +37,6 @@ credentials.*
 *.swp
 *.swn
 *.swo
+
+#dev specific (swagger experiments)
+extractors/

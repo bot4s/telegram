@@ -81,7 +81,7 @@ trait Messages[F[_]] extends BotBase[F] {
   }
 
   /**
-    * Sends text replies in Markdown format.
+    * Sends text replies in Markdown format (using legacy format)
  *
  * @param text                     Text of the message to be sent
     * @param disableWebPagePreview Optional Disables link previews for links in this message
@@ -103,6 +103,36 @@ trait Messages[F[_]] extends BotBase[F] {
     reply(
       text,
       Some(ParseMode.Markdown),
+      disableWebPagePreview,
+      disableNotification,
+      replyToMessageId,
+      replyMarkup
+    )(message)
+  }
+
+  /**
+    * Sends text replies in Markdown format (using the new format)
+ *
+ * @param text                     Text of the message to be sent
+    * @param disableWebPagePreview Optional Disables link previews for links in this message
+    * @param disableNotification   Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+    * @param replyToMessageId      Optional If the message is a reply, ID of the original message
+    * @param replyMarkup           [[models.InlineKeyboardMarkup]] or
+    *                              [[models.ReplyKeyboardMarkup]] or
+    *                              [[ReplyKeyboardRemove]] or
+    *                              [[ForceReply]]
+    *                              Optional Additional interface options.
+    *                              A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
+    */
+  def replyMdV2(text                  : String,
+            disableWebPagePreview : Option[Boolean] = None,
+            disableNotification   : Option[Boolean] = None,
+            replyToMessageId      : Option[Int] = None,
+            replyMarkup           : Option[ReplyMarkup] = None)
+           (implicit message: Message): F[Message] = {
+    reply(
+      text,
+      Some(ParseMode.MarkdownV2),
       disableWebPagePreview,
       disableNotification,
       replyToMessageId,
