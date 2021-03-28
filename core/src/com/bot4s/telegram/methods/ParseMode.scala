@@ -13,6 +13,24 @@ package com.bot4s.telegram.methods
   *   [text](URL)
   *   `inline fixed-width code`
   *   ```pre-formatted fixed-width code block```
+  * 
+  * MarkdownV2 style (https://core.telegram.org/bots/api#markdownv2-style)
+  *   To use this mode, pass MarkdownV2 in the parse_mode field. Use the following syntax in your message:
+  * 
+  *   *bold \*text*
+  *   _italic \*text_
+  *   __underline__
+  *   ~strikethrough~
+  *   *bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
+  *   [inline URL](https://github.com/bot4s/telegram/)
+  *   [inline mention of a user](tg://user?id=123456789)
+  *   `inline fixed-width code`
+  *   ```
+  *   pre-formatted fixed-width code block
+  *   ```
+  *   ```python
+  *   pre-formatted fixed-width code block written in the Python programming language
+  *   ```
   *
   * HTML style
   *   To use this mode, pass HTML in the parse_mode field when using sendMessage. The following tags are currently supported:
@@ -32,5 +50,6 @@ package com.bot4s.telegram.methods
 object ParseMode extends Enumeration {
   type ParseMode = Value
   val Markdown = Value("Markdown")
+  val MarkdownV2 = Value("markdownv2")
   val HTML = Value("HTML")
 }
