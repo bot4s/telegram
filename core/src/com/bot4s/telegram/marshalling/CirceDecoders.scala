@@ -2,11 +2,11 @@ package com.bot4s.telegram.marshalling
 
 import java.util.NoSuchElementException
 
-import com.bot4s.telegram.methods.{ChatAction, ParseMode, Response}
 import com.bot4s.telegram.methods.ChatAction.ChatAction
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import com.bot4s.telegram.methods.PollType.PollType
 import com.bot4s.telegram.models._
-import com.bot4s.telegram.methods.{ChatAction, ParseMode}
+import com.bot4s.telegram.methods.{Response, ChatAction, ParseMode, PollType}
 import com.bot4s.telegram.models.ChatType.ChatType
 import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
@@ -18,6 +18,7 @@ import com.bot4s.telegram.models._
 import io.circe.Decoder
 import io.circe.generic.semiauto._
 import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.methods
 
 /** Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
   */
@@ -45,6 +46,9 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val parseModeDecoder: Decoder[ParseMode] =
     Decoder[String].map(s => ParseMode.withName(pascalize(s)))
+
+  implicit val pollTypeDecoder: Decoder[PollType] =
+    Decoder[String].map(s => PollType.withName(pascalize(s)))
 
   implicit val countryCodeDecoder: Decoder[CountryCode] =
     Decoder[String].map(a => CountryCode.withName(a))

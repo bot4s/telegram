@@ -3,6 +3,7 @@ package com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.methods.ChatAction.ChatAction
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import com.bot4s.telegram.methods.PollType.PollType
 import com.bot4s.telegram.models._
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.ChatType.ChatType
@@ -59,6 +60,9 @@ trait CirceEncoders {
 
   implicit val parseModeEncoder: Encoder[ParseMode] =
     Encoder[String].contramap[ParseMode](e => CaseConversions.snakenize(e.toString))
+
+  implicit val pollTypeEncoder: Encoder[PollType] =
+    Encoder[String].contramap[PollType](e => CaseConversions.snakenize(e.toString))
 
   implicit val photoSizeEncoder: Encoder[PhotoSize] = deriveConfiguredEncoder[PhotoSize]
 

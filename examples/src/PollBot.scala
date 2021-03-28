@@ -1,5 +1,3 @@
-import java.util.concurrent.TimeUnit
-
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
@@ -8,7 +6,7 @@ import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
 
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 import scala.util.Failure
 
 /**
@@ -22,8 +20,8 @@ class PollBot(token: String) extends ExampleBot(token)
 
   var pollMsgId = 0
 
-  onCommand("poll") { implicit msg =>
-    val f = request(SendPoll(ChatId(msg.chat.id), "Pick A or B", Array("A", "B")))
+  def sendPoll(poll: SendPoll) = {
+    val f = request(poll)
     f.onComplete {
       case Failure(e) => println("Error " + e)
       case _ =>
@@ -34,6 +32,24 @@ class PollBot(token: String) extends ExampleBot(token)
       println("Poll sent")
       pollMsgId = poll.messageId
     }
+  }
+
+  onCommand("poll") { implicit msg =>
+    val f = SendPoll(ChatId(msg.chat.id), "Pick A or B", Array("A", "B"))
+    sendPoll(f)
+  }
+
+  onCommand("quizPoll") { implicit msg => 
+    val f = SendPoll(
+      chatId = ChatId(msg.chat.id),
+      question =  "Pick A or B",
+      options = Array("A", "B"),
+      `type`  = PollType.quiz,
+      correctOptionId = Some(0),
+      explanation = "The correct answer was A",
+      explanationParseMode = ParseMode.Markdown
+    )
+    sendPoll(f)
   }
 
   onCommand("stop") { implicit msg =>
