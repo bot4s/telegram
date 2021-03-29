@@ -21,7 +21,7 @@ import com.bot4s.telegram.models.ChatId
   * @param inlineMessageId    String Optional Required if chat_id and message_id are not specified. Identifier of the inline message
   */
 case class SetGameScore(
-                       userId             : Int,
+                       userId             : Long,
                        score              : Long,
                        force              : Option[Boolean] = None,
                        disableEditMessage : Option[Boolean] = None,

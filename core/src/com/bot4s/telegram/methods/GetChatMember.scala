@@ -9,5 +9,5 @@ import com.bot4s.telegram.models.{ChatId, ChatMember}
   */
 case class GetChatMember(
                           chatId : ChatId,
-                          userId : Int
+                          userId : Long
                         ) extends JsonRequest[ChatMember]

@@ -19,6 +19,6 @@ import com.bot4s.telegram.models.ChatId
   */
 case class KickChatMember(
                          chatId    : ChatId,
-                         userId    : Int,
+                         userId    : Long,
                          untilDate : Option[Int] = None
                          ) extends JsonRequest[Boolean]

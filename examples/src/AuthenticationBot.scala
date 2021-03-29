@@ -10,7 +10,7 @@ import scala.concurrent.Future
   * Extension to add a simple authentication filter.
   */
 trait SillyAuthentication {
-  val allowed = scala.collection.mutable.Set[Int]()
+  val allowed = scala.collection.mutable.Set[Long]()
 
   def login(user: User) = atomic {
     allowed += user.id

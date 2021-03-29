@@ -24,7 +24,7 @@ import com.bot4s.telegram.models.ChatId
   */
 case class PromoteChatMember(
                             chatId             : ChatId,
-                            userId             : Int,
+                            userId             : Long,
                             canChangeInfo      : Option[Boolean] = None,
                             canPostMessages    : Option[Boolean] = None,
                             canEditMessages    : Option[Boolean] = None,

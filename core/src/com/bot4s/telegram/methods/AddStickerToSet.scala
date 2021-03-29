@@ -14,7 +14,7 @@ import com.bot4s.telegram.models.InputFile
   * @param maskPosition  MaskPosition Optional Position where the mask should be placed on faces
   */
 case class AddStickerToSet(
-                            userId       : Int,
+                            userId       : Long,
                             name         : String,
                             pngSticker   : InputFile,
                             emojis       : String,
