@@ -7,14 +7,14 @@ package com.bot4s.telegram.models
   * When the link expires, a new one can be requested by calling getFile.
   * Maximum file size to download is 20 MB
   *
-  * @param fileId    Identifier for this file
+  * @param fileId       Identifier for this file
   * @param fileUniqueId Unique identifier for this file
-  * @param fileSize  Optional File size, if known
-  * @param filePath  Optional File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+  * @param fileSize     Optional File size, if known
+  * @param filePath     Optional File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
   */
 case class File(
-                 fileId   : String,
+                 fileId       : String,
                  fileUniqueId : String,
-                 fileSize : Option[Int] = None,
-                 filePath : Option[String] = None
+                 fileSize     : Option[Int] = None,
+                 filePath     : Option[String] = None
                )
