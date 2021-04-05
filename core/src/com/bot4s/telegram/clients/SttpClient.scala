@@ -13,6 +13,7 @@ import io.circe.parser.parse
 import io.circe.{Decoder, Encoder}
 import com.typesafe.scalalogging.StrictLogging
 
+import scala.util.Try
 import scala.concurrent.duration._
 
 /** Sttp HTTP client.
