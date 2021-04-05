@@ -19,8 +19,6 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     * @example {{{
     *   onCommand("/command") { implicit msg => ... }
     *   onCommand("command") { implicit msg => ... }
-    *   onCommand('echo) { implicit msg => ... }
-    *   onCommand('hi | 'hello | 'hey) { implicit msg => ... }
     *   onCommand("/adieu" | "/bye") { implicit msg => ... }
     *   onCommand(cmd => cmd.cmd.contains("help")) { implicit msg => ... }
     * }}}
@@ -42,7 +40,7 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
     * The first token, the /command, is dropped.
     *
     * @example {{{
-    *   on('echo) { implicit msg =>
+    *   on("echo") { implicit msg =>
     *     withArgs { args =>
     *       reply(args.mkString(" "))
     *     }
