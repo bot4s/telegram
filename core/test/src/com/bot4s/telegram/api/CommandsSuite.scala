@@ -68,22 +68,6 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     } yield ()).get
   }
 
-  it should "match Symbol command" in new Fixture {
-    handler.expects(*).returning(Future.successful(())).once()
-    bot.onCommand('cmd)(handler)
-    bot.receiveExtMessage((textMessage("/cmd"), None)).get
-  }
-
-  it should "match Symbol command sequence" in new Fixture {
-    handler.expects(*).returning(Future.successful(())).twice()
-    bot.onCommand('a | 'b)(handler)
-    (for {
-      _ <- bot.receiveExtMessage((textMessage("/a"), None))
-      _ <- bot.receiveExtMessage((textMessage("/b"), None))
-      _ <- bot.receiveExtMessage((textMessage("/c"), None))
-    } yield ()).get
-  }
-
   it should "support @sender suffix" in new Fixture {
     val m = textMessage("  /hello@Test_Bot  ")
     handlerHello.expects(m).returning(Future.successful(())).once()

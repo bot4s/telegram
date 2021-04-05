@@ -112,10 +112,6 @@ trait CommandImplicits {
       case Command(cmd, _) if target.equalsIgnoreCase(cmd) => true
     }
   }
-
-  implicit def symbolToCommandFilter(s: Symbol) = {
-    stringToCommandFilter(s.name)
-  }
 }
 
 object CommandFilterMagnet {

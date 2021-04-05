@@ -56,11 +56,11 @@ class PokerBot(token: String) extends ExampleBot(token)
   }
 
 
-  onCommand('trivia) { implicit msg =>
+  onCommand("trivia") { implicit msg =>
     replyWithGame("trivia_game").void
   }
 
-  onCommand('tictactoe | 'xoxo) { implicit msg =>
+  onCommand("tictactoe" | "xoxo") { implicit msg =>
     replyWithGame("tictactoe_game").void
   }
 }
