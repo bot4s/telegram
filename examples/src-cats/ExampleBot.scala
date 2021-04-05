@@ -1,6 +1,7 @@
-import cats.effect.{Async, ContextShift}
+import cats.effect.{ContextShift, Concurrent}
 import com.bot4s.telegram.cats.TelegramBot
-import com.softwaremill.sttp.asynchttpclient.cats.AsyncHttpClientCatsBackend
+import org.asynchttpclient.Dsl.asyncHttpClient
+import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 
-abstract class ExampleBot[F[_]: Async : ContextShift](val token: String)
-  extends TelegramBot(token, AsyncHttpClientCatsBackend())
+abstract class ExampleBot[F[_]: ContextShift: Concurrent](val token: String)
+  extends TelegramBot[F](token, AsyncHttpClientCatsBackend.usingClient[F](asyncHttpClient()))
