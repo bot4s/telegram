@@ -78,6 +78,6 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
 
     response
       .map(_.unsafeBody)
-      .map(processApiResponse[R])
+      .flatMap(t => monadError.fromTry(Try(processApiResponse[R](t))))
   }
 }
