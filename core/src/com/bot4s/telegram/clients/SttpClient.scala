@@ -77,8 +77,6 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
       .response(asJson[Response[R]])
       .send[F]()
 
-    response
-      .map(_.unsafeBody)
-      .flatMap(t => monadError.fromTry(Try(processApiResponse[R](t))))
+    monadError.flatMap(monadError.map(response)(_.unsafeBody))(t => monadError.fromTry(Try(processApiResponse[R](t))))
   }
 }
