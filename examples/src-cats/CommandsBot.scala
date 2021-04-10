@@ -56,7 +56,7 @@ class CommandsBot[F[_]: Async: Timer : ContextShift](token: String) extends Exam
   }
 
   // withArgs extracts command arguments.
-  onCommand('echo) { implicit msg =>
+  onCommand("echo") { implicit msg =>
     withArgs {
       args =>
         reply(args.mkString(" ")).void

@@ -22,7 +22,7 @@ class ProxyBot(token: String) extends ExampleBot(token)
 
   override val client = new ScalajHttpClient(token, proxy)
 
-  onCommand('hello) { implicit msg =>
+  onCommand("hello") { implicit msg =>
     reply("Hi " + msg.from.fold("Mr. X")(_.firstName)).void
   }
 }

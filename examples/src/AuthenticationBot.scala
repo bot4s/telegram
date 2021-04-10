@@ -53,7 +53,7 @@ class AuthenticationBot(token: String) extends ExampleBot(token)
   with Commands[Future]
   with SillyAuthentication {
 
-  onCommand('start | 'help) { implicit msg =>
+  onCommand("start" | "help") { implicit msg =>
     reply(
       """Authentication:
         |/login - Login

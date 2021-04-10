@@ -13,7 +13,7 @@ class ProcessBot(token: String) extends ExampleBot(token)
   with Polling
   with Commands[Future] {
 
-  onCommand('run | 'exec | 'execute | 'cmd) { implicit msg =>
+  onCommand("run" | "exec" | "execute" | "cmd") { implicit msg =>
     withArgs {
       args =>
         try {

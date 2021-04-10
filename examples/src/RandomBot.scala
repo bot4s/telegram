@@ -16,7 +16,7 @@ class RandomBot(token: String) extends ExampleBot(token)
   onCommand("coin" or "flip") { implicit msg =>
     reply(if (rng.nextBoolean()) "Head!" else "Tail!").void
   }
-  onCommand('real | 'double | 'float) { implicit msg =>
+  onCommand("real" | "double" | "float") { implicit msg =>
     reply(rng.nextDouble().toString).void
   }
   onCommand("/die" | "roll") { implicit msg =>
@@ -29,7 +29,7 @@ class RandomBot(token: String) extends ExampleBot(token)
       case _ => reply("Invalid argumentヽ(ಠ_ಠ)ノ").void
     }
   }
-  onCommand('choose | 'pick | 'select) { implicit msg =>
+  onCommand("choose" | "pick" | "select") { implicit msg =>
     withArgs { args =>
       replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size))).void
     }

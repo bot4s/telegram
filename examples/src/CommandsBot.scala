@@ -45,12 +45,12 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // Also using Symbols; the "/" prefix is added by default.
-  onCommand('привет) { implicit msg =>
+  onCommand("привет") { implicit msg =>
     reply("\uD83C\uDDF7\uD83C\uDDFA").void
   }
 
   // Note that non-ascii commands are not clickable.
-  onCommand('こんにちは | '你好 | '안녕하세요) { implicit msg =>
+  onCommand("こんにちは" | "你好" | "안녕하세요") { implicit msg =>
     reply("Hello from Asia?").void
   }
 
@@ -65,7 +65,7 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // withArgs extracts command arguments.
-  onCommand('echo) { implicit msg =>
+  onCommand("echo") { implicit msg =>
     withArgs {
       args =>
         reply(args.mkString(" ")).void

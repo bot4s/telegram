@@ -21,7 +21,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
   def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
     InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
 
-  onCommand('start | 'help) { implicit msg =>
+  onCommand("start" | "help") { implicit msg =>
     reply(
       s"""Generates ${"Let me \uD83C\uDDECoogle that for you!".italic} links.
          |
@@ -36,7 +36,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
       parseMode = ParseMode.Markdown).void
   }
 
-  onCommand('lmgtfy) { implicit msg =>
+  onCommand("lmgtfy") { implicit msg =>
     withArgs { args =>
       val query = args.mkString(" ")
 
@@ -52,7 +52,7 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
       .withQuery(Query("q" -> query))
       .toString()
 
-  onCommand('btn | 'lmgtfy2) { implicit msg =>
+  onCommand("btn" | "lmgtfy2") { implicit msg =>
     withArgs { args =>
       val query = args.mkString(" ")
       reply(query, replyMarkup = lmgtfyBtn(query)).void
