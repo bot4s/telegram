@@ -31,12 +31,16 @@
   <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12" title="Maven Central">
     <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12/badge.svg"/>
   </a>
-  <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
-    <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
+  <a href="https://oss.sonatype.org/content/repositories/snapshots/com/bot4s/telegram-core_2.12/" title="Nexus snapshot">
+    <img src="https://img.shields.io/nexus/s/com.bot4s/telegram-core_2.12.svg?server=https%3A%2F%2Foss.sonatype.org" />
   </a>
+  
 </p>
 <p align="center">
   <span class="badge-buymeacoffee"><a href="https://buymeacoffee.com/bot4s.telegram" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg" alt="Buy Me A Coffee donate button" /></a></span>
+  <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
+    <img src="https://img.shields.io/badge/license-Apache%202-blue.svg"/>
+  </a>
 </p>
 
 # bot4s.telegram
