@@ -26,7 +26,7 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
   import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
 
   override def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = {
-    Source.fromFuture(
+    Source.future(
       Marshal(request).to[RequestEntity]
         .map {
           re =>

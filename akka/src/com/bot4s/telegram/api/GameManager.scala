@@ -39,7 +39,7 @@ trait GameManager extends WebRoutes {
   import com.bot4s.telegram.marshalling._
 
   private def extractPayload: Directive1[Payload] = {
-    headerValueByName('Referer).map { referer: String =>
+    headerValueByName("Referer").map { referer: String =>
       val parts = referer.split("\\?payload=")
       val encodedPayload = URLDecoder.decode(parts(1), "UTF-8")
       Payload.base64Decode(encodedPayload)
