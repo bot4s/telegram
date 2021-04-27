@@ -1,4 +1,3 @@
-import cats.syntax.functor._
 import monix.eval.Task
 
 import com.bot4s.telegram.cats.Polling

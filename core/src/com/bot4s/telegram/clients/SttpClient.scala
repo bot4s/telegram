@@ -4,16 +4,22 @@ import cats.MonadError
 import cats.syntax.functor._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.marshalling.CaseConversions
-import com.bot4s.telegram.methods.{JsonRequest, MultipartRequest, Response}
-import com.softwaremill.sttp.{Request => _, Response => _, _}
+import com.bot4s.telegram.methods.{Request => BotRequest, JsonRequest, MultipartRequest, Response}
 import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.InputFile
 import io.circe.parser.parse
 import io.circe.{Decoder, Encoder}
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration._
+import sttp.client3._
+import sttp.model._
+
+import sttp.client3.ResponseAs
+import sttp.model.MediaType
+import sttp.client3.BodySerializer
+import sttp.client3.StringBody
+import sttp.client3.{Request => SttpRequest}
 
 /** Sttp HTTP client.
   * Supports browsers via sttp's FetchBackend.
@@ -21,25 +27,25 @@ import scala.concurrent.duration._
   * @param token Bot token
   */
 class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
-                      (implicit backend: SttpBackend[F, Nothing], monadError: MonadError[F, Throwable])
+                      (implicit backend: SttpBackend[F, Any], monadError: MonadError[F, Throwable])
   extends RequestHandler[F]()(monadError) with StrictLogging {
 
   val readTimeout: Duration = 50.seconds
 
   private implicit def circeBodySerializer[B : Encoder]: BodySerializer[B] =
-    b => StringBody(marshalling.toJson[B](b), "utf-8", Some(MediaTypes.Json))
+    b => StringBody(marshalling.toJson[B](b), "utf-8", MediaType.ApplicationJson)
 
-  private def asJson[B : Decoder]: ResponseAs[B, Nothing] =
-    asString("utf-8").map(s => marshalling.fromJson[B](s))
+  private def asJson[B : Decoder]: ResponseAs[B, Any] =
+    asStringAlways("utf-8").map(s => marshalling.fromJson[B](s))
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  override def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
+  override def sendRequest[R, T <: BotRequest[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
     val url = apiBaseUrl + request.methodName
 
-    val sttpRequest: RequestT[Id, String, Nothing] = request match {
+    val sttpRequest: SttpRequest[String, Any] = request match {
       case r: JsonRequest[_] =>
-        sttp.post(uri"$url").body(request)
+        quickRequest.post(uri"$url").body(request)
 
       case r: MultipartRequest[_] =>
         val files = r.getFiles
@@ -65,19 +71,18 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
 
         val params = fields.getOrElse(Map())
 
-        sttp.post(uri"$url?$params").multipartBody(parts)
+        quickRequest.post(uri"$url?$params").multipartBody(parts)
     }
 
     import com.bot4s.telegram.marshalling.responseDecoder
 
     val response = sttpRequest
       .readTimeout(readTimeout)
-      .parseResponseIf(_ => true) // Always parse response
       .response(asJson[Response[R]])
-      .send[F]()
+      .send(backend)
 
     response
-      .map(_.unsafeBody)
+      .map(_.body)
       .map(processApiResponse[R])
   }
 }

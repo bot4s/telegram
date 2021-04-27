@@ -11,8 +11,7 @@ object library {
     val circe              = "0.13.0"
     val cats               = "2.1.1"
     val catsEffect         = "2.3.1"
-    val rosHttp            = "3.0.0" // Note: This is no longer maintained
-    val sttp               = "1.7.2" // TODO: migrate to 2.x
+    val sttp               = "3.2.3"
     val scalaTest          = "3.2.2"
     val scalaMockScalaTest = "5.1.0"
     val scalaLogging       = "3.9.2"
@@ -33,8 +32,8 @@ object library {
   val akkaTestkit        = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
   val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
   val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp::async-http-client-backend-cats::${Version.sttp}"
-  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp::async-http-client-backend-monix::${Version.sttp}"
+  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
@@ -50,10 +49,9 @@ object library {
   val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
   val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
   val monix              = ivy"io.monix::monix::${Version.monix}"
-  val rosHttp            = ivy"fr.hmil::roshttp::${Version.rosHttp}"
-  val sttpCore           = ivy"com.softwaremill.sttp::core::${Version.sttp}"
-  val sttpCirce          = ivy"com.softwaremill.sttp::circe::${Version.sttp}"
-  val sttpOkHttp         = ivy"com.softwaremill.sttp::okhttp-backend::${Version.sttp}"
+  val sttpCore           = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
+  val sttpCirce          = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
+  val sttpOkHttp         = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
   val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
 }
 
