@@ -25,7 +25,7 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
       throw new RuntimeException("Bot is already running")
     }
 
-    bindingFuture = Http().bindAndHandle(routes, interfaceIp, port)
+    bindingFuture = Http().newServerAt(interfaceIp, port).bindFlow(routes)
     bindingFuture.foreach { _ =>
       logger.info(s"Listening on $interfaceIp:$port")
     }

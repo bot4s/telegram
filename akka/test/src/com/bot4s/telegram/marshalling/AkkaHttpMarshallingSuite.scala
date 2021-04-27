@@ -26,7 +26,7 @@ class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with 
 
     val entity = SendDocument(channelId, InputFile(fileId), caption = Some(captionWithLineBreak))
     Post("/", Marshal(entity).to[RequestEntity]) ~> {
-      formFields('caption, 'chat_id, 'document) {
+      formFields("caption", "chat_id", "document") {
         (caption, chat_id, document) => complete(caption + chat_id + document)
       }
     } ~> check {
@@ -39,7 +39,7 @@ class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with 
     val content = "file content"
     val entity = SendDocument(channelId, AkkaInputFile("Pepe", ByteString(content)))
     Post("/", Marshal(entity).to[RequestEntity]) ~> {
-      formFields('document) {
+      formFields("document") {
         document => complete(document)
       }
     } ~> check {
