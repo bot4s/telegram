@@ -1,10 +1,10 @@
 package com.bot4s.telegram
 
 /**
-  * Useful implicits to reduce boilerplate.
-  *
-  * Implicit Option conversion may have unexpected effects, use wisely.
-  */
+ * Useful implicits to reduce boilerplate.
+ *
+ * Implicit Option conversion may have unexpected effects, use wisely.
+ */
 object Implicits {
 
   implicit def toOption[T](v: T): Option[T] = Option(v)
@@ -25,9 +25,8 @@ object Implicits {
     def blockCode(language: String = "text") = s"```$language\n$s\n```"
 
     // Escape Markdown
-    def mdEscape: String = {
+    def mdEscape: String =
       s.replaceAll("([" + "*_`[".replaceAll("(.)", "\\\\$1") + "])", "\\\\$1")
-    }
   }
 
 }

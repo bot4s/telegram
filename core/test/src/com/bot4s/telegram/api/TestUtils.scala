@@ -12,9 +12,8 @@ trait TestUtils {
 
   def user(name: String): User = User(0, false, name)
 
-  def inlineQuery(query: String): InlineQuery = {
+  def inlineQuery(query: String): InlineQuery =
     InlineQuery("0", from = user("Pepe"), query = query, offset = "")
-  }
 
   implicit class FutureOps[A](f: Future[A]) {
     def get: A = Await.result(f, 10.seconds)

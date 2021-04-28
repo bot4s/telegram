@@ -5,7 +5,7 @@ import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
-import com.bot4s.telegram.models.{ChatId, MaskPositionType, _}
+import com.bot4s.telegram.models.{ ChatId, MaskPositionType, _ }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
@@ -33,7 +33,7 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
 
   it should "correctly parse ChatId" in {
     val channel = fromJson[ChatId](""" "my_channel" """)
-    val chat = fromJson[ChatId](""" 123456 """)
+    val chat    = fromJson[ChatId](""" 123456 """)
     channel should ===(ChatId.Channel("my_channel"))
     chat should ===(ChatId.Chat(123456))
   }
@@ -45,7 +45,7 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
 
   it should "correctly parse Either[Boolean, Message]" in {
     fromJson[Either[Boolean, Message]]("true") === (true)
-    val msg = textMessage("Hello world")
+    val msg     = textMessage("Hello world")
     val msgJson = toJson[Message](msg)
     fromJson[Either[Boolean, Message]](msgJson) === (msg)
   }
@@ -63,23 +63,19 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
   }
 
   it should "correctly de/serialize Message.migrateToChatId" in {
-    fromJson[Message](
-      """{
-        |"message_id": 1,
-        |"date": 1,
-        |"chat": {"id": 123, "type": "private"},
-        |"migrate_to_chat_id": 12345678901234567
-        |}""".stripMargin)
-      .migrateToChatId === 12345678901234567L
+    fromJson[Message]("""{
+                        |"message_id": 1,
+                        |"date": 1,
+                        |"chat": {"id": 123, "type": "private"},
+                        |"migrate_to_chat_id": 12345678901234567
+                        |}""".stripMargin).migrateToChatId === 12345678901234567L
   }
 
   it should "correctly parse User" in {
-    fromJson[User](
-      """{
-        |"id": 123,
-        |"is_bot": true,
-        |"first_name": "Pepe"
-        |}""".stripMargin)
-      .isBot === User(id = 1, isBot=true, firstName="Pepe")
+    fromJson[User]("""{
+                     |"id": 123,
+                     |"is_bot": true,
+                     |"first_name": "Pepe"
+                     |}""".stripMargin).isBot === User(id = 1, isBot = true, firstName = "Pepe")
   }
 }

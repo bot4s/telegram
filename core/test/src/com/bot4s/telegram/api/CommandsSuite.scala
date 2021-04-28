@@ -1,12 +1,12 @@
 package com.bot4s.telegram.api
 
 import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
-import com.bot4s.telegram.api.declarative.{CommandImplicits, Commands}
+import com.bot4s.telegram.api.declarative.{ CommandImplicits, Commands }
 import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.methods.{Request, GetMe}
-import com.bot4s.telegram.models.{Message, User}
+import com.bot4s.telegram.methods.{ GetMe, Request }
+import com.bot4s.telegram.models.{ Message, User }
 import com.bot4s.telegram.future.GlobalExecutionContext
-import io.circe.{Decoder, Encoder}
+import io.circe.{ Decoder, Encoder }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -18,21 +18,24 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
   import marshalling._
 
   trait Fixture {
-    val handler = mockFunction[Message, Future[Unit]]
-    val handlerHello = mockFunction[Message, Future[Unit]]
+    val handler           = mockFunction[Message, Future[Unit]]
+    val handlerHello      = mockFunction[Message, Future[Unit]]
     val handlerHelloWorld = mockFunction[Message, Future[Unit]]
-    val handlerRespect = mockFunction[Message, Future[Unit]]
+    val handlerRespect    = mockFunction[Message, Future[Unit]]
 
     val botUser = User(123, false, "FirstName", username = Some("TestBot"))
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
-        def sendRequest[R, T <: Request[_ /* R */]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
+        def sendRequest[R, T <: Request[_ /* R */ ]](
+          request: T
+        )(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
         override def apply[R](request: Request[R]): Future[R] = request match {
-          case GetMe => Future.successful({
-            val jsonUser = toJson[User](botUser)
-            fromJson[User](jsonUser)(userDecoder)
-          })
+          case GetMe =>
+            Future.successful({
+              val jsonUser = toJson[User](botUser)
+              fromJson[User](jsonUser)(userDecoder)
+            })
         }
       }
 
@@ -76,14 +79,14 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
 
   it should "ignore case in @sender" in new Fixture {
     val args = Seq("arg1", "arg2")
-    val m = textMessage("  /respect@testbot  " + args.mkString(" "))
+    val m    = textMessage("  /respect@testbot  " + args.mkString(" "))
     handlerRespect.expects(m).returning(Future.successful(())).once()
     bot.receiveExtMessage((m, None)).get
   }
 
   it should "accept any recipient if respectRecipient is not used" in new Fixture {
     val args = Seq("arg1", "arg2")
-    val m = textMessage("  /hello@otherbot  " + args.mkString(" "))
+    val m    = textMessage("  /hello@otherbot  " + args.mkString(" "))
     handlerHello.expects(m).returning(Future.successful(())).once()
     bot.receiveExtMessage((m, None)).get
   }

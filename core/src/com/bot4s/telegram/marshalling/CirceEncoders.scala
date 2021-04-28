@@ -7,7 +7,7 @@ import com.bot4s.telegram.models._
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.ChatType.ChatType
 import com.bot4s.telegram.models.CountryCode.CountryCode
-import com.bot4s.telegram.models.Currency.{Currency, TelegramCurrency}
+import com.bot4s.telegram.models.Currency.{ Currency, TelegramCurrency }
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MemberStatus.MemberStatus
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
@@ -19,14 +19,15 @@ import io.circe.generic.extras.auto._
 import io.circe.generic.extras.semiauto._
 import io.circe.syntax._
 
-/** Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
-  */
+/**
+ * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
+ */
 trait CirceEncoders {
 
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
 
   // Models
-  implicit val audioEncoder: Encoder[Audio] = deriveConfiguredEncoder[Audio]
+  implicit val audioEncoder: Encoder[Audio]                 = deriveConfiguredEncoder[Audio]
   implicit val callbackQueryEncoder: Encoder[CallbackQuery] = deriveConfiguredEncoder[CallbackQuery]
 
   implicit val callbackGameEncoder: Encoder[CallbackGame] = deriveConfiguredEncoder[CallbackGame]
@@ -38,17 +39,18 @@ trait CirceEncoders {
 
   implicit val chatMemberEncoder: Encoder[ChatMember] = deriveConfiguredEncoder[ChatMember]
 
-  implicit val contactEncoder: Encoder[Contact] = deriveConfiguredEncoder[Contact]
+  implicit val contactEncoder: Encoder[Contact]   = deriveConfiguredEncoder[Contact]
   implicit val documentEncoder: Encoder[Document] = deriveConfiguredEncoder[Document]
-  implicit val fileEncoder: Encoder[File] = deriveConfiguredEncoder[File]
+  implicit val fileEncoder: Encoder[File]         = deriveConfiguredEncoder[File]
 
-  implicit val inlineKeyboardButtonEncoder: Encoder[InlineKeyboardButton] = deriveConfiguredEncoder[InlineKeyboardButton]
+  implicit val inlineKeyboardButtonEncoder: Encoder[InlineKeyboardButton] =
+    deriveConfiguredEncoder[InlineKeyboardButton]
   implicit val keyboardButtonEncoder: Encoder[KeyboardButton] = deriveConfiguredEncoder[KeyboardButton]
-  implicit val locationEncoder: Encoder[Location] = deriveConfiguredEncoder[Location]
+  implicit val locationEncoder: Encoder[Location]             = deriveConfiguredEncoder[Location]
 
   implicit val gameHighScoreEncoder: Encoder[GameHighScore] = deriveConfiguredEncoder[GameHighScore]
-  implicit val animationEncoder: Encoder[Animation] = deriveConfiguredEncoder[Animation]
-  implicit val gameEncoder: Encoder[Game] = deriveConfiguredEncoder[Game]
+  implicit val animationEncoder: Encoder[Animation]         = deriveConfiguredEncoder[Animation]
+  implicit val gameEncoder: Encoder[Game]                   = deriveConfiguredEncoder[Game]
 
   implicit val messageEncoder: Encoder[Message] = deriveConfiguredEncoder[Message]
 
@@ -69,40 +71,42 @@ trait CirceEncoders {
     Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
   implicit val replyMarkupEncoder: Encoder[ReplyMarkup] = Encoder.instance {
-    case fr: ForceReply => fr.asJson
+    case fr: ForceReply            => fr.asJson
     case ikm: InlineKeyboardMarkup => ikm.asJson
-    case rkr: ReplyKeyboardRemove => rkr.asJson
-    case rkm: ReplyKeyboardMarkup => rkm.asJson
+    case rkr: ReplyKeyboardRemove  => rkr.asJson
+    case rkm: ReplyKeyboardMarkup  => rkm.asJson
   }
 
-  implicit val stickerEncoder: Encoder[Sticker] = deriveConfiguredEncoder[Sticker]
+  implicit val stickerEncoder: Encoder[Sticker]           = deriveConfiguredEncoder[Sticker]
   implicit val maskPositionEncoder: Encoder[MaskPosition] = deriveConfiguredEncoder[MaskPosition]
 
-  implicit val userEncoder: Encoder[User] = deriveConfiguredEncoder[User]
+  implicit val userEncoder: Encoder[User]                           = deriveConfiguredEncoder[User]
   implicit val userProfilePhotosEncoder: Encoder[UserProfilePhotos] = deriveConfiguredEncoder[UserProfilePhotos]
-  implicit val venueEncoder: Encoder[Venue] = deriveConfiguredEncoder[Venue]
-  implicit val videoEncoder: Encoder[Video] = deriveConfiguredEncoder[Video]
-  implicit val videoNoteEncoder: Encoder[VideoNote] = deriveConfiguredEncoder[VideoNote]
-  implicit val voiceEncoder: Encoder[Voice] = deriveConfiguredEncoder[Voice]
+  implicit val venueEncoder: Encoder[Venue]                         = deriveConfiguredEncoder[Venue]
+  implicit val videoEncoder: Encoder[Video]                         = deriveConfiguredEncoder[Video]
+  implicit val videoNoteEncoder: Encoder[VideoNote]                 = deriveConfiguredEncoder[VideoNote]
+  implicit val voiceEncoder: Encoder[Voice]                         = deriveConfiguredEncoder[Voice]
 
   implicit val loginUrlEncoder: Encoder[LoginUrl] = deriveConfiguredEncoder[LoginUrl]
 
   // Payments
-  implicit val currencyEncoder: Encoder[Currency] = Encoder[String].contramap(c => c.asInstanceOf[TelegramCurrency].code)
-  implicit val labeledPriceEncoder: Encoder[LabeledPrice] = deriveConfiguredEncoder[LabeledPrice]
-  implicit val invoiceEncoder: Encoder[Invoice] = deriveConfiguredEncoder[Invoice]
-  implicit val shippingAddressEncoder: Encoder[ShippingAddress] = deriveConfiguredEncoder[ShippingAddress]
-  implicit val shippingQueryEncoder: Encoder[ShippingQuery] = deriveConfiguredEncoder[ShippingQuery]
-  implicit val orderInfoEncoder: Encoder[OrderInfo] = deriveConfiguredEncoder[OrderInfo]
-  implicit val preCheckoutQueryEncoder: Encoder[PreCheckoutQuery] = deriveConfiguredEncoder[PreCheckoutQuery]
-  implicit val shippingOptionEncoder: Encoder[ShippingOption] = deriveConfiguredEncoder[ShippingOption]
+  implicit val currencyEncoder: Encoder[Currency] =
+    Encoder[String].contramap(c => c.asInstanceOf[TelegramCurrency].code)
+  implicit val labeledPriceEncoder: Encoder[LabeledPrice]           = deriveConfiguredEncoder[LabeledPrice]
+  implicit val invoiceEncoder: Encoder[Invoice]                     = deriveConfiguredEncoder[Invoice]
+  implicit val shippingAddressEncoder: Encoder[ShippingAddress]     = deriveConfiguredEncoder[ShippingAddress]
+  implicit val shippingQueryEncoder: Encoder[ShippingQuery]         = deriveConfiguredEncoder[ShippingQuery]
+  implicit val orderInfoEncoder: Encoder[OrderInfo]                 = deriveConfiguredEncoder[OrderInfo]
+  implicit val preCheckoutQueryEncoder: Encoder[PreCheckoutQuery]   = deriveConfiguredEncoder[PreCheckoutQuery]
+  implicit val shippingOptionEncoder: Encoder[ShippingOption]       = deriveConfiguredEncoder[ShippingOption]
   implicit val successfulPaymentEncoder: Encoder[SuccessfulPayment] = deriveConfiguredEncoder[SuccessfulPayment]
-  implicit val countryCodeEncoder: Encoder[CountryCode] = Encoder[String].contramap(c => CaseConversions.snakenize(c.toString))
+  implicit val countryCodeEncoder: Encoder[CountryCode] =
+    Encoder[String].contramap(c => CaseConversions.snakenize(c.toString))
 
   implicit val updateEncoder: Encoder[Update] = deriveConfiguredEncoder[Update]
 
   // Inline
-  implicit val inlineQueryEncoder: Encoder[InlineQuery] = deriveConfiguredEncoder[InlineQuery]
+  implicit val inlineQueryEncoder: Encoder[InlineQuery]              = deriveConfiguredEncoder[InlineQuery]
   implicit val chosenInlineQueryEncoder: Encoder[ChosenInlineResult] = deriveConfiguredEncoder[ChosenInlineResult]
 
   implicit val inputContactMessageContentEncoder: Encoder[InputContactMessageContent] =
@@ -114,11 +118,11 @@ trait CirceEncoders {
   implicit val inputTextMessageContentEncoder: Encoder[InputTextMessageContent] =
     deriveConfiguredEncoder[InputTextMessageContent]
 
-  implicit val inputMessageContentEncoder: Encoder[InputMessageContent] =  Encoder.instance {
-    case q: InputTextMessageContent => q.asJson
+  implicit val inputMessageContentEncoder: Encoder[InputMessageContent] = Encoder.instance {
+    case q: InputTextMessageContent     => q.asJson
     case q: InputLocationMessageContent => q.asJson
-    case q: InputVenueMessageContent => q.asJson
-    case q: InputContactMessageContent => q.asJson
+    case q: InputVenueMessageContent    => q.asJson
+    case q: InputContactMessageContent  => q.asJson
   }
 
   /** InlineQueryResult */
@@ -176,66 +180,68 @@ trait CirceEncoders {
   implicit val inlineQueryResultCachedAudioEncoder: Encoder[InlineQueryResultCachedAudio] =
     deriveConfiguredEncoder[InlineQueryResultCachedAudio]
 
-  implicit val inlineQueryResultGameEncoder: Encoder[InlineQueryResultGame] = deriveConfiguredEncoder[InlineQueryResultGame]
+  implicit val inlineQueryResultGameEncoder: Encoder[InlineQueryResultGame] =
+    deriveConfiguredEncoder[InlineQueryResultGame]
 
-  implicit val inlineQueryResultEncoder: Encoder[InlineQueryResult] =  Encoder.instance {
-    case q: InlineQueryResultCachedAudio => q.asJson
+  implicit val inlineQueryResultEncoder: Encoder[InlineQueryResult] = Encoder.instance {
+    case q: InlineQueryResultCachedAudio    => q.asJson
     case q: InlineQueryResultCachedDocument => q.asJson
-    case q: InlineQueryResultCachedGif => q.asJson
+    case q: InlineQueryResultCachedGif      => q.asJson
     case q: InlineQueryResultCachedMpeg4Gif => q.asJson
-    case q: InlineQueryResultCachedPhoto => q.asJson
-    case q: InlineQueryResultCachedSticker => q.asJson
-    case q: InlineQueryResultCachedVideo => q.asJson
-    case q: InlineQueryResultCachedVoice => q.asJson
-    case q: InlineQueryResultArticle => q.asJson
-    case q: InlineQueryResultAudio => q.asJson
-    case q: InlineQueryResultContact => q.asJson
-    case q: InlineQueryResultDocument => q.asJson
-    case q: InlineQueryResultGif => q.asJson
-    case q: InlineQueryResultLocation => q.asJson
-    case q: InlineQueryResultMpeg4Gif => q.asJson
-    case q: InlineQueryResultPhoto => q.asJson
-    case q: InlineQueryResultVenue => q.asJson
-    case q: InlineQueryResultVideo => q.asJson
-    case q: InlineQueryResultVoice => q.asJson
-    case q: InlineQueryResultGame => q.asJson
+    case q: InlineQueryResultCachedPhoto    => q.asJson
+    case q: InlineQueryResultCachedSticker  => q.asJson
+    case q: InlineQueryResultCachedVideo    => q.asJson
+    case q: InlineQueryResultCachedVoice    => q.asJson
+    case q: InlineQueryResultArticle        => q.asJson
+    case q: InlineQueryResultAudio          => q.asJson
+    case q: InlineQueryResultContact        => q.asJson
+    case q: InlineQueryResultDocument       => q.asJson
+    case q: InlineQueryResultGif            => q.asJson
+    case q: InlineQueryResultLocation       => q.asJson
+    case q: InlineQueryResultMpeg4Gif       => q.asJson
+    case q: InlineQueryResultPhoto          => q.asJson
+    case q: InlineQueryResultVenue          => q.asJson
+    case q: InlineQueryResultVideo          => q.asJson
+    case q: InlineQueryResultVoice          => q.asJson
+    case q: InlineQueryResultGame           => q.asJson
   }
 
   implicit val answerInlineQueryEncoder: Encoder[AnswerInlineQuery] = deriveConfiguredEncoder[AnswerInlineQuery]
 
   // Methods
-  implicit val getMeEncoder: Encoder[GetMe.type] = Encoder.instance(_ => io.circe.Json.Null)
-  implicit val deleteWebhookEncoder: Encoder[DeleteWebhook.type] = Encoder.instance(_ => io.circe.Json.Null)
+  implicit val getMeEncoder: Encoder[GetMe.type]                   = Encoder.instance(_ => io.circe.Json.Null)
+  implicit val deleteWebhookEncoder: Encoder[DeleteWebhook.type]   = Encoder.instance(_ => io.circe.Json.Null)
   implicit val getWebhookInfoEncoder: Encoder[GetWebhookInfo.type] = Encoder.instance(_ => io.circe.Json.Null)
 
-  implicit val updatesTypeEncoder: Encoder[UpdateType] = Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
+  implicit val updatesTypeEncoder: Encoder[UpdateType] =
+    Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
-  implicit val sendMessageEncoder: Encoder[SendMessage] = deriveConfiguredEncoder[SendMessage]
+  implicit val sendMessageEncoder: Encoder[SendMessage]       = deriveConfiguredEncoder[SendMessage]
   implicit val forwardMessageEncoder: Encoder[ForwardMessage] = deriveConfiguredEncoder[ForwardMessage]
-  implicit val getUpdatesEncoder: Encoder[GetUpdates] = deriveConfiguredEncoder[GetUpdates]
+  implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   // for v5.1 support
-  implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink] = deriveConfiguredEncoder[ChatInviteLink]
+  implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink]       = deriveConfiguredEncoder[ChatInviteLink]
   implicit val chatMemberUpdatedEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
 
- 
   // Ignore InputFiles as JSON.
   implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ => io.circe.Json.Null)
 
-  implicit val sendLocationEncoder: Encoder[SendLocation] = deriveConfiguredEncoder[SendLocation]
-  implicit val sendVenueEncoder: Encoder[SendVenue] = deriveConfiguredEncoder[SendVenue]
-  implicit val sendContactEncoder: Encoder[SendContact] = deriveConfiguredEncoder[SendContact]
-  implicit val sendGameEncoder: Encoder[SendGame] = deriveConfiguredEncoder[SendGame]
-  implicit val setGameScoreEncoder: Encoder[SetGameScore] = deriveConfiguredEncoder[SetGameScore]
+  implicit val sendLocationEncoder: Encoder[SendLocation]           = deriveConfiguredEncoder[SendLocation]
+  implicit val sendVenueEncoder: Encoder[SendVenue]                 = deriveConfiguredEncoder[SendVenue]
+  implicit val sendContactEncoder: Encoder[SendContact]             = deriveConfiguredEncoder[SendContact]
+  implicit val sendGameEncoder: Encoder[SendGame]                   = deriveConfiguredEncoder[SendGame]
+  implicit val setGameScoreEncoder: Encoder[SetGameScore]           = deriveConfiguredEncoder[SetGameScore]
   implicit val getGameHighScoresEncoder: Encoder[GetGameHighScores] = deriveConfiguredEncoder[GetGameHighScores]
 
   // Payment Methods
-  implicit val answerPreCheckoutQueryEncoder: Encoder[AnswerPreCheckoutQuery] = deriveConfiguredEncoder[AnswerPreCheckoutQuery]
+  implicit val answerPreCheckoutQueryEncoder: Encoder[AnswerPreCheckoutQuery] =
+    deriveConfiguredEncoder[AnswerPreCheckoutQuery]
   implicit val answerShippingQueryEncoder: Encoder[AnswerShippingQuery] = deriveConfiguredEncoder[AnswerShippingQuery]
-  implicit val sendInvoiceEncoder: Encoder[SendInvoice] = deriveConfiguredEncoder[SendInvoice]
+  implicit val sendInvoiceEncoder: Encoder[SendInvoice]                 = deriveConfiguredEncoder[SendInvoice]
 
   implicit val chatIdEncoder: Encoder[ChatId] = Encoder.instance {
-    case ChatId.Chat(chat) => chat.asJson
+    case ChatId.Chat(chat)       => chat.asJson
     case ChatId.Channel(channel) => channel.asJson
   }
 
@@ -246,29 +252,35 @@ trait CirceEncoders {
     Encoder[String].contramap[MaskPositionType](e => CaseConversions.snakenize(e.toString))
 
   implicit val sendChatActionEncoder: Encoder[SendChatAction] = deriveConfiguredEncoder[SendChatAction]
-  implicit val getUserProfilePhotosEncoder: Encoder[GetUserProfilePhotos] = deriveConfiguredEncoder[GetUserProfilePhotos]
-  implicit val getFileEncoder: Encoder[GetFile] = deriveConfiguredEncoder[GetFile]
-  implicit val kickChatMemberEncoder: Encoder[KickChatMember] = deriveConfiguredEncoder[KickChatMember]
-  implicit val leaveChatEncoder: Encoder[LeaveChat] = deriveConfiguredEncoder[LeaveChat]
+  implicit val getUserProfilePhotosEncoder: Encoder[GetUserProfilePhotos] =
+    deriveConfiguredEncoder[GetUserProfilePhotos]
+  implicit val getFileEncoder: Encoder[GetFile]                 = deriveConfiguredEncoder[GetFile]
+  implicit val kickChatMemberEncoder: Encoder[KickChatMember]   = deriveConfiguredEncoder[KickChatMember]
+  implicit val leaveChatEncoder: Encoder[LeaveChat]             = deriveConfiguredEncoder[LeaveChat]
   implicit val unbanChatMemberEncoder: Encoder[UnbanChatMember] = deriveConfiguredEncoder[UnbanChatMember]
-  implicit val deleteMessageEncoder: Encoder[DeleteMessage] = deriveConfiguredEncoder[DeleteMessage]
-  implicit val getChatEncoder: Encoder[GetChat] = deriveConfiguredEncoder[GetChat]
-  implicit val getChatAdministratorsEncoder: Encoder[GetChatAdministrators] = deriveConfiguredEncoder[GetChatAdministrators]
+  implicit val deleteMessageEncoder: Encoder[DeleteMessage]     = deriveConfiguredEncoder[DeleteMessage]
+  implicit val getChatEncoder: Encoder[GetChat]                 = deriveConfiguredEncoder[GetChat]
+  implicit val getChatAdministratorsEncoder: Encoder[GetChatAdministrators] =
+    deriveConfiguredEncoder[GetChatAdministrators]
   implicit val getChatMembersCountEncoder: Encoder[GetChatMembersCount] = deriveConfiguredEncoder[GetChatMembersCount]
-  implicit val getChatMemberEncoder: Encoder[GetChatMember] = deriveConfiguredEncoder[GetChatMember]
+  implicit val getChatMemberEncoder: Encoder[GetChatMember]             = deriveConfiguredEncoder[GetChatMember]
   implicit val answerCallbackQueryEncoder: Encoder[AnswerCallbackQuery] = deriveConfiguredEncoder[AnswerCallbackQuery]
 
-  implicit val editMessageTextEncoder: Encoder[EditMessageText] = deriveConfiguredEncoder[EditMessageText]
+  implicit val editMessageTextEncoder: Encoder[EditMessageText]       = deriveConfiguredEncoder[EditMessageText]
   implicit val editMessageCaptionEncoder: Encoder[EditMessageCaption] = deriveConfiguredEncoder[EditMessageCaption]
-  implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] = deriveConfiguredEncoder[EditMessageReplyMarkup]
+  implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] =
+    deriveConfiguredEncoder[EditMessageReplyMarkup]
 
   implicit val deleteChatPhotoEncoder: Encoder[DeleteChatPhoto] = deriveConfiguredEncoder[DeleteChatPhoto]
 
-  implicit val deleteStickerFromSetEncoder: Encoder[DeleteStickerFromSet] = deriveConfiguredEncoder[DeleteStickerFromSet]
+  implicit val deleteStickerFromSetEncoder: Encoder[DeleteStickerFromSet] =
+    deriveConfiguredEncoder[DeleteStickerFromSet]
 
-  implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] = deriveConfiguredEncoder[DeleteChatStickerSet]
+  implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] =
+    deriveConfiguredEncoder[DeleteChatStickerSet]
 
-  implicit val editMessageLiveLocationEncoder: Encoder[EditMessageLiveLocation] = deriveConfiguredEncoder[EditMessageLiveLocation]
+  implicit val editMessageLiveLocationEncoder: Encoder[EditMessageLiveLocation] =
+    deriveConfiguredEncoder[EditMessageLiveLocation]
 
   implicit val getStickerSetEncoder: Encoder[GetStickerSet] = deriveConfiguredEncoder[GetStickerSet]
 
@@ -276,13 +288,15 @@ trait CirceEncoders {
 
   implicit val promoteChatMemberEncoder: Encoder[PromoteChatMember] = deriveConfiguredEncoder[PromoteChatMember]
 
-  implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] = deriveConfiguredEncoder[ExportChatInviteLink]
+  implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] =
+    deriveConfiguredEncoder[ExportChatInviteLink]
 
   implicit val restrictChatMemberEncoder: Encoder[RestrictChatMember] = deriveConfiguredEncoder[RestrictChatMember]
 
   implicit val setChatDescriptionEncoder: Encoder[SetChatDescription] = deriveConfiguredEncoder[SetChatDescription]
 
-  implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] = deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
+  implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] =
+    deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
 
   implicit val setChatPermissionsEncoder: Encoder[SetChatPermissions] = deriveConfiguredEncoder[SetChatPermissions]
 
@@ -290,9 +304,11 @@ trait CirceEncoders {
 
   implicit val setChatTitleEncoder: Encoder[SetChatTitle] = deriveConfiguredEncoder[SetChatTitle]
 
-  implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] = deriveConfiguredEncoder[SetStickerPositionInSet]
+  implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] =
+    deriveConfiguredEncoder[SetStickerPositionInSet]
 
-  implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] = deriveConfiguredEncoder[StopMessageLiveLocation]
+  implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] =
+    deriveConfiguredEncoder[StopMessageLiveLocation]
 
   implicit val unpinChatMessageEncoder: Encoder[UnpinChatMessage] = deriveConfiguredEncoder[UnpinChatMessage]
 
@@ -300,20 +316,20 @@ trait CirceEncoders {
   implicit val StopPollEncoder: Encoder[StopPoll] = deriveConfiguredEncoder[StopPoll]
 
   // Multipart methods
-  implicit val addStickerToSetEncoder : Encoder[AddStickerToSet] = deriveConfiguredEncoder[AddStickerToSet]
-  implicit val createNewStickerSetEncoder : Encoder[CreateNewStickerSet] = deriveConfiguredEncoder[CreateNewStickerSet]
-  implicit val sendAnimationEncoder : Encoder[SendAnimation] = deriveConfiguredEncoder[SendAnimation]
-  implicit val sendAudioEncoder : Encoder[SendAudio] = deriveConfiguredEncoder[SendAudio]
-  implicit val sendDocumentEncoder : Encoder[SendDocument] = deriveConfiguredEncoder[SendDocument]
-  implicit val sendMediaGroupEncoder : Encoder[SendMediaGroup] = deriveConfiguredEncoder[SendMediaGroup]
-  implicit val sendPhotoEncoder : Encoder[SendPhoto] = deriveConfiguredEncoder[SendPhoto]
-  implicit val sendStickerEncoder : Encoder[SendSticker] = deriveConfiguredEncoder[SendSticker]
-  implicit val sendVideoEncoder : Encoder[SendVideo] = deriveConfiguredEncoder[SendVideo]
-  implicit val sendVideoNoteEncoder : Encoder[SendVideoNote] = deriveConfiguredEncoder[SendVideoNote]
-  implicit val sendVoiceEncoder : Encoder[SendVoice] = deriveConfiguredEncoder[SendVoice]
-  implicit val setChatPhotoEncoder : Encoder[SetChatPhoto] = deriveConfiguredEncoder[SetChatPhoto]
-  implicit val setWebhookEncoder : Encoder[SetWebhook] = deriveConfiguredEncoder[SetWebhook]
-  implicit val uploadStickerFileEncoder : Encoder[UploadStickerFile] = deriveConfiguredEncoder[UploadStickerFile]
+  implicit val addStickerToSetEncoder: Encoder[AddStickerToSet]         = deriveConfiguredEncoder[AddStickerToSet]
+  implicit val createNewStickerSetEncoder: Encoder[CreateNewStickerSet] = deriveConfiguredEncoder[CreateNewStickerSet]
+  implicit val sendAnimationEncoder: Encoder[SendAnimation]             = deriveConfiguredEncoder[SendAnimation]
+  implicit val sendAudioEncoder: Encoder[SendAudio]                     = deriveConfiguredEncoder[SendAudio]
+  implicit val sendDocumentEncoder: Encoder[SendDocument]               = deriveConfiguredEncoder[SendDocument]
+  implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup]           = deriveConfiguredEncoder[SendMediaGroup]
+  implicit val sendPhotoEncoder: Encoder[SendPhoto]                     = deriveConfiguredEncoder[SendPhoto]
+  implicit val sendStickerEncoder: Encoder[SendSticker]                 = deriveConfiguredEncoder[SendSticker]
+  implicit val sendVideoEncoder: Encoder[SendVideo]                     = deriveConfiguredEncoder[SendVideo]
+  implicit val sendVideoNoteEncoder: Encoder[SendVideoNote]             = deriveConfiguredEncoder[SendVideoNote]
+  implicit val sendVoiceEncoder: Encoder[SendVoice]                     = deriveConfiguredEncoder[SendVoice]
+  implicit val setChatPhotoEncoder: Encoder[SetChatPhoto]               = deriveConfiguredEncoder[SetChatPhoto]
+  implicit val setWebhookEncoder: Encoder[SetWebhook]                   = deriveConfiguredEncoder[SetWebhook]
+  implicit val uploadStickerFileEncoder: Encoder[UploadStickerFile]     = deriveConfiguredEncoder[UploadStickerFile]
 
 }
 

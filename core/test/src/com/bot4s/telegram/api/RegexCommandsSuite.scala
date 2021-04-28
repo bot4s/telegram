@@ -12,7 +12,7 @@ class RegexCommandsSuite extends AnyFlatSpec with MockFactory with TestUtils {
 
   trait Fixture {
     val handler = mockFunction[Message, Seq[String], Future[Unit]]
-    val bot = new TestBot with RegexCommands[Future]
+    val bot     = new TestBot with RegexCommands[Future]
   }
 
   behavior of "RegexCommands"
