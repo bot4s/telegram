@@ -26,7 +26,7 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
     }
 
     bindingFuture = Http().newServerAt(interfaceIp, port).bindFlow(routes)
-    bindingFuture.foreach { _ =>
+     bindingFuture.foreach { _ =>
       logger.info(s"Listening on $interfaceIp:$port")
     }
 
