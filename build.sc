@@ -3,7 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.12.13", "2.13.4")
+val ScalaVersions = Seq("2.12.13", "2.13.5")
 
 object library {
 
@@ -65,8 +65,9 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     "-encoding", "UTF-8",
     "-feature",
     "-unchecked",
-    //"-Xfatal-warnings",
     "-Xlint:_",
+    // circe raises a lot of those warnings in the CirceEncoders file
+    "-Wconf:cat=lint-byname-implicit:s",
     "-Ywarn-dead-code"
   )
 

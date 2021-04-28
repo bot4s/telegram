@@ -1,6 +1,5 @@
 package com.bot4s.telegram.marshalling
 
-import com.bot4s.telegram.methods._
 import com.bot4s.telegram.methods.ChatAction.ChatAction
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.PollType.PollType
@@ -54,7 +53,7 @@ trait CirceEncoders {
   implicit val messageEncoder: Encoder[Message] = deriveConfiguredEncoder[Message]
 
   implicit val messageEntityTypeEncoder: Encoder[MessageEntityType] =
-    Encoder[String].contramap[MessageEntityType](e ⇒ CaseConversions.snakenize(e.toString))
+    Encoder[String].contramap[MessageEntityType](e => CaseConversions.snakenize(e.toString))
 
   implicit val messageEntityEncoder: Encoder[MessageEntity] = deriveConfiguredEncoder[MessageEntity]
 
@@ -205,9 +204,9 @@ trait CirceEncoders {
   implicit val answerInlineQueryEncoder: Encoder[AnswerInlineQuery] = deriveConfiguredEncoder[AnswerInlineQuery]
 
   // Methods
-  implicit val getMeEncoder: Encoder[GetMe.type] = Encoder.instance(_ ⇒ io.circe.Json.Null)
-  implicit val deleteWebhookEncoder: Encoder[DeleteWebhook.type] = Encoder.instance(_ ⇒ io.circe.Json.Null)
-  implicit val getWebhookInfoEncoder: Encoder[GetWebhookInfo.type] = Encoder.instance(_ ⇒ io.circe.Json.Null)
+  implicit val getMeEncoder: Encoder[GetMe.type] = Encoder.instance(_ => io.circe.Json.Null)
+  implicit val deleteWebhookEncoder: Encoder[DeleteWebhook.type] = Encoder.instance(_ => io.circe.Json.Null)
+  implicit val getWebhookInfoEncoder: Encoder[GetWebhookInfo.type] = Encoder.instance(_ => io.circe.Json.Null)
 
   implicit val updatesTypeEncoder: Encoder[UpdateType] = Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
@@ -241,10 +240,10 @@ trait CirceEncoders {
   }
 
   implicit val chatActionEncoder: Encoder[ChatAction] =
-    Encoder[String].contramap[ChatAction](e ⇒ CaseConversions.snakenize(e.toString))
+    Encoder[String].contramap[ChatAction](e => CaseConversions.snakenize(e.toString))
 
   implicit val maskPositionTypeEncoder: Encoder[MaskPositionType] =
-    Encoder[String].contramap[MaskPositionType](e ⇒ CaseConversions.snakenize(e.toString))
+    Encoder[String].contramap[MaskPositionType](e => CaseConversions.snakenize(e.toString))
 
   implicit val sendChatActionEncoder: Encoder[SendChatAction] = deriveConfiguredEncoder[SendChatAction]
   implicit val getUserProfilePhotosEncoder: Encoder[GetUserProfilePhotos] = deriveConfiguredEncoder[GetUserProfilePhotos]

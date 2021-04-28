@@ -13,7 +13,6 @@ import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration._
 import sttp.client3._
-import sttp.model._
 
 import sttp.client3.ResponseAs
 import sttp.model.MediaType
@@ -65,7 +64,7 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
         val fields = parse(marshalling.toJson(request)).fold(throw _, _.asObject.map {
           _.toMap.mapValues {
             json =>
-              json.asString.getOrElse(marshalling.printer.pretty(json))
+              json.asString.getOrElse(json.printWith(marshalling.printer))
           }
         })
 

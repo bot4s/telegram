@@ -26,7 +26,7 @@ class CovfefeBot(token: String) extends ExampleBot(token)
       if r.isSuccess
       json = r.body
       t = io.circe.parser.parse(json).fold(throw _, identity)
-      quote = t.hcursor.downField("message").as[String].right.toOption.getOrElse("")
+      quote = t.hcursor.downField("message").as[String].toOption.getOrElse("")
       _ <- reply(quote)
     } yield ()
   }
