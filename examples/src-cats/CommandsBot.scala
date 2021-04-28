@@ -1,26 +1,26 @@
-import cats.effect.{Concurrent, ContextShift}
+import cats.effect.{ Concurrent, ContextShift }
 import cats.effect.Timer
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
-import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
+import com.bot4s.telegram.api.declarative.{ Commands, RegexCommands }
 import com.bot4s.telegram.cats.Polling
 
 import scala.concurrent.duration._
 import scala.util.Try
 
-
 /**
-  * Showcases different ways to declare commands (Commands + RegexCommands).
-  *
-  * Note that non-ASCII commands are not clickable.
-  *
-  * @param token Bot's token.
-  */
-class CommandsBot[F[_]: Concurrent: Timer : ContextShift](token: String) extends ExampleBot[F](token)
-  with Polling[F]
-  with Commands[F]
-  with RegexCommands[F] {
+ * Showcases different ways to declare commands (Commands + RegexCommands).
+ *
+ * Note that non-ASCII commands are not clickable.
+ *
+ * @param token Bot's token.
+ */
+class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String)
+    extends ExampleBot[F](token)
+    with Polling[F]
+    with Commands[F]
+    with RegexCommands[F] {
 
   // Extractor
   object Int {
@@ -39,12 +39,11 @@ class CommandsBot[F[_]: Concurrent: Timer : ContextShift](token: String) extends
 
   // Several commands can share the same handler.
   // Shows the 'using' extension to extract information from messages.
-  onCommand("/hallo" | "/bonjour" | "/ciao" | "/hola") {
-    implicit msg =>
-      using(_.from) { // sender
-        user =>
-          reply(s"Hello ${user.firstName} from Europe?").void
-      }
+  onCommand("/hallo" | "/bonjour" | "/ciao" | "/hola") { implicit msg =>
+    using(_.from) { // sender
+      user =>
+        reply(s"Hello ${user.firstName} from Europe?").void
+    }
   }
 
   onCommand("/metro") { implicit msg =>
@@ -57,9 +56,8 @@ class CommandsBot[F[_]: Concurrent: Timer : ContextShift](token: String) extends
 
   // withArgs extracts command arguments.
   onCommand("echo") { implicit msg =>
-    withArgs {
-      args =>
-        reply(args.mkString(" ")).void
+    withArgs { args =>
+      reply(args.mkString(" ")).void
     }
   }
 
@@ -76,14 +74,15 @@ class CommandsBot[F[_]: Concurrent: Timer : ContextShift](token: String) extends
   }
 
   // Regex commands also available.
-  onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
-    case Seq(Int(mm), Int(ss)) =>
+  onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg =>
+    { case Seq(Int(mm), Int(ss)) =>
       for {
         _ <- reply(s"Timer set: $mm minute(s) and $ss second(s)")
         _ <- implicitly[Timer[F]].sleep(mm.minutes + ss.seconds)
         _ <- reply("Time's up!")
       } yield ()
-  } }
+    }
+  }
 
   // Handles only /respect2@recipient commands
   onCommand("respect" & respectRecipient(Some("recipient"))) { implicit msg =>

@@ -3,5 +3,5 @@ import sttp.client3.SttpBackend
 import scala.concurrent.Future
 
 object SttpBackends {
-  val default : SttpBackend[Future, Any] = OkHttpFutureBackend()
+  val default: SttpBackend[Future, Any] = OkHttpFutureBackend()
 }

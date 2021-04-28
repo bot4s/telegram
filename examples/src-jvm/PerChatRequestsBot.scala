@@ -1,11 +1,11 @@
-import akka.actor.{Actor, ActorRef, Props, Terminated}
+import akka.actor.{ Actor, ActorRef, Props, Terminated }
 import cats.syntax.functor._
 import cats.instances.future._
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{ActorBroker, AkkaDefaults}
+import com.bot4s.telegram.api.{ ActorBroker, AkkaDefaults }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendMessage
-import com.bot4s.telegram.models.{Message, Update}
+import com.bot4s.telegram.models.{ Message, Update }
 
 import scala.concurrent.Future
 
@@ -20,18 +20,20 @@ trait PerChatRequests extends ActorBroker with AkkaDefaults {
       case u: Update =>
         u.message.foreach { m =>
           val id = m.chat.id
-          val handler = chatActors.getOrElseUpdate(m.chat.id, {
-            val worker = system.actorOf(Props(new Worker), s"worker_$id")
-            context.watch(worker)
-            worker
-          })
+          val handler = chatActors.getOrElseUpdate(
+            m.chat.id, {
+              val worker = system.actorOf(Props(new Worker), s"worker_$id")
+              context.watch(worker)
+              worker
+            }
+          )
           handler ! m
         }
 
       case Terminated(worker) =>
         // This should be faster
-        chatActors.find(_._2 == worker).foreach {
-          case (k, _) => chatActors.remove(k)
+        chatActors.find(_._2 == worker).foreach { case (k, _) =>
+          chatActors.remove(k)
         }
 
       case _ =>
@@ -50,10 +52,11 @@ trait PerChatRequests extends ActorBroker with AkkaDefaults {
   }
 }
 
-class PerChatRequestsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with PerChatRequests {
+class PerChatRequestsBot(token: String)
+    extends ExampleBot(token)
+    with Polling
+    with Commands[Future]
+    with PerChatRequests {
 
   // Commands work as usual.
   onCommand("/hello") { implicit msg =>

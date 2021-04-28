@@ -7,10 +7,10 @@ import com.bot4s.telegram.models.Message
 import scala.concurrent.Future
 
 /**
-  * Simple extension for having stateful Telegram Bots (per chat).
-  * The main issue is locking/synchronization, actors (FSM) are a better alternative.
-  * This can be easily adapted to handle per-user or per-user+chat state.
-  */
+ * Simple extension for having stateful Telegram Bots (per chat).
+ * The main issue is locking/synchronization, actors (FSM) are a better alternative.
+ * This can be easily adapted to handle per-user or per-user+chat state.
+ */
 trait PerChatState[S] {
   private val chatState = collection.mutable.Map[Long, S]()
 
@@ -34,14 +34,11 @@ trait PerChatState[S] {
 }
 
 /**
-  * Per-chat counter.
-  *
-  * @param token Bot's token.
-  */
-class StatefulBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with PerChatState[Int] {
+ * Per-chat counter.
+ *
+ * @param token Bot's token.
+ */
+class StatefulBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] with PerChatState[Int] {
 
   onCommand("/inc") { implicit msg =>
     withChatState { s =>

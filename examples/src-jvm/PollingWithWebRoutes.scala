@@ -7,15 +7,16 @@ import com.bot4s.telegram.future.Polling
 import scala.concurrent.Future
 
 /**
-  * Showcases the ability to run Polling and WebRoutes at the same time.
-  * Check http://localhost:8080 on your local browser.
-  * It provides a simple way to add custom endpoints for authentication, games
-  * and even serving entire websites.
-  */
-class PollingWithWebRoutes(token: String) extends AkkaExampleBot(token)
-  with Polling
-  with WebRoutes
-  with Commands[Future] {
+ * Showcases the ability to run Polling and WebRoutes at the same time.
+ * Check http://localhost:8080 on your local browser.
+ * It provides a simple way to add custom endpoints for authentication, games
+ * and even serving entire websites.
+ */
+class PollingWithWebRoutes(token: String)
+    extends AkkaExampleBot(token)
+    with Polling
+    with WebRoutes
+    with Commands[Future] {
 
   override val port: Int = 8080
 

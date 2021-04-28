@@ -6,12 +6,11 @@ import com.bot4s.telegram.methods._
 import scala.concurrent.Future
 import com.bot4s.telegram.api.declarative.Commands
 
-class MarkdownBot(token: String) extends ExampleBot(token)
-  with Polling 
-  with Commands[Future] {
+class MarkdownBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
 
-  onCommand("markdownV2") { implicit msg => 
-    reply("""
+  onCommand("markdownV2") { implicit msg =>
+    reply(
+      """
     *MardownV2*
 *bold \*text*
 _italic \*text_
@@ -27,9 +26,13 @@ pre-formatted fixed-width code block
 ```python
 pre-formatted fixed-width code block written in the Python programming language
 ```
-    """, Some(ParseMode.MarkdownV2)).void
+    """,
+      Some(ParseMode.MarkdownV2)
+    ).void
   }
-  onCommand("markdown") { implicit msg =>  reply("""
+  onCommand("markdown") { implicit msg =>
+    reply(
+      """
   *Mardown parsing*
   *bold text*
 _italic text_
@@ -42,9 +45,13 @@ pre-formatted fixed-width code block
 ```python
 pre-formatted fixed-width code block written in the Python programming language
 ```
-  """, Some(ParseMode.Markdown)).void
+  """,
+      Some(ParseMode.Markdown)
+    ).void
   }
-  onCommand("html") { implicit msg => reply("""
+  onCommand("html") { implicit msg =>
+    reply(
+      """
   <b>HTML Parser</b>
   <b>bold</b>, <strong>bold</strong>
 <i>italic</i>, <em>italic</em>
@@ -56,6 +63,8 @@ pre-formatted fixed-width code block written in the Python programming language
 <code>inline fixed-width code</code>
 <pre>pre-formatted fixed-width code block</pre>
 <pre><code class="language-python">pre-formatted fixed-width code block written in the Python programming language</code></pre>
-  """, Some(ParseMode.HTML)).void
+  """,
+      Some(ParseMode.HTML)
+    ).void
   }
 }

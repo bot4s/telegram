@@ -6,11 +6,10 @@ import scala.util.Try
 
 import scala.concurrent.Future
 
-/** Generates random values.
-  */
-class RandomBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future] {
+/**
+ * Generates random values.
+ */
+class RandomBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
 
   val rng = new scala.util.Random(System.currentTimeMillis())
   onCommand("coin" or "flip") { implicit msg =>

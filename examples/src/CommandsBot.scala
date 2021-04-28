@@ -1,6 +1,6 @@
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.declarative.{Commands, RegexCommands}
+import com.bot4s.telegram.api.declarative.{ Commands, RegexCommands }
 import com.bot4s.telegram.future.Polling
 
 import scala.concurrent.Future
@@ -8,16 +8,17 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 /**
-  * Showcases different ways to declare commands (Commands + RegexCommands).
-  *
-  * Note that non-ASCII commands are not clickable.
-  *
-  * @param token Bot's token.
-  */
-class CommandsBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with RegexCommands[Future] {
+ * Showcases different ways to declare commands (Commands + RegexCommands).
+ *
+ * Note that non-ASCII commands are not clickable.
+ *
+ * @param token Bot's token.
+ */
+class CommandsBot(token: String)
+    extends ExampleBot(token)
+    with Polling
+    with Commands[Future]
+    with RegexCommands[Future] {
 
   // Extractor
   object Int {
@@ -36,12 +37,11 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // Several commands can share the same handler.
   // Shows the 'using' extension to extract information from messages.
-  onCommand("/hallo" | "/bonjour" | "/ciao" | "/hola") {
-    implicit msg =>
-      using(_.from) { // sender
-        user =>
-          reply(s"Hello ${user.firstName} from Europe?").void
-      }
+  onCommand("/hallo" | "/bonjour" | "/ciao" | "/hola") { implicit msg =>
+    using(_.from) { // sender
+      user =>
+        reply(s"Hello ${user.firstName} from Europe?").void
+    }
   }
 
   // Also using Symbols; the "/" prefix is added by default.
@@ -66,9 +66,8 @@ class CommandsBot(token: String) extends ExampleBot(token)
 
   // withArgs extracts command arguments.
   onCommand("echo") { implicit msg =>
-    withArgs {
-      args =>
-        reply(args.mkString(" ")).void
+    withArgs { args =>
+      reply(args.mkString(" ")).void
     }
   }
 
@@ -85,12 +84,12 @@ class CommandsBot(token: String) extends ExampleBot(token)
   }
 
   // Regex commands also available.
-  onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg => {
-    case Seq(Int(mm), Int(ss)) =>
+  onRegex("""/timer\s+([0-5]?[0-9]):([0-5]?[0-9])""".r) { implicit msg =>
+    { case Seq(Int(mm), Int(ss)) =>
       reply(s"Timer set: $mm minute(s) and $ss second(s)").void
       Utils.after(mm.minutes + ss.seconds) {
         reply("Time's up!!!")
       }
-  }
+    }
   }
 }

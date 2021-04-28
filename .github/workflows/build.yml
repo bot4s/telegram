@@ -18,7 +18,7 @@ jobs:
     - name: Check code format
       uses: jrouly/scalafmt-ci@66738570733d21bfbfe64495b5c7c151c47fb66f
       with:
-        args: "-c .scalafmt.conf --test core"
+        args: "-c .scalafmt.conf --test core akka examples"
     - uses: jodersky/setup-mill@v0.2.3
       with:
         mill-version: 0.9.5
