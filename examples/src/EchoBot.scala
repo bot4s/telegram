@@ -7,10 +7,9 @@ import com.bot4s.telegram.models._
 import scala.concurrent.Future
 
 /**
-  * Echo, ohcE
-  */
-class EchoBot(token: String) extends ExampleBot(token)
-  with Polling {
+ * Echo, ohcE
+ */
+class EchoBot(token: String) extends ExampleBot(token) with Polling {
 
   override def receiveMessage(msg: Message): Future[Unit] =
     msg.text.fold(Future.successful(())) { text =>

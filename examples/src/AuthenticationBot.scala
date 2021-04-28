@@ -2,13 +2,13 @@ import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.future.Polling
-import com.bot4s.telegram.models.{Message, User}
+import com.bot4s.telegram.models.{ Message, User }
 
 import scala.concurrent.Future
 
 /**
-  * Extension to add a simple authentication filter.
-  */
+ * Extension to add a simple authentication filter.
+ */
 trait SillyAuthentication {
   val allowed = scala.collection.mutable.Set[Long]()
 
@@ -24,41 +24,38 @@ trait SillyAuthentication {
     allowed -= user.id
   }
 
-  def authenticatedOrElse(ok: Action[Future, User])
-    (noAccess: Action[Future, User])
-    (implicit msg: Message): Future[Unit] = {
+  def authenticatedOrElse(
+    ok: Action[Future, User]
+  )(noAccess: Action[Future, User])(implicit msg: Message): Future[Unit] =
     msg.from.fold(Future.successful(())) { user =>
       if (isAuthenticated(user))
         ok(user)
       else
         noAccess(user)
     }
-  }
 
   def isAuthenticated(user: User): Boolean = atomic {
     allowed.contains(user.id)
   }
 
-  def authenticated(ok: Action[Future, User])(implicit msg: Message): Unit = {
-    msg.from.foreach {
-      user =>
-        if (isAuthenticated(user))
-          ok(user)
+  def authenticated(ok: Action[Future, User])(implicit msg: Message): Unit =
+    msg.from.foreach { user =>
+      if (isAuthenticated(user))
+        ok(user)
     }
-  }
 }
 
-class AuthenticationBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with SillyAuthentication {
+class AuthenticationBot(token: String)
+    extends ExampleBot(token)
+    with Polling
+    with Commands[Future]
+    with SillyAuthentication {
 
   onCommand("start" | "help") { implicit msg =>
-    reply(
-      """Authentication:
-        |/login - Login
-        |/logout - Logout
-        |/secret - Only authenticated users have access
+    reply("""Authentication:
+            |/login - Login
+            |/logout - Logout
+            |/secret - Only authenticated users have access
       """.stripMargin).void
   }
 
@@ -75,15 +72,12 @@ class AuthenticationBot(token: String) extends ExampleBot(token)
   }
 
   onCommand("/secret") { implicit msg =>
-    authenticatedOrElse {
-      admin =>
-        reply(
-          s"""${admin.firstName}:
-             |The answer to life the universe and everything is 42.
-             |You can /logout now.""".stripMargin).void
-    } /* or else */ {
-      user =>
-        reply(s"${user.firstName}, you must /login first.").void
+    authenticatedOrElse { admin =>
+      reply(s"""${admin.firstName}:
+               |The answer to life the universe and everything is 42.
+               |You can /logout now.""".stripMargin).void
+    } /* or else */ { user =>
+      reply(s"${user.firstName}, you must /login first.").void
     }
   }
 }

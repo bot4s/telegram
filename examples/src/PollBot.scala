@@ -1,7 +1,7 @@
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
+import com.bot4s.telegram.api.declarative.{ Callbacks, Commands }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
@@ -10,13 +10,9 @@ import scala.concurrent.Future
 import scala.util.Failure
 
 /**
-  *
-  * Ported from: https://github.com/Pitasi/selfdestructbot
-  */
-class PollBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future]
-  with Callbacks[Future] {
+ * Ported from: https://github.com/Pitasi/selfdestructbot
+ */
+class PollBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] with Callbacks[Future] {
 
   var pollMsgId = 0
 
@@ -24,7 +20,7 @@ class PollBot(token: String) extends ExampleBot(token)
     val f = request(poll)
     f.onComplete {
       case Failure(e) => println("Error " + e)
-      case _ =>
+      case _          =>
     }
     for {
       poll <- f
@@ -39,12 +35,12 @@ class PollBot(token: String) extends ExampleBot(token)
     sendPoll(f)
   }
 
-  onCommand("quizPoll") { implicit msg => 
+  onCommand("quizPoll") { implicit msg =>
     val f = SendPoll(
       chatId = ChatId(msg.chat.id),
-      question =  "Pick A or B",
+      question = "Pick A or B",
       options = Array("A", "B"),
-      `type`  = PollType.quiz,
+      `type` = PollType.quiz,
       correctOptionId = Some(0),
       explanation = "The correct answer was A",
       explanationParseMode = ParseMode.Markdown

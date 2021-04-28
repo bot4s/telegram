@@ -6,23 +6,23 @@ import com.bot4s.telegram.models.Message
 case class Command(cmd: String, recipient: Option[String])
 
 /**
-  * Provides a declarative interface to define commands.
-  */
+ * Provides a declarative interface to define commands.
+ */
 trait Commands[F[_]] extends Messages[F] with CommandImplicits {
   _: BotBase[F] =>
 
   /**
-    * Receives /commands with the specified action.
-    * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
-    * Purely syntax honey for command filters.
-    *
-    * @example {{{
-    *   onCommand("/command") { implicit msg => ... }
-    *   onCommand("command") { implicit msg => ... }
-    *   onCommand("/adieu" | "/bye") { implicit msg => ... }
-    *   onCommand(cmd => cmd.cmd.contains("help")) { implicit msg => ... }
-    * }}}
-    */
+   * Receives /commands with the specified action.
+   * Commands '/' prefix is optional. "cmd" == "/cmd" == 'cmd
+   * Purely syntax honey for command filters.
+   *
+   * @example {{{
+   *   onCommand("/command") { implicit msg => ... }
+   *   onCommand("command") { implicit msg => ... }
+   *   onCommand("/adieu" | "/bye") { implicit msg => ... }
+   *   onCommand(cmd => cmd.cmd.contains("help")) { implicit msg => ... }
+   * }}}
+   */
   def onCommand(filter: CommandFilterMagnet)(action: Action[F, Message]): Unit =
     onExtMessage { case (message, botUser) =>
       using(command) { cmd =>
@@ -32,46 +32,44 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
         } else {
           unit
         }
-      } (message)
+      }(message)
     }
 
   /**
-    * Extract command arguments from the message's text; if present.
-    * The first token, the /command, is dropped.
-    *
-    * @example {{{
-    *   on("echo") { implicit msg =>
-    *     withArgs { args =>
-    *       reply(args.mkString(" "))
-    *     }
-    *   }
-    * }}}
-    */
-  def withArgs(action: Action[F, Args])(implicit msg: Message): F[Unit] = {
+   * Extract command arguments from the message's text; if present.
+   * The first token, the /command, is dropped.
+   *
+   * @example {{{
+   *   on("echo") { implicit msg =>
+   *     withArgs { args =>
+   *       reply(args.mkString(" "))
+   *     }
+   *   }
+   * }}}
+   */
+  def withArgs(action: Action[F, Args])(implicit msg: Message): F[Unit] =
     using(commandArguments)(action)
-  }
 
   /**
-    * Extracts the leading /command.
-    */
-  def command(msg: Message): Option[Command] = {
+   * Extracts the leading /command.
+   */
+  def command(msg: Message): Option[Command] =
     msg.text.flatMap { text =>
       val cmdRe = """^(?:\s*/)(\w+)(?:@(\w+))?""".r // /cmd@recipient
       cmdRe.findFirstIn(text) flatMap {
         case cmdRe(cmd, recipient) => Some(Command(cmd, Option(recipient)))
-        case _ => None
+        case _                     => None
       }
     }
-  }
 
   /**
-    * Tokenize message text; drops first token (/command).
-    */
+   * Tokenize message text; drops first token (/command).
+   */
   def commandArguments(msg: Message): Option[Args] = textTokens(msg).map(_.tail)
 
   /**
-    * Tokenize message text.
-    */
+   * Tokenize message text.
+   */
   def textTokens(msg: Message): Option[Args] = msg.text.map(_.trim.split("\\s+"))
 }
 
@@ -82,22 +80,22 @@ trait CommandFilterMagnet {
 
   def or(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
     override def accept(command: Command) = self.accept(command) || other.accept(command)
-    override def to(r: Option[String]) = self.to(r).or(other.to(r))
+    override def to(r: Option[String])    = self.to(r).or(other.to(r))
   }
   def and(other: CommandFilterMagnet): CommandFilterMagnet = new CommandFilterMagnet {
     override def accept(command: Command) = self.accept(command) && other.accept(command)
-    override def to(r: Option[String]) = self.to(r).and(other.to(r))
+    override def to(r: Option[String])    = self.to(r).and(other.to(r))
   }
   def |(other: CommandFilterMagnet) = or(other)
   def &(other: CommandFilterMagnet) = and(other)
   def not: CommandFilterMagnet = new CommandFilterMagnet {
-    override def accept(command: Command) = !self.accept(command)
+    override def accept(command: Command)                   = !self.accept(command)
     override def to(r: Option[String]): CommandFilterMagnet = self.to(r).not
   }
   def unary_! = self.not
 
   def to(r: Option[String]): CommandFilterMagnet = this
-  def @@(r: Option[String]) = to(r)
+  def @@(r: Option[String])                      = to(r)
 }
 
 trait CommandImplicits {
@@ -124,7 +122,7 @@ object CommandFilterMagnet {
   }
 
   val RespectRecipient = new CommandFilterMagnet {
-    override def accept(command: Command) = true
+    override def accept(command: Command)      = true
     override def to(recipient: Option[String]) = respectRecipient(recipient)
   }
 }

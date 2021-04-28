@@ -1,10 +1,11 @@
 package com.bot4s.telegram.api
 
-import com.bot4s.telegram.methods.{ChatAction, SendChatAction}
+import com.bot4s.telegram.methods.{ ChatAction, SendChatAction }
 import com.bot4s.telegram.models.Message
 
-/** Provides handy chat actions shortcuts.
-  */
+/**
+ * Provides handy chat actions shortcuts.
+ */
 trait ChatActions[F[_]] {
   this: BotBase[F] =>
   def typing(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.Typing))

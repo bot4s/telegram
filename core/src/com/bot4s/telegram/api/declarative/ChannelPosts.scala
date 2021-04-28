@@ -10,26 +10,24 @@ import com.bot4s.telegram.models.Message
 import scala.collection.mutable
 
 /**
-  * Declarative helpers for processing channel posts.
-  */
+ * Declarative helpers for processing channel posts.
+ */
 trait ChannelPosts[F[_]] extends BotBase[F] {
 
-  private val channelPostActions = mutable.ArrayBuffer[Action[F, Message]]()
+  private val channelPostActions       = mutable.ArrayBuffer[Action[F, Message]]()
   private val editedChannelPostActions = mutable.ArrayBuffer[Action[F, Message]]()
 
   /**
-    * Executes `action` for every channel post.
-    */
-  def onChannelPost(action: Action[F, Message]): Unit = {
+   * Executes `action` for every channel post.
+   */
+  def onChannelPost(action: Action[F, Message]): Unit =
     channelPostActions += action
-  }
 
   /**
-    * Executes `action` for every incoming edited channel post.
-    */
-  def onEditedChannelPost(action: Action[F, Message]): Unit = {
+   * Executes `action` for every incoming edited channel post.
+   */
+  def onEditedChannelPost(action: Action[F, Message]): Unit =
     editedChannelPostActions += action
-  }
 
   override def receiveChannelPost(msg: Message): F[Unit] =
     for {

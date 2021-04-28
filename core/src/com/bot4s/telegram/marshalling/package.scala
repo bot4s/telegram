@@ -6,15 +6,15 @@ import cats.instances.list._
 import cats.syntax.traverse._
 import io.circe.parser.parse
 import io.circe.syntax._
-import io.circe.{Json, JsonObject, _}
+import io.circe.{ Json, JsonObject, _ }
 
 object `package` extends CirceEncoders with CirceDecoders with CaseConversions {
 
   private def transformKeys(json: Json, f: String => String): Trampoline[Json] = {
     def transformObjectKeys(obj: JsonObject, f: String => String): JsonObject =
       JsonObject.fromIterable(
-        obj.toList.map {
-          case (k, v) => f(k) -> v
+        obj.toList.map { case (k, v) =>
+          f(k) -> v
         }
       )
 
@@ -31,9 +31,6 @@ object `package` extends CirceEncoders with CirceDecoders with CaseConversions {
 
   def toJson[T: Encoder](t: T): String = t.asJson.printWith(printer)
 
-  def fromJson[T: Decoder](s: String): T = {
-    parse(s).fold(throw _,
-      json =>
-        camelKeys(json).as[T].fold(throw _, identity))
-  }
+  def fromJson[T: Decoder](s: String): T =
+    parse(s).fold(throw _, json => camelKeys(json).as[T].fold(throw _, identity))
 }

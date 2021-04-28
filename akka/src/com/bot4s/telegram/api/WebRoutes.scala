@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
 import com.typesafe.scalalogging.StrictLogging
 
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.{ Future, Promise }
 
 trait WebRoutes extends BotBase[Future] with StrictLogging {
   this: BotExecutionContext with AkkaImplicits =>
@@ -45,9 +45,9 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
     }
     super.shutdown()
     for {
-       b <- bindingFuture
-       _ <- b.unbind()
-       t <- system.terminate()
+      b <- bindingFuture
+      _ <- b.unbind()
+      t <- system.terminate()
     } /* do */ {
       eol.success(())
       eol = null

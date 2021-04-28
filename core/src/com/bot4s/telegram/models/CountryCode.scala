@@ -1,13 +1,11 @@
 package com.bot4s.telegram.models
 
 /**
-  * ISO 3166-1 alpha-2 country codes.
-  */
+ * ISO 3166-1 alpha-2 country codes.
+ */
 object CountryCode extends Enumeration {
   type CountryCode = Value
-  sealed case class Country(
-                                code        : String,
-                                englishName : String) extends Val(code)
+  sealed case class Country(code: String, englishName: String) extends Val(code)
 
   implicit def valueToCountry(v: Value): Country = v.asInstanceOf[Country]
 

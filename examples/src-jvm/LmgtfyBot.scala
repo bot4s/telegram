@@ -3,7 +3,7 @@ import akka.http.scaladsl.model.Uri.Query
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.declarative.{Commands, InlineQueries}
+import com.bot4s.telegram.api.declarative.{ Commands, InlineQueries }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.ParseMode
 import com.bot4s.telegram.models._
@@ -11,15 +11,12 @@ import com.bot4s.telegram.models._
 import scala.concurrent.Future
 
 /**
-  * Let me Google that for you!
-  */
-class LmgtfyBot(token: String) extends ExampleBot(token)
-  with Polling
-  with InlineQueries[Future]
-  with Commands[Future] {
+ * Let me Google that for you!
+ */
+class LmgtfyBot(token: String) extends ExampleBot(token) with Polling with InlineQueries[Future] with Commands[Future] {
 
-  def lmgtfyBtn(query: String): InlineKeyboardMarkup = InlineKeyboardMarkup.singleButton(
-    InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
+  def lmgtfyBtn(query: String): InlineKeyboardMarkup =
+    InlineKeyboardMarkup.singleButton(InlineKeyboardButton.url("\uD83C\uDDECoogle it now!", lmgtfyUrl(query)))
 
   onCommand("start" | "help") { implicit msg =>
     reply(
@@ -33,7 +30,8 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
          |
          |@Bot args - Inline mode
       """.stripMargin,
-      parseMode = ParseMode.Markdown).void
+      parseMode = ParseMode.Markdown
+    ).void
   }
 
   onCommand("lmgtfy") { implicit msg =>
@@ -69,7 +67,8 @@ class LmgtfyBot(token: String) extends ExampleBot(token)
       val textMessage = InputTextMessageContent(
         query.altWithUrl(lmgtfyUrl(query)),
         disableWebPagePreview = true,
-        parseMode = ParseMode.Markdown)
+        parseMode = ParseMode.Markdown
+      )
 
       val results = List(
         InlineQueryResultArticle(

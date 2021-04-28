@@ -1,39 +1,39 @@
 import akka.http.scaladsl.model.Uri
-import akka.http.scaladsl.model.Uri.{Path, Query}
-import akka.http.scaladsl.server.Directives.{pathPrefix, getFromResourceDirectory}
+import akka.http.scaladsl.model.Uri.{ Path, Query }
+import akka.http.scaladsl.server.Directives.{ getFromResourceDirectory, pathPrefix }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteConcatenation._
 import cats.instances.future._
 import cats.syntax.functor._
-import com.bot4s.telegram.api.declarative.{Callbacks, Commands}
-import com.bot4s.telegram.api.{AkkaDefaults, GameManager, Payload}
+import com.bot4s.telegram.api.declarative.{ Callbacks, Commands }
+import com.bot4s.telegram.api.{ AkkaDefaults, GameManager, Payload }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
 
 import scala.concurrent.Future
 
 /**
-  * 2048 self-hosted by the bot (from resources).
-  *
-  * To spawn the GameManager, a server is needed.
-  * Otherwise use your favorite tunnel e.g. [[https://ngrok.com ngrok]]
-  * Spawn the tunnel (and leave it running):
-  * {{{
-  *   ngrok http 8080
-  * }}}
-  *
-  * Use the ngrok-provided address (e.g. https://e719813a.ngrok.io) as
-  * your 'gameManagerHost'.
-  *
-  * The following endpoints should be linked to GameManager:
-  * gameManagerHost/games/api/getScores
-  * gameManagerHost/games/api/setScore
-  *
-  * @param token           Bot's token.
-  * @param gameManagerHost Base URL of the game manager.
-  */
+ * 2048 self-hosted by the bot (from resources).
+ *
+ * To spawn the GameManager, a server is needed.
+ * Otherwise use your favorite tunnel e.g. [[https://ngrok.com ngrok]]
+ * Spawn the tunnel (and leave it running):
+ * {{{
+ *   ngrok http 8080
+ * }}}
+ *
+ * Use the ngrok-provided address (e.g. https://e719813a.ngrok.io) as
+ * your 'gameManagerHost'.
+ *
+ * The following endpoints should be linked to GameManager:
+ * gameManagerHost/games/api/getScores
+ * gameManagerHost/games/api/setScore
+ *
+ * @param token           Bot's token.
+ * @param gameManagerHost Base URL of the game manager.
+ */
 class SelfHosted2048Bot(token: String, gameManagerHost: String)
-  extends ExampleBot(token)
+    extends ExampleBot(token)
     with Polling
     with AkkaDefaults
     with Callbacks[Future]
@@ -51,25 +51,24 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
   }
 
   onCallbackQuery { implicit cbq =>
-    val acked = cbq.gameShortName.collect {
-      case Play2048 =>
-        val payload = Payload.forCallbackQuery(gameManagerHost)
+    val acked = cbq.gameShortName.collect { case Play2048 =>
+      val payload = Payload.forCallbackQuery(gameManagerHost)
 
-        val url = Uri(gameManagerHost)
-          .withPath(Path(s"/$Play2048/index.html"))
-          .withQuery(Query("payload" -> payload.base64Encode))
+      val url = Uri(gameManagerHost)
+        .withPath(Path(s"/$Play2048/index.html"))
+        .withQuery(Query("payload" -> payload.base64Encode))
 
-        ackCallback(url = Some(url.toString()))
+      ackCallback(url = Some(url.toString()))
     }
 
     acked.getOrElse(ackCallback()).void
   }
-  
+
   override def routes: Route =
     super.routes ~
       gameManagerRoute ~ {
-      pathPrefix(Play2048) {
-        getFromResourceDirectory(Play2048)
+        pathPrefix(Play2048) {
+          getFromResourceDirectory(Play2048)
+        }
       }
-    }
 }

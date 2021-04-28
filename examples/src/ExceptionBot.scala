@@ -8,11 +8,9 @@ import scala.concurrent.Future
 import scala.util.Failure
 
 /**
-  * Shows exception handling
-  */
-class ExceptionBot(token: String) extends ExampleBot(token)
-  with Polling
-  with Commands[Future] {
+ * Shows exception handling
+ */
+class ExceptionBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
 
   onCommand("/hello") { implicit msg =>
     reply("Hey there") andThen {
@@ -24,7 +22,7 @@ class ExceptionBot(token: String) extends ExampleBot(token)
           case 404 => println("Not found")
           case 401 => println("Unauthorized")
           case 400 => println("Bad Request")
-          case e => println(s"Error code: $e")
+          case e   => println(s"Error code: $e")
         }
       case _ =>
     } void
