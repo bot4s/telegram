@@ -36,7 +36,7 @@ class RegexCommandsSuite extends AnyFlatSpec with MockFactory with TestUtils {
   }
 
   it should "pass regex groups" in new Fixture {
-    handler.expects(*, List("1234")).returning(Future.successful(())).once
+    handler.expects(*, List("1234")).returning(Future.successful(())).once()
     bot.onRegex("""/cmd ([0-9]+)""".r)(handler.curried)
     bot.receiveMessage(textMessage("/cmd 1234")).get
   }

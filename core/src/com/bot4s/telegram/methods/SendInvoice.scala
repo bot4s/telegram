@@ -1,6 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.{InlineKeyboardMarkup, LabeledPrice, Message}
+import com.bot4s.telegram.models.{InlineKeyboardMarkup, LabeledPrice}
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.Message
 

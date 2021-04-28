@@ -76,7 +76,7 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
         val fields = parse(marshalling.toJson(request)).fold(throw _, _.asObject.map {
           _.toMap.mapValues {
             json =>
-              json.asString.getOrElse(marshalling.printer.pretty(json))
+              json.asString.getOrElse(json.printWith(marshalling.printer))
           }
         })
 

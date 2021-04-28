@@ -1,7 +1,5 @@
 package com.bot4s.telegram.models
 
-import scala.language.implicitConversions
-
 /**
   * Represents either a chat or channel.
   */

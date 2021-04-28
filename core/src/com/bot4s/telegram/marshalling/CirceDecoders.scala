@@ -18,7 +18,6 @@ import com.bot4s.telegram.models._
 import io.circe.Decoder
 import io.circe.generic.semiauto._
 import com.typesafe.scalalogging.StrictLogging
-import com.bot4s.telegram.methods
 
 /** Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
   */

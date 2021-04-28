@@ -27,11 +27,9 @@ object `package` extends CirceEncoders with CirceDecoders with CaseConversions {
 
   private def camelKeys(json: io.circe.Json): Json = transformKeys(json, camelize).run
 
-  private def snakeKeys(json: io.circe.Json): Json = transformKeys(json, snakenize).run
-
   val printer = Printer.noSpaces.copy(dropNullValues = true)
 
-  def toJson[T: Encoder](t: T): String = printer.pretty(t.asJson)
+  def toJson[T: Encoder](t: T): String = t.asJson.printWith(printer)
 
   def fromJson[T: Decoder](s: String): T = {
     parse(s).fold(throw _,

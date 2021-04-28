@@ -1,7 +1,5 @@
 package com.bot4s.telegram.models
 
-import scala.language.implicitConversions
-
 /**
   * Parsed from [[https://core.telegram.org/bots/payments/currencies.json]].
   */

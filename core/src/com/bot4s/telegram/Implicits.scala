@@ -1,7 +1,5 @@
 package com.bot4s.telegram
 
-import scala.language.implicitConversions
-
 /**
   * Useful implicits to reduce boilerplate.
   *
