@@ -3,7 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.12.13", "2.13.5")
+val ScalaVersions = Seq("2.12.13", "2.13.6")
 
 object library {
 
@@ -27,34 +27,33 @@ object library {
     val monix              = "3.3.0"
   }
 
-  val akkaHttp           = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit    = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-  val akkaTestkit        = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
-  val akkaActor          = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream         = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-  val asyncHttpClientBackendCats = ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+  val akkaHttp                    = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
+  val akkaHttpTestkit             = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaTestkit                 = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
+  val akkaActor                   = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
+  val akkaStream                  = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val asyncHttpClientBackendCats  = ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
-  val scalajHttp         = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
-  val scalaLogging       = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
-  val scalaMockScalaTest = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
-  val akkaHttpCors       = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
-  val scalaTest          = ivy"org.scalatest::scalatest::${Version.scalaTest}"
-  val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
-  val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
-  val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
-  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circe}"
-  val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
-  val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
-  val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
-  val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
-  val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
-  val monix              = ivy"io.monix::monix::${Version.monix}"
-  val sttpCore           = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
-  val sttpCirce          = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
-  val sttpOkHttp         = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
-  val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
+  val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
+  val scalaMockScalaTest          = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
+  val akkaHttpCors                = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
+  val scalaTest                   = ivy"org.scalatest::scalatest::${Version.scalaTest}"
+  val logback                     = ivy"ch.qos.logback:logback-classic::${Version.logback}"
+  val circeCore                   = ivy"io.circe::circe-core::${Version.circe}"
+  val circeGeneric                = ivy"io.circe::circe-generic::${Version.circe}"
+  val circeGenericExtras          = ivy"io.circe::circe-generic-extras::${Version.circe}"
+  val circeParser                 = ivy"io.circe::circe-parser::${Version.circe}"
+  val circeLiteral                = ivy"io.circe::circe-literal::${Version.circe}"
+  val catsCore                    = ivy"org.typelevel::cats-core::${Version.cats}"
+  val catsFree                    = ivy"org.typelevel::cats-free::${Version.cats}"
+  val catsEffect                  = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
+  val monix                       = ivy"io.monix::monix::${Version.monix}"
+  val sttpCore                    = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
+  val sttpCirce                   = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
+  val sttpOkHttp                  = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
+  val hammock                     = ivy"com.pepegar::hammock-core::${Version.hammock}"
 }
-
 
 trait Bot4sTelegramModule extends CrossScalaModule {
 
@@ -62,7 +61,8 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     "-unchecked",
     "-deprecation",
     "-language:_",
-    "-encoding", "UTF-8",
+    "-encoding",
+    "UTF-8",
     "-feature",
     "-unchecked",
     "-Xlint:_",
@@ -111,7 +111,7 @@ abstract class Bot4sTelegramCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "4.4.0-RC2"
+  override def publishVersion = "5.0.0"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
@@ -129,7 +129,7 @@ abstract class Bot4sTelegramCore(platformSegment: String) extends Bot4sTelegramC
 
 object core extends Module {
 
-  object jvm extends Cross[CoreJvmModule](ScalaVersions: _ *)
+  object jvm extends Cross[CoreJvmModule](ScalaVersions: _*)
 
   class CoreJvmModule(val crossScalaVersion: String) extends Bot4sTelegramCore("jvm") with Publishable {
     override def ivyDeps = super.ivyDeps() ++ Agg(
@@ -147,7 +147,7 @@ abstract class Bot4sTelegramAkka extends Bot4sTelegramCrossPlatform("jvm", "akka
 
 object akka extends Module {
 
-  object jvm extends Cross[AkkaModule](ScalaVersions: _ *)
+  object jvm extends Cross[AkkaModule](ScalaVersions: _*)
 
   class AkkaModule(val crossScalaVersion: String) extends Bot4sTelegramAkka with Publishable {
     override def artifactName = "telegram-akka"
@@ -171,11 +171,12 @@ object akka extends Module {
   }
 }
 
-abstract class Bot4sTelegramExamples(platformSegment: String) extends Bot4sTelegramCrossPlatform(platformSegment, "examples")
+abstract class Bot4sTelegramExamples(platformSegment: String)
+    extends Bot4sTelegramCrossPlatform(platformSegment, "examples")
 
 object examples extends Module {
 
-  object jvm extends Cross[ExamplesJvmModule](ScalaVersions: _ *)
+  object jvm extends Cross[ExamplesJvmModule](ScalaVersions: _*)
 
   class ExamplesJvmModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("jvm") {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
@@ -187,8 +188,6 @@ object examples extends Module {
     )
   }
 
-
-
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions: _*)
 
   class ExamplesCatsModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("cats") {
@@ -199,7 +198,7 @@ object examples extends Module {
       library.catsEffect
     )
 
-    override def sources = T.sources { build.millSourcePath / "examples" / "src-cats" }
+    override def sources = T.sources(build.millSourcePath / "examples" / "src-cats")
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
@@ -212,6 +211,6 @@ object examples extends Module {
       library.monix
     )
 
-    override def sources = T.sources { build.millSourcePath / "examples" / "src-monix" }
+    override def sources = T.sources(build.millSourcePath / "examples" / "src-monix")
   }
 }
