@@ -63,19 +63,22 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
           }
         }
 
-        val fields = parse(marshalling.toJson(request)).fold(
-          throw _,
-          _.asObject.map {
-            _.toMap.mapValues { json =>
-              json.asString.getOrElse(json.printWith(marshalling.printer))
+        val fields = parse(marshalling.toJson(request))
+          .fold(
+            throw _,
+            _.asObject.map {
+              _.toMap.mapValues { json =>
+                json.asString.getOrElse(json.printWith(marshalling.printer))
+              }.toMap
             }
-          }
-        )
+          )
 
-        val params = fields.getOrElse(Map())
+        val params = fields.getOrElse(Map()).toMap
 
         quickRequest.post(uri"$url?$params").multipartBody(parts)
     }
+
+    logger.debug(sttpRequest.toCurl)
 
     import com.bot4s.telegram.marshalling.responseDecoder
 
