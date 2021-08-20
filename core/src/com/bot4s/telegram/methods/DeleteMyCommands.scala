@@ -10,6 +10,6 @@ import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
  *                          A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
  */
 case class DeleteMyCommands(
-  scope: Option[BotCommandScope],
-  languageCode: Option[String]
+  scope: Option[BotCommandScope] = None,
+  languageCode: Option[String] = None
 ) extends JsonRequest[Boolean]

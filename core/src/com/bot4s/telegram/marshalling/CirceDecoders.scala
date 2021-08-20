@@ -67,6 +67,7 @@ trait CirceDecoders extends StrictLogging {
   implicit val updateTypeDecoder: Decoder[UpdateType] =
     Decoder[String].map(s => UpdateType.withName(pascalize(s)))
 
+  implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
   // for v5.1 support
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]

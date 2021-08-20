@@ -255,10 +255,15 @@ trait CirceEncoders {
   implicit val maskPositionTypeEncoder: Encoder[MaskPositionType] =
     Encoder[String].contramap[MaskPositionType](e => CaseConversions.snakenize(e.toString))
 
+  implicit val setMyCommandsEncoder: Encoder[SetMyCommands] = deriveConfiguredEncoder[SetMyCommands]
+  implicit val getMyCommandsEncoder: Encoder[GetMyCommands] = deriveConfiguredEncoder[GetMyCommands]
+  implicit val deleteMyCommands: Encoder[DeleteMyCommands]  = deriveConfiguredEncoder[DeleteMyCommands]
+
   implicit val sendChatActionEncoder: Encoder[SendChatAction] = deriveConfiguredEncoder[SendChatAction]
   implicit val getUserProfilePhotosEncoder: Encoder[GetUserProfilePhotos] =
     deriveConfiguredEncoder[GetUserProfilePhotos]
   implicit val getFileEncoder: Encoder[GetFile]                 = deriveConfiguredEncoder[GetFile]
+  implicit val banChatMemberEncoder: Encoder[BanChatMember]     = deriveConfiguredEncoder[BanChatMember]
   implicit val kickChatMemberEncoder: Encoder[KickChatMember]   = deriveConfiguredEncoder[KickChatMember]
   implicit val leaveChatEncoder: Encoder[LeaveChat]             = deriveConfiguredEncoder[LeaveChat]
   implicit val unbanChatMemberEncoder: Encoder[UnbanChatMember] = deriveConfiguredEncoder[UnbanChatMember]
@@ -266,6 +271,7 @@ trait CirceEncoders {
   implicit val getChatEncoder: Encoder[GetChat]                 = deriveConfiguredEncoder[GetChat]
   implicit val getChatAdministratorsEncoder: Encoder[GetChatAdministrators] =
     deriveConfiguredEncoder[GetChatAdministrators]
+  implicit val getChatMemberCountEncoder: Encoder[GetChatMemberCount]   = deriveConfiguredEncoder[GetChatMemberCount]
   implicit val getChatMembersCountEncoder: Encoder[GetChatMembersCount] = deriveConfiguredEncoder[GetChatMembersCount]
   implicit val getChatMemberEncoder: Encoder[GetChatMember]             = deriveConfiguredEncoder[GetChatMember]
   implicit val answerCallbackQueryEncoder: Encoder[AnswerCallbackQuery] = deriveConfiguredEncoder[AnswerCallbackQuery]

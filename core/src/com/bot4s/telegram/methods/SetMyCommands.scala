@@ -14,6 +14,6 @@ import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
  */
 case class SetMyCommands(
   commands: List[BotCommand],
-  scope: Option[BotCommandScope],
-  languageCode: Option[String]
+  scope: Option[BotCommandScope] = None,
+  languageCode: Option[String] = None
 ) extends JsonRequest[Boolean]
