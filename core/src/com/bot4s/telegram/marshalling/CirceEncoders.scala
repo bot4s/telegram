@@ -10,6 +10,7 @@ import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.{ Currency, TelegramCurrency }
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MemberStatus.MemberStatus
+import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
@@ -66,6 +67,9 @@ trait CirceEncoders {
     Encoder[String].contramap[PollType](e => CaseConversions.snakenize(e.toString))
 
   implicit val photoSizeEncoder: Encoder[PhotoSize] = deriveConfiguredEncoder[PhotoSize]
+
+  implicit val botCommandScopeEncoder: Encoder[BotCommandScope] =
+    Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
   implicit val memberStatusEncoder: Encoder[MemberStatus] =
     Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
