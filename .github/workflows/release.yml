@@ -1,0 +1,27 @@
+name: Publish Release
+
+on: workflow_dispatch
+
+jobs:
+  compile-all:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - uses: jodersky/setup-mill@v0.2.3
+      with:
+        mill-version: 0.9.9
+    - name: Import GPG key
+      id: import_gpg
+      uses: crazy-max/ghaction-import-gpg@v3
+      with:
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+    - name: Publish
+      shell: bash
+      env:
+        USERNAME: ${{ secrets.OSS_USERNAME }}
+        PASSWORD: ${{ secrets.OSS_PASSWORD }}
+      run: |
+        mill mill.scalalib.PublishModule/publishAll __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
