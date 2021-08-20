@@ -12,6 +12,7 @@ import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MemberStatus.MemberStatus
+import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
@@ -24,6 +25,8 @@ import com.typesafe.scalalogging.StrictLogging
  */
 trait CirceDecoders extends StrictLogging {
 
+  implicit val botCommandScopeDecoder: Decoder[BotCommandScope] =
+    Decoder[String].map(s => BotCommandScope.withName(pascalize(s)))
   implicit val memberStatusDecoder: Decoder[MemberStatus] =
     Decoder[String].map(s => MemberStatus.withName(pascalize(s)))
   implicit val maskPositionTypeDecoder: Decoder[MaskPositionType] =
@@ -64,6 +67,7 @@ trait CirceDecoders extends StrictLogging {
   implicit val updateTypeDecoder: Decoder[UpdateType] =
     Decoder[String].map(s => UpdateType.withName(pascalize(s)))
 
+  implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
   // for v5.1 support
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]

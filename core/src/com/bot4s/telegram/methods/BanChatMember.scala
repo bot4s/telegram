@@ -3,7 +3,7 @@ package com.bot4s.telegram.methods
 import com.bot4s.telegram.models.ChatId
 
 /**
- * Use this method to kick a user from a group, a supergroup or a channel.
+ * Use this method to ban a user from a group, a supergroup or a channel.
  * In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Returns True on success.
@@ -20,7 +20,7 @@ import com.bot4s.telegram.models.ChatId
  *                        If False, the user will be able to see messages in the group that were sent before the user was removed.
  *                        Always True for supergroups and channels.
  */
-case class KickChatMember(
+case class BanChatMember(
   chatId: ChatId,
   userId: Long,
   untilDate: Option[Int] = None,
