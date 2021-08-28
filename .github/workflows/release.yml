@@ -1,9 +1,6 @@
-name: Publish snapshot
+name: Publish Release
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
 
 jobs:
   compile-all:
@@ -21,8 +18,6 @@ jobs:
       with:
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.GPG_PASSPHRASE }}
-    - name: Set version
-      run: sed -i "s/publishVersion = \".*\"/publishVersion = \"5.0.2-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
     - name: Publish
       shell: bash
       env:
@@ -30,4 +25,3 @@ jobs:
         PASSWORD: ${{ secrets.OSS_PASSWORD }}
       run: |
         mill mill.scalalib.PublishModule/publishAll __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
-
