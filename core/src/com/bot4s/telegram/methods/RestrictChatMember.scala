@@ -9,7 +9,7 @@ import com.bot4s.telegram.models.{ ChatId, ChatPermissions }
  * Returns True on success.
  *
  * @param chatId                 Integer or String	Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
- * @param userId                 Integer	Yes	Unique identifier of the target user
+ * @param userId                 Long	Yes	Unique identifier of the target user
  * @param permissions            ChatPermissions New user permissions
  * @param untilDate              Integer Optional Date when restrictions will be lifted for the user, unix time.
  *                               If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever

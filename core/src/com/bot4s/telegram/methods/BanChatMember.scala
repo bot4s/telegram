@@ -13,7 +13,7 @@ import com.bot4s.telegram.models.ChatId
  *   Otherwise members may only be removed by the group's creator or by the member that added them.
  *
  * @param chatId          Integer or String Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
- * @param userId          Integer Unique identifier of the target user
+ * @param userId          Long Unique identifier of the target user
  * @param untilDate       Integer Optional Date when the user will be unbanned, unix time.
  *                        If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
  * @param revokeMessages  Boolean Optional Pass True to delete all messages from the chat for the user that is being removed.
