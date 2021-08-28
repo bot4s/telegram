@@ -8,7 +8,7 @@ import com.bot4s.telegram.models.ChatId
  * The bot must be an administrator in the group for this to work. Returns True on success.
  *
  * @param chatId Integer or String Unique identifier for the target group or username of the target supergroup (in the format @supergroupusername)
- * @param userId Integer Unique identifier of the target user
+ * @param userId Long Unique identifier of the target user
  */
 case class UnbanChatMember(
   chatId: ChatId,

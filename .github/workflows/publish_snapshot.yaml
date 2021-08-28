@@ -22,7 +22,7 @@ jobs:
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.GPG_PASSPHRASE }}
     - name: Set version
-      run: sed -i "s/publishVersion = \".*\"/publishVersion = \"5.0.2-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
+      run: sed -i "s/publishVersion = \"\(.*\)\"/publishVersion = \"\1-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
     - name: Publish
       shell: bash
       env:

@@ -11,7 +11,7 @@ import com.bot4s.telegram.models.ChatId
  * Returns an error, if the new score is not greater than the user's current
  * score in the chat and force is False.
  *
- * @param userId             Integer Yes User identifier
+ * @param userId             Long Yes User identifier
  * @param score              Integer Yes New score, must be positive
  * @param force              Boolean Optional Pass True, if the high score is allowed to decrease.
  *                           This can be useful when fixing mistakes or banning cheaters

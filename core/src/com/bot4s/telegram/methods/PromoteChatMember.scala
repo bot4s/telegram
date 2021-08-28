@@ -10,7 +10,7 @@ import com.bot4s.telegram.models.ChatId
  *
  * @param chatId              Integer or String Unique identifier for the target chat or username of the target channel
  *                            (in the format @channelusername)
- * @param userId              Integer Unique identifier of the target user
+ * @param userId              Long Unique identifier of the target user
  * @param canChangeInfo       Boolean Optional Pass True, if the administrator can change chat title, photo and other settings
  * @param canPostMessages     Boolean Optional Pass True, if the administrator can create channel posts, channels only
  * @param canEditMessages     Boolean Optional Pass True, if the administrator can edit messages of other users, channels only
