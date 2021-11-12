@@ -3,36 +3,37 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import ammonite.ops._
 
-val ScalaVersions = Seq("2.12.13", "2.13.6")
+val ScalaVersions = Seq("2.12.15", "2.13.7")
 
 object library {
 
   object Version {
-    val circe              = "0.13.0"
-    val cats               = "2.1.1"
-    val catsEffect         = "2.3.1"
-    val sttp               = "3.2.3"
-    val scalaTest          = "3.2.2"
+    val circe              = "0.14.1"
+    val cats               = "2.6.1"
+    val catsEffect         = "2.3.3"
+    val sttp               = "3.3.16"
+    val scalaTest          = "3.2.10"
     val scalaMockScalaTest = "5.1.0"
-    val scalaLogging       = "3.9.2"
-    val logback            = "1.2.3"
+    val scalaLogging       = "3.9.4"
+    val logback            = "1.2.7"
     val scalajHttp         = "2.4.2"
-    val akkaVersion        = "2.6.13"
+    val akkaVersion        = "2.6.17"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.2.4"
+    val akkaHttp           = "10.2.7"
     val akkaTestkit        = akkaVersion
-    val akkaHttpCors       = "1.1.1"
+    val akkaHttpCors       = "1.1.2"
     val hammock            = "0.11.3"
-    val monix              = "3.3.0"
+    val monix              = "3.4.0"
   }
 
-  val akkaHttp                    = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit             = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-  val akkaTestkit                 = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
-  val akkaActor                   = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream                  = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-  val asyncHttpClientBackendCats  = ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+  val akkaHttp        = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
+  val akkaHttpTestkit = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaTestkit     = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
+  val akkaActor       = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
+  val akkaStream      = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val asyncHttpClientBackendCats =
+    ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
@@ -90,7 +91,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
       library.scalaMockScalaTest
     )
 
-    def testFrameworks = Seq("org.scalatest.tools.Framework")
+    def testFramework = "org.scalatest.tools.Framework"
   }
 
 }
