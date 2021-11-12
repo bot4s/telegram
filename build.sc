@@ -12,7 +12,7 @@ object library {
     val cats               = "2.1.1"
     val catsEffect         = "2.3.1"
     val sttp               = "3.2.3"
-    val scalaTest          = "3.2.2"
+    val scalaTest          = "3.2.10"
     val scalaMockScalaTest = "5.1.0"
     val scalaLogging       = "3.9.2"
     val logback            = "1.2.3"
