@@ -24,7 +24,7 @@ object library {
     val akkaTestkit        = akkaVersion
     val akkaHttpCors       = "1.1.1"
     val hammock            = "0.11.3"
-    val monix              = "3.3.0"
+    val monix              = "3.4.0"
   }
 
   val akkaHttp                    = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
