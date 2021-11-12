@@ -27,12 +27,13 @@ object library {
     val monix              = "3.4.0"
   }
 
-  val akkaHttp                    = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit             = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-  val akkaTestkit                 = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
-  val akkaActor                   = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream                  = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
-  val asyncHttpClientBackendCats  = ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+  val akkaHttp        = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
+  val akkaHttpTestkit = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaTestkit     = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
+  val akkaActor       = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
+  val akkaStream      = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val asyncHttpClientBackendCats =
+    ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
