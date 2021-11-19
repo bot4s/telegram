@@ -79,9 +79,9 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
                      |}""".stripMargin) shouldBe User(id = 123, isBot = true, firstName = "Pepe")
   }
 
-  it should "Correctly decode an update" in {
+  it should "correctly extract an update_id from an unsupported/invalid update" in {
     // The following message is invalid, it is missing the 'editedMessage' field in the game part
-    val x = fromJson[ParsedUpdate](
+    val update = fromJson[ParsedUpdate](
       """{
         |"update_id": 42,
         |"edited_message": {
@@ -115,6 +115,6 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
         |}""".stripMargin
     ).asInstanceOf[ParsedUpdate.Failure]
 
-    x.updateId shouldBe 42
+    update.updateId shouldBe 42
   }
 }

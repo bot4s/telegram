@@ -150,15 +150,14 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val updateDecoder: Decoder[Update] = deriveDecoder[Update]
 
-  implicit val parseUpdateDecoder: Decoder[ParsedUpdate] = new Decoder[ParsedUpdate] {
+  implicit val parsedUpdateDecoder: Decoder[ParsedUpdate] = new Decoder[ParsedUpdate] {
     final def apply(c: HCursor): Decoder.Result[ParsedUpdate] = {
-      val root   = c
       val update = updateDecoder(c)
 
       update match {
         case Left(e) =>
           for {
-            id <- root.get[Long]("updateId")
+            id <- c.get[Long]("updateId")
           } yield ParsedUpdate.Failure(id, e)
         case Right(value) => Right(ParsedUpdate.Success(value))
       }
