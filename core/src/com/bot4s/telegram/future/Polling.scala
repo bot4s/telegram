@@ -17,15 +17,13 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
 
   private def poll(seed: Future[OffsetUpdates]): Future[OffsetUpdates] =
     seed.flatMap { case (offset, updates, user) =>
-      val maxReceivedOffset = updates.map {
+      val maxOffset = updates.map {
         case ParsedUpdate.Failure(id, _)  => id
         case ParsedUpdate.Success(update) => update.updateId
-      }.max
-
-      val maxOffset = Some(
-        offset
-          .fold(maxReceivedOffset)(_ max maxReceivedOffset)
-      )
+      }
+        .foldLeft(offset) { (acc, e) =>
+          Some(acc.fold(e)(e max _))
+        }
 
       // Spawn next request before processing updates.
       val f =
