@@ -117,4 +117,9 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
 
     update.updateId shouldBe 42
   }
+
+  it should "decode and encode a CallbackGame" in {
+    toJson[CallbackGame](CallbackGame) shouldBe """{}"""
+    fromJson[CallbackGame]("""{}""") shouldBe CallbackGame
+  }
 }

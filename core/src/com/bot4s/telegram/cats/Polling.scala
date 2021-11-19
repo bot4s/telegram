@@ -21,7 +21,7 @@ trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
       updates <- pollingGetUpdates(state.offset.map(_ + 1))
       _ <- updates.toList.map {
              case ParsedUpdate.Failure(updateId, cause) =>
-               logger.error(s"Unable to decode update ${updateId}: ${cause.message}")
+               logger.error(s"Unable to decode update ${updateId}: ${cause.getMessage()}")
                unit
              case ParsedUpdate.Success(update) =>
                monad.handleErrorWith(receiveUpdate(update, Some(state.botUser))) { e =>

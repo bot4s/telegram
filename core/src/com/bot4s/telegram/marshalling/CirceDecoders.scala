@@ -81,7 +81,7 @@ trait CirceDecoders extends StrictLogging {
   implicit val contactDecoder: Decoder[Contact]                           = deriveDecoder[Contact]
   implicit val documentDecoder: Decoder[Document]                         = deriveDecoder[Document]
   implicit val fileDecoder: Decoder[File]                                 = deriveDecoder[File]
-  implicit val callbackGameDecoder: Decoder[CallbackGame]                 = deriveDecoder[CallbackGame]
+  implicit val callbackGameDecoder: Decoder[CallbackGame]                 = Decoder.const(CallbackGame)
   implicit val inlineKeyboardButtonDecoder: Decoder[InlineKeyboardButton] = deriveDecoder[InlineKeyboardButton]
 
   implicit val inlineKeyboardMarkupDecoder: Decoder[InlineKeyboardMarkup] = deriveDecoder[InlineKeyboardMarkup]

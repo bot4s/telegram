@@ -42,7 +42,7 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
               receiveUpdate(u, Some(user))
             case ParsedUpdate.Failure(id, cause) =>
               Future(
-                logger.error(s"Unable to decode update $id: ${cause.message}")
+                logger.error(s"Unable to decode update $id: ${cause.getMessage()}")
               )
           }
         } catch {
