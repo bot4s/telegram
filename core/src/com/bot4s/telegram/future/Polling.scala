@@ -2,12 +2,11 @@ package com.bot4s.telegram.future
 
 import com.bot4s.telegram.api.{ Polling => BasePolling }
 import com.bot4s.telegram.methods.{ DeleteWebhook, GetMe }
-import com.bot4s.telegram.models.User
+import com.bot4s.telegram.models.{ ParsedUpdate, User }
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import com.bot4s.telegram.models.ParsedUpdate
 
 trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLogging {
 
