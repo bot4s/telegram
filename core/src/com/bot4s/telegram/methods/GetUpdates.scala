@@ -1,7 +1,7 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.Update
 import com.bot4s.telegram.models.UpdateType.UpdateType
+import com.bot4s.telegram.models.ParsedUpdate
 
 /**
  * Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
@@ -25,4 +25,4 @@ case class GetUpdates(
   limit: Option[Int] = None,
   timeout: Option[Int] = None,
   allowedUpdates: Option[Seq[UpdateType]] = None
-) extends JsonRequest[Seq[Update]]
+) extends JsonRequest[Seq[ParsedUpdate]]

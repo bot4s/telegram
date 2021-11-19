@@ -19,6 +19,7 @@ import io.circe.generic.extras._
 import io.circe.generic.extras.auto._
 import io.circe.generic.extras.semiauto._
 import io.circe.syntax._
+import io.circe.JsonObject
 
 /**
  * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
@@ -31,7 +32,8 @@ trait CirceEncoders {
   implicit val audioEncoder: Encoder[Audio]                 = deriveConfiguredEncoder[Audio]
   implicit val callbackQueryEncoder: Encoder[CallbackQuery] = deriveConfiguredEncoder[CallbackQuery]
 
-  implicit val callbackGameEncoder: Encoder[CallbackGame] = deriveConfiguredEncoder[CallbackGame]
+  implicit val callbackGameEncoder: Encoder[CallbackGame] =
+    Encoder.encodeJsonObject.contramap[CallbackGame](_ => JsonObject.empty)
 
   implicit val chatTypeEncoder: Encoder[ChatType] =
     Encoder[String].contramap[ChatType](e => CaseConversions.snakenize(e.toString))
