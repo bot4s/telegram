@@ -2,22 +2,25 @@ package com.bot4s.telegram.future
 
 import com.bot4s.telegram.api.{ Polling => BasePolling }
 import com.bot4s.telegram.methods.{ DeleteWebhook, GetMe }
-import com.bot4s.telegram.models.{ Update, User }
+import com.bot4s.telegram.models.User
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import com.bot4s.telegram.models.ParsedUpdate
 
 trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLogging {
 
-  private type OffsetUpdates = (Option[Long], Seq[Update], User)
+  private type OffsetUpdates = (Option[Long], Seq[ParsedUpdate], User)
 
   @volatile private var polling: Future[Unit] = _
 
   private def poll(seed: Future[OffsetUpdates]): Future[OffsetUpdates] =
     seed.flatMap { case (offset, updates, user) =>
-      val maxOffset = updates
-        .map(_.updateId)
+      val maxOffset = updates.map {
+        case ParsedUpdate.Failure(id, _)  => id
+        case ParsedUpdate.Success(update) => update.updateId
+      }
         .foldLeft(offset) { (acc, e) =>
           Some(acc.fold(e)(e max _))
         }
@@ -29,13 +32,17 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
           poll(
             pollingGetUpdates(maxOffset.map(_ + 1)).recover { case NonFatal(e) =>
               logger.error("GetUpdates failed", e)
-              Seq.empty[Update]
+              Seq.empty[ParsedUpdate]
             }.map((maxOffset, _, user))
           )
 
       for (u <- updates) {
         try {
-          receiveUpdate(u, Some(user))
+          u match {
+            case ParsedUpdate.Success(u) =>
+              receiveUpdate(u, Some(user))
+            case _ => Future.unit
+          }
         } catch {
           case NonFatal(e) =>
             // Log and swallow, exception handling should happen on receiveUpdate.

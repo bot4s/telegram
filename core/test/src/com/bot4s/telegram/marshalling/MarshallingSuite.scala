@@ -16,50 +16,50 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
 
   it should "correctly parse Invoice" in {
     val i = Invoice("A", "B", "C", Currency.USD, 1234)
-    i should ===(fromJson[Invoice](toJson(i)))
+    i shouldBe fromJson[Invoice](toJson(i))
   }
 
   it should "correctly parse Country (Chile)" in {
     val parsedCountry = fromJson[CountryCode](""" "CL" """)
-    parsedCountry should ===(CountryCode.CL)
-    parsedCountry.englishName should ===(CountryCode.CL.englishName)
+    parsedCountry shouldBe CountryCode.CL
+    parsedCountry.englishName shouldBe CountryCode.CL.englishName
   }
 
   it should "correctly parse Currency (USD)" in {
     val parsedCurrency = fromJson[Currency](""" "USD" """)
-    parsedCurrency should ===(Currency.USD)
-    parsedCurrency.symbol === (Currency.USD.symbol)
+    parsedCurrency shouldBe Currency.USD
+    parsedCurrency.symbol shouldBe Currency.USD.symbol
   }
 
   it should "correctly parse ChatId" in {
     val channel = fromJson[ChatId](""" "my_channel" """)
     val chat    = fromJson[ChatId](""" 123456 """)
-    channel should ===(ChatId.Channel("my_channel"))
-    chat should ===(ChatId.Chat(123456))
+    channel shouldBe ChatId.Channel("my_channel")
+    chat shouldBe ChatId.Chat(123456)
   }
 
   it should "correctly serialize ChatId" in {
-    toJson[ChatId](ChatId.Channel("my_channel")) === (""""my_channel"""")
-    toJson[ChatId](ChatId.Chat(123456)) === ("""123456""")
+    toJson[ChatId](ChatId.Channel("my_channel")) shouldBe """"my_channel""""
+    toJson[ChatId](ChatId.Chat(123456)) shouldBe """123456"""
   }
 
   it should "correctly parse Either[Boolean, Message]" in {
-    fromJson[Either[Boolean, Message]]("true") === (true)
+    fromJson[Either[Boolean, Message]]("true") shouldBe Left(true)
     val msg     = textMessage("Hello world")
     val msgJson = toJson[Message](msg)
-    fromJson[Either[Boolean, Message]](msgJson) === (msg)
+    fromJson[Either[Boolean, Message]](msgJson) shouldBe Right(msg)
   }
 
   it should "correctly de/serialize MessageEntityType" in {
-    fromJson[MessageEntityType](""""phone_nuber"""") === (MessageEntityType.PhoneNumber)
+    fromJson[MessageEntityType](""""phone_number"""") shouldBe MessageEntityType.PhoneNumber
     // MessageEntityType fallback to Unknown
-    fromJson[MessageEntityType](""""not_a_message_entity"""") === (MessageEntityType.Unknown)
-    toJson(MessageEntityType.PhoneNumber) === ("phone_number")
+    fromJson[MessageEntityType](""""not_a_message_entity"""") shouldBe MessageEntityType.Unknown
+    toJson(MessageEntityType.PhoneNumber) shouldBe """"phone_number""""
   }
 
   it should "correctly de/serialize MaskPositionType" in {
-    fromJson[MaskPositionType](""""chin"""") === (MaskPositionType.Chin)
-    toJson(MaskPositionType.Mouth) === ("mouth")
+    fromJson[MaskPositionType](""""chin"""") shouldBe MaskPositionType.Chin
+    toJson(MaskPositionType.Mouth) shouldBe """"mouth""""
   }
 
   it should "correctly de/serialize Message.migrateToChatId" in {
@@ -68,7 +68,7 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
                         |"date": 1,
                         |"chat": {"id": 123, "type": "private"},
                         |"migrate_to_chat_id": 12345678901234567
-                        |}""".stripMargin).migrateToChatId === 12345678901234567L
+                        |}""".stripMargin).migrateToChatId.get shouldBe 12345678901234567L
   }
 
   it should "correctly parse User" in {
@@ -76,6 +76,45 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
                      |"id": 123,
                      |"is_bot": true,
                      |"first_name": "Pepe"
-                     |}""".stripMargin).isBot === User(id = 1, isBot = true, firstName = "Pepe")
+                     |}""".stripMargin) shouldBe User(id = 123, isBot = true, firstName = "Pepe")
+  }
+
+  it should "Correctly decode an update" in {
+    // The following message is invalid, it is missing the 'editedMessage' field in the game part
+    val x = fromJson[ParsedUpdate](
+      """{
+        |"update_id": 42,
+        |"edited_message": {
+        |  "message_id": 123,
+        |  "from": {
+        |    "id": 123,
+        |    "is_bot": false,
+        |    "first_name": "test",
+        |    "username": "test"
+        |  },
+        |  "chat": {
+        |    "id": -1,
+        |    "title": "Group title",
+        |    "username": "group_username",
+        |    "type": "supergroup"
+        |  },
+        |  "date": 1637011117,
+        |  "edit_date": 1637011143,
+        |  "game": {
+        |    "title": "This is the game",
+        |    "text": "",
+        |    "description": ""
+        |  },
+        |  "via_bot": {
+        |    "id": -1,
+        |    "is_bot": true,
+        |    "first_name": "Gamee",
+        |    "username": "gamee"
+        |  }
+        | }
+        |}""".stripMargin
+    ).asInstanceOf[ParsedUpdate.Failure]
+
+    x.updateId shouldBe 42
   }
 }
