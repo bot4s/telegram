@@ -19,6 +19,7 @@ import com.bot4s.telegram.models._
 import io.circe.Decoder
 import io.circe.generic.semiauto._
 import com.typesafe.scalalogging.StrictLogging
+import io.circe.HCursor
 
 /**
  * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
@@ -148,6 +149,21 @@ trait CirceDecoders extends StrictLogging {
   implicit val responseParametersDecoder: Decoder[ResponseParameters] = deriveDecoder[ResponseParameters]
 
   implicit val updateDecoder: Decoder[Update] = deriveDecoder[Update]
+
+  implicit val parseUpdateDecoder: Decoder[ParsedUpdate] = new Decoder[ParsedUpdate] {
+    final def apply(c: HCursor): Decoder.Result[ParsedUpdate] = {
+      val root   = c
+      val update = updateDecoder(c)
+
+      update match {
+        case Left(e) =>
+          for {
+            id <- root.get[Long]("updateId")
+          } yield ParsedUpdate.Failure(id, e)
+        case Right(value) => Right(ParsedUpdate.Success(value))
+      }
+    }
+  }
 
   implicit val loginUrlDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
 
