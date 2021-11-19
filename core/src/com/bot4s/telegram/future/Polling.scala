@@ -43,7 +43,10 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
           u match {
             case ParsedUpdate.Success(u) =>
               receiveUpdate(u, Some(user))
-            case _ => Future.unit
+            case ParsedUpdate.Failure(id, cause) =>
+              Future(
+                logger.error(s"Unable to decode update $id: ${cause.message}")
+              )
           }
         } catch {
           case NonFatal(e) =>
