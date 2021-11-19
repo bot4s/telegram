@@ -60,6 +60,10 @@ case class Update(
   )
 }
 
+/*
+The following ADT represents either an update from Telegram's API or a parsing error that might
+happens when an unsupported message or an update from a newer/changed API is parsed by the client.
+ */
 sealed trait ParsedUpdate
 object ParsedUpdate {
   case class Failure(updateId: Long, cause: DecodingFailure) extends ParsedUpdate
