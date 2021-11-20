@@ -1,10 +1,10 @@
 package com.bot4s.telegram.api
 
 import com.bot4s.telegram.methods.GetUpdates
-import com.bot4s.telegram.models.Update
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration.{ Duration, _ }
+import com.bot4s.telegram.models.ParsedUpdate
 
 /**
  * Provides updates by (long) polling Telegram servers.
@@ -28,7 +28,7 @@ private[telegram] trait Polling[F[_]] extends BotBase[F] with StrictLogging {
    *
    * @param offset
    */
-  def pollingGetUpdates(offset: Option[Long]): F[Seq[Update]] =
+  def pollingGetUpdates(offset: Option[Long]): F[Seq[ParsedUpdate]] =
     request(
       GetUpdates(
         offset,

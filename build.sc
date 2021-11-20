@@ -10,8 +10,8 @@ object library {
   object Version {
     val circe              = "0.14.1"
     val cats               = "2.6.1"
-    val catsEffect         = "3.2.9"
-    val sttp               = "3.3.16"
+    val catsEffect         = "2.5.4"
+    val sttp               = "3.3.17"
     val scalaTest          = "3.2.10"
     val scalaMockScalaTest = "5.1.0"
     val scalaLogging       = "3.9.4"
@@ -112,7 +112,7 @@ abstract class Bot4sTelegramCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "5.0.4"
+  override def publishVersion = "5.1.0"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
