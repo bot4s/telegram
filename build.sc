@@ -134,8 +134,7 @@ object core extends Module {
 
   class CoreJvmModule(val crossScalaVersion: String) extends Bot4sTelegramCore("jvm") with Publishable {
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalajHttp,
-      library.sttpOkHttp
+      library.scalajHttp
     )
 
     object test extends Tests
