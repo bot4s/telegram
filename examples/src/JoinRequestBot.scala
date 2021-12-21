@@ -11,9 +11,7 @@ import com.bot4s.telegram.methods.ApproveChatJoinRequest
 import com.bot4s.telegram.methods.DeclineChatJoinRequest
 
 /**
- * Showcases different ways to declare commands (Commands + RegexCommands).
- *
- * Note that non-ASCII commands are not clickable.
+ * Showcases registration and join request (bot must be admin)
  *
  * @param token Bot's token.
  */
