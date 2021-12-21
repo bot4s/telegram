@@ -9,10 +9,10 @@ import com.bot4s.telegram.models.ChatInviteLink
  * Returns the edited invite link as a ChatInviteLink object.
  *
  * @param chatId 	            Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
- * @param inviteLink 	          String The invite link to edit
- * @param name 	                String Invite link name; 0-32 characters
+ * @param inviteLink 	        String The invite link to edit
+ * @param name 	              String Invite link name; 0-32 characters
  * @param expireDate 	        Integer Point in time (Unix timestamp) when the link will expire
- * @param memberLimit 	        Integer Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+ * @param memberLimit 	      Integer Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
  * @param createsJoinRequest 	Boolean True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
  */
 case class EditChatInviteLink(
