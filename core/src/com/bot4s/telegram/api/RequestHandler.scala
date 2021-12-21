@@ -44,10 +44,13 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
   private def sendRequestInternal[R](request: Request[R]): F[R] =
     request match {
       // Pure JSON requests
+      case s: ApproveChatJoinRequest          => sendRequest[R, ApproveChatJoinRequest](s)
       case s: AnswerCallbackQuery             => sendRequest[R, AnswerCallbackQuery](s)
       case s: AnswerInlineQuery               => sendRequest[R, AnswerInlineQuery](s)
       case s: AnswerPreCheckoutQuery          => sendRequest[R, AnswerPreCheckoutQuery](s)
       case s: AnswerShippingQuery             => sendRequest[R, AnswerShippingQuery](s)
+      case s: CreateChatInviteLink            => sendRequest[R, CreateChatInviteLink](s)
+      case s: DeclineChatJoinRequest          => sendRequest[R, DeclineChatJoinRequest](s)
       case s: DeleteChatPhoto                 => sendRequest[R, DeleteChatPhoto](s)
       case s: DeleteChatStickerSet            => sendRequest[R, DeleteChatStickerSet](s)
       case s: DeleteMessage                   => sendRequest[R, DeleteMessage](s)
