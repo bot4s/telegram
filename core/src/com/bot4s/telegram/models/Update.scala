@@ -38,7 +38,8 @@ case class Update(
   preCheckoutQuery: Option[PreCheckoutQuery] = None,
   poll: Option[Poll] = None,
   myChatMember: Option[ChatMemberUpdated] = None,
-  chatMember: Option[ChatMemberUpdated] = None
+  chatMember: Option[ChatMemberUpdated] = None,
+  chatJoinRequest: Option[ChatJoinRequest] = None
 ) {
 
   require(
@@ -54,7 +55,8 @@ case class Update(
       preCheckoutQuery,
       poll,
       myChatMember,
-      chatMember
+      chatMember,
+      chatJoinRequest
     ).count(_.isDefined) == 1,
     "Exactly one of the optional fields should be used"
   )

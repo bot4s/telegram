@@ -230,6 +230,14 @@ trait CirceEncoders {
   implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink]       = deriveConfiguredEncoder[ChatInviteLink]
   implicit val chatMemberUpdatedEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
 
+  implicit val createChatInviteLinkEncoder: Encoder[CreateChatInviteLink] =
+    deriveConfiguredEncoder[CreateChatInviteLink]
+  implicit val editChatInviteLinkEncoder: Encoder[EditChatInviteLink] = deriveConfiguredEncoder[EditChatInviteLink]
+  implicit val approveChatJoinrequestEncoder: Encoder[ApproveChatJoinRequest] =
+    deriveConfiguredEncoder[ApproveChatJoinRequest]
+  implicit val declineChatJoinrequestEncoder: Encoder[DeclineChatJoinRequest] =
+    deriveConfiguredEncoder[DeclineChatJoinRequest]
+
   // Ignore InputFiles as JSON.
   implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ => io.circe.Json.Null)
 

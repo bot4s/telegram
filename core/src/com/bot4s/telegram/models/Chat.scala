@@ -38,4 +38,6 @@ case class Chat(
   permissions: Option[ChatPermissions] = None,
   stickerSetName: Option[String] = None,
   canSetStickerSet: Option[Boolean] = None
-)
+) {
+  val chatId = ChatId(id)
+}

@@ -73,6 +73,8 @@ trait CirceDecoders extends StrictLogging {
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]
 
+  implicit val chatJoinrequestDecoder: Decoder[ChatJoinRequest] = deriveDecoder[ChatJoinRequest]
+
   implicit val audioDecoder: Decoder[Audio] = deriveDecoder[Audio]
 
   implicit val chatDecoder: Decoder[Chat]           = deriveDecoder[Chat]

@@ -48,7 +48,8 @@ trait BotBase[F[_]] {
       u.chosenInlineResult.map(receiveChosenInlineResult _),
       u.callbackQuery.map(receiveCallbackQuery _),
       u.shippingQuery.map(receiveShippingQuery _),
-      u.preCheckoutQuery.map(receivePreCheckoutQuery _)
+      u.preCheckoutQuery.map(receivePreCheckoutQuery _),
+      u.chatJoinRequest.map(receiveJoinRequest _)
     ).flatten.sequence_
 
   protected lazy val unit = monad.pure(())
@@ -67,6 +68,7 @@ trait BotBase[F[_]] {
 
   def receiveShippingQuery(shippingQuery: ShippingQuery): F[Unit]          = unit
   def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): F[Unit] = unit
+  def receiveJoinRequest(joinRequest: ChatJoinRequest): F[Unit]            = unit
 
   def run(): F[Unit] = unit
   def shutdown(): Unit = {}
