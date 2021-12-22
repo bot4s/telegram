@@ -70,6 +70,6 @@ trait BotBase[F[_]] {
   def receivePreCheckoutQuery(preCheckoutQuery: PreCheckoutQuery): F[Unit] = unit
   def receiveJoinRequest(joinRequest: ChatJoinRequest): F[Unit]            = unit
 
-  def run(): F[Unit] = unit
+  def run(): F[Unit]   = unit
   def shutdown(): Unit = {}
 }

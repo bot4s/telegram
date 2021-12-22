@@ -4,7 +4,7 @@ import cats.MonadError
 import cats.syntax.functor._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.marshalling.CaseConversions
-import com.bot4s.telegram.methods.{ Request => BotRequest, JsonRequest, MultipartRequest, Response }
+import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request => BotRequest, Response }
 import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.models.InputFile
 import io.circe.parser.parse
@@ -57,7 +57,7 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
           inputFile match {
             case InputFile.FileId(id)                   => multipart(key, id)
             case InputFile.Contents(filename, contents) => multipart(key, contents).fileName(filename)
-            //case InputFile.Path(path) => multipartFile(key, path)
+            // case InputFile.Path(path) => multipartFile(key, path)
             case other =>
               throw new RuntimeException(s"InputFile $other not supported")
           }

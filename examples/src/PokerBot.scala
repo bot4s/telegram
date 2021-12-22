@@ -32,7 +32,7 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
   // e.g. just ackCallback()
 
   // To open game, you may need to pass extra (url-encoded) information to the game.
-  //ackCallback(url = Some("https://my.awesome.game.com/awesome"))
+  // ackCallback(url = Some("https://my.awesome.game.com/awesome"))
   }
 
   def replyWithGame(

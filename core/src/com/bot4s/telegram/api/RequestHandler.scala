@@ -32,12 +32,12 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
               }
       result <- monadError
                   .attempt(sendRequestInternal(request))
-                  .flatTap({
+                  .flatTap {
                     case Right(response) =>
                       monadError.pure(logger.trace("RESPONSE {} {}", uuid, response))
                     case Left(e) =>
                       monadError.pure(logger.error("RESPONSE {} {}", uuid, e))
-                  })
+                  }
                   .rethrow
     } yield result
 
