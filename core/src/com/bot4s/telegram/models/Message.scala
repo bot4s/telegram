@@ -61,6 +61,8 @@ package com.bot4s.telegram.models
  *                               [[https://core.telegram.org/widgets/login More about Telegram Login »]]
  * @param replyMarkup            InlineKeyboardMarkup Optional. Inline keyboard attached to the message.
  *                               login_url buttons are represented as ordinary url buttons.
+ * @param hasProtectedContent    Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
+ * @param isAutomaticForward     Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
  */
 case class Message(
   messageId: Int,
@@ -107,7 +109,9 @@ case class Message(
   invoice: Option[Invoice] = None,
   successfulPayment: Option[SuccessfulPayment] = None,
   connectedWebsite: Option[String] = None,
-  replyMarkup: Option[InlineKeyboardMarkup] = None
+  replyMarkup: Option[InlineKeyboardMarkup] = None,
+  hasProtectedContent: Option[Boolean] = None,
+  isAutomaticForward: Option[Boolean] = None
 ) {
 
   def source: Long = chat.id // ChatId.Chat(chat.id)
