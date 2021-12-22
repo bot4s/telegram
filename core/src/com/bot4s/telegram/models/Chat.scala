@@ -17,10 +17,14 @@ import com.bot4s.telegram.models.ChatType.ChatType
  * @param inviteLink	    String Optional. Optional. Chat invite link, for groups, supergroups and channel chats.
  *                       Each administrator in a chat generates their own invite links, so the bot must first generate the link using exportChatInviteLink.
  *                       Returned only in getChat.
- * @param pinnedMessage  Message Optional. Pinned message, for supergroups. Returned only in getChat.
- * @param permissions    ChatPermissions Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
- * @param stickerSetName    String Optional. For supergroups, name of group sticker set. Returned only in getChat.
- * @param canSetStickerSet  Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+ *
+ * @param pinnedMessage       Message Optional. Pinned message, for supergroups. Returned only in getChat.
+ * @param permissions         ChatPermissions Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+ * @param stickerSetName      String Optional. For supergroups, name of group sticker set. Returned only in getChat.
+ * @param canSetStickerSet    Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+ * @param hasPrivateForwards  Boolean Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
+ *                              Returned only in getChat.
+ * @param hasProtectedContent Boolean Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
  */
 case class Chat(
   id: Long,
@@ -37,7 +41,9 @@ case class Chat(
   pinnedMessage: Option[Message] = None,
   permissions: Option[ChatPermissions] = None,
   stickerSetName: Option[String] = None,
-  canSetStickerSet: Option[Boolean] = None
+  canSetStickerSet: Option[Boolean] = None,
+  hasPrivateForwards: Option[Boolean] = None,
+  hasProtectedContent: Option[Boolean] = None
 ) {
   val chatId = ChatId(id)
 }
