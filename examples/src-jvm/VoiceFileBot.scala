@@ -18,29 +18,27 @@ class VoiceFileBot(token: String) extends AkkaExampleBot(token) with Polling wit
 
   onMessage { implicit msg =>
     using(_.voice) { voice =>
-      request(GetFile(voice.fileId))
-        .andThen({
-          case Success(file) =>
-            file.filePath match {
+      request(GetFile(voice.fileId)).andThen {
+        case Success(file) =>
+          file.filePath match {
 
-              case Some(filePath) =>
-                // See https://core.telegram.org/bots/api#getfile
-                val url = s"https://api.telegram.org/file/bot${token}/${filePath}"
+            case Some(filePath) =>
+              // See https://core.telegram.org/bots/api#getfile
+              val url = s"https://api.telegram.org/file/bot${token}/${filePath}"
 
-                for {
-                  res <- Http().singleRequest(HttpRequest(uri = Uri(url)))
-                  if res.status.isSuccess()
-                  bytes <- Unmarshal(res).to[ByteString]
-                  _     <- reply(s"File with ${bytes.size} bytes received.")
-                } yield ()
-              case None =>
-                reply("No file_path was returned")
-            }
+              for {
+                res <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+                if res.status.isSuccess()
+                bytes <- Unmarshal(res).to[ByteString]
+                _     <- reply(s"File with ${bytes.size} bytes received.")
+              } yield ()
+            case None =>
+              reply("No file_path was returned")
+          }
 
-          case Failure(e) =>
-            logger.error("Exception: " + e) // poor's man logging
-        })
-        .void
+        case Failure(e) =>
+          logger.error("Exception: " + e) // poor's man logging
+      }.void
     }
   }
 }
