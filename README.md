@@ -69,16 +69,16 @@ Table of contents
 Add to your `build.sbt` file:
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "5.1.0"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "5.2.0"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.1.0"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.2.0"
 ```
 
 For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` project deps:
 ```scala
-ivy"com.bot4s::telegram-core:5.1.0", // core
-ivy"com.bot4s::telegram-akka:5.1.0"  // extra goodies
+ivy"com.bot4s::telegram-core:5.2.0", // core
+ivy"com.bot4s::telegram-akka:5.2.0"  // extra goodies
 ```
 
 ## Leaking bot tokens
