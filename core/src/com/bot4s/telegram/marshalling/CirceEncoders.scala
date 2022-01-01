@@ -224,6 +224,8 @@ trait CirceEncoders {
 
   implicit val sendMessageEncoder: Encoder[SendMessage]       = deriveConfiguredEncoder[SendMessage]
   implicit val forwardMessageEncoder: Encoder[ForwardMessage] = deriveConfiguredEncoder[ForwardMessage]
+  implicit val copyMessageEncoder: Encoder[CopyMessage]       = deriveConfiguredEncoder[CopyMessage]
+  implicit val sendDiceEncoder: Encoder[SendDice]             = deriveConfiguredEncoder[SendDice]
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   // for v5.1 support

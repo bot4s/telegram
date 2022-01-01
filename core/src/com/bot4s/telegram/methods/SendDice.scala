@@ -1,17 +1,16 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.{ Message, ReplyMarkup }
-import com.bot4s.telegram.models.ChatId
+import com.bot4s.telegram.models.{ ChatId, Message, ReplyMarkup }
 
 /**
- * Use this method to send phone contacts.
+ * Use this method to send an animated emoji that will display a random value.
  * On success, the sent Message is returned.
  *
  * @param chatId               Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
- * @param phoneNumber          String Contact's phone number
- * @param firstName            String Contact's first name
- * @param lastName             String Optional Contact's last name
- * @param vcard                String Optional Additional data about the contact in the form of a vCard, 0-2048 bytes
+ * @param emoji                Emoji on which the dice throw animation is based.
+ *                             Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”.
+ *                             Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
+ *                             Defaults to “🎲”
  * @param disableNotification  Boolean Optional Sends the message silently.
  *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
  * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
@@ -19,16 +18,13 @@ import com.bot4s.telegram.models.ChatId
  * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply Optional Additional interface options.
  *                             A JSON-serialized object for an inline keyboard, custom reply keyboard,
- *                             instructions to hide keyboard or to force a reply from the user.
+ *                             instructions to hide reply keyboard or to force a reply from the user.
  */
-case class SendContact(
+case class SendDice(
   chatId: ChatId,
-  phoneNumber: String,
-  firstName: String,
-  lastName: Option[String] = None,
-  vcard: Option[String] = None,
-  protectContent: Option[Boolean] = None,
+  emoji: Option[String] = None,
   disableNotification: Option[Boolean] = None,
+  protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None

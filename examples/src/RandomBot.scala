@@ -2,6 +2,7 @@ import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
 import com.bot4s.telegram.future.Polling
+import com.bot4s.telegram.methods.SendDice
 import scala.util.Try
 
 import scala.concurrent.Future
@@ -34,6 +35,9 @@ class RandomBot(token: String) extends ExampleBot(token) with Polling with Comma
     }
   }
 
+  onCommand("auto") { implicit msg =>
+    request(SendDice(msg.chat.id)).void
+  }
   // Extractor
   object Int {
     def unapply(s: String): Option[Int] = Try(s.toInt).toOption

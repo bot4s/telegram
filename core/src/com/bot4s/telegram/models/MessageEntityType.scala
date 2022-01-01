@@ -6,6 +6,6 @@ package com.bot4s.telegram.models
 object MessageEntityType extends Enumeration {
   type MessageEntityType = Value
 
-  val Bold, BotCommand, Cashtag, Code, Email, Hashtag, Italic, Mention, PhoneNumber, Pre, TextLink, TextMention,
-    Unknown, Url = Value
+  val Bold, BotCommand, Cashtag, Code, Email, Spoiler, Hashtag, Italic, Mention, PhoneNumber, Pre, TextLink,
+    TextMention, Unknown, Url = Value
 }

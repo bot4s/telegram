@@ -9,13 +9,17 @@ import com.bot4s.telegram.models._
  *
  * @param chatId               Integer or String Unique identifier for the target chat or username of the target channel (in the format @channelusername)
  * @param media                Array of InputMedia A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+ * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
  * @param disableNotification  Boolean Optional Sends the messages silently. Users will receive a notification with no sound.
+ * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyToMessageId     Integer Optional If the messages are a reply, ID of the original message
  */
 case class SendMediaGroup(
   chatId: ChatId,
   media: Array[InputMedia],
+  protectContent: Option[Boolean] = None,
   disableNotification: Option[Boolean] = None,
+  allowSendingWithoutReply: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None
 ) extends MultipartRequest[Array[Message]] {
 
