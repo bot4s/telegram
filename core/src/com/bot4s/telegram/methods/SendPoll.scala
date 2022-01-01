@@ -21,6 +21,7 @@ import com.bot4s.telegram.methods.PollType.PollType
  * @param openPeriod                 Optional: Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
  * @param closeDate                  Optional: Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
  * @param isClosed                   Optional: Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
+ * @param protectContent             Optional: Boolean Protects the contents of the sent message from forwarding and saving
  * @param disableNotification        Sends the message silently. Users will receive a notification with no sound.
  * @param replyToMessageId           If the message is a reply, ID of the original message
  * @param allowSendingWithoutReply   Optional: Pass True, if the message should be sent even if the specified replied-to message is not found
@@ -41,6 +42,7 @@ case class SendPoll(
   closeDate: Option[Int] = None,
   isClosed: Option[Boolean] = None,
   disableNotification: Option[Boolean] = None,
+  protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None

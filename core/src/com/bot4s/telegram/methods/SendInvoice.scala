@@ -30,7 +30,9 @@ import com.bot4s.telegram.models.Message
  * @param needShippingAddress  Boolean Optional Pass True, if you require the user's shipping address to complete the order
  * @param isFlexible           Boolean Optional Pass True, if the final price depends on the shipping method
  * @param disableNotification  Boolean Optional Sends the message silently. Users will receive a notification with no sound.
+ * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
  * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
+ * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
  *                             If empty, one 'Pay total price' button will be shown.
  *                             If not empty, the first button must be a Pay button.
@@ -55,6 +57,8 @@ case class SendInvoice(
   needShippingAddress: Option[Boolean] = None,
   isFlexible: Option[Boolean] = None,
   disableNotification: Option[Int] = None,
+  protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Long] = None,
+  allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
 ) extends JsonRequest[Message]

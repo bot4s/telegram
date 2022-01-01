@@ -17,7 +17,9 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param length               Integer Optional Video width and height
  * @param disableNotification  Boolean Optional Sends the message silently.
  *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
+ * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
  * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
+ * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply Optional
  */
 case class SendVideoNote(
@@ -25,8 +27,11 @@ case class SendVideoNote(
   videoNote: InputFile,
   duration: Option[Int] = None,
   length: Option[Int] = None,
+  thumb: Option[InputFile] = None,
   disableNotification: Option[Boolean] = None,
+  protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
+  allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("videoNote" -> videoNote)
