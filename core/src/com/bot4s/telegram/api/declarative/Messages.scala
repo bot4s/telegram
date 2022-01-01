@@ -7,7 +7,7 @@ import cats.syntax.traverse._
 import com.bot4s.telegram.api.BotBase
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.{ ParseMode, SendMessage }
-import com.bot4s.telegram.models.{ Message, ReplyMarkup, User }
+import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup, User }
 
 import scala.collection.mutable
 
@@ -61,19 +61,25 @@ trait Messages[F[_]] extends BotBase[F] {
   def reply(
     text: String,
     parseMode: Option[ParseMode] = None,
+    entities: Option[List[MessageEntity]] = None,
     disableWebPagePreview: Option[Boolean] = None,
     disableNotification: Option[Boolean] = None,
+    protectContent: Option[Boolean] = None,
     replyToMessageId: Option[Int] = None,
-    replyMarkup: Option[ReplyMarkup] = None
+    replyMarkup: Option[ReplyMarkup] = None,
+    allowSendingWithoutReply: Option[Boolean] = None
   )(implicit message: Message): F[Message] =
     request(
       SendMessage(
         message.source,
         text,
         parseMode,
+        entities,
         disableWebPagePreview,
         disableNotification,
+        protectContent,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
       )
     )
@@ -94,18 +100,24 @@ trait Messages[F[_]] extends BotBase[F] {
    */
   def replyMd(
     text: String,
+    entities: Option[List[MessageEntity]] = None,
     disableWebPagePreview: Option[Boolean] = None,
     disableNotification: Option[Boolean] = None,
+    protectContent: Option[Boolean] = None,
     replyToMessageId: Option[Int] = None,
-    replyMarkup: Option[ReplyMarkup] = None
+    replyMarkup: Option[ReplyMarkup] = None,
+    allowSendingWithoutReply: Option[Boolean] = None
   )(implicit message: Message): F[Message] =
     reply(
       text,
       Some(ParseMode.Markdown),
+      entities,
       disableWebPagePreview,
       disableNotification,
+      protectContent,
       replyToMessageId,
-      replyMarkup
+      replyMarkup,
+      allowSendingWithoutReply
     )(message)
 
   /**
@@ -124,18 +136,24 @@ trait Messages[F[_]] extends BotBase[F] {
    */
   def replyMdV2(
     text: String,
+    entities: Option[List[MessageEntity]] = None,
     disableWebPagePreview: Option[Boolean] = None,
     disableNotification: Option[Boolean] = None,
+    protectContent: Option[Boolean] = None,
     replyToMessageId: Option[Int] = None,
-    replyMarkup: Option[ReplyMarkup] = None
+    replyMarkup: Option[ReplyMarkup] = None,
+    allowSendingWithoutReply: Option[Boolean] = None
   )(implicit message: Message): F[Message] =
     reply(
       text,
       Some(ParseMode.MarkdownV2),
+      entities,
       disableWebPagePreview,
       disableNotification,
+      protectContent,
       replyToMessageId,
-      replyMarkup
+      replyMarkup,
+      allowSendingWithoutReply
     )(message)
 
   override def receiveMessage(msg: Message): F[Unit] =

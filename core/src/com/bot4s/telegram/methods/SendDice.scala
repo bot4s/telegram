@@ -1,6 +1,5 @@
 package com.bot4s.telegram.methods
 
-import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ ChatId, Message, ReplyMarkup }
 
 /**
