@@ -48,7 +48,8 @@ pre-formatted fixed-width code block
 pre-formatted fixed-width code block written in the Python programming language
 ```
   """,
-      Some(ParseMode.Markdown)
+      Some(ParseMode.Markdown),
+      protectContent = Some(false)
     ).void
   }
   onCommand("html") { implicit msg =>
@@ -68,7 +69,8 @@ pre-formatted fixed-width code block written in the Python programming language
 <pre>pre-formatted fixed-width code block</pre>
 <pre><code class="language-python">pre-formatted fixed-width code block written in the Python programming language</code></pre>
   """,
-      Some(ParseMode.HTML)
+      Some(ParseMode.HTML),
+      protectContent = Some(true)
     ).void
   }
 }

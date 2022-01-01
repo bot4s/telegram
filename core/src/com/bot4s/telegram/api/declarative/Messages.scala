@@ -46,17 +46,19 @@ trait Messages[F[_]] extends BotBase[F] {
    *    All numerical HTML entities are supported.
    *    The API currently supports only the following named HTML entities: &lt;, &gt;, &amp; and &quot;.
    *
-   * @param text                   Text of the message to be sent
-   * @param parseMode             Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
-   * @param disableWebPagePreview Optional Disables link previews for links in this message
-   * @param disableNotification   Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-   * @param replyToMessageId      Optional If the message is a reply, ID of the original message
-   * @param replyMarkup           [[com.bot4s.telegram.models.InlineKeyboardMarkup]] or
-   *                              [[com.bot4s.telegram.models.ReplyKeyboardMarkup]] or
-   *                              [[com.bot4s.telegram.models.ReplyKeyboardRemove]] or
-   *                              [[com.bot4s.telegram.models.ForceReply]]
-   *                              Optional Additional interface options.
-   *                              A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
+   * @param text                      Text of the message to be sent
+   * @param parseMode                 Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+   * @param disableWebPagePreview     Optional Disables link previews for links in this message
+   * @param disableNotification       Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+   * @param protectContent            Optional Protects the contents of the sent message from forwarding and saving
+   * @param replyToMessageId          Optional If the message is a reply, ID of the original message
+   * @param allowSendingWithoutReply  Optional Pass True, if the message should be sent even if the specified replied-to message is not found
+   * @param replyMarkup               [[com.bot4s.telegram.models.InlineKeyboardMarkup]] or
+   *                                  [[com.bot4s.telegram.models.ReplyKeyboardMarkup]] or
+   *                                  [[com.bot4s.telegram.models.ReplyKeyboardRemove]] or
+   *                                  [[com.bot4s.telegram.models.ForceReply]]
+   *                                  Optional Additional interface options.
+   *                                  A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
    */
   def reply(
     text: String,
@@ -66,8 +68,8 @@ trait Messages[F[_]] extends BotBase[F] {
     disableNotification: Option[Boolean] = None,
     protectContent: Option[Boolean] = None,
     replyToMessageId: Option[Int] = None,
-    replyMarkup: Option[ReplyMarkup] = None,
-    allowSendingWithoutReply: Option[Boolean] = None
+    allowSendingWithoutReply: Option[Boolean] = None,
+    replyMarkup: Option[ReplyMarkup] = None
   )(implicit message: Message): F[Message] =
     request(
       SendMessage(
@@ -77,7 +79,7 @@ trait Messages[F[_]] extends BotBase[F] {
         entities,
         disableWebPagePreview,
         disableNotification,
-        protectContent,
+        protectContent = protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup
@@ -116,8 +118,8 @@ trait Messages[F[_]] extends BotBase[F] {
       disableNotification,
       protectContent,
       replyToMessageId,
-      replyMarkup,
-      allowSendingWithoutReply
+      allowSendingWithoutReply,
+      replyMarkup
     )(message)
 
   /**
@@ -152,8 +154,8 @@ trait Messages[F[_]] extends BotBase[F] {
       disableNotification,
       protectContent,
       replyToMessageId,
-      replyMarkup,
-      allowSendingWithoutReply
+      allowSendingWithoutReply,
+      replyMarkup
     )(message)
 
   override def receiveMessage(msg: Message): F[Unit] =
