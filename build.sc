@@ -1,7 +1,6 @@
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
-import ammonite.ops._
 
 val ScalaVersions = Seq("2.12.15", "2.13.7")
 
