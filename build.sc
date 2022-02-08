@@ -10,18 +10,18 @@ object library {
     val circe              = "0.14.1"
     val cats               = "2.7.0"
     val catsEffect         = "2.5.4"
-    val sttp               = "3.3.18"
+    val sttp               = "3.4.1"
     val scalaTest          = "3.2.11"
-    val scalaMockScalaTest = "5.1.0"
+    val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.4"
-    val logback            = "1.2.9"
+    val logback            = "1.2.10"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.18"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
     val akkaHttp           = "10.2.7"
     val akkaTestkit        = akkaVersion
-    val akkaHttpCors       = "1.1.2"
+    val akkaHttpCors       = "1.1.3"
     val hammock            = "0.11.3"
     val monix              = "3.4.0"
   }
