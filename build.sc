@@ -19,7 +19,7 @@ object library {
     val akkaVersion        = "2.6.19"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.2.8"
+    val akkaHttp           = "10.2.9"
     val akkaTestkit        = akkaVersion
     val akkaHttpCors       = "1.1.3"
     val hammock            = "0.11.3"
