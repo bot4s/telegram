@@ -22,7 +22,7 @@ jobs:
         arguments: "-c .scalafmt.conf --test core akka examples"
     - uses: jodersky/setup-mill@v0.2.3
       with:
-        mill-version: 0.10.0
+        mill-version: 0.10.2
     - name: Compile
       run: mill '_._[_].compile'
     - name: Test

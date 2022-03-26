@@ -8,6 +8,7 @@ package com.bot4s.telegram.models
  * @param width         Sticker width
  * @param height        Sticker height
  * @param isAnimated    Boolean True, if the sticker is animated
+ * @param isVideo       Boolean True, if the sticker is a video sticker
  * @param thumb         Optional Sticker thumbnail in .webp or .jpg format
  * @param emoji         Optional. Emoji associated with the sticker
  * @param setName       String Optional. Name of the sticker set to which the sticker belongs
@@ -21,6 +22,7 @@ case class Sticker(
   width: Int,
   height: Int,
   isAnimated: Boolean,
+  isVideo: Boolean,
   thumb: Option[PhotoSize] = None,
   emoji: Option[String] = None,
   setName: Option[String] = None,

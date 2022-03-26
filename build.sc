@@ -2,7 +2,7 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val ScalaVersions = Seq("2.12.15", "2.13.7")
+val ScalaVersions = Seq("2.12.15", "2.13.8")
 
 object library {
 
@@ -111,7 +111,7 @@ abstract class Bot4sTelegramCrossPlatform(val platformSegment: String, location:
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "5.3.0"
+  override def publishVersion = "5.4.0"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
