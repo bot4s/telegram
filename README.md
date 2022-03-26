@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://core.telegram.org/bots/api#recent-changes" title="Telegram Bot API">
-    <img src="https://img.shields.io/badge/Bot%20API-4.4%20(July%2029%2C%202019)-00aced.svg"/>
+    <img src="https://img.shields.io/badge/Bot%20API-5.7%20(January%2031%2C%202022)-00aced.svg"/>
   </a>
   <a href="https://t.me/bot4s_updates" title="Bot4s Telegram Channel">
     <img src="https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg"/>
@@ -24,9 +24,6 @@
 <p align="center">
   <a href="https://github.com/bot4s/telegram/actions/workflows/build.yml" title="Github Action Build Status">
     <img src="https://github.com/bot4s/telegram/actions/workflows/build.yml/badge.svg?branch=master" />
-  </a>
-  <a href="https://www.codacy.com/app/mukel/telegram?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bot4s/telegram&amp;utm_campaign=Badge_Grade" title="Codacy Badge">
-    <img src="https://api.codacy.com/project/badge/Grade/c90c7f7c287445eea233e304372a68fc"/>
   </a>
   <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12" title="Maven Central">
     <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12/badge.svg"/>
