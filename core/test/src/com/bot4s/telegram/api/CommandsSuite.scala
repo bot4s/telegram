@@ -20,6 +20,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
   trait Fixture {
     val handler           = mockFunction[Message, Future[Unit]]
     val handlerHello      = mockFunction[Message, Future[Unit]]
+    val handlerMetro      = mockFunction[Message, Future[Unit]]
     val handlerHelloWorld = mockFunction[Message, Future[Unit]]
     val handlerRespect    = mockFunction[Message, Future[Unit]]
 
@@ -39,6 +40,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
         }
       }
 
+      onCommand("/🚇")(handlerMetro)
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
       onCommand("/respect" & RespectRecipient)(handlerRespect)
@@ -69,6 +71,18 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
       _ <- bot.receiveExtMessage((textMessage("/b"), None))
       _ <- bot.receiveExtMessage((textMessage("/c"), None))
     } yield ()).get
+  }
+
+  it should "support unicode" in new Fixture {
+    val m = textMessage("/🚇")
+    handlerMetro.expects(m).returning(Future.successful(())).once()
+    bot.receiveExtMessage((m, None)).get
+  }
+
+  it should "support unicode (2)" in new Fixture {
+    val m = textMessage("   /🚇 ")
+    handlerMetro.expects(m).returning(Future.successful(())).once()
+    bot.receiveExtMessage((m, None)).get
   }
 
   it should "support @sender suffix" in new Fixture {
