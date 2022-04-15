@@ -72,7 +72,7 @@ libraryDependencies += "com.bot4s" %% "telegram-core" % "5.4.1"
 libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.4.1"
 ```
 
-For [mill](https://www.lihaoyi.com/mill/) add to your `build.sc` project deps:
+For [mill](https://com-lihaoyi.github.io/mill) add to your `build.sc` project deps:
 ```scala
 ivy"com.bot4s::telegram-core:5.4.1", // core
 ivy"com.bot4s::telegram-akka:5.4.1"  // extra goodies
@@ -113,7 +113,7 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 
 ## Running the examples
 
-`bot4s.telegram` uses [mill](https://www.lihaoyi.com/mill/).
+`bot4s.telegram` uses [mill](https://com-lihaoyi.github.io/mill).
 
 ```
 $ mill examples.jvm[2.12.13].console
