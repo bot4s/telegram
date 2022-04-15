@@ -9,7 +9,7 @@ object library {
   object Version {
     val circe              = "0.14.1"
     val cats               = "2.7.0"
-    val catsEffect         = "3.3.11"
+    val catsEffect         = "2.5.4"
     val sttp               = "3.5.1"
     val scalaTest          = "3.2.11"
     val scalaMockScalaTest = "5.2.0"
