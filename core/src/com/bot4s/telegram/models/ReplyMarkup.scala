@@ -73,19 +73,21 @@ object KeyboardButton {
  *   A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language.
  *   Other users in the group don't see the keyboard.
  *
- * @param keyboard        Array of button rows, each represented by an Array of KeyboardButton objects
- * @param resizeKeyboard  Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the
- *                        keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
- * @param oneTimeKeyboard  Optional Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
- * @param selective        Optional Use this parameter if you want to show the keyboard to specific users only.
- *                         Targets:
- *                         1) users that are @mentioned in the text of the Message object;
- *                         2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+ * @param keyboard              Array   Array of button rows, each represented by an Array of KeyboardButton objects
+ * @param resizeKeyboard        Boolean Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the
+ *                                      keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+ * @param oneTimeKeyboard       Boolean Optional Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
+ * @param inputFieldPlaceholder Boolean Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+ * @param selective             Boolean Optional Use this parameter if you want to show the keyboard to specific users only.
+ *                                      Targets:
+ *                                      1) users that are @mentioned in the text of the Message object;
+ *                                      2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
  */
 case class ReplyKeyboardMarkup(
   keyboard: Seq[Seq[KeyboardButton]],
   resizeKeyboard: Option[Boolean] = None,
   oneTimeKeyboard: Option[Boolean] = None,
+  inputFieldPlaceholder: Option[String] = None,
   selective: Option[Boolean] = None
 ) extends ReplyMarkup
 
@@ -98,9 +100,10 @@ object ReplyKeyboardMarkup {
     button: KeyboardButton,
     resizeKeyboard: Option[Boolean] = None,
     oneTimeKeyboard: Option[Boolean] = None,
+    inputFieldPlaceholder: Option[String] = None,
     selective: Option[Boolean] = None
   ): ReplyKeyboardMarkup =
-    ReplyKeyboardMarkup(Seq(Seq(button)), resizeKeyboard, oneTimeKeyboard, selective)
+    ReplyKeyboardMarkup(Seq(Seq(button)), resizeKeyboard, oneTimeKeyboard, inputFieldPlaceholder, selective)
 
   /**
    * Markup with a single row of buttons.
@@ -109,9 +112,10 @@ object ReplyKeyboardMarkup {
     buttonRow: Seq[KeyboardButton],
     resizeKeyboard: Option[Boolean] = None,
     oneTimeKeyboard: Option[Boolean] = None,
+    inputFieldPlaceholder: Option[String] = None,
     selective: Option[Boolean] = None
   ): ReplyKeyboardMarkup =
-    ReplyKeyboardMarkup(Seq(buttonRow), resizeKeyboard, oneTimeKeyboard, selective)
+    ReplyKeyboardMarkup(Seq(buttonRow), resizeKeyboard, oneTimeKeyboard, inputFieldPlaceholder, selective)
 
   /**
    * Markup with a single column of stacked buttons.
@@ -120,9 +124,10 @@ object ReplyKeyboardMarkup {
     buttonColumn: Seq[KeyboardButton],
     resizeKeyboard: Option[Boolean] = None,
     oneTimeKeyboard: Option[Boolean] = None,
+    inputFieldPlaceholder: Option[String] = None,
     selective: Option[Boolean] = None
   ): ReplyKeyboardMarkup =
-    ReplyKeyboardMarkup(buttonColumn.map(Seq(_)), resizeKeyboard, oneTimeKeyboard, selective)
+    ReplyKeyboardMarkup(buttonColumn.map(Seq(_)), resizeKeyboard, oneTimeKeyboard, inputFieldPlaceholder, selective)
 }
 
 /**
@@ -312,13 +317,15 @@ object InlineKeyboardButton {
  * The last option is definitely more attractive. And if you use ForceReply in your bot's questions, it will receive
  * the user's answers even if it only receives replies, commands and mentions - without any extra work for the user.
  *
- * @param forceReply  True  Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
- * @param selective   Optional Use this parameter if you want to force reply from specific users only.
- *                    Targets:
- *                    1) users that are @mentioned in the text of the Message object;
- *                    2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+ * @param forceReply            Boolean Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
+ * @param inputFieldPlaceholder String  Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
+ * @param selective             Boolean Optional. Use this parameter if you want to force reply from specific users only.
+ *                                      Targets:
+ *                                      1) users that are @mentioned in the text of the Message object;
+ *                                      2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
  */
 case class ForceReply(
   forceReply: Boolean = true,
+  inputFieldPlaceholder: Option[String] = None,
   selective: Option[Boolean] = None
 ) extends ReplyMarkup
