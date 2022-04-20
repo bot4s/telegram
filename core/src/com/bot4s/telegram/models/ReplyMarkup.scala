@@ -77,7 +77,7 @@ object KeyboardButton {
  * @param resizeKeyboard        Boolean Optional Requests clients to resize the keyboard vertically for optimal fit (e.g., make the
  *                                      keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
  * @param oneTimeKeyboard       Boolean Optional Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
- * @param inputFieldPlaceholder Boolean Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+ * @param inputFieldPlaceholder String  Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
  * @param selective             Boolean Optional Use this parameter if you want to show the keyboard to specific users only.
  *                                      Targets:
  *                                      1) users that are @mentioned in the text of the Message object;
