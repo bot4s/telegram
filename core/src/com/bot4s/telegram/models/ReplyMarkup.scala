@@ -317,7 +317,7 @@ object InlineKeyboardButton {
  * The last option is definitely more attractive. And if you use ForceReply in your bot's questions, it will receive
  * the user's answers even if it only receives replies, commands and mentions - without any extra work for the user.
  *
- * @param forceReply            Boolean Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
+ * @param forceReply            True    Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
  * @param inputFieldPlaceholder String  Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
  * @param selective             Boolean Optional. Use this parameter if you want to force reply from specific users only.
  *                                      Targets:
