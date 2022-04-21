@@ -322,7 +322,7 @@ object InlineKeyboardButton {
  * @param selective             Boolean Optional. Use this parameter if you want to force reply from specific users only.
  *                                      Targets:
  *                                      1) users that are @mentioned in the text of the Message object;
- *                                      2) if the bot's message is a reply (has replyToMessage_id), sender of the original message.
+ *                                      2) if the bot's message is a reply (has replyToMessageId), sender of the original message.
  */
 case class ForceReply(
   forceReply: Boolean = true,
