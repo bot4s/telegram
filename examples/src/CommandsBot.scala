@@ -6,6 +6,8 @@ import com.bot4s.telegram.future.Polling
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.util.Try
+import com.bot4s.telegram.methods.SetMyCommands
+import com.bot4s.telegram.models.BotCommand
 
 /**
  * Showcases different ways to declare commands (Commands + RegexCommands).
@@ -24,6 +26,17 @@ class CommandsBot(token: String)
   object Int {
     def unapply(s: String): Option[Int] = Try(s.toInt).toOption
   }
+
+  request(
+    SetMyCommands(
+      List(
+        BotCommand("hello", "Welcome someone"),
+        BotCommand("hola", "You guessed it"),
+        BotCommand("metro", "I'm late to work. Give me the train's schedule"),
+        BotCommand("Beer", "Let me see the menu")
+      )
+    )
+  ).void
 
   // String commands.
   onCommand("/hello") { implicit msg =>
