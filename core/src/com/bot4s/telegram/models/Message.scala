@@ -63,6 +63,7 @@ package com.bot4s.telegram.models
  *                               login_url buttons are represented as ordinary url buttons.
  * @param hasProtectedContent    Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
  * @param isAutomaticForward     Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
+ * @param senderChat             Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
  */
 case class Message(
   messageId: Int,
@@ -111,7 +112,8 @@ case class Message(
   connectedWebsite: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   hasProtectedContent: Option[Boolean] = None,
-  isAutomaticForward: Option[Boolean] = None
+  isAutomaticForward: Option[Boolean] = None,
+  senderChat: Option[Chat] = None
 ) {
 
   def source: Long = chat.id // ChatId.Chat(chat.id)

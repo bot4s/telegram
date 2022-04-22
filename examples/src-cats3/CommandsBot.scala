@@ -1,5 +1,5 @@
 import cats.Applicative
-import cats.effect.{ Concurrent, ContextShift, Timer }
+import cats.effect.{ Async, Temporal }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.bot4s.telegram.models.Message
@@ -18,7 +18,7 @@ import scala.util.Try
  *
  * @param token Bot's token.
  */
-class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String)
+class CommandsBot[F[_]: Async: Temporal](token: String)
     extends ExampleBot[F](token)
     with Polling[F]
     with Commands[F]
@@ -87,7 +87,7 @@ class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String)
     { case Seq(Int(mm), Int(ss)) =>
       for {
         _ <- reply(s"Timer set: $mm minute(s) and $ss second(s)")
-        _ <- implicitly[Timer[F]].sleep(mm.minutes + ss.seconds)
+        _ <- implicitly[Temporal[F]].sleep(mm.minutes + ss.seconds)
         _ <- reply("Time's up!")
       } yield ()
     }
