@@ -1,7 +1,9 @@
-import cats.effect.{ Concurrent, ContextShift }
-import cats.effect.Timer
+import cats.Applicative
+import cats.effect.{ Concurrent, ContextShift, Timer }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import com.bot4s.telegram.models.Message
+import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.api.declarative.CommandFilterMagnet._
 import com.bot4s.telegram.api.declarative.{ Commands, RegexCommands }
 import com.bot4s.telegram.cats.Polling
@@ -44,6 +46,13 @@ class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String)
       user =>
         reply(s"Hello ${user.firstName} from Europe?").void
     }
+  }
+
+  def secretIsValid(msg: Message) =
+    Applicative[F].pure(msg.text.fold(false)(_.split(" ").last == "password"))
+
+  whenF(onCommand("secret"), secretIsValid) { implicit msg =>
+    reply("42").void
   }
 
   onCommand("/metro") { implicit msg =>
