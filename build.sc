@@ -10,6 +10,7 @@ object library {
     val circe              = "0.14.1"
     val cats               = "2.7.0"
     val catsEffect         = "2.5.4"
+    val catsEffect3        = "3.3.11"
     val sttp               = "3.5.2"
     val scalaTest          = "3.2.11"
     val scalaMockScalaTest = "5.2.0"
@@ -33,6 +34,8 @@ object library {
   val akkaStream      = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
   val asyncHttpClientBackendCats =
     ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
+  val asyncHttpClientBackendCats3 =
+    ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
@@ -48,6 +51,7 @@ object library {
   val catsCore                    = ivy"org.typelevel::cats-core::${Version.cats}"
   val catsFree                    = ivy"org.typelevel::cats-free::${Version.cats}"
   val catsEffect                  = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
+  val catsEffect3                 = ivy"org.typelevel::cats-effect::${Version.catsEffect3}"
   val monix                       = ivy"io.monix::monix::${Version.monix}"
   val sttpCore                    = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
   val sttpCirce                   = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
@@ -198,6 +202,19 @@ object examples extends Module {
     )
 
     override def sources = T.sources(build.millSourcePath / "examples" / "src-cats")
+  }
+
+  object cats3jvm extends Cross[ExamplesCats3Module](ScalaVersions: _*)
+
+  class ExamplesCats3Module(val crossScalaVersion: String) extends Bot4sTelegramExamples("cats") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.asyncHttpClientBackendCats3,
+      library.catsEffect3
+    )
+
+    override def sources = T.sources(build.millSourcePath / "examples" / "src-cats3")
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
