@@ -60,7 +60,7 @@ object KeyboardButton {
    * The user's phone number will be sent as a contact when the button is pressed.
    * Available in private chats only.
    *
-   * @param text Text of the button
+   * @param text Text of the button.
    */
   def requestContact(text: String): KeyboardButton =
     KeyboardButton(text, requestContact = Some(true))
