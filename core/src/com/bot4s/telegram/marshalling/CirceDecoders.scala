@@ -71,6 +71,10 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.0 support
+  implicit val webAppInfoDecoder: Decoder[WebAppInfo]                   = deriveDecoder[WebAppInfo]
+  implicit val webAppDataDecoder: Decoder[WebAppData]                   = deriveDecoder[WebAppData]
+  implicit val chatAdminRightsDecoder: Decoder[ChatAdministratorRights] = deriveDecoder[ChatAdministratorRights]
   // for v5.1 support
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]
@@ -81,6 +85,8 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val chatDecoder: Decoder[Chat]           = deriveDecoder[Chat]
   implicit val chatPhotoDecoder: Decoder[ChatPhoto] = deriveDecoder[ChatPhoto]
+
+  implicit val KeyboardButtonPollTypeDecoder: Decoder[KeyboardButtonPollType] = deriveDecoder[KeyboardButtonPollType]
 
   implicit val contactDecoder: Decoder[Contact]                           = deriveDecoder[Contact]
   implicit val documentDecoder: Decoder[Document]                         = deriveDecoder[Document]

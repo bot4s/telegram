@@ -64,6 +64,7 @@ package com.bot4s.telegram.models
  * @param hasProtectedContent    Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
  * @param isAutomaticForward     Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
  * @param senderChat             Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+ * @param webAppData 	           WebAppData 	Optional. Service message: data sent by a Web App
  */
 case class Message(
   messageId: Int,
@@ -113,8 +114,9 @@ case class Message(
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   hasProtectedContent: Option[Boolean] = None,
   isAutomaticForward: Option[Boolean] = None,
-  senderChat: Option[Chat] = None
+  senderChat: Option[Chat] = None,
+  webAppData: Option[WebAppData] = None
 ) {
 
-  def source: Long = chat.id // ChatId.Chat(chat.id)
+  def source: Long = chat.id
 }

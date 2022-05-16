@@ -18,15 +18,21 @@ sealed trait ReplyMarkup
  *
  * @param text             String Text of the button. If none of the optional fields are used, it will be sent to the
  *                         bot as a message when the button is pressed
- * @param requestContact   Boolean Optional If True, the user's phone number will be sent as a contact when the button
+ * @param requestContact   Boolean Optional. If True, the user's phone number will be sent as a contact when the button
  *                         is pressed. Available in private chats only
- * @param requestLocation  Boolean Optional If True, the user's current location will be sent when the button is pressed.
+ * @param requestLocation  Boolean Optional. If True, the user's current location will be sent when the button is pressed.
  *                         Available in private chats only
+ * @param requestPoll      KeyboardButtonPollType Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed.
+ *                         Available in private chats only.
+ * @param webApp           WebAppInfo Optional. If specified, the described Web App will be launched when the button is pressed.
+ *                         The Web App will be able to send a “web_app_data” service message. Available in private chats only.
  */
 case class KeyboardButton(
   text: String,
   requestContact: Option[Boolean] = None,
-  requestLocation: Option[Boolean] = None
+  requestLocation: Option[Boolean] = None,
+  requestPoll: Option[KeyboardButtonPollType] = None,
+  webApp: Option[WebAppInfo] = None
 ) /* not a ReplyMarkup */
 
 /**
@@ -205,6 +211,8 @@ object InlineKeyboardMarkup {
  * @param url                String Optional HTTP url to be opened when button is pressed
  * @param loginUrl           LoginUrl Optional. An HTTP URL used to automatically authorize the user.
  *                           Can be used as a replacement for the Telegram Login Widget.
+ * @param webApp             WebAppInfo Optional. If specified, the described Web App will be launched when the button is pressed.
+ *                           The Web App will be able to send a “web_app_data” service message. Available in private chats only.
  * @param callbackData       String Optional Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
  * @param switchInlineQuery  String Optional If set, pressing the button will prompt the user to select one of their chats,
  *                           open that chat and insert the bot's username and the specified inline query in the input field.
@@ -223,6 +231,7 @@ case class InlineKeyboardButton(
   callbackData: Option[String] = None,
   url: Option[String] = None,
   loginUrl: Option[LoginUrl] = None,
+  webApp: Option[WebAppInfo] = None,
   switchInlineQuery: Option[String] = None,
   switchInlineQueryCurrentChat: Option[String] = None,
   callbackGame: Option[CallbackGame] = None,
@@ -329,3 +338,14 @@ case class ForceReply(
   inputFieldPlaceholder: Option[String] = None,
   selective: Option[Boolean] = None
 ) extends ReplyMarkup
+
+/**
+ * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
+ *
+ * @param `type` String Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode.
+ *               If regular is passed, only regular polls will be allowed.
+ *               Otherwise, the user will be allowed to create a poll of any type.
+ */
+case class KeyboardButtonPollType(
+  `type`: Option[String] = None
+)

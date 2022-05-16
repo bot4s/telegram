@@ -229,6 +229,12 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.0 support
+  implicit val webAppInfoEncoder: Encoder[WebAppInfo] = deriveEncoder[WebAppInfo]
+  implicit val webAppDataEncoder: Encoder[WebAppData] = deriveEncoder[WebAppData]
+  implicit val chatAdminRightsEncoder: Encoder[ChatAdministratorRights] =
+    deriveConfiguredEncoder[ChatAdministratorRights]
+
   // for v5.1 support
   implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink]       = deriveConfiguredEncoder[ChatInviteLink]
   implicit val chatMemberUpdatedEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
