@@ -48,16 +48,16 @@ object KeyboardButton {
   def text(text: String): KeyboardButton = KeyboardButton(text)
 
   /**
-   * The user's phone number will be sent as a contact when the button is pressed.
+   * The user's current location will be sent when the button is pressed.
    * Available in private chats only.
    *
-   * @param text Text of the button
+   * @param text Text of the button.
    */
   def requestLocation(text: String): KeyboardButton =
     KeyboardButton(text, requestLocation = Some(true))
 
   /**
-   * The user's current location will be sent when the button is pressed.
+   * The user's phone number will be sent as a contact when the button is pressed.
    * Available in private chats only.
    *
    * @param text Text of the button.
