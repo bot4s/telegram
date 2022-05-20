@@ -7,7 +7,7 @@ val ScalaVersions = Seq("2.12.15", "2.13.8")
 object library {
 
   object Version {
-    val circe              = "0.14.1"
+    val circe              = "0.14.2"
     val cats               = "2.7.0"
     val catsEffect         = "2.5.4"
     val catsEffect3        = "3.3.11"
