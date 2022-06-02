@@ -32,8 +32,8 @@ class QrCodesBot(token: String)
         if response.status.isSuccess()
         bytes <- Unmarshal(response).to[ByteString]
         photo  = AkkaInputFile("qrcode.png", bytes)
-        _ <- uploadingPhoto // Hint the user
-        _ <- request(SendPhoto(msg.source, photo))
+        _     <- uploadingPhoto // Hint the user
+        _     <- request(SendPhoto(msg.source, photo))
       } yield ()
     }
   }

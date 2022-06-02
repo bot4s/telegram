@@ -20,8 +20,8 @@ class DogeBot(token: String) extends ExampleBot(token) with Polling with Command
         bytes = res.body
         _     = println(bytes.length)
         photo = InputFile("doge.png", bytes)
-        _ <- uploadingPhoto // Hint the user
-        _ <- request(SendPhoto(msg.source, photo))
+        _    <- uploadingPhoto // Hint the user
+        _    <- request(SendPhoto(msg.source, photo))
       } yield ()
     }
   }
