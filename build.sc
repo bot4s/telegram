@@ -8,7 +8,7 @@ object library {
 
   object Version {
     val circe              = "0.14.2"
-    val cats               = "2.7.0"
+    val cats               = "2.8.0"
     val catsEffect         = "2.5.5"
     val catsEffect3        = "3.3.12"
     val sttp               = "3.6.2"
