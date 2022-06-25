@@ -126,6 +126,11 @@ trait CirceDecoders extends StrictLogging {
   implicit val videoDecoder: Decoder[Video]                         = deriveDecoder[Video]
   implicit val videoNoteDecoder: Decoder[VideoNote]                 = deriveDecoder[VideoNote]
   implicit val voiceDecoder: Decoder[Voice]                         = deriveDecoder[Voice]
+  implicit val videoChatEndedDecoder: Decoder[VideoChatEnded]       = deriveDecoder[VideoChatEnded]
+  implicit val videoChatParticipantsInvitedDecoder: Decoder[VideoChatParticipantsInvited] =
+    deriveDecoder[VideoChatParticipantsInvited]
+  implicit val videoChatScheduledDecoder: Decoder[VideoChatScheduled]  = deriveDecoder[VideoChatScheduled]
+  implicit val videoChatStartedDecoder: Decoder[VideoChatStarted.type] = deriveDecoder[VideoChatStarted.type]
 
   implicit val gameHighScoreDecoder: Decoder[GameHighScore] = deriveDecoder[GameHighScore]
   implicit val animationDecoder: Decoder[Animation]         = deriveDecoder[Animation]

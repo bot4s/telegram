@@ -115,7 +115,11 @@ case class Message(
   hasProtectedContent: Option[Boolean] = None,
   isAutomaticForward: Option[Boolean] = None,
   senderChat: Option[Chat] = None,
-  webAppData: Option[WebAppData] = None
+  webAppData: Option[WebAppData] = None,
+  videoChatScheduled: Option[VideoChatScheduled] = None,
+  videoChatStarted: Option[VideoChatStarted.type] = None,
+  videoChatEnded: Option[VideoChatEnded] = None,
+  videoChatParticipantsInvited: Option[VideoChatParticipantsInvited] = None
 ) {
 
   def source: Long = chat.id
