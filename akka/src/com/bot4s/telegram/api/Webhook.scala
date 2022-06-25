@@ -7,7 +7,6 @@ import com.bot4s.telegram.future.BotExecutionContext
 import com.bot4s.telegram.methods.SetWebhook
 import com.bot4s.telegram.models.{ InputFile, Update }
 import com.typesafe.scalalogging.StrictLogging
-import akka.http.scaladsl.HttpsConnectionContext
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -46,11 +45,6 @@ trait Webhook extends WebRoutes with StrictLogging {
    * @return
    */
   def certificate: Option[InputFile] = None
-
-  /**
-   * Https context for Server's part
-  */
-  val httpsContext: Option[HttpsConnectionContext] = None
 
   def webhookReceiver: Route =
     entity(as[Update]) { update =>
