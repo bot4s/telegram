@@ -16,10 +16,9 @@ import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
-import io.circe.Decoder
+import io.circe.{ Decoder, HCursor }
 import io.circe.generic.semiauto._
 import com.typesafe.scalalogging.StrictLogging
-import io.circe.HCursor
 
 /**
  * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
@@ -71,6 +70,11 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.0 support
+  implicit val webAppInfoDecoder: Decoder[WebAppInfo]                   = deriveDecoder[WebAppInfo]
+  implicit val webAppDataDecoder: Decoder[WebAppData]                   = deriveDecoder[WebAppData]
+  implicit val chatAdminRightsDecoder: Decoder[ChatAdministratorRights] = deriveDecoder[ChatAdministratorRights]
+  implicit val sentWebAppMessageDecoder: Decoder[SentWebAppMessage]     = deriveDecoder[SentWebAppMessage]
   // for v5.1 support
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]
@@ -81,6 +85,8 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val chatDecoder: Decoder[Chat]           = deriveDecoder[Chat]
   implicit val chatPhotoDecoder: Decoder[ChatPhoto] = deriveDecoder[ChatPhoto]
+
+  implicit val KeyboardButtonPollTypeDecoder: Decoder[KeyboardButtonPollType] = deriveDecoder[KeyboardButtonPollType]
 
   implicit val contactDecoder: Decoder[Contact]                           = deriveDecoder[Contact]
   implicit val documentDecoder: Decoder[Document]                         = deriveDecoder[Document]
@@ -120,6 +126,11 @@ trait CirceDecoders extends StrictLogging {
   implicit val videoDecoder: Decoder[Video]                         = deriveDecoder[Video]
   implicit val videoNoteDecoder: Decoder[VideoNote]                 = deriveDecoder[VideoNote]
   implicit val voiceDecoder: Decoder[Voice]                         = deriveDecoder[Voice]
+  implicit val videoChatEndedDecoder: Decoder[VideoChatEnded]       = deriveDecoder[VideoChatEnded]
+  implicit val videoChatParticipantsInvitedDecoder: Decoder[VideoChatParticipantsInvited] =
+    deriveDecoder[VideoChatParticipantsInvited]
+  implicit val videoChatScheduledDecoder: Decoder[VideoChatScheduled]  = deriveDecoder[VideoChatScheduled]
+  implicit val videoChatStartedDecoder: Decoder[VideoChatStarted.type] = deriveDecoder[VideoChatStarted.type]
 
   implicit val gameHighScoreDecoder: Decoder[GameHighScore] = deriveDecoder[GameHighScore]
   implicit val animationDecoder: Decoder[Animation]         = deriveDecoder[Animation]
@@ -177,6 +188,7 @@ trait CirceDecoders extends StrictLogging {
     val r: Decoder[Either[A, B]] = decB.map(Right.apply)
     l or r
   }
+
 }
 
 object CirceDecoders extends CirceDecoders

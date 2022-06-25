@@ -122,4 +122,38 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     toJson[CallbackGame](CallbackGame) shouldBe """{}"""
     fromJson[CallbackGame]("""{}""") shouldBe CallbackGame
   }
+
+  it should "decode a menu button" in {
+    val json = """
+    {
+      "type": "default"
+    }"""
+    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonDefault(`type` = "default")
+  }
+
+  it should "decode a web app menu button" in {
+    val json = """
+    {
+      "type": "web_app",
+      "text": "Application",
+      "web_app": {
+        "url": "http://test.com"
+      }
+    }"""
+    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonWebApp(
+      `type` = "web_app",
+      text = "Application",
+      webApp = WebAppInfo(url = "http://test.com")
+    )
+  }
+
+  it should "decode a command menu button" in {
+    val json = """
+    {
+      "type": "commands"
+    }"""
+    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonCommands(
+      `type` = "commands"
+    )
+  }
 }

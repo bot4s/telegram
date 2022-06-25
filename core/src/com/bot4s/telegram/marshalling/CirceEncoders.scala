@@ -214,6 +214,23 @@ trait CirceEncoders {
 
   implicit val answerInlineQueryEncoder: Encoder[AnswerInlineQuery] = deriveConfiguredEncoder[AnswerInlineQuery]
 
+  // MenuButton
+
+  implicit val menuButtonDefaultEncoder: Encoder[MenuButtonDefault] =
+    deriveConfiguredEncoder[MenuButtonDefault]
+
+  implicit val menuButtonWebAppEncoder: Encoder[MenuButtonWebApp] =
+    deriveConfiguredEncoder[MenuButtonWebApp]
+
+  implicit val menuButtonCommandsEncoder: Encoder[MenuButtonCommands] =
+    deriveConfiguredEncoder[MenuButtonCommands]
+
+  implicit val menuButtonEncoder: Encoder[MenuButton] = Encoder.instance {
+    case q: MenuButtonDefault  => q.asJson
+    case q: MenuButtonWebApp   => q.asJson
+    case q: MenuButtonCommands => q.asJson
+  }
+
   // Methods
   implicit val getMeEncoder: Encoder[GetMe.type]                   = Encoder.instance(_ => io.circe.Json.Null)
   implicit val deleteWebhookEncoder: Encoder[DeleteWebhook.type]   = Encoder.instance(_ => io.circe.Json.Null)
@@ -229,6 +246,14 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.0 support
+  implicit val webAppInfoEncoder: Encoder[WebAppInfo] = deriveConfiguredEncoder[WebAppInfo]
+  implicit val webAppDataEncoder: Encoder[WebAppData] = deriveConfiguredEncoder[WebAppData]
+  implicit val chatAdminRightsEncoder: Encoder[ChatAdministratorRights] =
+    deriveConfiguredEncoder[ChatAdministratorRights]
+  implicit val answerWebAppQueryEncoder: Encoder[AnswerWebAppQuery] = deriveConfiguredEncoder[AnswerWebAppQuery]
+  implicit val sentWebAppMessageEncoder: Encoder[SentWebAppMessage] = deriveConfiguredEncoder[SentWebAppMessage]
+
   // for v5.1 support
   implicit val chatInviteLinkEncoder: Encoder[ChatInviteLink]       = deriveConfiguredEncoder[ChatInviteLink]
   implicit val chatMemberUpdatedEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
@@ -289,6 +314,7 @@ trait CirceEncoders {
   implicit val getChatMemberCountEncoder: Encoder[GetChatMemberCount]   = deriveConfiguredEncoder[GetChatMemberCount]
   implicit val getChatMembersCountEncoder: Encoder[GetChatMembersCount] = deriveConfiguredEncoder[GetChatMembersCount]
   implicit val getChatMemberEncoder: Encoder[GetChatMember]             = deriveConfiguredEncoder[GetChatMember]
+  implicit val getChatMenuButtonEncoder: Encoder[GetChatMenuButton]     = deriveConfiguredEncoder[GetChatMenuButton]
   implicit val answerCallbackQueryEncoder: Encoder[AnswerCallbackQuery] = deriveConfiguredEncoder[AnswerCallbackQuery]
 
   implicit val editMessageTextEncoder: Encoder[EditMessageText]       = deriveConfiguredEncoder[EditMessageText]
@@ -327,7 +353,8 @@ trait CirceEncoders {
 
   implicit val setChatStickerSetEncoder: Encoder[SetChatStickerSet] = deriveConfiguredEncoder[SetChatStickerSet]
 
-  implicit val setChatTitleEncoder: Encoder[SetChatTitle] = deriveConfiguredEncoder[SetChatTitle]
+  implicit val setChatTitleEncoder: Encoder[SetChatTitle]       = deriveConfiguredEncoder[SetChatTitle]
+  implicit val setChatButtonEncoder: Encoder[SetChatMenuButton] = deriveConfiguredEncoder[SetChatMenuButton]
 
   implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] =
     deriveConfiguredEncoder[SetStickerPositionInSet]
