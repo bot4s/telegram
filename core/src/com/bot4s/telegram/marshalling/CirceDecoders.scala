@@ -16,10 +16,9 @@ import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
-import io.circe.Decoder
+import io.circe.{ Decoder, HCursor }
 import io.circe.generic.semiauto._
 import com.typesafe.scalalogging.StrictLogging
-import io.circe.HCursor
 
 /**
  * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]
@@ -75,6 +74,7 @@ trait CirceDecoders extends StrictLogging {
   implicit val webAppInfoDecoder: Decoder[WebAppInfo]                   = deriveDecoder[WebAppInfo]
   implicit val webAppDataDecoder: Decoder[WebAppData]                   = deriveDecoder[WebAppData]
   implicit val chatAdminRightsDecoder: Decoder[ChatAdministratorRights] = deriveDecoder[ChatAdministratorRights]
+  implicit val sentWebAppMessageDecoder: Decoder[SentWebAppMessage]     = deriveDecoder[SentWebAppMessage]
   // for v5.1 support
   implicit val chatInviteLinkDecoder: Decoder[ChatInviteLink]       = deriveDecoder[ChatInviteLink]
   implicit val chatMemberUpdatedDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]
@@ -183,6 +183,7 @@ trait CirceDecoders extends StrictLogging {
     val r: Decoder[Either[A, B]] = decB.map(Right.apply)
     l or r
   }
+
 }
 
 object CirceDecoders extends CirceDecoders

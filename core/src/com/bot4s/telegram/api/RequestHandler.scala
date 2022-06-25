@@ -7,6 +7,7 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
+import com.bot4s.telegram.models.MenuButton.menuButtonDecoder
 import io.circe.{ Decoder, Encoder }
 import com.typesafe.scalalogging.StrictLogging
 
@@ -46,6 +47,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       // Pure JSON requests
       case s: ApproveChatJoinRequest          => sendRequest[R, ApproveChatJoinRequest](s)
       case s: AnswerCallbackQuery             => sendRequest[R, AnswerCallbackQuery](s)
+      case s: AnswerWebAppQuery               => sendRequest[R, AnswerWebAppQuery](s)
       case s: AnswerInlineQuery               => sendRequest[R, AnswerInlineQuery](s)
       case s: AnswerPreCheckoutQuery          => sendRequest[R, AnswerPreCheckoutQuery](s)
       case s: AnswerShippingQuery             => sendRequest[R, AnswerShippingQuery](s)
@@ -68,6 +70,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: GetChatMember                   => sendRequest[R, GetChatMember](s)
       case s: GetChatMemberCount              => sendRequest[R, GetChatMemberCount](s)
       case s: GetChatMembersCount             => sendRequest[R, GetChatMembersCount](s)
+      case s: GetChatMenuButton               => sendRequest[R, GetChatMenuButton](s)
       case s: GetFile                         => sendRequest[R, GetFile](s)
       case s: GetGameHighScores               => sendRequest[R, GetGameHighScores](s)
       case s: GetMe.type                      => sendRequest[R, GetMe.type](s)
@@ -94,6 +97,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SendPoll                        => sendRequest[R, SendPoll](s)
       case s: SendVenue                       => sendRequest[R, SendVenue](s)
       case s: SetChatDescription              => sendRequest[R, SetChatDescription](s)
+      case s: SetChatMenuButton               => sendRequest[R, SetChatMenuButton](s)
       case s: SetChatAdministratorCustomTitle => sendRequest[R, SetChatAdministratorCustomTitle](s)
       case s: SetChatPermissions              => sendRequest[R, SetChatPermissions](s)
       case s: SetChatStickerSet               => sendRequest[R, SetChatStickerSet](s)
