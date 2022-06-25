@@ -1,6 +1,6 @@
 package com.bot4s.telegram.api
 
-import akka.http.scaladsl.Http
+import akka.http.scaladsl.{ Http, HttpsConnectionContext }
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
@@ -12,7 +12,8 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
   this: BotExecutionContext with AkkaImplicits =>
 
   val port: Int
-  val interfaceIp: String = "::0"
+  val interfaceIp: String                          = "::0"
+  val httpsContext: Option[HttpsConnectionContext] = None
 
   def routes: Route = reject
 
@@ -25,7 +26,11 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
       throw new RuntimeException("Bot is already running")
     }
 
-    bindingFuture = Http().newServerAt(interfaceIp, port).bindFlow(routes)
+    bindingFuture = (httpsContext match {
+      case Some(httpsCtx) => Http().newServerAt(interfaceIp, port).enableHttps(httpsCtx)
+      case None           => Http().newServerAt(interfaceIp, port)
+    }).bindFlow(routes)
+
     bindingFuture.foreach { _ =>
       logger.info(s"Listening on $interfaceIp:$port")
     }

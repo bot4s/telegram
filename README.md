@@ -41,10 +41,10 @@
 </p>
 
 # bot4s.telegram
+
 Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://core.telegram.org/bots/api).
 
-Table of contents
-=================
+# Table of contents
 
 - [Quick start](#quick-start)
 - [Leaking bot tokens](#leaking-bot-tokens)
@@ -55,15 +55,17 @@ Table of contents
 - [Running the examples](#running-the-examples)
 - [A note on implicits](#a-note-on-implicits)
 - [Examples](#examples)
-    - [Let me Google that for you!](#let-me-google-that-for-you)
-    - [Google Text To Speech](#google-tts) 
-    - [Random Bot (Webhooks)](#using-webhooks)
+  - [Let me Google that for you!](#let-me-google-that-for-you)
+  - [Google Text To Speech](#google-tts)
+  - [Random Bot (Webhooks)](#using-webhooks)
 - [Versioning](#versioning)
 - [Authors](#authors)
 - [License](#license)
 
 ## As SBT/mill dependency
+
 Add to your `build.sbt` file:
+
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
 libraryDependencies += "com.bot4s" %% "telegram-core" % "5.4.2"
@@ -73,28 +75,35 @@ libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.4.2"
 ```
 
 For [mill](https://com-lihaoyi.github.io/mill) add to your `build.sc` project deps:
+
 ```scala
 ivy"com.bot4s::telegram-core:5.4.2", // core
 ivy"com.bot4s::telegram-akka:5.4.2"  // extra goodies
 ```
 
 ## Leaking bot tokens
+
 **Don't ever expose your bot's token.**
 
-Hopefully [GitGuardian](https://www.gitguardian.com/) got you covered and will warn you about exposed API keys. 
+Hopefully [GitGuardian](https://www.gitguardian.com/) got you covered and will warn you about exposed API keys.
 
-## Webhooks vs. Polling  
+## Webhooks vs. Polling
+
 Both methods are supported.
 (Long) Polling is bundled in the `core` artifact and it's by far the easiest method.
 
 Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
+Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/WebhookSSLBot.scala) (with self signed SSL certificate setup).
+
 ## Payments
+
 Payments are supported since version 3.0; refer to [official payments documentation](https://core.telegram.org/bots/payments) for details.
 I'll support developers willing to integrate and/or improve the payments API; please report issues [here](https://github.com/bot4s/telegram/issues/new).
 
 ## Games
+
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
 Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/SelfHosted2048Bot.scala) and
@@ -102,11 +111,12 @@ Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examp
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
+
 `bot4s.telegram` runs on Raspberry Pi, Heroku, Google App Engine and most notably on an old Android (4.1.2) phone with a broken screen via the JDK for ARM.
 Bots also runs flawlessly on top of my master thesis: "A meta-circular Java bytecode interpreter for the GraalVM".
 
 Distribution/deployment is outside the scope of the library, but all platforms where Java is
-supported should be compatible. You may find [sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker) 
+supported should be compatible. You may find [sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 very handy.
 
 Scala.js is also supported, bots can run on the browser via the SttpClient. NodeJs is not supported yet.
@@ -126,7 +136,8 @@ scala> new RandomBot("BOT_TOKEN").run()
 
 Change `RandomBot` to whatever bot you find interesting [here](https://github.com/bot4s/telegram/tree/master/examples).
 
-## A note on implicits 
+## A note on implicits
+
 A few implicits are provided to reduce boilerplate, but are discouraged because unexpected side-effects.
 
 Think seamless `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
@@ -196,7 +207,7 @@ class RandomBot(val token: String) extends TelegramBot
   }
 }
 
- 
+
 // To run spawn the bot
 val bot = new RandomBot("BOT_TOKEN")
 val eol = bot.run()
@@ -233,9 +244,9 @@ object TextToSpeechBot extends TelegramBot
   with Commands[Future]
   with InlineQueries[Future]
   with ChatActions[Future] {
-  
+
   override val client: RequestHandler[Future] = new ScalajHttpClient("BOT_TOKEN")
-  
+
   def ttsUrl(text: String): String =
     s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
 
@@ -269,11 +280,11 @@ Await.result(eol, Duration.Inf) // ScalaJs wont't let you do this
 object LmgtfyBot extends AkkaTelegramBot
   with Webhook
   with Commands[Future] {
-  
-  val client = new AkkaHttpClient("BOT_TOKEN")  
+
+  val client = new AkkaHttpClient("BOT_TOKEN")
   override val port = 8443
   override val webhookUrl = "https://1d1ceb07.ngrok.io"
-  
+
   onCommand("lmgtfy") { implicit msg =>
     withArgs { args =>
       reply(
@@ -293,7 +304,7 @@ This library uses [Semantic Versioning](http://semver.org/). For the versions av
 
 ## Authors
 
-* **Alfonso² Peterssen** - *Owner/maintainer* - :octocat: [mukel](https://github.com/mukel)
+- **Alfonso² Peterssen** - _Owner/maintainer_ - :octocat: [mukel](https://github.com/mukel)
 
 _Looking for maintainers!_
 
@@ -301,11 +312,11 @@ See also the list of [awesome contributors](https://github.com/bot4s/telegram/co
 Contributions are very welcome, documentation improvements/corrections, bug reports, even feature requests.
 
 ## License
+
 This project is licensed under the Apache 2.0 License - see the [LICENSE](/LICENSE) file for details.
 
 ## Buy Me A Coffee
 
-<a href="https://www.buymeacoffee.com/bot4s.telegram"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>   
+<a href="https://www.buymeacoffee.com/bot4s.telegram"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 If you like this library, please consider buying me a coffee. :relaxed:
-
