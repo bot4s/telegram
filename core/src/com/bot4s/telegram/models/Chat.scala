@@ -31,6 +31,8 @@ import com.bot4s.telegram.models.ChatType.ChatType
  * @param hasPrivateForwards    Boolean Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
  *                                Returned only in getChat.
  * @param hasProtectedContent   Boolean Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
+ * @param joinToSendMessages    Boolean Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
+ * @param joinByRequest         Boolean Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
  */
 case class Chat(
   id: Long,
@@ -52,7 +54,9 @@ case class Chat(
   linkedChatId: Option[Long] = None,
   location: Option[ChatLocation] = None,
   hasPrivateForwards: Option[Boolean] = None,
-  hasProtectedContent: Option[Boolean] = None
+  hasProtectedContent: Option[Boolean] = None,
+  joinToSendMessages: Option[Boolean] = None,
+  joinByRequest: Option[Boolean] = None
 ) {
   val chatId = ChatId(id)
 }

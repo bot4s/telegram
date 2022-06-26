@@ -20,5 +20,5 @@ case class Video(
   duration: Int,
   thumb: Option[PhotoSize] = None,
   mimeType: Option[String] = None,
-  fileSize: Option[Int] = None
+  fileSize: Option[Long] = None
 )

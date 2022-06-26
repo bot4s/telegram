@@ -17,5 +17,5 @@ case class Animation(
   thumb: Option[PhotoSize] = None,
   fileName: Option[String] = None,
   mimeType: Option[String] = None,
-  fileSize: Option[Int] = None
+  fileSize: Option[Long] = None
 )
