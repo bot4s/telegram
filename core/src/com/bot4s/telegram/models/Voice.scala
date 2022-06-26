@@ -14,5 +14,5 @@ case class Voice(
   fileUniqueId: String,
   duration: Int,
   mimeType: Option[String] = None,
-  fileSize: Option[Int] = None
+  fileSize: Option[Long] = None
 )

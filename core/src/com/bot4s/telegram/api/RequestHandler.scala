@@ -52,6 +52,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: AnswerPreCheckoutQuery          => sendRequest[R, AnswerPreCheckoutQuery](s)
       case s: AnswerShippingQuery             => sendRequest[R, AnswerShippingQuery](s)
       case s: CreateChatInviteLink            => sendRequest[R, CreateChatInviteLink](s)
+      case s: CreateInvoiceLink               => sendRequest[R, CreateInvoiceLink](s)
       case s: DeclineChatJoinRequest          => sendRequest[R, DeclineChatJoinRequest](s)
       case s: DeleteChatPhoto                 => sendRequest[R, DeleteChatPhoto](s)
       case s: DeleteChatStickerSet            => sendRequest[R, DeleteChatStickerSet](s)

@@ -19,6 +19,6 @@ case class Audio(
   performer: Option[String] = None,
   title: Option[String] = None,
   mimeType: Option[String] = None,
-  fileSize: Option[Int] = None,
+  fileSize: Option[Long] = None,
   thumb: Option[PhotoSize]
 )

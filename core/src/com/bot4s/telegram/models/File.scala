@@ -16,6 +16,6 @@ package com.bot4s.telegram.models
 case class File(
   fileId: String,
   fileUniqueId: String,
-  fileSize: Option[Int] = None,
+  fileSize: Option[Long] = None,
   filePath: Option[String] = None
 )
