@@ -4,8 +4,6 @@ import com.bot4s.telegram.api.declarative.{ Commands, JoinRequests }
 
 import scala.concurrent.Future
 import com.bot4s.telegram.methods.CreateChatInviteLink
-import com.bot4s.telegram.methods.CreateChatInviteLink
-import com.bot4s.telegram.api.declarative._
 import com.bot4s.telegram.models._
 import com.bot4s.telegram.methods.ApproveChatJoinRequest
 import com.bot4s.telegram.methods.DeclineChatJoinRequest
