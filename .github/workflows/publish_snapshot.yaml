@@ -11,24 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - uses: jodersky/setup-mill@v0.2.3
-      with:
-        mill-version: 0.10.3
-    - name: Import GPG key
-      id: import_gpg
-      uses: crazy-max/ghaction-import-gpg@v3
-      with:
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        passphrase: ${{ secrets.GPG_PASSPHRASE }}
-    - name: Set version
-      run: sed -i "s/publishVersion = \"\(.*\)\"/publishVersion = \"\1-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
-    - name: Publish
-      shell: bash
-      env:
-        USERNAME: ${{ secrets.OSS_USERNAME }}
-        PASSWORD: ${{ secrets.OSS_PASSWORD }}
-      run: |
-        mill mill.scalalib.PublishModule/publishAll __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
-
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: jodersky/setup-mill@v0.2.3
+        with:
+          mill-version: 0.10.4
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Set version
+        run: sed -i "s/publishVersion = \"\(.*\)\"/publishVersion = \"\1-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
+      - name: Publish
+        shell: bash
+        env:
+          USERNAME: ${{ secrets.OSS_USERNAME }}
+          PASSWORD: ${{ secrets.OSS_PASSWORD }}
+        run: |
+          mill mill.scalalib.PublishModule/publishAll __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
