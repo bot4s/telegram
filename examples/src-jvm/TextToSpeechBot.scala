@@ -34,8 +34,8 @@ class TextToSpeechBot(token: String)
       for {
         r <- Future(scalaj.http.Http(ttsUrl(text)).asBytes)
         if r.isSuccess
-        bytes = r.body
-        _ <- uploadingAudio // hint the user
+        bytes    = r.body
+        _       <- uploadingAudio // hint the user
         voiceMp3 = InputFile("voice.mp3", bytes)
         _       <- request(SendVoice(msg.source, voiceMp3))
       } yield ()
