@@ -45,7 +45,7 @@ trait GameManager extends WebRoutes {
       Payload.base64Decode(encodedPayload)
     }
 
-  val gameManagerRoute: Route = {
+  val gameManagerRoute: Route =
     (post &
       path("games" / "api" / "setScore") &
       parameter("score".as[Long]) &
@@ -76,7 +76,6 @@ trait GameManager extends WebRoutes {
             complete((StatusCodes.InternalServerError, s"An error occurred: ${ex.getMessage}"))
         }
       }
-  }
 }
 
 /**
