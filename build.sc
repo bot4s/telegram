@@ -12,6 +12,7 @@ object library {
     val catsEffect         = "2.5.5"
     val catsEffect3        = "3.3.14"
     val zio                = "2.0.0"
+    val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "22.0.0.0"
     val sttp               = "3.7.1"
     val scalaTest          = "3.2.12"
@@ -63,6 +64,7 @@ object library {
   val sttpOkHttp                  = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
   val hammock                     = ivy"com.pepegar::hammock-core::${Version.hammock}"
   val zio                         = ivy"dev.zio::zio::${Version.zio}"
+  val zhttp                       = ivy"io.d11::zhttp::${Version.zhttp}"
   val zioInteropCats              = ivy"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
@@ -232,6 +234,7 @@ object examples extends Module {
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.asyncHttpClientBackendZio,
       library.zio,
+      library.zhttp,
       library.zioInteropCats
     )
 
