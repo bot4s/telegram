@@ -59,7 +59,7 @@ class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
 
     val url =
       s"https://api.spotify.com/v1/search?access_token=$accessToken&type=track&limit=$limit&offset=$offset&q=${URLEncoder
-        .encode(query, "UTF-8")}"
+          .encode(query, "UTF-8")}"
 
     val currentFuture = for {
       response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
