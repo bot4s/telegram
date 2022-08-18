@@ -11,6 +11,9 @@ object library {
     val cats               = "2.8.0"
     val catsEffect         = "2.5.5"
     val catsEffect3        = "3.3.14"
+    val zio                = "2.0.0"
+    val zhttp              = "2.0.0-RC10"
+    val zioInteropCats     = "22.0.0.0"
     val sttp               = "3.7.4"
     val scalaTest          = "3.2.13"
     val scalaMockScalaTest = "5.2.0"
@@ -36,6 +39,9 @@ object library {
     ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
   val asyncHttpClientBackendCats3 =
     ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+  val asyncHttpClientBackendZio =
+    ivy"com.softwaremill.sttp.client3::async-http-client-backend-zio::${Version.sttp}"
+
   val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
   val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
@@ -57,6 +63,9 @@ object library {
   val sttpCirce                   = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
   val sttpOkHttp                  = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
   val hammock                     = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val zio                         = ivy"dev.zio::zio::${Version.zio}"
+  val zhttp                       = ivy"io.d11::zhttp::${Version.zhttp}"
+  val zioInteropCats              = ivy"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
 trait Bot4sTelegramModule extends CrossScalaModule {
@@ -215,6 +224,21 @@ object examples extends Module {
     )
 
     override def sources = T.sources(build.millSourcePath / "examples" / "src-cats3")
+  }
+
+  object ziojvm extends Cross[ExamplesZIOModule](ScalaVersions: _*)
+
+  class ExamplesZIOModule(val crossScalaVersion: String) extends Bot4sTelegramExamples("zio") {
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.asyncHttpClientBackendZio,
+      library.zio,
+      library.zhttp,
+      library.zioInteropCats
+    )
+
+    override def sources = T.sources(build.millSourcePath / "examples" / "src-zio")
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions: _*)
