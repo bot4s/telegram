@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: jodersky/setup-mill@v0.2.3
         with:
-          mill-version: 0.10.5
+          mill-version: 0.10.7
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v3
