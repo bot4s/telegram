@@ -7,7 +7,6 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
-import com.bot4s.telegram.models.MenuButton.menuButtonDecoder
 import io.circe.{ Decoder, Encoder }
 import com.typesafe.scalalogging.StrictLogging
 
@@ -72,6 +71,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: GetChatMemberCount              => sendRequest[R, GetChatMemberCount](s)
       case s: GetChatMembersCount             => sendRequest[R, GetChatMembersCount](s)
       case s: GetChatMenuButton               => sendRequest[R, GetChatMenuButton](s)
+      case s: GetCustomEmojiStickers          => sendRequest[R, GetCustomEmojiStickers](s)
       case s: GetFile                         => sendRequest[R, GetFile](s)
       case s: GetGameHighScores               => sendRequest[R, GetGameHighScores](s)
       case s: GetMe.type                      => sendRequest[R, GetMe.type](s)

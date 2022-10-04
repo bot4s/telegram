@@ -5,6 +5,7 @@ import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
+import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.{ ChatId, MaskPositionType, _ }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
@@ -128,7 +129,7 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     {
       "type": "default"
     }"""
-    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonDefault(`type` = "default")
+    fromJson[MenuButton](json) shouldBe MenuButtonDefault(`type` = "default")
   }
 
   it should "decode a web app menu button" in {
@@ -140,7 +141,7 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
         "url": "http://test.com"
       }
     }"""
-    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonWebApp(
+    fromJson[MenuButton](json) shouldBe MenuButtonWebApp(
       `type` = "web_app",
       text = "Application",
       webApp = WebAppInfo(url = "http://test.com")
@@ -152,8 +153,20 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     {
       "type": "commands"
     }"""
-    io.circe.parser.decode[MenuButton](json).toOption.get shouldBe MenuButtonCommands(
+    fromJson[MenuButton](json) shouldBe MenuButtonCommands(
       `type` = "commands"
     )
+  }
+
+  it should "decode a sticker type" in {
+    fromJson[StickerType](""""regular"""") shouldBe StickerType.Regular
+    fromJson[StickerType](""""custom_emoji"""") shouldBe StickerType.CustomEmoji
+    fromJson[StickerType](""""mask"""") shouldBe StickerType.Mask
+  }
+
+  it should "encode a sticker type" in {
+    toJson[StickerType](StickerType.Regular) shouldBe """"regular""""
+    toJson[StickerType](StickerType.CustomEmoji) shouldBe """"custom_emoji""""
+    toJson[StickerType](StickerType.Mask) shouldBe """"mask""""
   }
 }
