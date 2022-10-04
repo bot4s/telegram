@@ -15,7 +15,7 @@ object library {
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "22.0.0.0"
     val sttp               = "3.8.2"
-    val scalaTest          = "3.2.13"
+    val scalaTest          = "3.2.14"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
     val logback            = "1.4.3"
