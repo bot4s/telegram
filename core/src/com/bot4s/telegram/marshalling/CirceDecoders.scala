@@ -14,6 +14,7 @@ import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MemberStatus.MemberStatus
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
+import com.bot4s.telegram.models.StickerType.StickerType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.{ Decoder, HCursor }
@@ -43,6 +44,17 @@ trait CirceDecoders extends StrictLogging {
         case e: NoSuchElementException =>
           logger.warn(s"Unexpected MessageEntityType: '$s', fallback to Unknown.")
           MessageEntityType.Unknown
+      }
+    }
+
+  implicit val stickerTypeDecoder: Decoder[StickerType] =
+    Decoder[String].map { s =>
+      try {
+        StickerType.withName(pascalize(s))
+      } catch {
+        case e: NoSuchElementException =>
+          logger.warn(s"Unexpected StickerType: '$s', fallback to Unknown.")
+          StickerType.Unknown
       }
     }
 
@@ -88,6 +100,7 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val KeyboardButtonPollTypeDecoder: Decoder[KeyboardButtonPollType] = deriveDecoder[KeyboardButtonPollType]
 
+  implicit val menuButtonDecoder: Decoder[MenuButton]                     = MenuButton.menuButtonDecoder
   implicit val contactDecoder: Decoder[Contact]                           = deriveDecoder[Contact]
   implicit val documentDecoder: Decoder[Document]                         = deriveDecoder[Document]
   implicit val fileDecoder: Decoder[File]                                 = deriveDecoder[File]

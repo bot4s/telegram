@@ -18,21 +18,22 @@ import com.bot4s.telegram.models.ChatType.ChatType
  *                       Each administrator in a chat generates their own invite links, so the bot must first generate the link using exportChatInviteLink.
  *                       Returned only in getChat.
  *
- * @param pinnedMessage         Message Optional. Pinned message, for supergroups. Returned only in getChat.
- * @param permissions           ChatPermissions Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
- * @param slowModeDelay         Integer Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
- * @param messageAutoDeleteTime Integer Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
- * @param stickerSetName        String Optional. For supergroups, name of group sticker set. Returned only in getChat.
- * @param canSetStickerSet      Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
- * @param linkedChatId          Long Optinal. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats.
- *                              This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it.
- *                              But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
- * @param location              Optional ChatLocation. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
- * @param hasPrivateForwards    Boolean Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
- *                                Returned only in getChat.
- * @param hasProtectedContent   Boolean Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
- * @param joinToSendMessages    Boolean Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
- * @param joinByRequest         Boolean Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+ * @param pinnedMessage                       Message Optional. Pinned message, for supergroups. Returned only in getChat.
+ * @param permissions                         ChatPermissions Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+ * @param slowModeDelay                       Integer Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
+ * @param messageAutoDeleteTime               Integer Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+ * @param stickerSetName                      String Optional. For supergroups, name of group sticker set. Returned only in getChat.
+ * @param canSetStickerSet                    Boolean Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+ * @param linkedChatId                        Long Optinal. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats.
+ *                                            This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it.
+ *                                            But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+ * @param location                            Optional ChatLocation. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+ * @param hasPrivateForwards                  Boolean Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
+ *                                              Returned only in getChat.
+ * @param hasProtectedContent                 Boolean Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
+ * @param joinToSendMessages                  Boolean Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
+ * @param joinByRequest                       Boolean Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+ * @param hasRestrictedVoiceAndVideoMessages 	Boolean Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
  */
 case class Chat(
   id: Long,
@@ -56,7 +57,8 @@ case class Chat(
   hasPrivateForwards: Option[Boolean] = None,
   hasProtectedContent: Option[Boolean] = None,
   joinToSendMessages: Option[Boolean] = None,
-  joinByRequest: Option[Boolean] = None
+  joinByRequest: Option[Boolean] = None,
+  hasRestrictedVoiceAndVideoMessages: Option[Boolean] = None
 ) {
   val chatId = ChatId(id)
 }

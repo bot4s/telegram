@@ -7,5 +7,5 @@ object MessageEntityType extends Enumeration {
   type MessageEntityType = Value
 
   val Bold, BotCommand, Cashtag, Code, Email, Spoiler, Hashtag, Italic, Mention, PhoneNumber, Pre, TextLink,
-    TextMention, Unknown, Url = Value
+    TextMention, Unknown, Url, CustomEmoji = Value
 }

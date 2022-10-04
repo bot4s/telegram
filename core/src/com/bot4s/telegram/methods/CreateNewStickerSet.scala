@@ -2,6 +2,7 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.MaskPosition
 import com.bot4s.telegram.models.InputFile
+import com.bot4s.telegram.models.StickerType.StickerType
 
 /**
  * Use this method to create new sticker set owned by a user.
@@ -19,17 +20,19 @@ import com.bot4s.telegram.models.InputFile
  *                       [[https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements]]
  * @param webmSticker    InputFile Optional WEBM video with the sticker, uploaded using multipart/form-data see
  *                       [[https://core.telegram.org/stickers#video-sticker-requirements for technical requirements]]
+ * @param stickerType    Optional StickerType. Type of stickers in the set, pass “regular” or “mask”. Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created.
  * @param emojis	       String One or more emoji corresponding to the sticker
- * @param containsMasks  Boolean Optional Pass True, if a set of mask stickers should be created
+ * @param containsMasks  Boolean Optional Pass True, if a set of mask stickers should be created. Deprecated, use stickerType instead
  * @param maskPosition   MaskPosition Optional Position where the mask should be placed on faces
  */
 case class CreateNewStickerSet(
   userId: Long,
   name: String,
   title: String,
-  pngSticker: Option[InputFile],
-  tgsSticker: Option[InputFile],
-  webmSticker: Option[InputFile],
+  pngSticker: Option[InputFile] = None,
+  tgsSticker: Option[InputFile] = None,
+  webmSticker: Option[InputFile] = None,
+  stickerType: Option[StickerType] = None,
   emojis: String,
   containsMasks: Option[Boolean] = None,
   maskPosition: Option[MaskPosition] = None

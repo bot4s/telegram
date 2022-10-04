@@ -12,6 +12,7 @@ import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MemberStatus.MemberStatus
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
+import com.bot4s.telegram.models.StickerType.StickerType
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.Encoder
@@ -59,6 +60,9 @@ trait CirceEncoders {
 
   implicit val messageEntityTypeEncoder: Encoder[MessageEntityType] =
     Encoder[String].contramap[MessageEntityType](e => CaseConversions.snakenize(e.toString))
+
+  implicit val stickerTypeEncoder: Encoder[StickerType] =
+    Encoder[String].contramap[StickerType](e => CaseConversions.snakenize(e.toString))
 
   implicit val messageEntityEncoder: Encoder[MessageEntity] = deriveConfiguredEncoder[MessageEntity]
 
@@ -246,6 +250,8 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.2 support
+  implicit val getCustomEmojiStickers: Encoder[GetCustomEmojiStickers] = deriveConfiguredEncoder[GetCustomEmojiStickers]
   // for v6.1 support
   implicit val createInvoiceLinkEncoder: Encoder[CreateInvoiceLink] = deriveConfiguredEncoder[CreateInvoiceLink]
   // for v6.0 support
