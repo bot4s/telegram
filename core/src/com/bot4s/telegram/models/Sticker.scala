@@ -1,10 +1,14 @@
 package com.bot4s.telegram.models
 
+import com.bot4s.telegram.models.StickerType.StickerType
+
 /**
  * This object represents a sticker.
  *
  * @param fileId           Identifier for this file
  * @param fileUniqueId     Unique identifier for this file
+ * @param type             Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”.
+ *                          The type of the sticker is independent from its format, which is determined by the fields is_animated and is_video.
  * @param width            Sticker width
  * @param height           Sticker height
  * @param isAnimated       Boolean True, if the sticker is animated
@@ -16,10 +20,12 @@ package com.bot4s.telegram.models
  *                         For mask stickers, the position where the mask should be placed
  * @param fileSize         Integer Optional. File size
  * @param premiumAnimation File Optional. Premium animation for the sticker, if the sticker is premium
+ * @param customEmojiId     String Optional. For custom emoji stickers, unique identifier of the custom emoji
  */
 case class Sticker(
   fileId: String,
   fileUniqueId: String,
+  `type`: StickerType,
   width: Int,
   height: Int,
   isAnimated: Boolean,
@@ -29,5 +35,6 @@ case class Sticker(
   setName: Option[String] = None,
   maskPosition: Option[MaskPosition] = None,
   fileSize: Option[Int] = None,
-  premiumAnimation: Option[File] = None
+  premiumAnimation: Option[File] = None,
+  customEmojiId: Option[String] = None
 )

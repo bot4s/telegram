@@ -49,7 +49,7 @@ object MenuButton {
   import io.circe.generic.extras.Configuration
   import com.bot4s.telegram.marshalling.CirceDecoders._
 
-  private implicit val configuration: Configuration = Configuration.default.withSnakeCaseMemberNames
+  private implicit val configuration: Configuration = Configuration.default
     .withDiscriminator("type")
     .copy(
       transformConstructorNames = {
@@ -59,6 +59,5 @@ object MenuButton {
       }
     )
 
-  implicit val menuButtonDecoder: Decoder[MenuButton] =
-    deriveConfiguredDecoder[MenuButton]
+  implicit val menuButtonDecoder: Decoder[MenuButton] = deriveConfiguredDecoder
 }
