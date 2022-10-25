@@ -14,11 +14,11 @@ object library {
     val zio                = "2.0.2"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "22.0.0.0"
-    val sttp               = "3.8.2"
+    val sttp               = "3.8.3"
     val scalaTest          = "3.2.14"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.4.3"
+    val logback            = "1.4.4"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
