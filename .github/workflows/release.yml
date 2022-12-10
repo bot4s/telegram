@@ -9,9 +9,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - uses: jodersky/setup-mill@v0.2.3
+      - uses: jodersky/setup-mill@v0.3.0
         with:
-          mill-version: 0.10.9
+          mill-version: 0.10.10
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v3
