@@ -34,6 +34,9 @@ import com.bot4s.telegram.models.ChatType.ChatType
  * @param joinToSendMessages                  Boolean Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
  * @param joinByRequest                       Boolean Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
  * @param hasRestrictedVoiceAndVideoMessages 	Boolean Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
+ * @param isForum                             Boolean Optional. True, if the supergroup chat is a forum (has topics enabled)
+ * @param activeUsernames                     Array of string Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
+ * @param emojiStatusCustomEmojiId            String Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
  */
 case class Chat(
   id: Long,
@@ -58,7 +61,10 @@ case class Chat(
   hasProtectedContent: Option[Boolean] = None,
   joinToSendMessages: Option[Boolean] = None,
   joinByRequest: Option[Boolean] = None,
-  hasRestrictedVoiceAndVideoMessages: Option[Boolean] = None
+  hasRestrictedVoiceAndVideoMessages: Option[Boolean] = None,
+  isForum: Option[Boolean] = None,
+  activeUsernames: Option[List[String]] = None,
+  emojiStatusCustomEmojiId: Option[String] = None
 ) {
   val chatId = ChatId(id)
 }

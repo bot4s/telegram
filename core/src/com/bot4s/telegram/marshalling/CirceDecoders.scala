@@ -6,6 +6,7 @@ import com.bot4s.telegram.methods.ChatAction.ChatAction
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.PollType.PollType
 import com.bot4s.telegram.models._
+import com.bot4s.telegram.methods._
 import com.bot4s.telegram.methods.{ ChatAction, ParseMode, PollType, Response }
 import com.bot4s.telegram.models.ChatType.ChatType
 import com.bot4s.telegram.models.CountryCode.CountryCode
@@ -82,6 +83,23 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.3 support
+  implicit val forumTopicDecoder: Decoder[ForumTopic]                      = deriveDecoder[ForumTopic]
+  implicit val forumTopicCreatedDecoder: Decoder[ForumTopicCreated]        = deriveDecoder[ForumTopicCreated]
+  implicit val forumTopicClosedDecoder: Decoder[ForumTopicClosed.type]     = deriveDecoder[ForumTopicClosed.type]
+  implicit val forumTopicReopenedDecoder: Decoder[ForumTopicReopened.type] = deriveDecoder[ForumTopicReopened.type]
+  implicit val forumTopicEditedDecoder: Decoder[ForumTopicEdited]          = deriveDecoder[ForumTopicEdited]
+
+  implicit val createForumTopicDecoder: Decoder[CreateForumTopic] = deriveDecoder[CreateForumTopic]
+  implicit val editForumTopicDecoder: Decoder[EditForumTopic]     = deriveDecoder[EditForumTopic]
+  implicit val closeForumTopicDecoder: Decoder[CloseForumTopic]   = deriveDecoder[CloseForumTopic]
+  implicit val reopenForumTopicDecoder: Decoder[ReopenForumTopic] = deriveDecoder[ReopenForumTopic]
+  implicit val deleteForumTopicDecoder: Decoder[DeleteForumTopic] = deriveDecoder[DeleteForumTopic]
+  implicit val unpinAllForumTopicMessagesDecoder: Decoder[UnpinAllForumTopicMessages] =
+    deriveDecoder[UnpinAllForumTopicMessages]
+  implicit val getForumTopicIconStickersDecoder: Decoder[GetForumTopicIconStickers.type] =
+    deriveDecoder[GetForumTopicIconStickers.type]
+
   // for v6.0 support
   implicit val webAppInfoDecoder: Decoder[WebAppInfo]                   = deriveDecoder[WebAppInfo]
   implicit val webAppDataDecoder: Decoder[WebAppData]                   = deriveDecoder[WebAppData]

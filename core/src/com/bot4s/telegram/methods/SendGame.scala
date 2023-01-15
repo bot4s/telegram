@@ -16,6 +16,7 @@ import com.bot4s.telegram.models.{ Message, ReplyMarkup }
  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
  *                             If empty, one 'Play game_title' button will be shown.
  *                             If not empty, the first button must launch the game.
+ * @param messageThreadId      Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendGame(
   chatId: Long,
@@ -24,5 +25,6 @@ case class SendGame(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[ReplyMarkup] = None
+  replyMarkup: Option[ReplyMarkup] = None,
+  messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]

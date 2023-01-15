@@ -65,6 +65,12 @@ package com.bot4s.telegram.models
  * @param isAutomaticForward     Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
  * @param senderChat             Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
  * @param webAppData 	           WebAppData 	Optional. Service message: data sent by a Web App
+ * @param messageThreadId        Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+ * @param isTopicMessage         Optional. True, if the message is sent to a forum topic
+ * @param forumTopicCreated 	   ForumTopicCreated Optional. Service message: forum topic created
+ * @param forumTopicEdited 	     ForumTopicEdited Optional. Service message: forum topic edited
+ * @param forumTopicClosed 	     ForumTopicClosed Optional. Service message: forum topic closed
+ * @param forumTopicReopened 	   ForumTopicReopened Optional. Service message: forum topic reopened
  */
 case class Message(
   messageId: Int,
@@ -119,7 +125,13 @@ case class Message(
   videoChatScheduled: Option[VideoChatScheduled] = None,
   videoChatStarted: Option[VideoChatStarted.type] = None,
   videoChatEnded: Option[VideoChatEnded] = None,
-  videoChatParticipantsInvited: Option[VideoChatParticipantsInvited] = None
+  videoChatParticipantsInvited: Option[VideoChatParticipantsInvited] = None,
+  messageThreadId: Option[Int] = None,
+  isTopicMessage: Option[Boolean] = None,
+  forumTopicCreated: Option[ForumTopicCreated] = None,
+  forumTopicEdited: Option[ForumTopicEdited] = None,
+  forumTopicClosed: Option[ForumTopicClosed.type] = None,
+  forumTopicReopened: Option[ForumTopicReopened.type] = None
 ) {
 
   def source: Long = chat.id
