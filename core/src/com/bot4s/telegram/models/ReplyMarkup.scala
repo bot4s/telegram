@@ -88,13 +88,16 @@ object KeyboardButton {
  *                                      Targets:
  *                                      1) users that are @mentioned in the text of the Message object;
  *                                      2) if the bot's message is a reply (has replyToMessageId), sender of the original message.
+ * @param isPersistent          Boolean Optional Requests clients to always show the keyboard when the regular keyboard is hidden.
+ *                                      Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon
  */
 case class ReplyKeyboardMarkup(
   keyboard: Seq[Seq[KeyboardButton]],
   resizeKeyboard: Option[Boolean] = None,
   oneTimeKeyboard: Option[Boolean] = None,
   inputFieldPlaceholder: Option[String] = None,
-  selective: Option[Boolean] = None
+  selective: Option[Boolean] = None,
+  isPersistent: Option[Boolean] = None
 ) extends ReplyMarkup
 
 object ReplyKeyboardMarkup {

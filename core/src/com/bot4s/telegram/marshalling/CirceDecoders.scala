@@ -83,6 +83,19 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.4 support
+  implicit val editGeneralForumTopicDecoder: Decoder[EditGeneralForumTopic]     = deriveDecoder[EditGeneralForumTopic]
+  implicit val closeGeneralForumTopicDecoder: Decoder[CloseGeneralForumTopic]   = deriveDecoder[CloseGeneralForumTopic]
+  implicit val reopenGeneralForumTopicDecoder: Decoder[ReopenGeneralForumTopic] = deriveDecoder[ReopenGeneralForumTopic]
+  implicit val hideGeneralForumTopicDecoder: Decoder[HideGeneralForumTopic]     = deriveDecoder[HideGeneralForumTopic]
+  implicit val unhideGeneralForumTopicDecoder: Decoder[UnhideGeneralForumTopic] = deriveDecoder[UnhideGeneralForumTopic]
+  implicit val generalForumTopicHiddenDecoder: Decoder[GeneralForumTopicHidden.type] =
+    deriveDecoder[GeneralForumTopicHidden.type]
+  implicit val generalForumTopicUnhiddenDecoder: Decoder[GeneralForumTopicUnhidden.type] =
+    deriveDecoder[GeneralForumTopicUnhidden.type]
+  implicit val writeAccessAllowedDecoder: Decoder[WriteAccessAllowed.type] =
+    deriveDecoder[WriteAccessAllowed.type]
+
   // for v6.3 support
   implicit val forumTopicDecoder: Decoder[ForumTopic]                      = deriveDecoder[ForumTopic]
   implicit val forumTopicCreatedDecoder: Decoder[ForumTopicCreated]        = deriveDecoder[ForumTopicCreated]

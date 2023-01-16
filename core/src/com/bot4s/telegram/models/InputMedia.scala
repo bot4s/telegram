@@ -29,12 +29,14 @@ sealed trait InputMedia {
  * @param caption String Optional. Caption of the photo to be sent, 0-200 characters
  * @param parseMode String Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic,
  *                  fixed-width text or inline URLs in the media caption.
+ * @param hasSpoiler Optional. Pass True if the photo needs to be covered with a spoiler animation
  */
 case class InputMediaPhoto(
   media: String,
   photo: Option[InputFile], // file to attach
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
+  hasSpoiler: Option[Boolean] = None,
   `type`: String = "photo"
 ) extends InputMedia
 
@@ -53,6 +55,7 @@ case class InputMediaPhoto(
  * @param parseMode String Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic,
  *                  fixed-width text or inline URLs in the media caption.
  * @param supportsStreaming Boolean Optional. Pass True, if the uploaded video is suitable for streaming
+ * @param hasSpoiler Boolean Optional. Pass True if the video needs to be covered with a spoiler animation
  */
 case class InputMediaVideo(
   media: String,
@@ -63,6 +66,7 @@ case class InputMediaVideo(
   duration: Option[Int] = None,
   parseMode: Option[ParseMode] = None,
   supportsStreaming: Option[Boolean] = None,
+  hasSpoiler: Option[Boolean] = None,
   `type`: String = "video"
 ) extends InputMedia
 
@@ -79,6 +83,7 @@ case class InputMediaVideo(
  * @param width     Integer Optional. Animation width
  * @param height    Integer Optional. Animation height
  * @param duration  Integer Optional. Animation duration
+ * @param hasSpoiler Boolean Optional. Pass True if the animation needs to be covered with a spoiler animation
  */
 case class InputMediaAnimation(
   media: String,
@@ -89,6 +94,7 @@ case class InputMediaAnimation(
   width: Option[Int] = None,
   height: Option[Int] = None,
   duration: Option[Int] = None,
+  hasSpoiler: Option[Boolean] = None,
   `type`: String = "animation"
 ) extends InputMedia
 
