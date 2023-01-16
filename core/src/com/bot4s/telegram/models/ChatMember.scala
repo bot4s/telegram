@@ -24,6 +24,7 @@ import MemberStatus.MemberStatus
  * @param canSendOtherMessages   Boolean Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
  * @param canAddWebPagePreviews  Boolean Optional. Restricted only. True, if user may add web page previews to his messages, implies can_send_media_messages
  * @param canManageVideoChats    Boolean Optional. if the administrator can manage video chats
+ * @param canManageTopics        Boolean Optional. True, if the user is allowed to created, rename, close, and reopen forum  topics; supergroups only
  */
 case class ChatMember(
   user: User,
@@ -44,5 +45,6 @@ case class ChatMember(
   canSendPolls: Option[Boolean] = None,
   canSendOtherMessages: Option[Boolean] = None,
   canAddWebPagePreviews: Option[Boolean] = None,
-  canManageVideoChats: Option[Boolean] = None
+  canManageVideoChats: Option[Boolean] = None,
+  canManageTopics: Option[Boolean] = None
 )

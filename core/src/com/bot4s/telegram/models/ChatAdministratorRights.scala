@@ -20,6 +20,7 @@ package com.bot4s.telegram.models
  * @param oldChatMember       Previous information about the chat member
  * @param newChatMember       New information about the chat member
  * @param inviteLink          Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+ * @param canManageTopics     Boolean Optional. True, if the user is allowed to created, rename, close, and reopen forum  topics; supergroups only
  */
 case class ChatAdministratorRights(
   isAnonymous: Boolean,
@@ -32,5 +33,6 @@ case class ChatAdministratorRights(
   canInviteUsers: Boolean,
   canPostMessages: Option[Boolean],
   canEditMessages: Option[Boolean],
-  canPinMessages: Option[Boolean]
+  canPinMessages: Option[Boolean],
+  canManageTopics: Option[Boolean]
 )

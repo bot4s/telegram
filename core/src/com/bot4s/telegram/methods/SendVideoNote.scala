@@ -21,6 +21,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param replyToMessageId     Integer Optional If the message is a reply, ID of the original message
  * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply Optional
+ * @param messageThreadId        Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendVideoNote(
   chatId: ChatId,
@@ -32,7 +33,8 @@ case class SendVideoNote(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[ReplyMarkup] = None
+  replyMarkup: Option[ReplyMarkup] = None,
+  messageThreadId: Option[Int] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("videoNote" -> videoNote)
 }

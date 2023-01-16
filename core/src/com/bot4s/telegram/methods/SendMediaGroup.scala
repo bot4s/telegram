@@ -13,6 +13,7 @@ import com.bot4s.telegram.models._
  * @param disableNotification  Boolean Optional Sends the messages silently. Users will receive a notification with no sound.
  * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyToMessageId     Integer Optional If the messages are a reply, ID of the original message
+ * @param messageThreadId      Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendMediaGroup(
   chatId: ChatId,
@@ -20,7 +21,8 @@ case class SendMediaGroup(
   protectContent: Option[Boolean] = None,
   disableNotification: Option[Boolean] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyToMessageId: Option[Int] = None
+  replyToMessageId: Option[Int] = None,
+  messageThreadId: Option[Int] = None
 ) extends MultipartRequest[Array[Message]] {
 
   override def getFiles: List[(String, InputFile)] = {
