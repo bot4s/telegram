@@ -16,8 +16,10 @@ import com.bot4s.telegram.models.ChatId
  * @param action  String Type of action to broadcast.
  *                Choose one, depending on what the user is about to receive:
  *                typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data.
+ * @param messageThreadId Optional. Integer. Unique identifier for the target message thread; supergroups only
  */
 case class SendChatAction(
   chatId: ChatId,
-  action: ChatAction
+  action: ChatAction,
+  messageThreadId: Option[Int] = None
 ) extends JsonRequest[Boolean]

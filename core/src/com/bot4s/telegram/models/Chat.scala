@@ -37,6 +37,8 @@ import com.bot4s.telegram.models.ChatType.ChatType
  * @param isForum                             Boolean Optional. True, if the supergroup chat is a forum (has topics enabled)
  * @param activeUsernames                     Array of string Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
  * @param emojiStatusCustomEmojiId            String Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+ * @param hasHiddenMembers                    Boolean Optional. True, if non-administrators can only get the list of bots and administrators in the chat. Returned only in getChat
+ * @param hasAggressiveAntiSpamEnabled        Boolean Optional. True, if the aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators. Returned only in getChat
  */
 case class Chat(
   id: Long,
@@ -64,7 +66,9 @@ case class Chat(
   hasRestrictedVoiceAndVideoMessages: Option[Boolean] = None,
   isForum: Option[Boolean] = None,
   activeUsernames: Option[List[String]] = None,
-  emojiStatusCustomEmojiId: Option[String] = None
+  emojiStatusCustomEmojiId: Option[String] = None,
+  hasHiddenMembers: Option[Boolean] = None,
+  hasAggressiveAntiSpamEnabled: Option[Boolean] = None
 ) {
   val chatId = ChatId(id)
 }
