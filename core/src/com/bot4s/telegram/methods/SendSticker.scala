@@ -18,6 +18,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param replyMarkup          InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardHide or ForceReply Optional Additional interface options.
  *                             A JSON-serialized object for an inline keyboard, custom reply keyboard,
  *                             instructions to hide reply keyboard or to force a reply from the user.
+ * @param messageThreadId        Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendSticker(
   chatId: ChatId,
@@ -26,7 +27,8 @@ case class SendSticker(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[ReplyMarkup] = None
+  replyMarkup: Option[ReplyMarkup] = None,
+  messageThreadId: Option[Int] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("sticker" -> sticker)
 }

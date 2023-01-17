@@ -11,6 +11,7 @@ package com.bot4s.telegram.models
  * @param canChangeInfo          Boolean Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
  * @param canInviteUsers         Boolean Optional. True, if the user is allowed to invite new users to the chat
  * @param canPinMessages         Boolean Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
+ * @param canManageTopics        Boolean Optional. True, if the user is allowed to created, rename, close, and reopen forum  topics; supergroups only
  */
 case class ChatPermissions(
   canSendMessages: Option[Boolean] = None,
@@ -20,5 +21,6 @@ case class ChatPermissions(
   canAddWebPagePreviews: Option[Boolean] = None,
   canChangeInfo: Option[Boolean] = None,
   canInviteUsers: Option[Boolean] = None,
-  canPinMessages: Option[Boolean] = None
+  canPinMessages: Option[Boolean] = None,
+  canManageTopics: Option[Boolean] = None
 )

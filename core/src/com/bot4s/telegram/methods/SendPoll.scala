@@ -26,6 +26,7 @@ import com.bot4s.telegram.methods.PollType.PollType
  * @param replyToMessageId           If the message is a reply, ID of the original message
  * @param allowSendingWithoutReply   Optional: Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup                Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+ * @param messageThreadId        Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendPoll(
   chatId: ChatId,
@@ -45,5 +46,6 @@ case class SendPoll(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[ReplyMarkup] = None
+  replyMarkup: Option[ReplyMarkup] = None,
+  messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]

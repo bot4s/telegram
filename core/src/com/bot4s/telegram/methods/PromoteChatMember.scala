@@ -26,6 +26,7 @@ import com.bot4s.telegram.models.ChatId
  * @param canPromoteMembers   Boolean Optional Pass True, if the administrator can add new administrators with a subset
  *                            of his own privileges or demote administrators that he has promoted,
  *                            directly or indirectly (promoted by administrators that were appointed by him)
+ * @param canManageTopics     Boolean Optional. True, if the user is allowed to created, rename, close, and reopen forum  topics; supergroups only
  */
 case class PromoteChatMember(
   chatId: ChatId,
@@ -40,5 +41,6 @@ case class PromoteChatMember(
   canManageVideoChats: Option[Boolean] = None,
   canRestrictMembers: Option[Boolean] = None,
   canPinMessages: Option[Boolean] = None,
-  canPromoteMembers: Option[Boolean] = None
+  canPromoteMembers: Option[Boolean] = None,
+  canManageTopics: Option[Boolean]
 ) extends JsonRequest[Boolean]

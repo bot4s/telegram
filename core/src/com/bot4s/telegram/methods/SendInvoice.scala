@@ -36,6 +36,7 @@ import com.bot4s.telegram.models.Message
  * @param replyMarkup          InlineKeyboardMarkup Optional A JSON-serialized object for an inline keyboard.
  *                             If empty, one 'Pay total price' button will be shown.
  *                             If not empty, the first button must be a Pay button.
+ * @param messageThreadId      Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class SendInvoice(
   chatId: Long,
@@ -60,5 +61,6 @@ case class SendInvoice(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Long] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[InlineKeyboardMarkup] = None
+  replyMarkup: Option[InlineKeyboardMarkup] = None,
+  messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]

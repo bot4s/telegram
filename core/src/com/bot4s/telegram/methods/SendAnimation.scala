@@ -22,6 +22,8 @@ import com.bot4s.telegram.models.{ ChatId, InputFile, Message, MessageEntity, Re
  * @param replyToMessageId    Integer 	Optional 	If the message is a reply, ID of the original message
  * @param allowSendingWithoutReply Boolean optional Pass True, if the message should be sent even if the specified replied-to message is not found
  * @param replyMarkup         InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply 	Optional 	Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+ * @param messageThreadId        Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only,
+ * @param hasSpoiler           Boolean Optional. Pass true if the photo needs to be covered with a spoiler animation
  */
 case class SendAnimation(
   chatId: ChatId,
@@ -37,7 +39,9 @@ case class SendAnimation(
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   allowSendingWithoutReply: Option[Boolean] = None,
-  replyMarkup: Option[ReplyMarkup] = None
+  replyMarkup: Option[ReplyMarkup] = None,
+  messageThreadId: Option[Int] = None,
+  hasSpoiler: Option[Boolean] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] =
     List("animation" -> animation) ++ (thumb.map(t => "thumb" -> t)).toList

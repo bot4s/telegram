@@ -11,11 +11,13 @@ import com.bot4s.telegram.models.ChatId
  * @param disableNotification  Boolean Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
  * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
  * @param messageId            Integer Unique message identifier
+ * @param messageThreadId      Optional Integer. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
  */
 case class ForwardMessage(
   chatId: ChatId,
   fromChatId: ChatId,
   disableNotification: Option[Boolean] = None,
   protectContent: Option[Boolean] = None,
-  messageId: Int
+  messageId: Int,
+  messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]

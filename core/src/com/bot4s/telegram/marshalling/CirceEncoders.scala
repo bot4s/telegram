@@ -250,6 +250,34 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.4 support
+  implicit val editGeneralForumTopicEncoder: Encoder[EditGeneralForumTopic] =
+    deriveConfiguredEncoder[EditGeneralForumTopic]
+  implicit val closeGeneralForumTopicEncoder: Encoder[CloseGeneralForumTopic] =
+    deriveConfiguredEncoder[CloseGeneralForumTopic]
+  implicit val reopenGeneralForumTopicEncoder: Encoder[ReopenGeneralForumTopic] =
+    deriveConfiguredEncoder[ReopenGeneralForumTopic]
+  implicit val hideGeneralForumTopicEncoder: Encoder[HideGeneralForumTopic] =
+    deriveConfiguredEncoder[HideGeneralForumTopic]
+  implicit val unhideGeneralForumTopicEncoder: Encoder[UnhideGeneralForumTopic] =
+    deriveConfiguredEncoder[UnhideGeneralForumTopic]
+  implicit val generalForumTopicHiddenEncoder: Encoder[GeneralForumTopicHidden.type] =
+    deriveConfiguredEncoder[GeneralForumTopicHidden.type]
+  implicit val generalForumTopicUnhiddenEncoder: Encoder[GeneralForumTopicUnhidden.type] =
+    deriveConfiguredEncoder[GeneralForumTopicUnhidden.type]
+  implicit val writeAccessAllowedEncoder: Encoder[WriteAccessAllowed.type] =
+    deriveConfiguredEncoder[WriteAccessAllowed.type]
+  // for v6.3 support
+  implicit val forumTopicEncoder: Encoder[ForumTopic]             = deriveConfiguredEncoder[ForumTopic]
+  implicit val createForumTopicEncoder: Encoder[CreateForumTopic] = deriveConfiguredEncoder[CreateForumTopic]
+  implicit val editForumTopicEncoder: Encoder[EditForumTopic]     = deriveConfiguredEncoder[EditForumTopic]
+  implicit val closeForumTopicEncoder: Encoder[CloseForumTopic]   = deriveConfiguredEncoder[CloseForumTopic]
+  implicit val reopenForumTopicEncoder: Encoder[ReopenForumTopic] = deriveConfiguredEncoder[ReopenForumTopic]
+  implicit val deleteForumTopicEncoder: Encoder[DeleteForumTopic] = deriveConfiguredEncoder[DeleteForumTopic]
+  implicit val unpinAllForumTopicMessagesEncoder: Encoder[UnpinAllForumTopicMessages] =
+    deriveConfiguredEncoder[UnpinAllForumTopicMessages]
+  implicit val getForumTopicIconStickersEncoder: Encoder[GetForumTopicIconStickers.type] =
+    deriveConfiguredEncoder[GetForumTopicIconStickers.type]
   // for v6.2 support
   implicit val getCustomEmojiStickers: Encoder[GetCustomEmojiStickers] = deriveConfiguredEncoder[GetCustomEmojiStickers]
   // for v6.1 support

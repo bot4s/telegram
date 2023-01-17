@@ -68,17 +68,17 @@ Add to your `build.sbt` file:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "5.6.1"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "5.6.2"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.6.1"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "5.6.2"
 ```
 
 For [mill](https://com-lihaoyi.github.io/mill) add to your `build.sc` project deps:
 
 ```scala
-ivy"com.bot4s::telegram-core:5.6.1", // core
-ivy"com.bot4s::telegram-akka:5.6.1"  // extra goodies
+ivy"com.bot4s::telegram-core:5.6.2", // core
+ivy"com.bot4s::telegram-akka:5.6.2"  // extra goodies
 ```
 
 ## Leaking bot tokens
@@ -126,9 +126,9 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 `bot4s.telegram` uses [mill](https://com-lihaoyi.github.io/mill).
 
 ```
-$ mill examples.jvm[2.12.13].console
-[79/79] examples.jvm[2.12.13].console
-Welcome to Scala 2.12.13 (OpenJDK 64-Bit Server VM, Java 11.0.10).
+$ mill examples.jvm[2.13.10].console
+[79/79] examples.jvm[2.13.10].console
+Welcome to Scala 2.13.10 (OpenJDK 64-Bit Server VM, Java 11.0.10).
 Type in expressions for evaluation. Or try :help.
 
 scala> new RandomBot("BOT_TOKEN").run()
