@@ -23,6 +23,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     val handlerMetro      = mockFunction[Message, Future[Unit]]
     val handlerHelloWorld = mockFunction[Message, Future[Unit]]
     val handlerRespect    = mockFunction[Message, Future[Unit]]
+    val handlerUnderscore = mockFunction[Message, Future[Unit]]
 
     val botUser = User(123, false, "FirstName", username = Some("TestBot"))
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
@@ -44,6 +45,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
       onCommand("/respect" & RespectRecipient)(handlerRespect)
+      onCommand("/with_underscore")(handlerUnderscore)
     }
 
     bot.run()
@@ -82,6 +84,12 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
   it should "support unicode (2)" in new Fixture {
     val m = textMessage("   /🚇 ")
     handlerMetro.expects(m).returning(Future.successful(())).once()
+    bot.receiveExtMessage((m, None)).get
+  }
+
+  it should "support _ in command" in new Fixture {
+    val m = textMessage("/with_underscore")
+    handlerUnderscore.expects(m).returning(Future.successful(())).once()
     bot.receiveExtMessage((m, None)).get
   }
 
