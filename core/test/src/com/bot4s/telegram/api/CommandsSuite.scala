@@ -23,8 +23,9 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     val handlerMetro      = mockFunction[Message, Future[Unit]]
     val handlerHelloWorld = mockFunction[Message, Future[Unit]]
     val handlerRespect    = mockFunction[Message, Future[Unit]]
+    val handlerUnderscore = mockFunction[Message, Future[Unit]]
 
-    val botUser = User(123, false, "FirstName", username = Some("TestBot"))
+    val botUser = User(123, true, "FirstName", username = Some("TestBot"))
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
@@ -44,6 +45,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
       onCommand("/hello")(handlerHello)
       onCommand("/helloWorld")(handlerHelloWorld)
       onCommand("/respect" & RespectRecipient)(handlerRespect)
+      onCommand("/with_underscore")(handlerUnderscore)
     }
 
     bot.run()
@@ -85,24 +87,41 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     bot.receiveExtMessage((m, None)).get
   }
 
-  it should "support @sender suffix" in new Fixture {
-    val m = textMessage("  /hello@Test_Bot  ")
-    handlerHello.expects(m).returning(Future.successful(())).once()
+  it should "support _ in command" in new Fixture {
+    val m = textMessage("/with_underscore")
+    handlerUnderscore.expects(m).returning(Future.successful(())).once()
     bot.receiveExtMessage((m, None)).get
   }
 
-  it should "ignore case in @sender" in new Fixture {
-    val args = Seq("arg1", "arg2")
-    val m    = textMessage("  /respect@testbot  " + args.mkString(" "))
+  it should "support @sender suffix (if using respectRecipient)" in new Fixture {
+    val m = textMessage("/respect@TestBot")
     handlerRespect.expects(m).returning(Future.successful(())).once()
-    bot.receiveExtMessage((m, None)).get
+    bot.receiveExtMessage((m, Some(botUser))).get
+  }
+
+  it should "ignore case in @sender" in new Fixture {
+    val m = textMessage("/respect@testbot")
+    handlerRespect.expects(m).returning(Future.successful(())).once()
+    bot.receiveExtMessage((m, Some(botUser))).get
+  }
+
+  it should "not deliver if not matching" in new Fixture {
+    val m = textMessage("/respect@testbot2")
+    handlerRespect.expects(*).never()
+    bot.receiveExtMessage((m, Some(botUser))).get
+  }
+
+  it should "not deliver if not matching (underscore)" in new Fixture {
+    val m = textMessage("/respect@test_bot")
+    handlerRespect.expects(*).never()
+    bot.receiveExtMessage((m, Some(botUser))).get
   }
 
   it should "accept any recipient if respectRecipient is not used" in new Fixture {
     val args = Seq("arg1", "arg2")
-    val m    = textMessage("  /hello@otherbot  " + args.mkString(" "))
+    val m    = textMessage("/hello@otherbot " + args.mkString(" "))
     handlerHello.expects(m).returning(Future.successful(())).once()
-    bot.receiveExtMessage((m, None)).get
+    bot.receiveExtMessage((m, Some(botUser))).get
   }
 
   it should "ignore empty @sender" in new Fixture {

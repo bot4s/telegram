@@ -55,7 +55,7 @@ trait Commands[F[_]] extends Messages[F] with CommandImplicits {
    */
   def command(msg: Message): Option[Command] =
     msg.text.flatMap { text =>
-      val cmdRe = """^(?:\s*/)([\p{L}|\p{S}|\p{N}]+)(?:@([\p{L}|\p{S}|\p{N}]+))?""".r // /cmd@recipient
+      val cmdRe = """^(?:\s*/)([\p{L}\p{S}\p{N}_]+)(?:@([\p{L}\p{S}\p{N}_]+))?""".r // /cmd@recipient
       cmdRe.findFirstIn(text) flatMap {
         case cmdRe(cmd, recipient) => Some(Command(cmd, Option(recipient)))
         case _                     => None
@@ -106,7 +106,7 @@ trait CommandImplicits {
     // \p{S} or \p{Symbol}: math symbols, currency signs, dingbats, box-drawing characters, etc. => Works for emoji
     // \p{L} or \p{Symbol}: any kind of letter from any language.
     // \p{N} or \p{Number}: any kind of numeric character in any script.
-    require(target.matches("""[\p{L}|\p{S}|\p{N}]+"""))
+    require(target.matches("""[\p{L}\p{S}\p{N}_]+"""))
 
     PartialFunction.cond(_) {
       case Command(cmd, _) if target.equalsIgnoreCase(cmd) => true
