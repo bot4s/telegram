@@ -1,19 +1,21 @@
 package com.bot4s.telegram.clients
 
-import java.net.Proxy
-import java.nio.file.Files
-
 import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
-import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request, Response }
-import com.bot4s.telegram.models.InputFile
 import com.bot4s.telegram.marshalling
-import io.circe.parser.parse
-import io.circe.{ Decoder, Encoder }
-import scalaj.http.{ Http, MultiPart }
+import com.bot4s.telegram.methods.{JsonRequest, MultipartRequest, Request, Response}
+import com.bot4s.telegram.models.InputFile
+import com.google.common.base.Charsets
+import com.google.common.io.BaseEncoding
 import com.typesafe.scalalogging.StrictLogging
+import io.circe.parser.parse
+import io.circe.{Decoder, Encoder}
+import ru.paperbird.botplatform.back.platform.telegram.ScalajHttpClient.ProxyCredentials
+import scalaj.http.{Http, HttpRequest, MultiPart}
 
-import scala.concurrent.{ blocking, ExecutionContext, Future }
+import java.net.Proxy
+import java.nio.file.Files
+import scala.concurrent.{ExecutionContext, Future, blocking}
 
 /**
  * Scalaj-http Telegram Bot API client
@@ -27,33 +29,63 @@ import scala.concurrent.{ blocking, ExecutionContext, Future }
  *
  * @param token Bot token
  */
-class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHost: String = "api.telegram.org")(implicit
-  ec: ExecutionContext
-) extends RequestHandler[Future]
-    with StrictLogging {
+class ScalajHttpClient(
+                        token: String,
+                        proxy: Proxy = Proxy.NO_PROXY,
+                        proxyCredentials: Option[ProxyCredentials] = None,
+                        telegramHost: String = "api.telegram.org"
+                      )(implicit
+                        ec: ExecutionContext
+                      ) extends RequestHandler[Future]
+  with StrictLogging {
 
-  val connectionTimeoutMs = 10000
-  val readTimeoutMs       = 50000
+  val connectionTimeoutMs = 1000
+  val readTimeoutMs = 5000
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
   def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = {
     val url = apiBaseUrl + request.methodName
 
-    val scalajRequest = request match {
-      case r: JsonRequest[_] =>
-        Http(url)
-          .postData(marshalling.toJson(request))
-          .header("Content-Type", "application/json")
+    val scalajRequest: HttpRequest = buildHttpRequest(request, url)
 
-      case r: MultipartRequest[_] =>
-        // InputFile.FileIds are encoded as query params.
-        val (fileIds, files) = r.getFiles.partition {
-          case (key, _: InputFile.FileId) => true
-          case _                          => false
-        }
+    import marshalling.responseDecoder
 
-        val parts = files.map { case (camelKey, inputFile) =>
+    val httpRequestWithTimeout = scalajRequest.timeout(connectionTimeoutMs, readTimeoutMs)
+    val httpRequestWithProxy = proxyCredentials
+      .map { cr =>
+        val basicAuth = s"${cr.login}:${cr.password}"
+        val basicAuthBase64 = BaseEncoding.base64().encode(basicAuth.getBytes(Charsets.UTF_8))
+        httpRequestWithTimeout.header("Proxy-Authorization", s"Basic $basicAuthBase64")
+      }
+      .getOrElse(httpRequestWithTimeout)
+      .proxy(proxy)
+
+    Future(blocking(httpRequestWithProxy.asString)) map { x =>
+      if (x.isSuccess)
+        marshalling.fromJson[Response[R]](x.body)
+      else
+        throw new RuntimeException(s"Error ${x.code} on request")
+    } map (processApiResponse[R])
+  }
+
+  private def buildHttpRequest[T <: Request[_], R](request: T, url: String)(implicit
+                                                                            encT: Encoder[T]
+  ) = request match {
+    case _: JsonRequest[_] =>
+      Http(url)
+        .postData(marshalling.toJson(request))
+        .header("Content-Type", "application/json")
+
+    case r: MultipartRequest[_] =>
+      // InputFile.FileIds are encoded as query params.
+      val (fileIds, files) = r.getFiles.partition {
+        case (key, _: InputFile.FileId) => true
+        case _                          => false
+      }
+
+      val parts = files.map {
+        case (camelKey, inputFile) =>
           val key = marshalling.snakenize(camelKey)
           inputFile match {
             case InputFile.FileId(id) =>
@@ -65,7 +97,7 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
             case InputFile.Path(path) =>
               MultiPart(
                 key,
-                path.getFileName.toString(),
+                path.getFileName.toString,
                 "application/octet-stream",
                 Files.newInputStream(path),
                 Files.size(path),
@@ -75,41 +107,30 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
             case other =>
               throw new RuntimeException(s"InputFile $other not supported")
           }
-        }
-
-        val fields = parse(marshalling.toJson(request)).fold(
-          throw _,
-          _.asObject.map {
-            _.toMap.mapValues { json =>
-              json.asString.getOrElse(json.printWith(marshalling.printer))
-            }
-          }
-        )
-
-        val fileIdsParams = fileIds.map { case (key, inputFile: InputFile.FileId) =>
-          marshalling.snakenize(key) -> inputFile.fileId
-        }
-
-        val params = fields.getOrElse(Map())
-
-        Http(url).params((params ++ fileIdsParams).toSeq).postMulti(parts: _*)
-    }
-
-    import marshalling.responseDecoder
-
-    Future {
-      blocking {
-        scalajRequest
-          .timeout(connectionTimeoutMs, readTimeoutMs)
-          .proxy(proxy)
-          .asString
       }
-    } map { x =>
-      if (x.isSuccess)
-        marshalling.fromJson[Response[R]](x.body)
-      else
-        throw new RuntimeException(s"Error ${x.code} on request")
-    } map (processApiResponse[R])
+
+      val fields = parse(marshalling.toJson(request)).fold(
+        throw _,
+        _.asObject.map {
+          _.toMap.mapValues { json =>
+            json.asString.getOrElse(json.printWith(marshalling.printer))
+          }
+        }
+      )
+
+      val fileIdsParams = fileIds.map {
+        case (key, inputFile: InputFile.FileId) =>
+          marshalling.snakenize(key) -> inputFile.fileId
+      }
+
+      val params = fields.getOrElse(Map())
+
+      Http(url).params((params ++ fileIdsParams).toSeq).postMulti(parts: _*)
   }
+
+}
+
+object ScalajHttpClient {
+  case class ProxyCredentials(login: String, password: String)
 
 }
