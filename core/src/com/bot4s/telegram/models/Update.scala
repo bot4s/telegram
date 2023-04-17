@@ -57,8 +57,8 @@ case class Update(
       myChatMember,
       chatMember,
       chatJoinRequest
-    ).count(_.isDefined) == 1,
-    "Exactly one of the optional fields should be used"
+    ).count(_.isDefined) <= 1,
+    "At most one of the optional fields should be used"
   )
 }
 
