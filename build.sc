@@ -10,7 +10,7 @@ object library {
     val circe              = "0.14.3"
     val cats               = "2.9.0"
     val catsEffect         = "2.5.5"
-    val catsEffect3        = "3.4.9"
+    val catsEffect3        = "3.4.10"
     val zio                = "2.0.5"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "22.0.0.0"
@@ -18,7 +18,7 @@ object library {
     val scalaTest          = "3.2.15"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.4.6"
+    val logback            = "1.4.7"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
