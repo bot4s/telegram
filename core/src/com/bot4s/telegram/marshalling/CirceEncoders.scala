@@ -409,6 +409,7 @@ trait CirceEncoders {
   implicit val sendAnimationEncoder: Encoder[SendAnimation]             = deriveConfiguredEncoder[SendAnimation]
   implicit val sendAudioEncoder: Encoder[SendAudio]                     = deriveConfiguredEncoder[SendAudio]
   implicit val sendDocumentEncoder: Encoder[SendDocument]               = deriveConfiguredEncoder[SendDocument]
+  implicit val editMessageMediaEncoder: Encoder[EditMessageMedia]       = deriveConfiguredEncoder[EditMessageMedia]
   implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup]           = deriveConfiguredEncoder[SendMediaGroup]
   implicit val sendPhotoEncoder: Encoder[SendPhoto]                     = deriveConfiguredEncoder[SendPhoto]
   implicit val sendStickerEncoder: Encoder[SendSticker]                 = deriveConfiguredEncoder[SendSticker]
