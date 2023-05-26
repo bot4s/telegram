@@ -66,6 +66,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: EditGeneralForumTopic           => sendRequest[R, EditGeneralForumTopic](s)
       case s: EditMessageCaption              => sendRequest[R, EditMessageCaption](s)
       case s: EditMessageLiveLocation         => sendRequest[R, EditMessageLiveLocation](s)
+      case s: EditMessageMedia                => sendRequest[R, EditMessageMedia](s)
       case s: EditMessageReplyMarkup          => sendRequest[R, EditMessageReplyMarkup](s)
       case s: EditMessageText                 => sendRequest[R, EditMessageText](s)
       case s: ExportChatInviteLink            => sendRequest[R, ExportChatInviteLink](s)
