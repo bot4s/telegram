@@ -5,6 +5,7 @@ package com.bot4s.telegram.models
  *
  * @param chat          Chat to which the request was sent
  * @param from          User that sent the join request
+ * @param userChatId    Identifier of a private chat with the user who sent the join request
  * @param date          Integer Date the request was sent in Unix time
  * @param bio           String Optional. Bio of the user.
  * @param inviteLink    ChatInviteLink Optional. Chat invite link that was used by the user to send the join request
@@ -13,6 +14,7 @@ package com.bot4s.telegram.models
 case class ChatJoinRequest(
   chat: Chat,
   from: User,
+  userChatId: Long,
   date: Int,
   bio: Option[String] = None,
   inviteLink: Option[ChatInviteLink] = None

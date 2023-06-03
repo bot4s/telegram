@@ -120,6 +120,8 @@ case class Message(
   pinnedMessage: Option[Message] = None,
   invoice: Option[Invoice] = None,
   successfulPayment: Option[SuccessfulPayment] = None,
+  userShared: Option[UserShared] = None,
+  chatShared: Option[ChatShared] = None,
   connectedWebsite: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   hasProtectedContent: Option[Boolean] = None,
