@@ -4,7 +4,12 @@ package com.bot4s.telegram.models
  * Describes actions that a non-administrator user is allowed to take in a chat.
  *
  * @param canSendMessages        Boolean Optional. True, if the user is allowed to send text messages, contacts, locations and venues
- * @param canSendMediaMessages   Boolean Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+ * @param canSendAudios,         Boolean Optional. True, if the user is allowed to send audios
+ * @param canSendDocuments       Boolean Optional. True, if the user is allowed to send documents
+ * @param canSendPhotos          Boolean Optional. True, if the user is allowed to send photos
+ * @param canSendVideos          Boolean Optional. True, if the user is allowed to send videos
+ * @param canSendVideoNotes      Boolean Optional. True, if the user is allowed to send video notes
+ * @param canSendVoiceNotes      Boolean Optional. True, if the user is allowed to send voice notes
  * @param canSendPolls           Boolean Optional. True, if the user is allowed to send polls, implies can_send_messages
  * @param canSendOtherMessages   Boolean Optional. True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages
  * @param canAddWebPagePreviews  Boolean Optional. True, if the user is allowed to add web page previews to their messages, implies can_send_media_messages
@@ -15,7 +20,12 @@ package com.bot4s.telegram.models
  */
 case class ChatPermissions(
   canSendMessages: Option[Boolean] = None,
-  canSendMediaMessages: Option[Boolean] = None,
+  canSendAudios: Option[Boolean] = None,
+  canSendDocuments: Option[Boolean] = None,
+  canSendPhotos: Option[Boolean] = None,
+  canSendVideos: Option[Boolean] = None,
+  canSendVideoNotes: Option[Boolean] = None,
+  canSendVoiceNotes: Option[Boolean] = None,
   canSendPolls: Option[Boolean] = None,
   canSendOtherMessages: Option[Boolean] = None,
   canAddWebPagePreviews: Option[Boolean] = None,

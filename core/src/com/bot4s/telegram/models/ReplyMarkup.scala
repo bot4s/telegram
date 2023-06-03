@@ -29,6 +29,8 @@ sealed trait ReplyMarkup
  */
 case class KeyboardButton(
   text: String,
+  requestUser: Option[KeyboardButtonRequestUser] = None,
+  requestChat: Option[KeyboardButtonRequestChat] = None,
   requestContact: Option[Boolean] = None,
   requestLocation: Option[Boolean] = None,
   requestPoll: Option[KeyboardButtonPollType] = None,
@@ -351,4 +353,41 @@ case class ForceReply(
  */
 case class KeyboardButtonPollType(
   `type`: Option[String] = None
+)
+
+/**
+ * This object defines the criteria used to request a suitable user.
+ * The identifier of the selected user will be shared with the bot when the corresponding button is pressed
+ *
+ * @param requestId Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message
+ * @param userIsBot  Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
+ * @param userIsPremium // Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
+ */
+case class KeyboardButtonRequestUser(
+  requestId: Int,
+  userIsBot: Option[Boolean] = None,
+  userIsPremium: Option[Boolean] = None
+)
+
+/**
+ * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed
+ *
+ * @param requestId Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
+ * @param chatIsChannel Pass True to request a channel chat, pass False to request a group or a supergroup chat.
+ * @param chatIsForum Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
+ * @param chatHasUserName Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
+ * @param chatIsCreated  Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
+ * @param userAdministratorRights  Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
+ * @param botAdministratorRights  Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
+ * @param botIsMember Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
+ */
+case class KeyboardButtonRequestChat(
+  requestId: Int,
+  chatIsChannel: Boolean,
+  chatIsForum: Option[Boolean] = None,
+  chatHasUserName: Option[Boolean] = None,
+  chatIsCreated: Option[Boolean] = None,
+  userAdministratorRights: Option[ChatAdministratorRights] = None,
+  botAdministratorRights: Option[ChatAdministratorRights] = None,
+  botIsMember: Option[Boolean] = None
 )

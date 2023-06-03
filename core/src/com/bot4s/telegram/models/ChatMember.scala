@@ -19,7 +19,12 @@ import MemberStatus.MemberStatus
  * @param canPromoteMembers      Boolean Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
  * @param isMember               Boolean Optional. Restricted only. True, if the user is a member of the chat at the moment of the request
  * @param canSendMessages        Boolean Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
- * @param canSendMediaMessages   Boolean Optional. Restricted only. True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+ * @param canSendAudios,         Boolean Optional. True, if the user is allowed to send audios
+ * @param canSendDocuments       Boolean Optional. True, if the user is allowed to send documents
+ * @param canSendPhotos          Boolean Optional. True, if the user is allowed to send photos
+ * @param canSendVideos          Boolean Optional. True, if the user is allowed to send videos
+ * @param canSendVideoNotes      Boolean Optional. True, if the user is allowed to send video notes
+ * @param canSendVoiceNotes      Boolean Optional. True, if the user is allowed to send voice notes
  * @param canSendPolls           Boolean Optional. Restricted only. True, if the user is allowed to send polls
  * @param canSendOtherMessages   Boolean Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
  * @param canAddWebPagePreviews  Boolean Optional. Restricted only. True, if user may add web page previews to his messages, implies can_send_media_messages
@@ -41,7 +46,12 @@ case class ChatMember(
   canPromoteMembers: Option[Boolean] = None,
   isMember: Option[Boolean] = None,
   canSendMessages: Option[Boolean] = None,
-  canSendMediaMessages: Option[Boolean] = None,
+  canSendAudios: Option[Boolean] = None,
+  canSendDocuments: Option[Boolean] = None,
+  canSendPhotos: Option[Boolean] = None,
+  canSendVideos: Option[Boolean] = None,
+  canSendVideoNotes: Option[Boolean] = None,
+  canSendVoiceNotes: Option[Boolean] = None,
   canSendPolls: Option[Boolean] = None,
   canSendOtherMessages: Option[Boolean] = None,
   canAddWebPagePreviews: Option[Boolean] = None,
