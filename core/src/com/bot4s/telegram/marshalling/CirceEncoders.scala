@@ -250,6 +250,32 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.5 support
+  implicit val setCustomEmojiStickerSetThumbnailEncoder: Encoder[SetCustomEmojiStickerSetThumbnail] =
+    deriveConfiguredEncoder[SetCustomEmojiStickerSetThumbnail]
+  implicit val setStickerSetTitleEncoder: Encoder[SetStickerSetTitle] =
+    deriveConfiguredEncoder[SetStickerSetTitle]
+  implicit val deleteStickerSetEncoder: Encoder[DeleteStickerSet] =
+    deriveConfiguredEncoder[DeleteStickerSet]
+  implicit val setStickerEmojiListEncoder: Encoder[SetStickerEmojiList] =
+    deriveConfiguredEncoder[SetStickerEmojiList]
+  implicit val setStickerKeywordsEncoder: Encoder[SetStickerKeywords] =
+    deriveConfiguredEncoder[SetStickerKeywords]
+  implicit val setStickerMaskPositionEncoder: Encoder[SetStickerMaskPosition] =
+    deriveConfiguredEncoder[SetStickerMaskPosition]
+  implicit val getMyShortDescriptionEncoder: Encoder[GetMyShortDescription] =
+    deriveConfiguredEncoder[GetMyShortDescription]
+  implicit val setMyShortDescriptionEncoder: Encoder[SetMyShortDescription] =
+    deriveConfiguredEncoder[SetMyShortDescription]
+  implicit val botShortDescriptionEncoder: Encoder[BotShortDescription] =
+    deriveConfiguredEncoder[BotShortDescription]
+  implicit val botDescriptionEncoder: Encoder[BotDescription] =
+    deriveConfiguredEncoder[BotDescription]
+  implicit val getMyDescriptionEncoder: Encoder[GetMyDescription] =
+    deriveConfiguredEncoder[GetMyDescription]
+  implicit val setMyDescriptionEncoder: Encoder[SetMyDescription] =
+    deriveConfiguredEncoder[SetMyDescription]
+
   // for v6.4 support
   implicit val editGeneralForumTopicEncoder: Encoder[EditGeneralForumTopic] =
     deriveConfiguredEncoder[EditGeneralForumTopic]

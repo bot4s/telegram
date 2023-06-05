@@ -77,7 +77,7 @@ case class InputMediaVideo(
  *                  pass an HTTP URL for Telegram to get a file from the Internet,
  *                  or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name.
  *                  More info on Sending Files »
- * @param thumb     InputFile or String 	Optional. Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
+ * @param thumbnail InputFile or String 	Optional. Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption   String Optional. Caption of the animation to be sent, 0-200 characters
  * @param parseMode String Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
  * @param width     Integer Optional. Animation width
@@ -88,7 +88,7 @@ case class InputMediaVideo(
 case class InputMediaAnimation(
   media: String,
   animation: Option[InputFile] = None, // file to attach
-  thumb: Option[InputFile] = None,
+  thumbnail: Option[InputFile] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   width: Option[Int] = None,
@@ -105,7 +105,7 @@ case class InputMediaAnimation(
  *                  pass an HTTP URL for Telegram to get a file from the Internet,
  *                  pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name.
  *                  More info on Sending Files »
- * @param thumb     InputFile or String 	Optional. Thumbnail of the file sent.
+ * @param thumbnail InputFile or String 	Optional. Thumbnail of the file sent.
  *                  thumbnail should be in JPEG format and less than 200 kB in size.
  *                  A thumbnail‘s width and height should not exceed 90.
  *                  if the file is not uploaded using multipart/form-data.
@@ -119,7 +119,7 @@ case class InputMediaAnimation(
 case class InputMediaAudio(
   media: String,
   audio: Option[InputFile] = None, // file to attach
-  thumb: Option[InputFile] = None,
+  thumbnail: Option[InputFile] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   duration: Option[Int] = None,
@@ -135,14 +135,14 @@ case class InputMediaAudio(
  *                   pass an HTTP URL for Telegram to get a file from the Internet,
  *                   or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name.
  *                   More info on Sending Files »
- * @param thumb      InputFile or String Optional. Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
+ * @param thumbnail  InputFile or String Optional. Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption    String Optional. Caption of the document to be sent, 0-200 characters
  * @param parse_mode String 	Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
  */
 case class InputMediaDocument(
   media: String,
   document: Option[InputFile] = None, // file to attach
-  thumb: Option[InputFile] = None,
+  thumbnail: Option[InputFile] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   `type`: String = "document"

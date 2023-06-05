@@ -13,7 +13,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile, Message, MessageEntity, Re
  * @param duration            Integer 	Optional 	Duration of sent animation in seconds
  * @param width               Integer 	Optional 	Animation width
  * @param height              Integer 	Optional 	Animation height
- * @param thumb               InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
+ * @param thumbnail           InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption             String 	Optional 	Animation caption (may also be used when resending animation by file_id), 0-200 characters
  * @param parseMode           String 	Optional 	Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
  * @param captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -31,7 +31,7 @@ case class SendAnimation(
   duration: Option[Int] = None,
   width: Option[Int] = None,
   height: Option[Int] = None,
-  thumb: Option[InputFile] = None,
+  thumbnail: Option[InputFile] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   captionEntities: Option[List[MessageEntity]] = None,
@@ -44,5 +44,5 @@ case class SendAnimation(
   hasSpoiler: Option[Boolean] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] =
-    List("animation" -> animation) ++ (thumb.map(t => "thumb" -> t)).toList
+    List("animation" -> animation) ++ (thumbnail.map(t => "thumbnail" -> t)).toList
 }

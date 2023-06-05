@@ -10,6 +10,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param sticker              InputFile or String Sticker to send.
  *                             Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
  *                             pass an HTTP URL as a String for Telegram to get a .webp file from the Internet, or upload a new one using multipart/form-data.
+ * @param emoji                Emoji associated with the sticker; only for just uploaded stickers
  * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
  * @param disableNotification  Boolean Optional Sends the message silently.
  *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
@@ -23,6 +24,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
 case class SendSticker(
   chatId: ChatId,
   sticker: InputFile,
+  emoji: Option[String] = None,
   disableNotification: Option[Boolean] = None,
   protectContent: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,

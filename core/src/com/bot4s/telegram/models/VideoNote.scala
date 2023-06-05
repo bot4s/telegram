@@ -7,7 +7,7 @@ package com.bot4s.telegram.models
  * @param fileUniqueId String Unique identifier for this file
  * @param length       Integer Video width and height as defined by sender
  * @param duration     Integer Duration of the video in seconds as defined by sender
- * @param thumb        PhotoSize Optional. Video thumbnail
+ * @param thumbnail    PhotoSize Optional. Video thumbnail
  * @param fileSize     Integer Optional. File size
  */
 case class VideoNote(
@@ -15,6 +15,6 @@ case class VideoNote(
   fileUniqueId: String,
   length: Int,
   duration: Int,
-  thumb: Option[PhotoSize] = None,
+  thumbnail: Option[PhotoSize] = None,
   fileSize: Option[Int] = None
 )
