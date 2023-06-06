@@ -2,6 +2,7 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.InputFile
 import com.bot4s.telegram.models.StickerType.StickerType
+import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import com.bot4s.telegram.models.InputSticker
 
 /**
@@ -22,7 +23,7 @@ case class CreateNewStickerSet(
   name: String,
   title: String,
   stickers: Array[InputSticker],
-  stickerFormat: String,
+  stickerFormat: StickerFormat,
   stickerType: Option[StickerType] = None,
   needsRepainting: Option[Boolean] = None
 ) extends MultipartRequest[Boolean] {

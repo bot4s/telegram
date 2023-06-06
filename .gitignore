@@ -28,6 +28,7 @@ out/
 .coursier
 .bloop
 .vscode
+.bsp
 
 credentials.*
 

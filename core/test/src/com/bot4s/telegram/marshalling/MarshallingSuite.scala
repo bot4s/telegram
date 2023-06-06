@@ -6,6 +6,7 @@ import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import com.bot4s.telegram.models.StickerType.StickerType
+import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import com.bot4s.telegram.models.{ ChatId, MaskPositionType, _ }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
@@ -169,4 +170,17 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     toJson[StickerType](StickerType.CustomEmoji) shouldBe """"custom_emoji""""
     toJson[StickerType](StickerType.Mask) shouldBe """"mask""""
   }
+
+  it should "decode a sticker format" in {
+    fromJson[StickerFormat](""""static"""") shouldBe StickerFormat.Static
+    fromJson[StickerFormat](""""animated"""") shouldBe StickerFormat.Animated
+    fromJson[StickerFormat](""""video"""") shouldBe StickerFormat.Video
+  }
+
+  it should "encode a sticker format" in {
+    toJson[StickerFormat](StickerFormat.Static) shouldBe """"static""""
+    toJson[StickerFormat](StickerFormat.Animated) shouldBe """"animated""""
+    toJson[StickerFormat](StickerFormat.Video) shouldBe """"video""""
+  }
+
 }
