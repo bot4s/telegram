@@ -65,9 +65,6 @@ trait CirceEncoders {
   implicit val stickerTypeEncoder: Encoder[StickerType] =
     Encoder[String].contramap[StickerType](e => CaseConversions.snakenize(e.toString))
 
-  implicit val stickerFormatEncoder: Encoder[StickerFormat] =
-    Encoder[String].contramap[StickerFormat](e => CaseConversions.snakenize(e.toString))
-
   implicit val messageEntityEncoder: Encoder[MessageEntity] = deriveConfiguredEncoder[MessageEntity]
 
   implicit val parseModeEncoder: Encoder[ParseMode] =
@@ -254,7 +251,10 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
-  // for v6.5 support
+  // for v6.6 support
+  implicit val stickerFormatEncoder: Encoder[StickerFormat] =
+    Encoder[String].contramap[StickerFormat](e => CaseConversions.snakenize(e.toString))
+  implicit val createNewStickerSetEncoder: Encoder[CreateNewStickerSet] = deriveConfiguredEncoder[CreateNewStickerSet]
   implicit val setCustomEmojiStickerSetThumbnailEncoder: Encoder[SetCustomEmojiStickerSetThumbnail] =
     deriveConfiguredEncoder[SetCustomEmojiStickerSetThumbnail]
   implicit val setStickerSetTitleEncoder: Encoder[SetStickerSetTitle] =
@@ -332,8 +332,12 @@ trait CirceEncoders {
   implicit val declineChatJoinrequestEncoder: Encoder[DeclineChatJoinRequest] =
     deriveConfiguredEncoder[DeclineChatJoinRequest]
 
-  // Ignore InputFiles as JSON.
-  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance(_ => io.circe.Json.Null)
+  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance {
+    _ match {
+      case InputFile.FileId(fileId) => fileId.asJson
+      case _                        => io.circe.Json.Null
+    }
+  }
 
   implicit val sendLocationEncoder: Encoder[SendLocation]           = deriveConfiguredEncoder[SendLocation]
   implicit val sendVenueEncoder: Encoder[SendVenue]                 = deriveConfiguredEncoder[SendVenue]
@@ -434,21 +438,20 @@ trait CirceEncoders {
   implicit val StopPollEncoder: Encoder[StopPoll] = deriveConfiguredEncoder[StopPoll]
 
   // Multipart methods
-  implicit val addStickerToSetEncoder: Encoder[AddStickerToSet]         = deriveConfiguredEncoder[AddStickerToSet]
-  implicit val createNewStickerSetEncoder: Encoder[CreateNewStickerSet] = deriveConfiguredEncoder[CreateNewStickerSet]
-  implicit val sendAnimationEncoder: Encoder[SendAnimation]             = deriveConfiguredEncoder[SendAnimation]
-  implicit val sendAudioEncoder: Encoder[SendAudio]                     = deriveConfiguredEncoder[SendAudio]
-  implicit val sendDocumentEncoder: Encoder[SendDocument]               = deriveConfiguredEncoder[SendDocument]
-  implicit val editMessageMediaEncoder: Encoder[EditMessageMedia]       = deriveConfiguredEncoder[EditMessageMedia]
-  implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup]           = deriveConfiguredEncoder[SendMediaGroup]
-  implicit val sendPhotoEncoder: Encoder[SendPhoto]                     = deriveConfiguredEncoder[SendPhoto]
-  implicit val sendStickerEncoder: Encoder[SendSticker]                 = deriveConfiguredEncoder[SendSticker]
-  implicit val sendVideoEncoder: Encoder[SendVideo]                     = deriveConfiguredEncoder[SendVideo]
-  implicit val sendVideoNoteEncoder: Encoder[SendVideoNote]             = deriveConfiguredEncoder[SendVideoNote]
-  implicit val sendVoiceEncoder: Encoder[SendVoice]                     = deriveConfiguredEncoder[SendVoice]
-  implicit val setChatPhotoEncoder: Encoder[SetChatPhoto]               = deriveConfiguredEncoder[SetChatPhoto]
-  implicit val setWebhookEncoder: Encoder[SetWebhook]                   = deriveConfiguredEncoder[SetWebhook]
-  implicit val uploadStickerFileEncoder: Encoder[UploadStickerFile]     = deriveConfiguredEncoder[UploadStickerFile]
+  implicit val addStickerToSetEncoder: Encoder[AddStickerToSet]     = deriveConfiguredEncoder[AddStickerToSet]
+  implicit val sendAnimationEncoder: Encoder[SendAnimation]         = deriveConfiguredEncoder[SendAnimation]
+  implicit val sendAudioEncoder: Encoder[SendAudio]                 = deriveConfiguredEncoder[SendAudio]
+  implicit val sendDocumentEncoder: Encoder[SendDocument]           = deriveConfiguredEncoder[SendDocument]
+  implicit val editMessageMediaEncoder: Encoder[EditMessageMedia]   = deriveConfiguredEncoder[EditMessageMedia]
+  implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup]       = deriveConfiguredEncoder[SendMediaGroup]
+  implicit val sendPhotoEncoder: Encoder[SendPhoto]                 = deriveConfiguredEncoder[SendPhoto]
+  implicit val sendStickerEncoder: Encoder[SendSticker]             = deriveConfiguredEncoder[SendSticker]
+  implicit val sendVideoEncoder: Encoder[SendVideo]                 = deriveConfiguredEncoder[SendVideo]
+  implicit val sendVideoNoteEncoder: Encoder[SendVideoNote]         = deriveConfiguredEncoder[SendVideoNote]
+  implicit val sendVoiceEncoder: Encoder[SendVoice]                 = deriveConfiguredEncoder[SendVoice]
+  implicit val setChatPhotoEncoder: Encoder[SetChatPhoto]           = deriveConfiguredEncoder[SetChatPhoto]
+  implicit val setWebhookEncoder: Encoder[SetWebhook]               = deriveConfiguredEncoder[SetWebhook]
+  implicit val uploadStickerFileEncoder: Encoder[UploadStickerFile] = deriveConfiguredEncoder[UploadStickerFile]
 
 }
 

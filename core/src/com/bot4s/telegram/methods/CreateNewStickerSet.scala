@@ -1,6 +1,5 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.InputFile
 import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import com.bot4s.telegram.models.InputSticker
@@ -15,7 +14,7 @@ import com.bot4s.telegram.models.InputSticker
  * @param title           String Sticker set title, 1-64 characters
  * @param stickers        A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
  * @param stickerFormat   Format of stickers in the set, must be one of “static”, “animated”, “video”
- * @param stickerType     Optional StickerType. Type of stickers in the set, pass “regular” or “mask”. Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created.
+ * @param stickerType     StickerType. Type of stickers in the set, pass “regular” or “mask”. Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created.
  * @param needsRepainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
  */
 case class CreateNewStickerSet(
@@ -26,10 +25,4 @@ case class CreateNewStickerSet(
   stickerFormat: StickerFormat,
   stickerType: Option[StickerType] = None,
   needsRepainting: Option[Boolean] = None
-) extends MultipartRequest[Boolean] {
-
-  override def getFiles: List[(String, InputFile)] =
-    stickers.toList.zipWithIndex.map { case (sticker, idx) =>
-      idx.toString -> sticker.sticker
-    }
-}
+) extends JsonRequest[Boolean]

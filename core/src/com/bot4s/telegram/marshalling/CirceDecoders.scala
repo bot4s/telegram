@@ -60,9 +60,6 @@ trait CirceDecoders extends StrictLogging {
       }
     }
 
-  implicit val stickerFormatDecoder: Decoder[StickerFormat] =
-    Decoder[String].map(s => StickerFormat.withName(pascalize(s)))
-
   implicit val parseModeDecoder: Decoder[ParseMode] =
     Decoder[String].map(s => ParseMode.withName(pascalize(s)))
 
@@ -88,6 +85,9 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
   // for v6.6 support
+  implicit val stickerFormatDecoder: Decoder[StickerFormat] =
+    Decoder[String].map(s => StickerFormat.withName(pascalize(s)))
+
   implicit val botDescriptionDecoder: Decoder[BotDescription]           = deriveDecoder[BotDescription]
   implicit val botShortDescriptionDecoder: Decoder[BotShortDescription] = deriveDecoder[BotShortDescription]
   // for v6.5 support

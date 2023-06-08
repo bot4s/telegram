@@ -41,3 +41,4 @@ credentials.*
 
 #dev specific (swagger experiments)
 extractors/
+venv
