@@ -13,14 +13,15 @@ import com.bot4s.telegram.models.StickerType.StickerType
  * @param height           Sticker height
  * @param isAnimated       Boolean True, if the sticker is animated
  * @param isVideo          Boolean True, if the sticker is a video sticker
- * @param thumb            Optional Sticker thumbnail in .webp or .jpg format
+ * @param thumbnail        Optional Sticker thumbnail in .webp or .jpg format
  * @param emoji            Optional. Emoji associated with the sticker
  * @param setName          String Optional. Name of the sticker set to which the sticker belongs
- * @param maskPosition	     MaskPosition	Optional.
+ * @param maskPosition	   MaskPosition	Optional.
  *                         For mask stickers, the position where the mask should be placed
  * @param fileSize         Integer Optional. File size
  * @param premiumAnimation File Optional. Premium animation for the sticker, if the sticker is premium
- * @param customEmojiId     String Optional. For custom emoji stickers, unique identifier of the custom emoji
+ * @param customEmojiId    String Optional. For custom emoji stickers, unique identifier of the custom emoji
+ * @param needsRepainting  True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
  */
 case class Sticker(
   fileId: String,
@@ -30,11 +31,12 @@ case class Sticker(
   height: Int,
   isAnimated: Boolean,
   isVideo: Boolean,
-  thumb: Option[PhotoSize] = None,
+  thumbnail: Option[PhotoSize] = None,
   emoji: Option[String] = None,
   setName: Option[String] = None,
   maskPosition: Option[MaskPosition] = None,
   fileSize: Option[Int] = None,
   premiumAnimation: Option[File] = None,
-  customEmojiId: Option[String] = None
+  customEmojiId: Option[String] = None,
+  needsRepainting: Option[Boolean] = None
 )
