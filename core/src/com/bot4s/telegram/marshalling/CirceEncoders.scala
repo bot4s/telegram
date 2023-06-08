@@ -259,6 +259,8 @@ trait CirceEncoders {
     deriveConfiguredEncoder[SetCustomEmojiStickerSetThumbnail]
   implicit val setStickerSetTitleEncoder: Encoder[SetStickerSetTitle] =
     deriveConfiguredEncoder[SetStickerSetTitle]
+  implicit val setStickerSetThumbnailEncoder: Encoder[SetStickerSetThumbnail] =
+    deriveConfiguredEncoder[SetStickerSetThumbnail]
   implicit val deleteStickerSetEncoder: Encoder[DeleteStickerSet] =
     deriveConfiguredEncoder[DeleteStickerSet]
   implicit val setStickerEmojiListEncoder: Encoder[SetStickerEmojiList] =

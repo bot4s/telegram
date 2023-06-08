@@ -1,7 +1,5 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.MaskPosition
-import com.bot4s.telegram.models.InputFile
 import com.bot4s.telegram.models.InputSticker
 
 /**
@@ -16,9 +14,4 @@ case class AddStickerToSet(
   userId: Long,
   name: String,
   sticker: InputSticker
-) extends MultipartRequest[Boolean] {
-
-  override def getFiles: List[(String, InputFile)] = List(
-    "sticker" -> sticker.sticker
-  )
-}
+) extends JsonRequest[Boolean]

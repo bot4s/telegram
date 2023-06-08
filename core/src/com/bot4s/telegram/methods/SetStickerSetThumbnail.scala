@@ -17,6 +17,8 @@ import com.bot4s.telegram.models.InputFile
  */
 case class SetStickerSetThumbnail(
   name: String,
-  userId: Int,
+  userId: Long,
   thumbnail: Option[InputFile]
-) extends JsonRequest[Boolean]
+) extends MultipartRequest[Boolean] {
+  override def getFiles: List[(String, InputFile)] = thumbnail.map(f => "thumbnail" -> f).toList
+}

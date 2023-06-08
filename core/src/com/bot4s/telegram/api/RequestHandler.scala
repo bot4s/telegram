@@ -118,6 +118,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SetStickerPositionInSet           => sendRequest[R, SetStickerPositionInSet](s)
       case s: SetCustomEmojiStickerSetThumbnail => sendRequest[R, SetCustomEmojiStickerSetThumbnail](s)
       case s: SetStickerSetTitle                => sendRequest[R, SetStickerSetTitle](s)
+      case s: SetStickerSetThumbnail            => sendRequest[R, SetStickerSetThumbnail](s)
       case s: DeleteStickerSet                  => sendRequest[R, DeleteStickerSet](s)
       case s: SetStickerEmojiList               => sendRequest[R, SetStickerEmojiList](s)
       case s: SetStickerKeywords                => sendRequest[R, SetStickerKeywords](s)

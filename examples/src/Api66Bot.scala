@@ -41,25 +41,26 @@ class Api66Bot(token: String) extends ExampleBot(token) with Polling {
         "sticker.webp",
         Files.readAllBytes(Path.of(getClass.getResource("stickers/sticker.webp").toURI))
       )
-    val sticker2Resource = InputFile(Path.of(getClass.getResource("stickers/sticker.png").toURI))
+    val sticker2Resource    = InputFile(Path.of(getClass.getResource("stickers/sticker.png").toURI))
+    val stickerSetThumbnail = InputFile(Path.of(getClass.getResource("stickers/thumbnail.png").toURI))
 
     for {
       me       <- request(GetMe)
       user      = msg.from.get
+      name      = f"api_by_${me.username.mkString}"
       sticker  <- request(UploadStickerFile(user.id, stickerResource, StickerFormat.Static))
       sticker2 <- request(UploadStickerFile(user.id, sticker2Resource, StickerFormat.Static))
       stickerSet <- request(
                       CreateNewStickerSet(
                         user.id,
-                        f"api_by_${me.username.mkString}",
+                        name,
                         "Telegram BoT Sticker set",
-                        Array[InputSticker](
-                          InputSticker(InputFile(sticker.fileId), Array("😂")),
-                          InputSticker(InputFile(sticker2.fileId), Array("😀"))
-                        ),
+                        Array(InputSticker(InputFile(sticker.fileId), Array("😂"))),
                         stickerFormat = StickerFormat.Static
                       )
                     )
+      _ <- request(SetStickerSetThumbnail(name, user.id, Some(stickerSetThumbnail)))
+      _ <- request(AddStickerToSet(user.id, name, InputSticker(InputFile(sticker2.fileId), Array("😀"))))
       // Making sure that we can send a file (sticker in this case), using the three possible ways
       _ <- request(SendSticker(msg.chat.id, InputFile(sticker.fileId)))
       _ <- request(SendSticker(msg.chat.id, stickerResource))
