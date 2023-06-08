@@ -103,7 +103,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     override def ivyDeps = T {
       super.ivyDeps() ++ Agg(
         library.scalaTest,
-        library.scalaMockScalaTest
+        library.scalaMockScalaTest,
       )
     }
   }
@@ -155,9 +155,7 @@ object core extends Module {
       )
     }
 
-    object test extends Tests {
-      def testFramework = "org.scalatest.tools.Framework"
-    }
+    object test extends Tests
   }
 
 }

@@ -93,10 +93,10 @@ trait Messages[F[_]] extends BotBase[F] {
    * @param disableWebPagePreview Optional Disables link previews for links in this message
    * @param disableNotification   Optional Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
    * @param replyToMessageId      Optional If the message is a reply, ID of the original message
-   * @param replyMarkup           [[models.InlineKeyboardMarkup]] or
-   *                              [[models.ReplyKeyboardMarkup]] or
-   *                              [[ReplyKeyboardRemove]] or
-   *                              [[ForceReply]]
+   * @param replyMarkup           [[com.bot4s.telegram.models.InlineKeyboardMarkup]] or
+   *                              [[com.bot4s.telegram.models.ReplyKeyboardMarkup]] or
+   *                              [[com.bot4s.telegram.models.ReplyKeyboardRemove]] or
+   *                              [[com.bot4s.telegram.models.ForceReply]]
    *                              Optional Additional interface options.
    *                              A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide reply keyboard or to force a reply from the user.
    */
