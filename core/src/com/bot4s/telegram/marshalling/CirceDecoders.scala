@@ -16,6 +16,7 @@ import com.bot4s.telegram.models.MemberStatus.MemberStatus
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
 import com.bot4s.telegram.models.StickerType.StickerType
+import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.{ Decoder, HCursor }
@@ -83,6 +84,12 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.6 support
+  implicit val stickerFormatDecoder: Decoder[StickerFormat] =
+    Decoder[String].map(s => StickerFormat.withName(pascalize(s)))
+
+  implicit val botDescriptionDecoder: Decoder[BotDescription]           = deriveDecoder[BotDescription]
+  implicit val botShortDescriptionDecoder: Decoder[BotShortDescription] = deriveDecoder[BotShortDescription]
   // for v6.5 support
   implicit val KeyboardButtonRequestUserDecoder: Decoder[KeyboardButtonRequestUser] =
     deriveDecoder[KeyboardButtonRequestUser]

@@ -12,6 +12,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param document             InputFile or String File to send.
  *                             Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
  *                             pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+ * @param thumbnail            InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption              String Optional Document caption (may also be used when resending documents by file_id), 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
  *                             fixed-width text or inline URLs in the media caption.
@@ -29,7 +30,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
 case class SendDocument(
   chatId: ChatId,
   document: InputFile,
-  thumb: Option[InputFile] = None,
+  thumbnail: Option[InputFile] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   captionEntities: Option[List[MessageEntity]] = None,

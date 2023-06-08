@@ -5,7 +5,7 @@ package com.bot4s.telegram.models
  *
  * @param fileId       File identifier
  * @param fileUniqueId Unique file identifier
- * @param thumb        Optional Document thumbnail as defined by sender
+ * @param thumbnail    Optional Document thumbnail as defined by sender
  * @param fileName     Optional Original filename as defined by sender
  * @param mimeType     Optional MIME type of the file as defined by sender
  * @param fileSize     Optional File size
@@ -13,7 +13,7 @@ package com.bot4s.telegram.models
 case class Document(
   fileId: String,
   fileUniqueId: String,
-  thumb: Option[PhotoSize] = None,
+  thumbnail: Option[PhotoSize] = None,
   fileName: Option[String] = None,
   mimeType: Option[String] = None,
   fileSize: Option[Long] = None

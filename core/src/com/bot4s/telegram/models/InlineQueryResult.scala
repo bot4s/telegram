@@ -43,9 +43,9 @@ sealed trait InlineQueryResult {
  * @param url                  String Optional URL of the result
  * @param hideUrl              Boolean Optional Pass True, if you don't want the URL to be shown in the message
  * @param description          String Optional Short description of the result
- * @param thumbUrl             String Optional Url of the thumbnail for the result
- * @param thumbWidth           Integer Optional Thumbnail width
- * @param thumbHeight          Integer Optional Thumbnail height
+ * @param thumbnailUrl             String Optional Url of the thumbnail for the result
+ * @param thumbnailWidth           Integer Optional Thumbnail width
+ * @param thumbnailHeight          Integer Optional Thumbnail height
  */
 case class InlineQueryResultArticle(
   id: String,
@@ -55,9 +55,9 @@ case class InlineQueryResultArticle(
   url: Option[String] = None,
   hideUrl: Option[Boolean] = None,
   description: Option[String] = None,
-  thumbUrl: Option[String] = None,
-  thumbWidth: Option[Int] = None,
-  thumbHeight: Option[Int] = None,
+  thumbnailUrl: Option[String] = None,
+  thumbnailWidth: Option[Int] = None,
+  thumbnailHeight: Option[Int] = None,
   `type`: String = "article"
 ) extends InlineQueryResult
 
@@ -70,7 +70,7 @@ case class InlineQueryResultArticle(
  * @param type                 String Type of the result, must be photo
  * @param id                   String Unique identifier for this result, 1-64 bytes
  * @param photoUrl             String A valid URL of the photo. Photo must be in jpeg format. Photo size must not exceed 5MB
- * @param thumbUrl             String URL of the thumbnail for the photo
+ * @param thumbnailUrl             String URL of the thumbnail for the photo
  * @param photoWidth           Integer Optional Width of the photo
  * @param photoHeight          Integer Optional Height of the photo
  * @param title                String Optional Title for the result
@@ -84,7 +84,7 @@ case class InlineQueryResultArticle(
 case class InlineQueryResultPhoto(
   id: String,
   photoUrl: String,
-  thumbUrl: String,
+  thumbnailUrl: String,
   photoWidth: Option[Int] = None,
   photoHeight: Option[Int] = None,
   title: Option[String] = None,
@@ -127,7 +127,8 @@ case class InlineQueryResultGame(
  * @param gifWidth             Integer Optional Width of the GIF
  * @param gifHeight            Integer Optional Height of the GIF
  * @param gifDuration          Integer Optional. Duration of the GIF
- * @param thumbUrl             String URL of the static thumbnail for the result (jpeg or gif)
+ * @param thumbnailUrl         String URL of the static thumbnail for the result (jpeg or gif)
+ * @param thumbnailMimeType    MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
  * @param title                String Optional Title for the result
  * @param caption              String Optional Caption of the GIF file to be sent, 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
@@ -141,7 +142,8 @@ case class InlineQueryResultGif(
   gifWidth: Option[Int] = None,
   gifHeight: Option[Int] = None,
   gifDuration: Option[Int] = None,
-  thumbUrl: String,
+  thumbnailUrl: String,
+  thumbnailMimeType: Option[String],
   title: Option[String] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
@@ -161,8 +163,9 @@ case class InlineQueryResultGif(
  * @param mpeg4Url             String A valid URL for the MP4 file. File size must not exceed 1MB
  * @param mpeg4Width           Integer Optional Video width
  * @param mpeg4Height          Integer Optional Video height
- * @param mpeg4Duration       Integer Optional. Video duration
- * @param thumbUrl             String URL of the static thumbnail (jpeg or gif) for the result
+ * @param mpeg4Duration        Integer Optional. Video duration
+ * @param thumbnailUrl         String URL of the static thumbnail (jpeg or gif) for the result
+ * @param thumbnailMimeType    MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
  * @param title                String Optional Title for the result
  * @param caption              String Optional Caption of the MPEG-4 file to be sent, 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
@@ -176,7 +179,8 @@ case class InlineQueryResultMpeg4Gif(
   mpeg4Width: Option[Int] = None,
   mpeg4Height: Option[Int] = None,
   mpeg4Duration: Option[Int] = None,
-  thumbUrl: String,
+  thumbnailUrl: String,
+  thumbnailMimeType: Option[String],
   title: Option[String] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
@@ -195,7 +199,7 @@ case class InlineQueryResultMpeg4Gif(
  * @param id                   String Unique identifier for this result, 1-64 bytes
  * @param videoUrl             String A valid URL for the embedded video player or video file
  * @param mimeType             String Mime type of the content of video url, "text/html" or "video/mp4"
- * @param thumbUrl             String URL of the thumbnail (jpeg only) for the video
+ * @param thumbnailUrl         String URL of the static thumbnail (jpeg or gif) for the result
  * @param title                String Title for the result
  * @param caption              String Optional Caption of the video to be sent, 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
@@ -211,7 +215,7 @@ case class InlineQueryResultVideo(
   id: String,
   videoUrl: String,
   mimeType: String,
-  thumbUrl: String,
+  thumbnailUrl: String,
   title: Option[String] = None,
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
@@ -305,9 +309,9 @@ case class InlineQueryResultVoice(
  * @param description          String Optional Short description of the result
  * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the file
- * @param thumbUrl             String Optional URL of the thumbnail (jpeg only) for the file
- * @param thumbWidth           Integer Optional Thumbnail width
- * @param thumbHeight          Integer Optional Thumbnail height
+ * @param thumbnailUrl         String Optional URL of the thumbnail (jpeg only) for the file
+ * @param thumbnailWidth       Integer Optional Thumbnail width
+ * @param thumbnailHeight      Integer Optional Thumbnail height
  */
 case class InlineQueryResultDocument(
   id: String,
@@ -319,9 +323,9 @@ case class InlineQueryResultDocument(
   description: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   inputMessageContent: Option[InputMessageContent] = None,
-  thumbUrl: Option[String] = None,
-  thumbWidth: Option[Int] = None,
-  thumbHeight: Option[Int] = None,
+  thumbnailUrl: Option[String] = None,
+  thumbnailWidth: Option[Int] = None,
+  thumbnailHeight: Option[Int] = None,
   `type`: String = "document"
 ) extends InlineQueryResult
 
@@ -338,9 +342,9 @@ case class InlineQueryResultDocument(
  * @param title                String Location title
  * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the location
- * @param thumbUrl             String Optional Url of the thumbnail for the result
- * @param thumbWidth           Integer Optional Thumbnail width
- * @param thumbHeight          Integer Optional Thumbnail height
+ * @param thumbnailUrl         String Optional Url of the thumbnail for the result
+ * @param thumbnailWidth       Integer Optional Thumbnail width
+ * @param thumbnailHeight      Integer Optional Thumbnail height
  *
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  */
@@ -351,9 +355,9 @@ case class InlineQueryResultLocation(
   title: String,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   inputMessageContent: Option[InputMessageContent] = None,
-  thumbUrl: Option[String] = None,
-  thumbWidth: Option[Int] = None,
-  thumbHeight: Option[Int] = None,
+  thumbnailUrl: Option[String] = None,
+  thumbnailWidth: Option[Int] = None,
+  thumbnailHeight: Option[Int] = None,
   `type`: String = "location"
 ) extends InlineQueryResult
 
@@ -373,9 +377,9 @@ case class InlineQueryResultLocation(
  * @param foursquareType       String Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
  * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the venue
- * @param thumbUrl             String Optional Url of the thumbnail for the result
- * @param thumbWidth           Integer Optional Thumbnail width
- * @param thumbHeight          Integer Optional Thumbnail height
+ * @param thumbnailUrl         String Optional Url of the thumbnail for the result
+ * @param thumbnailWidth       Integer Optional Thumbnail width
+ * @param thumbnailHeight      Integer Optional Thumbnail height
  *
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  */
@@ -389,9 +393,9 @@ case class InlineQueryResultVenue(
   foursquareType: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   inputMessageContent: Option[InputMessageContent] = None,
-  thumbUrl: Option[String] = None,
-  thumbWidth: Option[Int] = None,
-  thumbHeight: Option[Int] = None,
+  thumbnailUrl: Option[String] = None,
+  thumbnailWidth: Option[Int] = None,
+  thumbnailHeight: Option[Int] = None,
   `type`: String = "venue"
 ) extends InlineQueryResult
 
@@ -409,9 +413,9 @@ case class InlineQueryResultVenue(
  * @param vcard                String Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
  * @param replyMarkup          InlineKeyboardMarkup Optional Inline keyboard attached to the message
  * @param inputMessageContent  InputMessageContent Optional Content of the message to be sent instead of the contact
- * @param thumbUrl             String Optional Url of the thumbnail for the result
- * @param thumbWidth           Integer Optional Thumbnail width
- * @param thumbHeight          Integer Optional Thumbnail height
+ * @param thumbnailUrl         String Optional Url of the thumbnail for the result
+ * @param thumbnailWidth       Integer Optional Thumbnail width
+ * @param thumbnailHeight      Integer Optional Thumbnail height
  *
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
  */
@@ -423,9 +427,9 @@ case class InlineQueryResultContact(
   vcard: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   inputMessageContent: Option[InputMessageContent] = None,
-  thumbUrl: Option[String] = None,
-  thumbWidth: Option[Int] = None,
-  thumbHeight: Option[Int] = None,
+  thumbnailUrl: Option[String] = None,
+  thumbnailWidth: Option[Int] = None,
+  thumbnailHeight: Option[Int] = None,
   `type`: String = "contact"
 ) extends InlineQueryResult
 
