@@ -7,13 +7,14 @@ val ScalaVersions = Seq("2.12.16", "2.13.11")
 object library {
 
   object Version {
-    val circe              = "0.14.3"
+    val circe              = "0.14.5"
+    val circeGenericExtras = "0.14.3"
     val cats               = "2.9.0"
     val catsEffect         = "2.5.5"
     val catsEffect3        = "3.5.0"
-    val zio                = "2.0.5"
+    val zio                = "2.0.15"
     val zhttp              = "2.0.0-RC10"
-    val zioInteropCats     = "22.0.0.0"
+    val zioInteropCats     = "23.0.0.6"
     val sttp               = "3.8.15"
     val scalaTest          = "3.2.16"
     val scalaMockScalaTest = "5.2.0"
@@ -23,7 +24,7 @@ object library {
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
     val akkaStream         = akkaVersion
-    val akkaHttp           = "10.2.10"
+    val akkaHttp           = "10.5.2"
     val akkaTestkit        = akkaVersion
     val akkaHttpCors       = "1.2.0"
     val hammock            = "0.11.3"
@@ -54,7 +55,7 @@ object library {
   val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
   val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
   val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
-  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circe}"
+  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circeGenericExtras}"
   val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
   val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
   val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
@@ -251,7 +252,8 @@ object examples extends Module {
         library.asyncHttpClientBackendZio,
         library.zio,
         library.zhttp,
-        library.zioInteropCats
+        library.zioInteropCats,
+        library.catsEffect3
       )
     }
 
