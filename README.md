@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://core.telegram.org/bots/api#recent-changes" title="Telegram Bot API">
-    <img src="https://img.shields.io/badge/Bot%20API-6.6%20(March%209,%202023)-00aced.svg"/>
+    <img src="https://img.shields.io/badge/Bot%20API-6.7%20(April%2021,%202023)-00aced.svg"/>
   </a>
   <a href="https://t.me/bot4s_updates" title="Bot4s Telegram Channel">
     <img src="https://img.shields.io/badge/💬%20Channel-Bot4s-00aced.svg"/>
