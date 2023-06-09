@@ -84,6 +84,12 @@ trait CirceDecoders extends StrictLogging {
   implicit val botCommandDecoder: Decoder[BotCommand] = deriveDecoder[BotCommand]
 
   implicit val chatLocationDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+  // for v6.7 support
+  implicit val botNameDecoder: Decoder[BotName] = deriveDecoder[BotName]
+  implicit val inlineQueryResultsButtonDecoder: Decoder[InlineQueryResultsButton] =
+    deriveDecoder[InlineQueryResultsButton]
+  implicit val switchInlineQueryChosenChatDecoder: Decoder[SwitchInlineQueryChosenChat] =
+    deriveDecoder[SwitchInlineQueryChosenChat]
   // for v6.6 support
   implicit val stickerFormatDecoder: Decoder[StickerFormat] =
     Decoder[String].map(s => StickerFormat.withName(pascalize(s)))

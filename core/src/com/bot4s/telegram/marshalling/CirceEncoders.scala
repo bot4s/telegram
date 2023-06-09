@@ -251,6 +251,9 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.7 support
+  implicit val getMyNameEncoder: Encoder[GetMyName] = deriveConfiguredEncoder[GetMyName]
+  implicit val setMyNameEncoder: Encoder[SetMyName] = deriveConfiguredEncoder[SetMyName]
   // for v6.6 support
   implicit val stickerFormatEncoder: Encoder[StickerFormat] =
     Encoder[String].contramap[StickerFormat](e => CaseConversions.snakenize(e.toString))
