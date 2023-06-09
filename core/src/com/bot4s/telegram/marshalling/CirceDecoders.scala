@@ -240,7 +240,7 @@ trait CirceDecoders extends StrictLogging {
 
   implicit val loginUrlDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
 
-  implicit def responseDecoder[T](implicit decT: Decoder[T]): Decoder[Response[T]] = deriveDecoder[Response[T]]
+  implicit def responseDecoder[T: Decoder]: Decoder[Response[T]] = deriveDecoder[Response[T]]
 
   implicit def eitherDecoder[A, B](implicit decA: Decoder[A], decB: Decoder[B]): Decoder[Either[A, B]] = {
     val l: Decoder[Either[A, B]] = decA.map(Left.apply)

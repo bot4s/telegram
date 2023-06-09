@@ -51,16 +51,14 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
         Right(quickRequest.post(uri"$url").body(request))
 
       case r: MultipartRequest[_] =>
-        val files = r.getFiles
-
-        val parts = files.map { case (camelKey, inputFile) =>
+        val parts = r.getFiles.flatMap { case (camelKey, inputFile) =>
           val key = CaseConversions.snakenize(camelKey)
           inputFile match {
-            case InputFile.FileId(id)                   => multipart(key, id)
-            case InputFile.Contents(filename, contents) => multipart(key, contents).fileName(filename)
-            case InputFile.Path(path)                   => multipartFile(key, path)
-            case other =>
-              throw new RuntimeException(s"InputFile $other not supported")
+            // FileId must be submitted through the JSON query, see `inputFileEncoder`
+            case InputFile.FileId(id)                   => None
+            case InputFile.Contents(filename, contents) => Some(multipart(key, contents).fileName(filename))
+            case InputFile.Path(path)                   => Some(multipartFile(key, path))
+            case other                                  => throw new RuntimeException(s"InputFile $other not supported")
           }
         }
 

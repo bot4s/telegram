@@ -28,6 +28,7 @@ object library {
     val akkaHttpCors       = "1.2.0"
     val hammock            = "0.11.3"
     val monix              = "3.4.1"
+    val sbtTesting         = "1.0"
   }
 
   val akkaHttp        = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
@@ -48,24 +49,26 @@ object library {
   val scalaMockScalaTest          = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
   val akkaHttpCors                = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
   val scalaTest                   = ivy"org.scalatest::scalatest::${Version.scalaTest}"
-  val logback                     = ivy"ch.qos.logback:logback-classic::${Version.logback}"
-  val circeCore                   = ivy"io.circe::circe-core::${Version.circe}"
-  val circeGeneric                = ivy"io.circe::circe-generic::${Version.circe}"
-  val circeGenericExtras          = ivy"io.circe::circe-generic-extras::${Version.circe}"
-  val circeParser                 = ivy"io.circe::circe-parser::${Version.circe}"
-  val circeLiteral                = ivy"io.circe::circe-literal::${Version.circe}"
-  val catsCore                    = ivy"org.typelevel::cats-core::${Version.cats}"
-  val catsFree                    = ivy"org.typelevel::cats-free::${Version.cats}"
-  val catsEffect                  = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
-  val catsEffect3                 = ivy"org.typelevel::cats-effect::${Version.catsEffect3}"
-  val monix                       = ivy"io.monix::monix::${Version.monix}"
-  val sttpCore                    = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
-  val sttpCirce                   = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
-  val sttpOkHttp                  = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
-  val hammock                     = ivy"com.pepegar::hammock-core::${Version.hammock}"
-  val zio                         = ivy"dev.zio::zio::${Version.zio}"
-  val zhttp                       = ivy"io.d11::zhttp::${Version.zhttp}"
-  val zioInteropCats              = ivy"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
+  val sbtTesting                  = ivy"org.scala-sbt:test-interface:${Version.sbtTesting}"
+
+  val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
+  val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
+  val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
+  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circe}"
+  val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
+  val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
+  val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
+  val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
+  val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
+  val catsEffect3        = ivy"org.typelevel::cats-effect::${Version.catsEffect3}"
+  val monix              = ivy"io.monix::monix::${Version.monix}"
+  val sttpCore           = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
+  val sttpCirce          = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
+  val sttpOkHttp         = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
+  val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
+  val zio                = ivy"dev.zio::zio::${Version.zio}"
+  val zhttp              = ivy"io.d11::zhttp::${Version.zhttp}"
+  val zioInteropCats     = ivy"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
 trait Bot4sTelegramModule extends CrossScalaModule {
@@ -104,6 +107,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
       super.ivyDeps() ++ Agg(
         library.scalaTest,
         library.scalaMockScalaTest,
+        library.sbtTesting
       )
     }
   }
@@ -128,7 +132,7 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "5.6.4"
+  override def publishVersion = "5.7.0"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
