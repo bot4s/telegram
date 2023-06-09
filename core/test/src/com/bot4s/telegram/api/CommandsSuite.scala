@@ -38,6 +38,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
               val jsonUser = toJson[User](botUser)
               fromJson[User](jsonUser)(userDecoder)
             })
+          case _ => throw new Exception("Do know what to do")
         }
       }
 

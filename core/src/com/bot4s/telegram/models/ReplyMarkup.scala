@@ -227,6 +227,8 @@ object InlineKeyboardMarkup {
  *                                     in which case only the bot's username will be inserted.
  *                                     This offers a quick way for the user to open your bot in inline mode in the same chat -
  *                                     good for selecting something from multiple options.
+ * @param switchInlineQueryChoseChat   If set, pressing the button will prompt the user to select one of their chats of the specified type
+ *                                     open that chat and insert the bot's username and the specified inline query in the input field
  * @param callbackGame       CallbackGame Optional. Description of the game that will be launched when the user presses the button.
  *
  * NOTE: This type of button must always be the first button in the first row.
@@ -239,6 +241,7 @@ case class InlineKeyboardButton(
   webApp: Option[WebAppInfo] = None,
   switchInlineQuery: Option[String] = None,
   switchInlineQueryCurrentChat: Option[String] = None,
+  switchInlineQueryChosenChat: Option[SwitchInlineQueryChosenChat] = None,
   callbackGame: Option[CallbackGame] = None,
   pay: Option[Boolean] = None
 ) /* not a ReplyMarkup */ {
