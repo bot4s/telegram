@@ -23,7 +23,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/bot4s/telegram/actions/workflows/build.yml" title="Github Action Build Status">
-    <img src="https://github.com/bot4s/telegram/actions/workflows/build.yml/badge.svg?branch=master" />
+    <img src="https://github.com/bot4s/telegram/actions/workflows/build.yml/badge.svg?branch=main" />
   </a>
   <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12" title="Maven Central">
     <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.12/badge.svg"/>
@@ -94,7 +94,7 @@ Both methods are supported.
 Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
-Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/WebhookSSLBot.scala) (with self signed SSL certificate setup).
+Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/WebhookSSLBot.scala) (with self signed SSL certificate setup).
 
 ## Payments
 
@@ -105,8 +105,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
@@ -133,7 +133,7 @@ Type in expressions for evaluation. Or try :help.
 scala> new RandomBot("BOT_TOKEN").run()
 ```
 
-Change `RandomBot` to whatever bot you find interesting [here](https://github.com/bot4s/telegram/tree/master/examples).
+Change `RandomBot` to whatever bot you find interesting [here](https://github.com/bot4s/telegram/tree/main/examples).
 
 ## A note on implicits
 
@@ -146,7 +146,7 @@ Be aware that, for conciseness, most examples need the implicits to compile, be 
 
 ## Examples
 
-#### RandomBot! [(full example)](https://github.com/bot4s/telegram/blob/master/examples/src/RandomBot.scala)
+#### RandomBot! [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src/RandomBot.scala)
 
 ```scala
 import cats.instances.future._
@@ -217,7 +217,7 @@ bot.shutdown() // initiate shutdown
 Await.result(eol, Duration.Inf)
 ```
 
-#### Google TTS [(full example)](https://github.com/bot4s/telegram/blob/master/examples/src-jvm/TextToSpeechBot.scala)
+#### Google TTS [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/TextToSpeechBot.scala)
 
 ```scala
 import java.net.URLEncoder
@@ -295,7 +295,7 @@ object LmgtfyBot extends AkkaTelegramBot
 }
 ```
 
-Check out the [sample bots](https://github.com/bot4s/telegram/tree/master/examples) for more functionality.
+Check out the [sample bots](https://github.com/bot4s/telegram/tree/main/examples) for more functionality.
 
 ## Versioning
 
