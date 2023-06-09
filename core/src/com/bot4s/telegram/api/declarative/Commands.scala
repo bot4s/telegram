@@ -99,7 +99,7 @@ trait CommandFilterMagnet {
 }
 
 trait CommandImplicits {
-  implicit def stringToCommandFilter(s: String) = CommandFilterMagnet {
+  implicit def stringToCommandFilter(s: String): CommandFilterMagnet = CommandFilterMagnet {
     val target = s.trim().stripPrefix("/")
 
     // see https://www.regular-expressions.info/unicode.html

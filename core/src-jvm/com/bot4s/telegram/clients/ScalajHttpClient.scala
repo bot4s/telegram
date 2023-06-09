@@ -86,7 +86,7 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
           }
         )
 
-        val fileIdsParams = fileIds.map { case (key, inputFile: InputFile.FileId) =>
+        val fileIdsParams = fileIds.collect { case (key, inputFile: InputFile.FileId) =>
           marshalling.snakenize(key) -> inputFile.fileId
         }
 

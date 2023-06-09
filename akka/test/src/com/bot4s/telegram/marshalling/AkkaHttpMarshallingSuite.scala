@@ -17,7 +17,7 @@ import concurrent.duration._
 
 class AkkaHttpMarshallingSuite extends AnyFunSuite with ScalatestRouteTest with Matchers with TestUtils {
 
-  implicit def defaultTimeout = RouteTestTimeout(5.seconds)
+  implicit def defaultTimeout: RouteTestTimeout = RouteTestTimeout(5.seconds)
 
   test("Correctly serialize top-level string members in Akka multipart requests") {
     val captionWithLineBreak = "this is a line\nand then\t another line"

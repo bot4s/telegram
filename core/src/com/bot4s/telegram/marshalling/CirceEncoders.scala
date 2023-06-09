@@ -337,7 +337,7 @@ trait CirceEncoders {
   implicit val declineChatJoinrequestEncoder: Encoder[DeclineChatJoinRequest] =
     deriveConfiguredEncoder[DeclineChatJoinRequest]
 
-  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance {
+  implicit val inputFileEncoder: Encoder[InputFile] = Encoder.instance {
     _ match {
       case InputFile.FileId(fileId) => fileId.asJson
       case _                        => io.circe.Json.Null
