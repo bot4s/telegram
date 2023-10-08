@@ -28,11 +28,11 @@ class PokerBot(token: String) extends ExampleBot(token) with Polling with Comman
       ackCallback(text = Some("Hello Pepe"), url = Some("https://t.me/MenialBot?start=1234")).void
     } getOrElse Future.successful(())
 
-  // You must acknowledge callback queries, even if there's no response.
-  // e.g. just ackCallback()
+    // You must acknowledge callback queries, even if there's no response.
+    // e.g. just ackCallback()
 
-  // To open game, you may need to pass extra (url-encoded) information to the game.
-  // ackCallback(url = Some("https://my.awesome.game.com/awesome"))
+    // To open game, you may need to pass extra (url-encoded) information to the game.
+    // ackCallback(url = Some("https://my.awesome.game.com/awesome"))
   }
 
   def replyWithGame(
