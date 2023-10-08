@@ -2,7 +2,7 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val ScalaVersions = Seq("2.12.16", "2.13.11")
+val ScalaVersions = Seq("2.12.18", "2.13.11")
 
 object library {
 
