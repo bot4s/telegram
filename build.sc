@@ -14,7 +14,7 @@ object library {
     val catsEffect3        = "3.5.0"
     val zio                = "2.0.18"
     val zhttp              = "2.0.0-RC10"
-    val zioInteropCats     = "23.0.0.6"
+    val zioInteropCats     = "23.0.0.8"
     val sttp               = "3.8.15"
     val scalaTest          = "3.2.16"
     val scalaMockScalaTest = "5.2.0"
