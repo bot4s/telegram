@@ -2,24 +2,24 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val ScalaVersions = Seq("2.12.16", "2.13.11")
+val ScalaVersions = Seq("2.12.18", "2.13.12")
 
 object library {
 
   object Version {
-    val circe              = "0.14.5"
+    val circe              = "0.14.6"
     val circeGenericExtras = "0.14.3"
-    val cats               = "2.9.0"
+    val cats               = "2.10.0"
     val catsEffect         = "2.5.5"
-    val catsEffect3        = "3.5.0"
-    val zio                = "2.0.15"
+    val catsEffect3        = "3.5.2"
+    val zio                = "2.0.18"
     val zhttp              = "2.0.0-RC10"
-    val zioInteropCats     = "23.0.0.6"
-    val sttp               = "3.8.15"
-    val scalaTest          = "3.2.16"
+    val zioInteropCats     = "23.0.0.8"
+    val sttp               = "3.8.16"
+    val scalaTest          = "3.2.17"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.4.7"
+    val logback            = "1.4.11"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
