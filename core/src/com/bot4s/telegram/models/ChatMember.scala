@@ -16,6 +16,9 @@ import MemberStatus.MemberStatus
  * @param canInviteUsers         Boolean Optional. Administrators and restricted only. True, if the user is allowed to invite new users to the chat
  * @param canRestrictMembers     Boolean Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
  * @param canPinMessages         Boolean Optional. Administrators and restricted only. True, if the user is allowed to pin messages; groups and supergroups only
+ * @param canPostStories         Boolean Optional. True, if the administrator can post stories in the channel; channels only
+ * @param canEditStories         Boolean Optional. True, if the administrator can edit stories in the channel; channels only
+ * @param canDeleteStories       Boolean Optional. True, if the administrator can delete stories in the channel; channels only
  * @param canPromoteMembers      Boolean Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
  * @param isMember               Boolean Optional. Restricted only. True, if the user is a member of the chat at the moment of the request
  * @param canSendMessages        Boolean Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
@@ -43,6 +46,9 @@ case class ChatMember(
   canInviteUsers: Option[Boolean] = None,
   canRestrictMembers: Option[Boolean] = None,
   canPinMessages: Option[Boolean] = None,
+  canPostStories: Option[Boolean] = None,
+  canEditStories: Option[Boolean] = None,
+  canDeleteStories: Option[Boolean] = None,
   canPromoteMembers: Option[Boolean] = None,
   isMember: Option[Boolean] = None,
   canSendMessages: Option[Boolean] = None,

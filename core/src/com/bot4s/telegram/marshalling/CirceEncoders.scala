@@ -98,6 +98,8 @@ trait CirceEncoders {
   implicit val videoNoteEncoder: Encoder[VideoNote]                 = deriveConfiguredEncoder[VideoNote]
   implicit val voiceEncoder: Encoder[Voice]                         = deriveConfiguredEncoder[Voice]
 
+  implicit val storyEncoder: Encoder[Story.type] = deriveConfiguredEncoder[Story.type]
+
   implicit val loginUrlEncoder: Encoder[LoginUrl] = deriveConfiguredEncoder[LoginUrl]
 
   // Payments
@@ -251,6 +253,9 @@ trait CirceEncoders {
   implicit val getUpdatesEncoder: Encoder[GetUpdates]         = deriveConfiguredEncoder[GetUpdates]
 
   implicit val chatLocationEncoder: Encoder[ChatLocation] = deriveConfiguredEncoder[ChatLocation]
+  // for v6.8 support
+  implicit val unpinAllGeneralForumTopicMessagesEncoder: Encoder[UnpinAllGeneralForumTopicMessages] =
+    deriveConfiguredEncoder[UnpinAllGeneralForumTopicMessages]
   // for v6.7 support
   implicit val getMyNameEncoder: Encoder[GetMyName] = deriveConfiguredEncoder[GetMyName]
   implicit val setMyNameEncoder: Encoder[SetMyName] = deriveConfiguredEncoder[SetMyName]

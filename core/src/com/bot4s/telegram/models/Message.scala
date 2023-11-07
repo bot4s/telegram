@@ -31,6 +31,7 @@ package com.bot4s.telegram.models
  *                                    [[https://core.telegram.org/bots/api#games More about games »]]
  * @param photo                       Optional Message is a photo, available sizes of the photo
  * @param sticker                     Optional Message is a sticker, information about the sticker
+ * @param story                       Optional Message is a forwarded story
  * @param video                       Optional Message is a video, information about the video
  * @param voice                       Optional Message is a voice message, information about the file
  * @param videoNote                   Optional Message is a video note, information about the video message
@@ -99,6 +100,7 @@ case class Message(
   game: Option[Game] = None,
   photo: Option[Seq[PhotoSize]] = None,
   sticker: Option[Sticker] = None,
+  story: Option[Story.type] = None,
   video: Option[Video] = None,
   voice: Option[Voice] = None,
   videoNote: Option[VideoNote] = None,

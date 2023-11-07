@@ -23,6 +23,9 @@ import com.bot4s.telegram.models.ChatId
  * @param canManageVideoChats Boolean Optional Pass True, if the administrator can manage video chats
  * @param canRestrictMembers  Boolean Optional Pass True, if the administrator can restrict, ban or unban chat members
  * @param canPinMessages      Boolean Optional Pass True, if the administrator can pin messages, supergroups only
+ * @param canPostStories      Boolean Optional Pass True, if the administrator can post stories in the channel, channels only
+ * @param canEditStories      Boolean Optional Pass True, if the administrator can post stories in the channel, channels only
+ * @param canDeleteStories    Boolean Optional Pass True, if the administrator can post stories in the channel, channels only
  * @param canPromoteMembers   Boolean Optional Pass True, if the administrator can add new administrators with a subset
  *                            of his own privileges or demote administrators that he has promoted,
  *                            directly or indirectly (promoted by administrators that were appointed by him)
@@ -41,6 +44,9 @@ case class PromoteChatMember(
   canManageVideoChats: Option[Boolean] = None,
   canRestrictMembers: Option[Boolean] = None,
   canPinMessages: Option[Boolean] = None,
+  canPostStories: Option[Boolean] = None,
+  canEditStories: Option[Boolean] = None,
+  canDeleteStories: Option[Boolean] = None,
   canPromoteMembers: Option[Boolean] = None,
   canManageTopics: Option[Boolean]
 ) extends JsonRequest[Boolean]
