@@ -19,7 +19,7 @@ object library {
     val scalaTest          = "3.2.17"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.4.14"
+    val logback            = "1.5.0"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
