@@ -41,7 +41,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
                   .rethrow
     } yield result
 
-  private def sendRequestInternal[R](request: Request[R]): F[R] =
+  protected def sendRequestInternal[R](request: Request[R]): F[R] =
     request match {
       // Pure JSON requests
       case s: ApproveChatJoinRequest            => sendRequest[R, ApproveChatJoinRequest](s)
