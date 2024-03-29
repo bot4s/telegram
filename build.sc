@@ -2,7 +2,7 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val ScalaVersions = Seq("2.12.18", "2.13.12")
+val ScalaVersions = Seq("2.12.19", "2.13.13")
 
 object library {
 
@@ -19,7 +19,7 @@ object library {
     val scalaTest          = "3.2.18"
     val scalaMockScalaTest = "5.2.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.4.14"
+    val logback            = "1.5.3"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
