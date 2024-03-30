@@ -11,7 +11,7 @@ object library {
     val circeGenericExtras = "0.14.3"
     val cats               = "2.10.0"
     val catsEffect         = "2.5.5"
-    val catsEffect3        = "3.5.3"
+    val catsEffect3        = "3.5.4"
     val zio                = "2.0.21"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.1"
