@@ -98,8 +98,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
       library.catsCore,
       library.catsFree,
       library.sttpCore,
-      library.scalaLogging,
-      library.logback
+      library.scalaLogging
     )
   }
 
@@ -195,11 +194,17 @@ object akka extends Module {
 }
 
 object examples extends Module {
+  trait ExamplesJvmCommon extends Bot4sTelegramCrossPlatform {
+    override val platformSegment: String = "jvm"
+
+    override def ivyDeps = super.ivyDeps() ++ Agg(
+      library.logback
+    )
+  }
 
   object jvm extends Cross[ExamplesJvmModule](ScalaVersions)
-  trait ExamplesJvmModule extends Bot4sTelegramCrossPlatform {
-    override val platformSegment: String = "jvm"
-    override val location: String        = "examples"
+  trait ExamplesJvmModule extends ExamplesJvmCommon {
+    override val location: String = "examples"
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.scalajHttp,
@@ -211,9 +216,8 @@ object examples extends Module {
   }
 
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions)
-  trait ExamplesCatsModule extends Bot4sTelegramCrossPlatform {
-    override val platformSegment: String = "jvm"
-    override val location: String        = "cats"
+  trait ExamplesCatsModule extends ExamplesJvmCommon {
+    override val location: String = "cats"
 
     override def ivyDeps = super.ivyDeps() ++ Agg(
       library.asyncHttpClientBackendCats,
@@ -226,9 +230,8 @@ object examples extends Module {
   }
 
   object cats3jvm extends Cross[ExamplesCats3Module](ScalaVersions)
-  trait ExamplesCats3Module extends Bot4sTelegramCrossPlatform {
-    override val platformSegment: String = "jvm"
-    override val location: String        = "cats"
+  trait ExamplesCats3Module extends ExamplesJvmCommon {
+    override val location: String = "cats"
 
     override def ivyDeps = T {
       super.ivyDeps() ++ Agg(
@@ -243,9 +246,8 @@ object examples extends Module {
   }
 
   object ziojvm extends Cross[ExamplesZIOModule](ScalaVersions)
-  trait ExamplesZIOModule extends Bot4sTelegramCrossPlatform {
-    override val platformSegment: String = "jvm"
-    override val location: String        = "zio"
+  trait ExamplesZIOModule extends ExamplesJvmCommon {
+    override val location: String = "zio"
 
     override def ivyDeps = T {
       super.ivyDeps() ++ Agg(
@@ -263,9 +265,8 @@ object examples extends Module {
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions)
-  trait ExamplesMonixModule extends Bot4sTelegramCrossPlatform {
-    override val platformSegment: String = "jvm"
-    override val location: String        = "monix"
+  trait ExamplesMonixModule extends ExamplesJvmCommon {
+    override val location: String = "monix"
 
     override def ivyDeps = T {
       super.ivyDeps() ++ Agg(
