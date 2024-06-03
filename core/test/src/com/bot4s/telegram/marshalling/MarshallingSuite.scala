@@ -1,6 +1,7 @@
 package com.bot4s.telegram.marshalling
 
 import com.bot4s.telegram.api.TestUtils
+import com.bot4s.telegram.methods.SendMediaGroup
 import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
@@ -181,6 +182,22 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     toJson[StickerFormat](StickerFormat.Static) shouldBe """"static""""
     toJson[StickerFormat](StickerFormat.Animated) shouldBe """"animated""""
     toJson[StickerFormat](StickerFormat.Video) shouldBe """"video""""
+  }
+
+  it should "encode InputFile" in {
+    val inputFile = InputFile.FileId("file_id")
+    toJson[InputFile](inputFile) shouldBe """"file_id""""
+  }
+
+  it should "encode InputMediaPhoto" in {
+    val inputMedia = InputMediaPhoto("media", None)
+    toJson[InputMedia](inputMedia) shouldBe """{"media":"media","type":"photo"}"""
+  }
+
+  it should "encode SendMediaGroup" in {
+    val inputMedia     = InputMediaPhoto("media", None)
+    val sendMediaGroup = SendMediaGroup(ChatId(123), Array(inputMedia))
+    toJson[SendMediaGroup](sendMediaGroup) shouldBe """{"chat_id":123,"media":[{"media":"media","type":"photo"}]}"""
   }
 
 }
