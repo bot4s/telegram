@@ -184,6 +184,11 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
     toJson[StickerFormat](StickerFormat.Video) shouldBe """"video""""
   }
 
+  it should "encode InputFile" in {
+    val inputFile = InputFile.FileId("file_id")
+    toJson[InputFile](inputFile) shouldBe """"file_id""""
+  }
+
   it should "encode InputMediaPhoto" in {
     val inputMedia = InputMediaPhoto("media", None)
     toJson[InputMedia](inputMedia) shouldBe """{"media":"media","type":"photo"}"""
