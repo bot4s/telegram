@@ -190,10 +190,9 @@ class MarshallingSuite extends AnyFlatSpec with MockFactory with Matchers with T
   }
 
   it should "encode SendMediaGroup" in {
-    val inputMedia = InputMediaPhoto("media", None)
+    val inputMedia     = InputMediaPhoto("media", None)
     val sendMediaGroup = SendMediaGroup(ChatId(123), Array(inputMedia))
     toJson[SendMediaGroup](sendMediaGroup) shouldBe """{"chat_id":123,"media":[{"media":"media","type":"photo"}]}"""
   }
-
 
 }

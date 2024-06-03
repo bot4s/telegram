@@ -344,15 +344,15 @@ trait CirceEncoders {
 
   implicit val inputFileEncoder: Encoder[InputFile] = Encoder.instance {
     case InputFile.FileId(fileId) => fileId.asJson
-    case _ => io.circe.Json.Null
+    case _                        => io.circe.Json.Null
   }
 
   implicit val inputMediaEncoder: Encoder[InputMedia] = Encoder.instance {
-    case q: InputMediaPhoto => q.asJson
-    case q: InputMediaVideo => q.asJson
+    case q: InputMediaPhoto     => q.asJson
+    case q: InputMediaVideo     => q.asJson
     case q: InputMediaAnimation => q.asJson
-    case q: InputMediaAudio => q.asJson
-    case q: InputMediaDocument => q.asJson
+    case q: InputMediaAudio     => q.asJson
+    case q: InputMediaDocument  => q.asJson
   }
 
   implicit val sendLocationEncoder: Encoder[SendLocation]           = deriveConfiguredEncoder[SendLocation]
