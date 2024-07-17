@@ -1,7 +1,7 @@
 package com.bot4s.telegram.methods
 
 import ParseMode.ParseMode
-import com.bot4s.telegram.models.{ ChatId, Message, MessageEntity, ReplyMarkup }
+import com.bot4s.telegram.models.{ ChatId, MessageEntity, MessageId, ReplyMarkup }
 
 /**
  * Use this method to copy messages of any kind.
@@ -39,4 +39,4 @@ case class CopyMessage(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest[MessageId]

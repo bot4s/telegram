@@ -57,7 +57,8 @@ trait CirceEncoders {
   implicit val animationEncoder: Encoder[Animation]         = deriveConfiguredEncoder[Animation]
   implicit val gameEncoder: Encoder[Game]                   = deriveConfiguredEncoder[Game]
 
-  implicit val messageEncoder: Encoder[Message] = deriveConfiguredEncoder[Message]
+  implicit val messageEncoder: Encoder[Message]     = deriveConfiguredEncoder[Message]
+  implicit val messageIdEncoder: Encoder[MessageId] = deriveConfiguredEncoder[MessageId]
 
   implicit val messageEntityTypeEncoder: Encoder[MessageEntityType] =
     Encoder[String].contramap[MessageEntityType](e => CaseConversions.snakenize(e.toString))
