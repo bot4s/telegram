@@ -250,8 +250,10 @@ case class InlineKeyboardButton(
       callbackData,
       url,
       loginUrl,
+      webApp,
       switchInlineQuery,
       switchInlineQueryCurrentChat,
+      switchInlineQueryChosenChat,
       callbackGame,
       pay
     ).count(_.isDefined) == 1,
