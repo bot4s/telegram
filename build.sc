@@ -7,7 +7,7 @@ val ScalaVersions = Seq("2.12.20", "2.13.14")
 object library {
 
   object Version {
-    val circe              = "0.14.9"
+    val circe              = "0.14.10"
     val circeGenericExtras = "0.14.4"
     val cats               = "2.12.0"
     val catsEffect         = "2.5.5"
@@ -19,7 +19,7 @@ object library {
     val scalaTest          = "3.2.19"
     val scalaMockScalaTest = "6.0.0"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.5.7"
+    val logback            = "1.5.8"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
