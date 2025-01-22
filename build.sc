@@ -17,9 +17,9 @@ object library {
     val zioInteropCats     = "23.1.0.3"
     val sttp               = "3.10.0"
     val scalaTest          = "3.2.19"
-    val scalaMockScalaTest = "6.0.0"
+    val scalaMockScalaTest = "6.1.1"
     val scalaLogging       = "3.9.5"
-    val logback            = "1.5.12"
+    val logback            = "1.5.16"
     val scalajHttp         = "2.4.2"
     val akkaVersion        = "2.6.20"
     val akkaActor          = akkaVersion
