@@ -30,4 +30,4 @@ jobs:
           USERNAME: ${{ secrets.OSS_USERNAME }}
           PASSWORD: ${{ secrets.OSS_PASSWORD }}
         run: |
-          mill mill.scalalib.PublishModule/publishAll __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
+          mill mill.scalalib.PublishModule/ --publishArtifacts __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
