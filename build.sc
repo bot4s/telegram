@@ -132,7 +132,7 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "5.8.3"
+  override def publishVersion = "5.8.4"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",
