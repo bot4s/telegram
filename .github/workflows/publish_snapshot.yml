@@ -27,7 +27,7 @@ jobs:
       - name: Publish
         shell: bash
         env:
-          USERNAME: ${{ secrets.OSS_USERNAME }}
-          PASSWORD: ${{ secrets.OSS_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.OSS_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.OSS_PASSWORD }}
         run: |
-          mill mill.scalalib.PublishModule/ --publishArtifacts __.publishArtifacts --sonatypeCreds "$USERNAME:$PASSWORD"
+          mill mill.scalalib.PublishModule/ --publishArtifacts __.publishArtifacts
