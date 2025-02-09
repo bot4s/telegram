@@ -10,5 +10,5 @@ package com.bot4s.telegram.models
 case class ForumTopicCreated(
   name: String,
   iconColor: Int,
-  iconCustomEmojiId: Option[Int] = None
+  iconCustomEmojiId: Option[String] = None
 )
