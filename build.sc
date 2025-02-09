@@ -15,9 +15,9 @@ object library {
     val catsEffect3        = "3.5.7"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.3"
-    val sttp               = "3.10.2"
+    val sttp               = "3.10.3"
     val scalaTest          = "3.2.19"
-    val scalaMockScalaTest = "6.1.1"
+    val scalaMockScalaTest = "6.2.0"
     val scalaLogging       = "3.9.5"
     val logback            = "1.5.16"
     val scalajHttp         = "2.4.2"
@@ -132,7 +132,7 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
 
 trait Publishable extends PublishModule {
 
-  override def publishVersion = "5.8.3"
+  override def publishVersion = "5.8.4"
 
   def pomSettings = PomSettings(
     description = "Telegram Bot API wrapper for Scala",

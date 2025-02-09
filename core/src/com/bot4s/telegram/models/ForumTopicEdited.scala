@@ -8,5 +8,5 @@ package com.bot4s.telegram.models
  */
 case class ForumTopicEdited(
   name: String,
-  iconCustomEmojiId: Option[Int] = None
+  iconCustomEmojiId: Option[String] = None
 )
