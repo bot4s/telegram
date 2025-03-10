@@ -48,7 +48,7 @@ class WebhookSSLBot(token: String) extends AkkaExampleBot(token) with Webhook {
     InputFile(new File(getClass().getClassLoader().getResource("ssl/mts.pem").toURI()).toPath)
   )
 
-  override val httpsContext: Option[HttpsConnectionContext] = Some({
+  override val httpsContext: Option[HttpsConnectionContext] = Some {
     val password = "changeit".toCharArray()
 
     val ks       = KeyStore.getInstance("PKCS12")
@@ -68,7 +68,7 @@ class WebhookSSLBot(token: String) extends AkkaExampleBot(token) with Webhook {
     val https: HttpsConnectionContext = ConnectionContext.httpsServer(sslContext)
 
     https
-  })
+  }
 
   override def receiveMessage(msg: Message): Future[Unit] =
     msg.text.fold(Future.successful(())) { text =>

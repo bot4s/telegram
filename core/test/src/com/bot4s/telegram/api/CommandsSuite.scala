@@ -34,10 +34,10 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
         )(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
         override def apply[R](request: Request[R]): Future[R] = request match {
           case GetMe =>
-            Future.successful({
+            Future.successful {
               val jsonUser = toJson[User](botUser)
               fromJson[User](jsonUser)(userDecoder)
-            })
+            }
           case _ => throw new Exception("Do know what to do")
         }
       }
