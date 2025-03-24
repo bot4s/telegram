@@ -12,7 +12,7 @@ object library {
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
     val zio                = "2.1.16"
-    val catsEffect3        = "3.5.7"
+    val catsEffect3        = "3.6.0"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.4"
     val sttp               = "3.10.3"
