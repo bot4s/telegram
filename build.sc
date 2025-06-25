@@ -2,13 +2,13 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-val ScalaVersions = Seq("2.12.20", "2.13.16")
+val ScalaVersions = Seq("2.13.16", "3.7.0")
 
 object library {
 
   object Version {
-    val circe              = "0.14.13"
-    val circeGenericExtras = "0.14.4"
+    val circe              = "0.14.14"
+    val circeGenericExtras = "0.14.5-RC1"
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
     val zio                = "2.1.16"
@@ -74,19 +74,37 @@ object library {
 
 trait Bot4sTelegramModule extends CrossScalaModule {
 
-  override def scalacOptions = Seq(
+  // Common options for both Scala 2 and Scala 3
+  val commonScalacOptions = Seq(
     "-unchecked",
     "-deprecation",
-    "-language:_",
     "-encoding",
     "UTF-8",
-    "-feature",
-    "-unchecked",
-    "-Xlint:_",
-    // circe raises a lot of those warnings in the CirceEncoders file
-    "-Wconf:cat=lint-byname-implicit:s",
-    "-Ywarn-dead-code"
+    "-feature"
   )
+
+  override def scalacOptions =
+    if (crossScalaVersion.startsWith("3")) {
+      // Scala 3 options (current ones)
+      commonScalacOptions ++ Seq(
+        "-language:implicitConversions",
+        "-language:higherKinds",
+        "-language:existentials",
+        "-language:postfixOps",
+        "-Wunused:imports",
+        "-Wunused:locals",
+        "-Wunused:privates",
+        "-Wconf:cat=unused:s"
+      )
+    } else {
+      // Scala 2 options (old ones)
+      commonScalacOptions ++ Seq(
+        "-language:_",
+        "-Xlint:_",
+        "-Wconf:cat=lint-byname-implicit:s",
+        "-Ywarn-dead-code"
+      )
+    }
 
   override def ivyDeps = T {
     Agg(
@@ -120,10 +138,12 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
 
   def millSourcePath = build.millSourcePath / location
 
-  override def sources = T.sources(
-    millSourcePath / "src",
-    millSourcePath / s"src-$platformSegment"
-  )
+  override def sources = T.sources {
+    Seq(
+      PathRef(millSourcePath / "src"),
+      PathRef(millSourcePath / s"src-$platformSegment")
+    ) ++ scalaVersionDirectoryNames.map(s => PathRef(millSourcePath / s"src-$platformSegment-$s"))
+  }
 
   def crossScalaVersion: String
 
@@ -152,12 +172,6 @@ object core extends Module {
   trait CoreJvmModule extends Bot4sTelegramCrossPlatform with Publishable {
     override val platformSegment: String = "jvm"
     override val location: String        = "core"
-
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
-        library.scalajHttp
-      )
-    }
 
     object test extends Tests
   }
@@ -206,11 +220,12 @@ object examples extends Module {
   trait ExamplesJvmModule extends ExamplesJvmCommon {
     override val location: String = "examples"
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalajHttp,
-      library.akkaHttpCors,
-      library.sttpOkHttp
+    val exampleDependencies: T[Agg[Dep]] = Agg(
+      library.sttpOkHttp,
+      library.akkaHttpCors
     )
+
+    override def ivyDeps = super.ivyDeps() ++ exampleDependencies()
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
   }

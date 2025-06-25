@@ -10,6 +10,7 @@ import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models._
 
 import scala.concurrent.Future
+import sttp.client3._
 
 /**
  * Text-to-speech bot (using Google TTS API)
@@ -32,9 +33,12 @@ class TextToSpeechBot(token: String)
     withArgs { args =>
       val text = args.mkString(" ")
       for {
-        r <- Future(scalaj.http.Http(ttsUrl(text)).asBytes)
-        if r.isSuccess
-        bytes    = r.body
+        r <- backend.send(basicRequest.get(uri"${ttsUrl(text)}").response(asByteArray))
+        if r.code.isSuccess
+        bytes = r.body match {
+          case Right(b) => b
+          case Left(e) => throw new RuntimeException(s"Failed to get audio: $e")
+        }
         _       <- uploadingAudio // hint the user
         voiceMp3 = InputFile("voice.mp3", bytes)
         _       <- request(SendVoice(msg.source, voiceMp3))

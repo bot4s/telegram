@@ -5,6 +5,8 @@ import com.bot4s.telegram.methods._
 import com.bot4s.telegram.models.InputFile
 
 import scala.concurrent.Future
+import sttp.client3._
+import sttp.client3.okhttp.OkHttpFutureBackend
 
 /**
  * Such Telegram, many bots, so Dogesome.
@@ -15,9 +17,12 @@ class DogeBot(token: String) extends ExampleBot(token) with Polling with Command
     withArgs { args =>
       val url = "http://dogr.io/" + (args mkString "/") + ".png?split=false"
       for {
-        res <- Future(scalaj.http.Http(url).asBytes)
-        if res.isSuccess
-        bytes = res.body
+        res <- backend.send(basicRequest.get(uri"$url").response(asByteArray))
+        if res.code.isSuccess
+        bytes = res.body match {
+          case Right(b) => b
+          case Left(e) => throw new RuntimeException(s"Failed to get image: $e")
+        }
         _     = println(bytes.length)
         photo = InputFile("doge.png", bytes)
         _    <- uploadingPhoto // Hint the user
