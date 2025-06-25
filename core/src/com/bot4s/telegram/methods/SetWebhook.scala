@@ -1,7 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.InputFile
-import com.bot4s.telegram.models.UpdateType.UpdateType
+import com.bot4s.telegram.models.{InputFile, UpdateType}
 
 /**
  * Use this method to specify a url and receive incoming updates via an outgoing webhook.

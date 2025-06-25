@@ -12,7 +12,7 @@ trait Polling extends BasePolling[Future] with BotExecutionContext with StrictLo
 
   private type OffsetUpdates = (Option[Long], Seq[ParsedUpdate], User)
 
-  @volatile private var polling: Future[Unit] = _
+  @volatile private var polling: Future[Unit] = scala.compiletime.uninitialized
 
   private def poll(seed: Future[OffsetUpdates]): Future[OffsetUpdates] =
     seed.flatMap { case (offset, updates, user) =>

@@ -1,12 +1,12 @@
 package com.bot4s.telegram.marshalling
 
-import akka.http.scaladsl.marshalling.{ Marshaller, Marshalling, ToEntityMarshaller }
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.unmarshalling.{ FromEntityUnmarshaller, Unmarshaller }
+import akka.http.scaladsl.marshalling.{Marshaller, Marshalling, ToEntityMarshaller}
+import akka.http.scaladsl.model.*
+import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
 import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request }
-import com.bot4s.telegram.models.{ AkkaInputFile, InputFile }
-import io.circe.{ Decoder, Encoder }
+import com.bot4s.telegram.methods.{JsonRequest, MultipartRequest, Request}
+import com.bot4s.telegram.models.{AkkaInputFile, InputFile}
+import io.circe.{Decoder, Encoder}
 
 object AkkaHttpMarshalling {
 
@@ -15,7 +15,7 @@ object AkkaHttpMarshalling {
       .forContentTypes(ContentTypes.`application/json`)
       .map(marshalling.fromJson[R])
 
-  implicit def underscore_case_marshaller[T <: Request[_]](implicit encT: Encoder[T]): ToEntityMarshaller[T] =
+  implicit def underscore_case_marshaller[T <: Request[?]](implicit encT: Encoder[T]): ToEntityMarshaller[T] =
     Marshaller.strict { request =>
       request match {
         // JSON-only request
@@ -57,7 +57,7 @@ object AkkaHttpMarshalling {
             .fold(
               throw _,
               _.asObject.map {
-                _.toMap.mapValues { json =>
+                _.toMap.view.mapValues { json =>
                   json.asString.getOrElse(marshalling.printer.print(json))
                 }
               }
@@ -66,7 +66,7 @@ object AkkaHttpMarshalling {
           val params     = fields.getOrElse(Map()).toMap
           val paramParts = params.map { case (key, value) => Multipart.FormData.BodyPart(key, HttpEntity(value)) }
 
-          Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts): _*).toEntity())
+          Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts)*).toEntity)
       }
     }
 }

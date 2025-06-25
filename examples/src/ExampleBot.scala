@@ -18,5 +18,5 @@ import sttp.client3.SttpBackend
 abstract class ExampleBot(val token: String) extends TelegramBot {
 
   implicit val backend: SttpBackend[Future, Any] = SttpBackends.default
-  override val client: RequestHandler[Future]    = new FutureSttpClient(token)
+  override lazy val client: RequestHandler[Future]    = new FutureSttpClient(token)
 }

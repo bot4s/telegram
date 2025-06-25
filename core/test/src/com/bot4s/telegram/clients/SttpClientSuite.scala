@@ -15,7 +15,7 @@ class SttpClientSuite extends AsyncFlatSpec {
     val backend = SttpBackendStub.asynchronousFuture
       .whenRequestMatches(_.uri.path.contains("GetMe"))
       .thenRespondServerError()
-    val client = new FutureSttpClient("")(backend, implicitly[ExecutionContext])
+    val client = new FutureSttpClient("")(using backend, implicitly[ExecutionContext])
 
     recoverToSucceededIf[ParsingFailure] {
       client.apply(GetMe)
@@ -26,7 +26,7 @@ class SttpClientSuite extends AsyncFlatSpec {
     val backend = SttpBackendStub.asynchronousFuture
       .whenRequestMatches(_.uri.path.contains("GetMe"))
       .thenRespond("""{"ok":false,"error_code":401,"description":"Unauthorized"}""")
-    val client = new FutureSttpClient("")(backend, implicitly[ExecutionContext])
+    val client = new FutureSttpClient("")(using backend, implicitly[ExecutionContext])
 
     recoverToSucceededIf[TelegramApiException] {
       client.apply(GetMe)

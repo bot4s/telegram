@@ -1,6 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
+import com.bot4s.telegram.models.BotCommandScope
 
 /**
  *  Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.

@@ -13,7 +13,7 @@ import scala.concurrent.Future
 class RandomBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
 
   val rng = new scala.util.Random(System.currentTimeMillis())
-  onCommand("coin" or "flip") { implicit msg =>
+  onCommand("coin" `or` "flip") { implicit msg =>
     reply(if (rng.nextBoolean()) "Head!" else "Tail!").void
   }
   onCommand("real" | "double" | "float") { implicit msg =>
@@ -22,7 +22,7 @@ class RandomBot(token: String) extends ExampleBot(token) with Polling with Comma
   onCommand("/die" | "roll") { implicit msg =>
     reply("⚀⚁⚂⚃⚄⚅" (rng.nextInt(6)).toString).void
   }
-  onCommand("random" or "rnd") { implicit msg =>
+  onCommand("random" `or` "rnd") { implicit msg =>
     withArgs {
       case Seq(Int(n)) if n > 0 =>
         reply(rng.nextInt(n).toString).void

@@ -57,9 +57,9 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
   override val port: Int = 8080
 
   val Play2048    = "play_2048"
-  val GitHubPages = Uri("https://mukel.github.io")
+  val GitHubPages: Uri = Uri("https://mukel.github.io")
 
-  onCommand(Play2048 or "2048" or "start") { implicit msg =>
+  onCommand(Play2048.or("2048").or("start")) { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
     ).void
@@ -81,7 +81,7 @@ class GitHubHosted2048Bot(token: String, gameManagerHost: String)
 
   // Enable CORS for GitHub Pages.
   // Allows GitHub Pages to call cross-domain getScores and setScore.
-  private val allowGitHub = CorsSettings.defaultSettings
+  private val allowGitHub: CorsSettings = CorsSettings.defaultSettings
     .withAllowedOrigins(HttpOriginMatcher(HttpOrigin(GitHubPages.toString())))
 
   override def routes: Route =

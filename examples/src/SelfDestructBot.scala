@@ -24,7 +24,7 @@ class SelfDestructBot(token: String)
 
   val timeouts = Seq(3, 5, 10, 30)
 
-  override def allowedUpdates = InlineUpdates ++ CallbackUpdates
+  override def allowedUpdates: Option[Seq[UpdateType]] = InlineUpdates ++ CallbackUpdates
 
   def buildResult(timeout: Int, msg: String): InlineQueryResult =
     InlineQueryResultArticle(

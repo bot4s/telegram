@@ -1,7 +1,5 @@
 package com.bot4s.telegram.models
 
-import com.bot4s.telegram.models.StickerType.StickerType
-
 /**
  * This object represents a sticker.
  *

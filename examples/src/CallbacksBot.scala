@@ -19,14 +19,14 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
   val TAG          = "COUNTER_TAG"
   var requestCount = 0
 
-  def markupCounter(n: Int) = {
+  def markupCounter(n: Int): InlineKeyboardMarkup = {
     requestCount += 1
     InlineKeyboardMarkup.singleButton(
       InlineKeyboardButton.callbackData(s"Press me!!!\n$n - $requestCount", tag(n.toString))
     )
   }
 
-  def tag = prefixTag(TAG) _
+  def tag: String => String = prefixTag(TAG)
 
   onCommand("/counter") { implicit msg =>
     reply("Press to increment!", replyMarkup = markupCounter(0)).void
@@ -39,7 +39,7 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
 
     val maybeEditFuture = for {
       data  <- cbq.data
-      Int(n) = data
+      Int(n: Int) = data: @unchecked
       msg   <- cbq.message
       response <- request(
                     EditMessageReplyMarkup(

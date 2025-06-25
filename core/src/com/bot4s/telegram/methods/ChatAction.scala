@@ -13,8 +13,6 @@ package com.bot4s.telegram.methods
  *   find_location for location data,
  *   record_video_note or upload_video_note for video notes.
  */
-object ChatAction extends Enumeration {
-  type ChatAction = Value
-  val Typing, UploadPhoto, RecordVideo, UploadVideo, RecordAudio, UploadAudio, UploadDocument, ChooseSticker,
-    FindLocation, RecordVideoNote, UploadVideoNote = Value
-}
+enum ChatAction:
+  case Typing, UploadPhoto, RecordVideo, UploadVideo, RecordAudio, UploadAudio, UploadDocument, ChooseSticker,
+  FindLocation, RecordVideoNote, UploadVideoNote

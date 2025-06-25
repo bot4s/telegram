@@ -1,7 +1,5 @@
 package com.bot4s.telegram.models
 
-import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
-
 /**
  * This object represents one special entity in a text message.
  *

@@ -1,8 +1,7 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.StickerFormat.StickerFormat
-import com.bot4s.telegram.models.InputSticker
+import com.bot4s.telegram.models.{ InputSticker, StickerType }
 
 /**
  * Use this method to create new sticker set owned by a user.

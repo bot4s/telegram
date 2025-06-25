@@ -1,22 +1,21 @@
 package com.bot4s.telegram.api
 
+import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.server.{Directive1, Route}
+import com.bot4s.telegram.future.BotExecutionContext
+import com.bot4s.telegram.marshalling
+import com.bot4s.telegram.methods.{GetGameHighScores, SetGameScore}
+import com.bot4s.telegram.models.{CallbackQuery, ChatId, User}
+import io.circe.generic.extras.semiauto.*
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.util.Base64
-
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.{ Directive1, Route }
-import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.methods.{ GetGameHighScores, SetGameScore }
-import com.bot4s.telegram.models.{ CallbackQuery, ChatId, User }
-import com.bot4s.telegram.future.BotExecutionContext
-import io.circe.generic.extras.semiauto._
-import io.circe.generic.semiauto.deriveDecoder
-import io.circe.{ Decoder, Encoder }
-
 import scala.concurrent.Future
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
 /**
  * Provides basic endpoints to manage game's scoring.
@@ -34,12 +33,12 @@ import scala.util.{ Failure, Success }
  * or even better, submit a PR with your approach.
  */
 trait GameManager extends WebRoutes {
-  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] & BotExecutionContext & AkkaImplicits =>
 
-  import com.bot4s.telegram.marshalling._
+  import com.bot4s.telegram.marshalling.*
 
   private def extractPayload: Directive1[Payload] =
-    headerValueByName("Referer").map { referer: String =>
+    headerValueByName("Referer").map { (referer: String) =>
       val parts          = referer.split("\\?payload=")
       val encodedPayload = URLDecoder.decode(parts(1), "UTF-8")
       Payload.base64Decode(encodedPayload)
@@ -120,7 +119,7 @@ object Payload {
       cbq.gameShortName.get
     ) // throws if not a game callback
 
-  import marshalling._
+  import marshalling.*
   implicit val payloadEncoder: Encoder[Payload] = deriveConfiguredEncoder[Payload]
   implicit val payloadDecoder: Decoder[Payload] = deriveDecoder[Payload]
 }

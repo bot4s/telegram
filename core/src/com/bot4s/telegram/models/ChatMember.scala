@@ -1,7 +1,5 @@
 package com.bot4s.telegram.models
 
-import MemberStatus.MemberStatus
-
 /**
  * This object contains information about one member of the chat.
  *

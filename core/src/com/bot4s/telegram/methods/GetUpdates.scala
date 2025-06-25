@@ -1,7 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.UpdateType.UpdateType
-import com.bot4s.telegram.models.ParsedUpdate
+import com.bot4s.telegram.models.{ParsedUpdate, UpdateType}
 
 /**
  * Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.

@@ -1,7 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
-import com.bot4s.telegram.models.BotCommand
+import com.bot4s.telegram.models.{BotCommand, BotCommandScope}
 
 /**
  *  Use this method to get the current list of the bot's commands for the given scope and user language. Returns Array of BotCommand on success. If commands aren't set, an empty list is returned.

@@ -15,5 +15,5 @@ class TelegramBot[F[_]](
   override val monad = monadError
 
   implicit private val b: SttpBackend[F, Any] = backend
-  val client                                  = new SttpClient[F](token, telegramHost)
+  lazy val client                                  = new SttpClient[F](token, telegramHost)
 }

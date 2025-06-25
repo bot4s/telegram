@@ -27,13 +27,12 @@ package object declarative {
   def when[F[_]: Applicative, T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])(
     action: Action[F, T]
   ): Unit = {
-    val newAction = { t: T =>
+    val newAction = (t: T) =>
       if (filter(t)) {
         action(t)
       } else {
         Applicative[F].pure(())
       }
-    }
     actionInstaller(newAction)
   }
 
@@ -54,12 +53,11 @@ package object declarative {
   def whenF[F[_]: Monad, T](actionInstaller: Action[F, T] => Unit, filter: FilterF[F, T])(
     action: Action[F, T]
   ): Unit = {
-    val newAction = { t: T =>
+    val newAction = (t: T) =>
       FlatMap[F].flatMap(filter(t)) {
         case true  => action(t)
         case false => Applicative[F].pure(())
       }
-    }
     actionInstaller(newAction)
   }
 
@@ -82,12 +80,11 @@ package object declarative {
   def whenOrElse[F[_], T](actionInstaller: Action[F, T] => Unit, filter: Filter[T])(
     action: Action[F, T]
   )(elseAction: Action[F, T]): Unit = {
-    val newAction = { t: T =>
+    val newAction = (t: T) =>
       if (filter(t))
         action(t)
       else
         elseAction(t)
-    }
     actionInstaller(newAction)
   }
 }

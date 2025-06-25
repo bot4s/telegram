@@ -1,20 +1,23 @@
 package com.bot4s.telegram.api
 
+import cats.MonadError
+import cats.syntax.flatMap.*
+import cats.syntax.functor.*
+import cats.syntax.monadError.*
+import com.bot4s.telegram.marshalling.given
+import com.bot4s.telegram.methods.*
+import com.typesafe.scalalogging.StrictLogging
+import io.circe.Decoder.decodeInt
+import io.circe.generic.extras.Configuration
+import io.circe.{Decoder, Encoder}
+
 import java.util.UUID
 
-import cats.MonadError
-import cats.syntax.flatMap._
-import cats.syntax.functor._
-import cats.syntax.monadError._
-import com.bot4s.telegram.methods._
-import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
-
-import com.bot4s.telegram.marshalling._
+implicit val config: Configuration = Configuration.default.withSnakeCaseMemberNames
 
 abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable]) extends StrictLogging {
 
-  def sendRequest[R, T <: Request[_ /* R */ ]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R]
+  def sendRequest[R, T <: Request[? /* R */ ]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R]
 
   /**
    * Spawns a type-safe request.
@@ -41,7 +44,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
                   .rethrow
     } yield result
 
-  protected def sendRequestInternal[R](request: Request[R]): F[R] =
+  protected def sendRequestInternal[R](request: Request[R]): F[R] = {
     request match {
       // Pure JSON requests
       case s: ApproveChatJoinRequest            => sendRequest[R, ApproveChatJoinRequest](s)
@@ -150,6 +153,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
       case s: SetWebhook          => sendRequest[R, SetWebhook](s)
       case s: UploadStickerFile   => sendRequest[R, UploadStickerFile](s)
     }
+  }
 
   protected def processApiResponse[R](response: Response[R]): R = response match {
     case Response(true, Some(result), _, _, _) => result

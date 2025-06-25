@@ -4,7 +4,6 @@ import cats.MonadError
 import cats.instances.list._
 import cats.syntax.foldable._
 
-import com.bot4s.telegram.models.UpdateType.UpdateType
 import com.bot4s.telegram.models._
 
 /**
@@ -12,12 +11,12 @@ import com.bot4s.telegram.models._
  */
 trait BotBase[F[_]] {
   implicit val monad: MonadError[F, Throwable]
-  val client: RequestHandler[F]
+  lazy val client: RequestHandler[F]
 
   def request: RequestHandler[F] = client
 
   /**
-   * Allowed updates. See [[UpdateType.Filters]].
+   * Allowed updates. See [[com.bot4s.telegram.models.UpdateType.Filters]].
    * By default all updates are allowed.
    *
    * @return Allowed updates. `None` indicates no-filtering (all updates allowed).
@@ -39,17 +38,17 @@ trait BotBase[F[_]] {
    */
   def receiveUpdate(u: Update, botUser: Option[User]): F[Unit] =
     List(
-      u.message.map(receiveMessage _),
-      u.editedMessage.map(receiveEditedMessage _),
+      u.message.map(receiveMessage),
+      u.editedMessage.map(receiveEditedMessage),
       u.message.map(m => receiveExtMessage((m, botUser))),
-      u.channelPost.map(receiveChannelPost _),
-      u.editedChannelPost.map(receiveEditedChannelPost _),
-      u.inlineQuery.map(receiveInlineQuery _),
-      u.chosenInlineResult.map(receiveChosenInlineResult _),
-      u.callbackQuery.map(receiveCallbackQuery _),
-      u.shippingQuery.map(receiveShippingQuery _),
-      u.preCheckoutQuery.map(receivePreCheckoutQuery _),
-      u.chatJoinRequest.map(receiveJoinRequest _)
+      u.channelPost.map(receiveChannelPost),
+      u.editedChannelPost.map(receiveEditedChannelPost),
+      u.inlineQuery.map(receiveInlineQuery),
+      u.chosenInlineResult.map(receiveChosenInlineResult),
+      u.callbackQuery.map(receiveCallbackQuery),
+      u.shippingQuery.map(receiveShippingQuery),
+      u.preCheckoutQuery.map(receivePreCheckoutQuery),
+      u.chatJoinRequest.map(receiveJoinRequest)
     ).flatten.sequence_
 
   protected lazy val unit = monad.pure(())

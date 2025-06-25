@@ -4,9 +4,6 @@ import com.bot4s.telegram.api.TestUtils
 import com.bot4s.telegram.methods.SendMediaGroup
 import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.Currency
-import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
-import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
-import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import com.bot4s.telegram.models.{ ChatId, MaskPositionType, _ }
 import org.scalamock.scalatest.MockFactory

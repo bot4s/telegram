@@ -1,7 +1,6 @@
 package com.bot4s.telegram.methods
 
-import com.bot4s.telegram.models.BotCommand
-import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
+import com.bot4s.telegram.models.{BotCommand, BotCommandScope}
 
 /**
  *  Use this method to change the list of the bot's commands

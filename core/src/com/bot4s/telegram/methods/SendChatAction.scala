@@ -1,6 +1,5 @@
 package com.bot4s.telegram.methods
 
-import ChatAction.ChatAction
 import com.bot4s.telegram.models.ChatId
 
 /**

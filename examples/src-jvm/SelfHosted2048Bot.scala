@@ -44,7 +44,7 @@ class SelfHosted2048Bot(token: String, gameManagerHost: String)
 
   val Play2048 = "play_2048"
 
-  onCommand(Play2048 or "2048" or "start") { implicit msg =>
+  onCommand(Play2048 `or` "2048" `or` "start") { implicit msg =>
     request(
       SendGame(msg.source, Play2048)
     ).void

@@ -9,7 +9,7 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.concurrent.{ Future, Promise }
 
 trait WebRoutes extends BotBase[Future] with StrictLogging {
-  this: BotExecutionContext with AkkaImplicits =>
+  this: BotExecutionContext & AkkaImplicits =>
 
   val port: Int
   val interfaceIp: String                          = "::0"
@@ -17,9 +17,9 @@ trait WebRoutes extends BotBase[Future] with StrictLogging {
 
   def routes: Route = reject
 
-  private var bindingFuture: Future[Http.ServerBinding] = _
+  private var bindingFuture: Future[Http.ServerBinding] = scala.compiletime.uninitialized
 
-  @volatile private var eol: Promise[Unit] = _
+  @volatile private var eol: Promise[Unit] = scala.compiletime.uninitialized
 
   abstract override def run(): Future[Unit] = synchronized {
     if (eol != null) {

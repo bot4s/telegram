@@ -3,12 +3,13 @@ package com.bot4s.telegram.models
 /**
  * Provides grouped update types to filter updates (e.g. message related, payments related).
  */
-object UpdateType extends Enumeration {
-  type UpdateType = Value
-  val Message, EditedMessage, ChannelPost, EditedChannelPost, InlineQuery, ChosenInlineResult, CallbackQuery,
-    ShippingQuery, PreCheckoutQuery = Value
+enum UpdateType:
+  case Message, EditedMessage, ChannelPost, EditedChannelPost
+  case InlineQuery, ChosenInlineResult, CallbackQuery
+  case ShippingQuery, PreCheckoutQuery
 
-  object Filters {
+object UpdateType:
+  object Filters:
     val MessageUpdates: Seq[UpdateType]  = Seq(Message, EditedMessage)
     val ChannelUpdates: Seq[UpdateType]  = Seq(ChannelPost, EditedChannelPost)
     val InlineUpdates: Seq[UpdateType]   = Seq(InlineQuery, ChosenInlineResult)
@@ -16,6 +17,3 @@ object UpdateType extends Enumeration {
     val PaymentUpdates: Seq[UpdateType]  = Seq(ShippingQuery, PreCheckoutQuery)
 
     val AllUpdates: Seq[UpdateType] = UpdateType.values.toSeq
-  }
-
-}

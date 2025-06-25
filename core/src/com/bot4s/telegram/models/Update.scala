@@ -43,7 +43,7 @@ case class Update(
 ) {
 
   require(
-    Seq[Option[_]](
+    Seq[Option[?]](
       message,
       editedMessage,
       channelPost,

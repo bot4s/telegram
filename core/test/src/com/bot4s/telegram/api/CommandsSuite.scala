@@ -29,14 +29,14 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
       // Bot name = "TestBot".
       override lazy val client = new RequestHandler {
-        def sendRequest[R, T <: Request[_ /* R */ ]](
+        def sendRequest[R, T <: Request[? /* R */ ]](
           request: T
         )(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
         override def apply[R](request: Request[R]): Future[R] = request match {
           case GetMe =>
             Future.successful({
               val jsonUser = toJson[User](botUser)
-              fromJson[User](jsonUser)(userDecoder)
+              fromJson[User](jsonUser)(using userDecoder)
             })
           case _ => throw new Exception("Do know what to do")
         }
@@ -155,16 +155,16 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
   "using helper" should "execute actions on match" in new Fixture {
     val textHandler = mockFunction[String, Future[Unit]]
     textHandler.expects("123").once()
-    bot.using(_.text)(textHandler)(textMessage("123"))
+    bot.using(_.text)(textHandler)(using textMessage("123"))
   }
 
   it should "ignore unmatched using statements" in new Fixture {
-    bot.using(_.from)(user => fail())(textMessage("123"))
+    bot.using(_.from)(user => fail())(using textMessage("123"))
   }
 
   "withArgs" should "pass arguments" in new Fixture {
     val argsHandler = mockFunction[Seq[String], Future[Unit]]
     argsHandler.expects(Seq("arg1", "arg2")).once()
-    bot.withArgs(argsHandler)(textMessage("  /cmd   arg1  arg2  "))
+    bot.withArgs(argsHandler)(using textMessage("  /cmd   arg1  arg2  "))
   }
 }
