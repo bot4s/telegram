@@ -1,20 +1,11 @@
 package com.bot4s.telegram.marshalling
 
-import com.bot4s.telegram.methods.ChatAction.ChatAction
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.PollType.PollType
-import com.bot4s.telegram.models._
 import com.bot4s.telegram.methods._
-import com.bot4s.telegram.models.ChatType.ChatType
 import com.bot4s.telegram.models.CountryCode.CountryCode
 import com.bot4s.telegram.models.Currency.{ Currency, TelegramCurrency }
-import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
-import com.bot4s.telegram.models.MemberStatus.MemberStatus
-import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
-import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
-import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.StickerFormat.StickerFormat
-import UpdateType.UpdateType
 import com.bot4s.telegram.models._
 import io.circe.Encoder
 import io.circe.generic.extras._
@@ -57,6 +48,10 @@ trait CirceEncoders {
   implicit val animationEncoder: Encoder[Animation]         = deriveConfiguredEncoder[Animation]
   implicit val gameEncoder: Encoder[Game]                   = deriveConfiguredEncoder[Game]
 
+  implicit val writeAccessAllowedEncoder: Encoder[WriteAccessAllowed] =
+    deriveConfiguredEncoder[WriteAccessAllowed]
+  implicit val maybeWriteAccessAllowedEncoder: Encoder[Option[WriteAccessAllowed]] =
+    Encoder.encodeOption[WriteAccessAllowed]
   implicit val messageEncoder: Encoder[Message]     = deriveConfiguredEncoder[Message]
   implicit val messageIdEncoder: Encoder[MessageId] = deriveConfiguredEncoder[MessageId]
 
@@ -306,8 +301,6 @@ trait CirceEncoders {
     deriveConfiguredEncoder[GeneralForumTopicHidden.type]
   implicit val generalForumTopicUnhiddenEncoder: Encoder[GeneralForumTopicUnhidden.type] =
     deriveConfiguredEncoder[GeneralForumTopicUnhidden.type]
-  implicit val writeAccessAllowedEncoder: Encoder[WriteAccessAllowed.type] =
-    deriveConfiguredEncoder[WriteAccessAllowed.type]
   // for v6.3 support
   implicit val forumTopicEncoder: Encoder[ForumTopic]             = deriveConfiguredEncoder[ForumTopic]
   implicit val createForumTopicEncoder: Encoder[CreateForumTopic] = deriveConfiguredEncoder[CreateForumTopic]
