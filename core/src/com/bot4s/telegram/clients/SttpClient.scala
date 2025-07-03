@@ -30,7 +30,7 @@ import sttp.client3.{ Request => SttpRequest }
 class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")(implicit
   backend: SttpBackend[F, Any],
   monadError: MonadError[F, Throwable]
-) extends RequestHandler[F]()(monadError)
+) extends RequestHandler[F]()(using monadError)
     with StrictLogging {
 
   val readTimeout: Duration = 50.seconds
@@ -43,7 +43,7 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  override def sendRequest[R, T <: BotRequest[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
+  override def sendRequest[R, T <: BotRequest[?]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
     val url = apiBaseUrl + request.methodName
 
     val sttpRequest: Either[IllegalArgumentException, SttpRequest[String, Any]] = request match {

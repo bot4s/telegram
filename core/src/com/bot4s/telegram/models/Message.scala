@@ -142,7 +142,7 @@ case class Message(
   forumTopicReopened: Option[ForumTopicReopened.type] = None,
   generalForumTopicHidden: Option[GeneralForumTopicHidden.type] = None,
   generalForumTopicunHidden: Option[GeneralForumTopicUnhidden.type] = None,
-  writeAccessAllowed: Option[WriteAccessAllowed.type] = None,
+  writeAccessAllowed: Option[WriteAccessAllowed] = None,
   hasMediaSpoiler: Option[Boolean] = None
 ) {
 

@@ -246,7 +246,7 @@ case class InlineKeyboardButton(
   pay: Option[Boolean] = None
 ) /* not a ReplyMarkup */ {
   require(
-    Seq[Option[_]](
+    Seq[Option[?]](
       callbackData,
       url,
       loginUrl,

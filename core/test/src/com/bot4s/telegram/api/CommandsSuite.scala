@@ -28,7 +28,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     val botUser = User(123, true, "FirstName", username = Some("TestBot"))
     val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
       // Bot name = "TestBot".
-      override lazy val client = new RequestHandler {
+      override val client = new RequestHandler {
         def sendRequest[R, T <: Request[_ /* R */ ]](
           request: T
         )(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = ???
@@ -36,7 +36,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
           case GetMe =>
             Future.successful({
               val jsonUser = toJson[User](botUser)
-              fromJson[User](jsonUser)(userDecoder)
+              fromJson[User](jsonUser)
             })
           case _ => throw new Exception("Do know what to do")
         }

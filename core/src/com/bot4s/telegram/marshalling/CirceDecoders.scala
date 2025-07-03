@@ -73,7 +73,7 @@ trait CirceDecoders extends StrictLogging {
     Decoder[String].map(a => Currency.withName(a))
 
   implicit val chatIdDecoder: Decoder[ChatId] =
-    Decoder[String].map(ChatId.Channel) or Decoder[Long].map(ChatId.Chat)
+    Decoder[String].map(ChatId.Channel.apply) or Decoder[Long].map(ChatId.Chat.apply)
 
   implicit val chatActionDecoder: Decoder[ChatAction] =
     Decoder[String].map(s => ChatAction.withName(pascalize(s)))
@@ -114,8 +114,8 @@ trait CirceDecoders extends StrictLogging {
     deriveDecoder[GeneralForumTopicHidden.type]
   implicit val generalForumTopicUnhiddenDecoder: Decoder[GeneralForumTopicUnhidden.type] =
     deriveDecoder[GeneralForumTopicUnhidden.type]
-  implicit val writeAccessAllowedDecoder: Decoder[WriteAccessAllowed.type] =
-    deriveDecoder[WriteAccessAllowed.type]
+  implicit val writeAccessAllowedDecoder: Decoder[WriteAccessAllowed] =
+    deriveDecoder[WriteAccessAllowed]
 
   // for v6.3 support
   implicit val forumTopicDecoder: Decoder[ForumTopic]                      = deriveDecoder[ForumTopic]
@@ -255,6 +255,22 @@ trait CirceDecoders extends StrictLogging {
     val r: Decoder[Either[A, B]] = decB.map(Right.apply)
     l or r
   }
+
+  implicit def eitherMessageBooleanDecoder: Decoder[Either[Boolean, Message]] = eitherDecoder[Boolean, Message]
+
+  implicit def eitherBooleanMessageDecoder: Decoder[Either[Message, Boolean]] = eitherDecoder[Message, Boolean]
+
+  implicit def seqGameHighScoreDecoder: Decoder[Seq[GameHighScore]] = Decoder.decodeSeq[GameHighScore]
+
+  implicit def seqParsedUpdateDecoder: Decoder[Seq[ParsedUpdate]] = Decoder.decodeSeq[ParsedUpdate]
+
+  implicit def seqChatMemberDecoder: Decoder[Seq[ChatMember]] = Decoder.decodeSeq[ChatMember]
+
+  implicit def listBotCommandDecoder: Decoder[List[BotCommand]] = Decoder.decodeList[BotCommand]
+
+  implicit def listStickerDecoder: Decoder[List[Sticker]] = Decoder.decodeList[Sticker]
+
+  implicit def arrayMessageDecoder: Decoder[Array[Message]] = Decoder.decodeArray[Message]
 
 }
 

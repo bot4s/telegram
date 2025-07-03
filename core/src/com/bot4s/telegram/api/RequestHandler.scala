@@ -8,13 +8,16 @@ import cats.syntax.functor._
 import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
 import io.circe.{ Decoder, Encoder }
+import io.circe.Decoder.decodeBoolean
+import io.circe.Decoder.decodeString
+import io.circe.Decoder.decodeInt
 import com.typesafe.scalalogging.StrictLogging
 
 import com.bot4s.telegram.marshalling._
 
 abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable]) extends StrictLogging {
 
-  def sendRequest[R, T <: Request[_ /* R */ ]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R]
+  def sendRequest[R, T <: Request[? /* R */ ]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R]
 
   /**
    * Spawns a type-safe request.

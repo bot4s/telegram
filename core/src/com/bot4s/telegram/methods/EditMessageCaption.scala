@@ -23,7 +23,7 @@ case class EditMessageCaption(
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   replyMarkup: Option[ReplyMarkup] = None
-) extends JsonRequest[Message Either Boolean] {
+) extends JsonRequest[Either[Boolean, Message]] {
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")

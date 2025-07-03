@@ -1,15 +1,15 @@
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
-import mill.scalalib.api.ZincWorkerUtil
+import mill.scalalib.api.JvmWorkerUtil
 
-val ScalaVersions = Seq("2.12.20", "2.13.16", "3.3.3")
+val ScalaVersions = Seq("2.12.20", "2.13.16", "3.7.2-RC1")
 
 object library {
 
   object Version {
-    val circe              = "0.14.13"
-    val circeGenericExtras = "0.14.4"
+    val circe              = "0.14.14"
+    val circeGenericExtras = "0.14.5-RC1"
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
     val zio                = "2.1.16"
@@ -74,20 +74,16 @@ object library {
 }
 
 trait Bot4sTelegramModule extends CrossScalaModule {
-  protected def isScala3: Task[Boolean] = T.task(ZincWorkerUtil.isScala3(scalaVersion()))
+  protected def isScala3: Task[Boolean] = T.task(JvmWorkerUtil.isScala3(scalaVersion()))
 
   override def scalacOptions = Seq(
     "-unchecked",
     "-deprecation",
-    "-language:_",
     "-encoding",
     "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xlint:_",
-    // circe raises a lot of those warnings in the CirceEncoders file
-    "-Wconf:cat=lint-byname-implicit:s",
-    "-Ywarn-dead-code"
+    "-language:implicitConversions",
+    "-language:higherKinds"
   )
 
   override def ivyDeps = T {
@@ -212,11 +208,14 @@ object examples extends Module {
   trait ExamplesJvmModule extends ExamplesJvmCommon {
     override val location: String = "examples"
 
+    val versionDependencies: T[Agg[Dep]] = T {
+      if (isScala3()) Agg.empty else Agg(library.scalajHttp)
+    }
+
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalajHttp,
       library.akkaHttpCors,
       library.sttpOkHttp
-    )
+    ) ++ versionDependencies()
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
   }

@@ -13,7 +13,7 @@ import scala.util.Failure
 class ExceptionBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
 
   onCommand("/hello") { implicit msg =>
-    reply("Hey there") andThen {
+    reply("Hey there").andThen {
       case Failure(tex: TelegramApiException) =>
         tex.errorCode match {
           case 439 => // Too many requests
@@ -25,6 +25,6 @@ class ExceptionBot(token: String) extends ExampleBot(token) with Polling with Co
           case e   => println(s"Error code: $e")
         }
       case _ =>
-    } void
+    }.void
   }
 }
