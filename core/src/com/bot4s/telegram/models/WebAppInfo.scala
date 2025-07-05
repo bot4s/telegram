@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Contains information about a Web App.
  *
@@ -8,3 +11,7 @@ package com.bot4s.telegram.models
 case class WebAppInfo(
   url: String
 )
+
+object WebAppInfo {
+  implicit val circeDecoder: Decoder[WebAppInfo] = deriveDecoder[WebAppInfo]
+}

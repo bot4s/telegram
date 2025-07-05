@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a forum topic.
  *
@@ -14,3 +17,7 @@ case class ForumTopic(
   iconColor: Int,
   iconCustomEmojiId: Option[String] = None
 )
+
+object ForumTopic {
+  implicit val circeDecoder: Decoder[ForumTopic] = deriveDecoder[ForumTopic]
+}

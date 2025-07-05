@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Represents the rights of an administrator in a chat.
  *
@@ -36,3 +39,7 @@ case class ChatAdministratorRights(
   canPinMessages: Option[Boolean],
   canManageTopics: Option[Boolean]
 )
+
+object ChatAdministratorRights {
+  implicit val circeDecoder: Decoder[ChatAdministratorRights] = deriveDecoder[ChatAdministratorRights]
+}

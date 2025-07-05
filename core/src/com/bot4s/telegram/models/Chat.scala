@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.ChatType.ChatType
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents a chat.
@@ -73,4 +75,8 @@ case class Chat(
   hasAggressiveAntiSpamEnabled: Option[Boolean] = None
 ) {
   val chatId = ChatId(id)
+}
+
+object Chat {
+  implicit val circeDecoder: Decoder[Chat] = deriveDecoder[Chat]
 }

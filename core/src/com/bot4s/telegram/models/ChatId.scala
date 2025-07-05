@@ -1,5 +1,7 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+
 /**
  * Represents either a chat or channel.
  */
@@ -25,4 +27,7 @@ object ChatId {
 
   def apply(chat: Long): ChatId      = Chat(chat)
   def apply(channel: String): ChatId = Channel(channel)
+
+  implicit val circeDecoder: Decoder[ChatId] =
+    Decoder[String].map(ChatId.Channel.apply) or Decoder[Long].map(ChatId.Chat.apply)
 }

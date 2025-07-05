@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a game.
  * Use BotFather to create and edit games, their short names will act as unique identifiers.
@@ -21,3 +24,7 @@ case class Game(
   textEntities: Option[Array[MessageEntity]] = None,
   animation: Option[Animation] = None
 )
+
+object Game {
+  implicit val circeDecoder: Decoder[Game] = deriveDecoder[Game]
+}

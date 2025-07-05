@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Represents a location to which a chat is connected.
  *
@@ -10,3 +13,7 @@ case class ChatLocation(
   location: Location,
   address: String
 )
+
+object ChatLocation {
+  implicit val circeDecoder: Decoder[ChatLocation] = deriveDecoder[ChatLocation]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a chat photo.
  *
@@ -14,3 +17,7 @@ case class ChatPhoto(
   bigFileId: String,
   bigFileUniqueId: String
 )
+
+object ChatPhoto {
+  implicit val circeDecoder: Decoder[ChatPhoto] = deriveDecoder[ChatPhoto]
+}

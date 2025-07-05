@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a phone contact.
  *
@@ -16,3 +19,7 @@ case class Contact(
   userId: Option[Long] = None,
   vcard: Option[String] = None
 )
+
+object Contact {
+  implicit val circeDecoder: Decoder[Contact] = deriveDecoder[Contact]
+}

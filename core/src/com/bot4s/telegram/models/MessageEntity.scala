@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents one special entity in a text message.
@@ -15,7 +17,7 @@ import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
  * @param length          Integer Length of the entity in UTF-16 code units
  * @param url             String Optional For "text_link" only, url that will be opened after user taps on the text
  * @param user            User Optional. For "text_mention" only, the mentioned user
- * @param customEmojiId 	String 	Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker
+ * @param customEmojiId 	String 	Optional. For "custom_emoji" only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker
  */
 case class MessageEntity(
   `type`: MessageEntityType,
@@ -25,3 +27,7 @@ case class MessageEntity(
   user: Option[User] = None,
   customEmojiId: Option[String] = None
 )
+
+object MessageEntity {
+  implicit val circeDecoder: Decoder[MessageEntity] = deriveDecoder[MessageEntity]
+}

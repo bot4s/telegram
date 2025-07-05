@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a Telegram user or bot.
  *
@@ -28,3 +31,7 @@ case class User(
   canReadAllGroupMessages: Option[Boolean] = None,
   supportsInlineQueries: Option[Boolean] = None
 )
+
+object User {
+  implicit val circeDecoder: Decoder[User] = deriveDecoder[User]
+}

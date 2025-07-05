@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.Currency.Currency
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object contains information about an incoming pre-checkout query.
@@ -22,3 +24,7 @@ case class PreCheckoutQuery(
   shippingOptionId: Option[String] = None,
   orderInfo: Option[OrderInfo] = None
 )
+
+object PreCheckoutQuery {
+  implicit val circeDecoder: Decoder[PreCheckoutQuery] = deriveDecoder[PreCheckoutQuery]
+}

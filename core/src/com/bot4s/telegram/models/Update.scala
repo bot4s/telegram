@@ -1,6 +1,9 @@
 package com.bot4s.telegram.models
 
 import io.circe.DecodingFailure
+import io.circe.Decoder
+import io.circe.HCursor
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents an incoming update.
@@ -62,6 +65,10 @@ case class Update(
   )
 }
 
+object Update {
+  implicit val circeDecoder: Decoder[Update] = deriveDecoder[Update]
+}
+
 /*
 The following ADT represents either an update from Telegram's API or a parsing error that might
 happens when an unsupported message or an update from a newer/changed API is parsed by the client.
@@ -70,4 +77,18 @@ sealed trait ParsedUpdate
 object ParsedUpdate {
   case class Failure(updateId: Long, cause: DecodingFailure) extends ParsedUpdate
   case class Success(update: Update)                         extends ParsedUpdate
+
+  implicit val circeDecoder: Decoder[ParsedUpdate] = new Decoder[ParsedUpdate] {
+    final def apply(c: HCursor): Decoder.Result[ParsedUpdate] = {
+      val update = Decoder.apply[Update].apply(c)
+
+      update match {
+        case Left(e) =>
+          for {
+            id <- c.get[Long]("updateId")
+          } yield ParsedUpdate.Failure(id, e)
+        case Right(value) => Right(ParsedUpdate.Success(value))
+      }
+    }
+  }
 }

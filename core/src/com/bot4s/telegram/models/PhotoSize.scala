@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents one size of a photo or a file / sticker thumbnail.
  *
@@ -16,3 +19,7 @@ case class PhotoSize(
   height: Int,
   fileSize: Option[Int] = None
 )
+
+object PhotoSize {
+  implicit val circeDecoder: Decoder[PhotoSize] = deriveDecoder[PhotoSize]
+}

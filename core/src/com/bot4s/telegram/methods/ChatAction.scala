@@ -1,5 +1,8 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Decoder
+import com.bot4s.telegram.marshalling._
+
 /**
  * Type of action to broadcast.
  *
@@ -17,4 +20,7 @@ object ChatAction extends Enumeration {
   type ChatAction = Value
   val Typing, UploadPhoto, RecordVideo, UploadVideo, RecordAudio, UploadAudio, UploadDocument, ChooseSticker,
     FindLocation, RecordVideoNote, UploadVideoNote = Value
+
+  implicit val circeDecoder: Decoder[ChatAction] =
+    Decoder[String].map(s => ChatAction.withName(pascalize(s)))
 }

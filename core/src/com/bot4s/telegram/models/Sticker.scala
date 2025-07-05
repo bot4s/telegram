@@ -1,5 +1,7 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import com.bot4s.telegram.models.StickerType.StickerType
 
 /**
@@ -40,3 +42,7 @@ case class Sticker(
   customEmojiId: Option[String] = None,
   needsRepainting: Option[Boolean] = None
 )
+
+object Sticker {
+  implicit val circeDecoder: Decoder[Sticker] = deriveDecoder[Sticker]
+}

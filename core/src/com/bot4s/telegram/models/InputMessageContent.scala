@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents the content of a message to be sent as a result of an inline query.
@@ -79,3 +81,23 @@ case class InputContactMessageContent(
   lastName: Option[String] = None,
   vcard: Option[String] = None
 ) extends InputMessageContent
+
+object InputTextMessageContent {
+  implicit val circeDecoder: Decoder[InputTextMessageContent] = deriveDecoder
+}
+
+object InputLocationMessageContent {
+  implicit val circeDecoder: Decoder[InputLocationMessageContent] = deriveDecoder
+}
+
+object InputVenueMessageContent {
+  implicit val circeDecoder: Decoder[InputVenueMessageContent] = deriveDecoder
+}
+
+object InputContactMessageContent {
+  implicit val circeDecoder: Decoder[InputContactMessageContent] = deriveDecoder
+}
+
+object InputMessageContent {
+  implicit val circeDecoder: Decoder[InputMessageContent] = deriveDecoder
+}

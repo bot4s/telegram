@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents an invite link for a chat.
  *
@@ -7,7 +10,7 @@ package com.bot4s.telegram.models
  * @param createsJoinRequest        True, if users joining the chat via the link need to be approved by chat administrators
  * @param expireDate                Optional. Point in time (Unix timestamp) when the link will expire or has been expired
  * @param inviteLink                The invite link. If the link was created by another chat administrator, then the second
- *                                  part of the link will be replaced with “…”.
+ *                                  part of the link will be replaced with "…".
  * @param isPrimary                 True, if the link is primary
  * @param isRevoked                 True, if the link is revoked
  * @param name                      Invite link name
@@ -26,3 +29,7 @@ case class ChatInviteLink(
   memberLimit: Option[Int] = None,
   pendingJoinRequestCount: Option[Int] = None
 )
+
+object ChatInviteLink {
+  implicit val circeDecoder: Decoder[ChatInviteLink] = deriveDecoder[ChatInviteLink]
+}

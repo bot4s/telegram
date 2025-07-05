@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a video message (available in Telegram apps as of v.4.0).
  *
@@ -18,3 +21,7 @@ case class VideoNote(
   thumbnail: Option[PhotoSize] = None,
   fileSize: Option[Int] = None
 )
+
+object VideoNote {
+  implicit val circeDecoder: Decoder[VideoNote] = deriveDecoder[VideoNote]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a general file (as opposed to photos and audio files).
  *
@@ -18,3 +21,7 @@ case class Document(
   mimeType: Option[String] = None,
   fileSize: Option[Long] = None
 )
+
+object Document {
+  implicit val circeDecoder: Decoder[Document] = deriveDecoder[Document]
+}

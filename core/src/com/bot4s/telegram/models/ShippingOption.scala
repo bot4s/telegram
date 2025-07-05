@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents one shipping option.
  *
@@ -12,3 +15,7 @@ case class ShippingOption(
   title: String,
   prices: Array[LabeledPrice]
 )
+
+object ShippingOption {
+  implicit val circeDecoder: Decoder[ShippingOption] = deriveDecoder[ShippingOption]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents one shipping option.
  *
@@ -8,3 +11,7 @@ package com.bot4s.telegram.models
 case class SentWebAppMessage(
   inlineMessageId: Option[String] = None
 )
+
+object SentWebAppMessage {
+  implicit val circeDecoder: Decoder[SentWebAppMessage] = deriveDecoder[SentWebAppMessage]
+}

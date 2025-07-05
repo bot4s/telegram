@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.StickerType.StickerType
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents a sticker set.
@@ -22,3 +24,7 @@ case class StickerSet(
   containsMasks: Boolean,
   stickers: Array[Sticker]
 )
+
+object StickerSet {
+  implicit val circeDecoder: Decoder[StickerSet] = deriveDecoder[StickerSet]
+}

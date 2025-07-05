@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Contains data sent from a Web App to the bot.
  *
@@ -10,3 +13,7 @@ case class WebAppData(
   data: String,
   buttonText: String
 )
+
+object WebAppData {
+  implicit val circeDecoder: Decoder[WebAppData] = deriveDecoder[WebAppData]
+}

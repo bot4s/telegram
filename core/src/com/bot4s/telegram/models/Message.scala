@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a message.
  *
@@ -147,4 +150,8 @@ case class Message(
 ) {
 
   def source: Long = chat.id
+}
+
+object Message {
+  implicit val circeDecoder: Decoder[Message] = deriveDecoder[Message]
 }

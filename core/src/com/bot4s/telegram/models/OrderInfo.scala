@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents information about an order.
  *
@@ -14,3 +17,7 @@ case class OrderInfo(
   email: Option[String] = None,
   shippingAddress: Option[ShippingAddress] = None
 )
+
+object OrderInfo {
+  implicit val circeDecoder: Decoder[OrderInfo] = deriveDecoder[OrderInfo]
+}

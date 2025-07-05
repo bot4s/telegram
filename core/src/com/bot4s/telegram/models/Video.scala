@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a video file.
  *
@@ -22,3 +25,7 @@ case class Video(
   mimeType: Option[String] = None,
   fileSize: Option[Long] = None
 )
+
+object Video {
+  implicit val circeDecoder: Decoder[Video] = deriveDecoder[Video]
+}

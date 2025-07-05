@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import com.bot4s.telegram.marshalling._
+
 /**
  * The part of the face relative to which the mask should be placed.
  * One of "forehead", "eyes", "mouth", or "chin".
@@ -7,4 +10,7 @@ package com.bot4s.telegram.models
 object MaskPositionType extends Enumeration {
   type MaskPositionType = Value
   val Forehead, Eyes, Mouth, Chin = Value
+
+  implicit val circeDecoder: Decoder[MaskPositionType] =
+    Decoder[String].map(s => MaskPositionType.withName(pascalize(s)))
 }

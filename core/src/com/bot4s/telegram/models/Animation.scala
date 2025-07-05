@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example).
  * This object represents an animation file to be displayed in the message containing a game.
@@ -19,3 +22,7 @@ case class Animation(
   mimeType: Option[String] = None,
   fileSize: Option[Long] = None
 )
+
+object Animation {
+  implicit val circeDecoder: Decoder[Animation] = deriveDecoder[Animation]
+}

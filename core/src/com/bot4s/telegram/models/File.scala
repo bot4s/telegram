@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a file ready to be downloaded.
  *
@@ -19,3 +22,7 @@ case class File(
   fileSize: Option[Long] = None,
   filePath: Option[String] = None
 )
+
+object File {
+  implicit val circeDecoder: Decoder[File] = deriveDecoder[File]
+}

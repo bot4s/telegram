@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a portion of the price for goods or services.
  *
@@ -12,3 +15,7 @@ case class LabeledPrice(
   label: String,
   amount: Long
 )
+
+object LabeledPrice {
+  implicit val circeDecoder: Decoder[LabeledPrice] = deriveDecoder[LabeledPrice]
+}

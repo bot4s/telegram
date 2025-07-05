@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents a result of an inline query that was chosen by the user and sent to their chat partner.
  *
@@ -18,3 +21,7 @@ case class ChosenInlineResult(
   inlineMessageId: Option[String] = None,
   query: String
 )
+
+object ChosenInlineResult {
+  implicit val circeDecoder: Decoder[ChosenInlineResult] = deriveDecoder[ChosenInlineResult]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represent a user's profile pictures.
  *
@@ -10,3 +13,7 @@ case class UserProfilePhotos(
   totalCount: Int,
   photos: Seq[Seq[PhotoSize]]
 )
+
+object UserProfilePhotos {
+  implicit val circeDecoder: Decoder[UserProfilePhotos] = deriveDecoder[UserProfilePhotos]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Represents a join request sent to a chat.
  *
@@ -19,3 +22,7 @@ case class ChatJoinRequest(
   bio: Option[String] = None,
   inviteLink: Option[ChatInviteLink] = None
 )
+
+object ChatJoinRequest {
+  implicit val circeDecoder: Decoder[ChatJoinRequest] = deriveDecoder[ChatJoinRequest]
+}

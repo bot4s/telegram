@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import MemberStatus.MemberStatus
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object contains information about one member of the chat.
@@ -64,3 +66,7 @@ case class ChatMember(
   canManageVideoChats: Option[Boolean] = None,
   canManageTopics: Option[Boolean] = None
 )
+
+object ChatMember {
+  implicit val circeDecoder: Decoder[ChatMember] = deriveDecoder[ChatMember]
+}

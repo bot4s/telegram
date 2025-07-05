@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.Currency.Currency
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object contains basic information about a successful payment.
@@ -24,3 +26,7 @@ case class SuccessfulPayment(
   telegramPaymentChargeId: String,
   providerPaymentChargeId: String
 )
+
+object SuccessfulPayment {
+  implicit val circeDecoder: Decoder[SuccessfulPayment] = deriveDecoder[SuccessfulPayment]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object contains information about an incoming shipping query.
  *
@@ -14,3 +17,7 @@ case class ShippingQuery(
   invoicePayload: String,
   shippingAddress: ShippingAddress
 )
+
+object ShippingQuery {
+  implicit val circeDecoder: Decoder[ShippingQuery] = deriveDecoder[ShippingQuery]
+}

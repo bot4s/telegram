@@ -8,10 +8,24 @@ import cats.syntax.functor._
 import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
 import io.circe.{ Decoder, Encoder }
-import io.circe.Decoder.decodeBoolean
-import io.circe.Decoder.decodeString
-import io.circe.Decoder.decodeInt
 import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.models.SentWebAppMessage._
+import com.bot4s.telegram.models.User._
+import com.bot4s.telegram.models.StickerSet._
+import com.bot4s.telegram.models.MenuButton._
+import com.bot4s.telegram.models.ChatMember._
+import com.bot4s.telegram.models.MessageId._
+import com.bot4s.telegram.models.Chat._
+import com.bot4s.telegram.models.Message._
+import com.bot4s.telegram.models.File._
+import com.bot4s.telegram.models.Poll._
+import com.bot4s.telegram.models.BotShortDescription._
+import com.bot4s.telegram.models.BotName._
+import com.bot4s.telegram.models.BotDescription._
+import com.bot4s.telegram.models.UserProfilePhotos._
+import com.bot4s.telegram.models.WebhookInfo._
+import com.bot4s.telegram.models.ChatInviteLink._
+import com.bot4s.telegram.models.ForumTopic._
 
 import com.bot4s.telegram.marshalling._
 

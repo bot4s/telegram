@@ -1,5 +1,7 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 
 /**
@@ -656,3 +658,87 @@ case class InlineQueryResultCachedAudio(
   inputMessageContent: Option[InputMessageContent] = None,
   `type`: String = "audio"
 ) extends InlineQueryResult
+
+object InlineQueryResultCachedAudio {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedAudio] = deriveDecoder
+}
+
+object InlineQueryResultCachedVoice {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedVoice] = deriveDecoder
+}
+
+object InlineQueryResultCachedVideo {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedVideo] = deriveDecoder
+}
+
+object InlineQueryResultCachedDocument {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedDocument] = deriveDecoder
+}
+
+object InlineQueryResultCachedSticker {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedSticker] = deriveDecoder
+}
+
+object InlineQueryResultCachedMpeg4Gif {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedMpeg4Gif] = deriveDecoder
+}
+
+object InlineQueryResultCachedGif {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedGif] = deriveDecoder
+}
+
+object InlineQueryResultCachedPhoto {
+  implicit val circeDecoder: Decoder[InlineQueryResultCachedPhoto] = deriveDecoder
+}
+
+object InlineQueryResultContact {
+  implicit val circeDecoder: Decoder[InlineQueryResultContact] = deriveDecoder
+}
+
+object InlineQueryResultVenue {
+  implicit val circeDecoder: Decoder[InlineQueryResultVenue] = deriveDecoder
+}
+
+object InlineQueryResultLocation {
+  implicit val circeDecoder: Decoder[InlineQueryResultLocation] = deriveDecoder
+}
+
+object InlineQueryResultDocument {
+  implicit val circeDecoder: Decoder[InlineQueryResultDocument] = deriveDecoder
+}
+
+object InlineQueryResultVoice {
+  implicit val circeDecoder: Decoder[InlineQueryResultVoice] = deriveDecoder
+}
+
+object InlineQueryResultAudio {
+  implicit val circeDecoder: Decoder[InlineQueryResultAudio] = deriveDecoder
+}
+
+object InlineQueryResultVideo {
+  implicit val circeDecoder: Decoder[InlineQueryResultVideo] = deriveDecoder
+}
+
+object InlineQueryResultMpeg4Gif {
+  implicit val circeDecoder: Decoder[InlineQueryResultMpeg4Gif] = deriveDecoder
+}
+
+object InlineQueryResultGif {
+  implicit val circeDecoder: Decoder[InlineQueryResultGif] = deriveDecoder
+}
+
+object InlineQueryResultGame {
+  implicit val circeDecoder: Decoder[InlineQueryResultGame] = deriveDecoder
+}
+
+object InlineQueryResultPhoto {
+  implicit val circeDecoder: Decoder[InlineQueryResultPhoto] = deriveDecoder
+}
+
+object InlineQueryResultArticle {
+  implicit val circeDecoder: Decoder[InlineQueryResultArticle] = deriveDecoder
+}
+
+object InlineQueryResult {
+  implicit val circeDecoder: Decoder[InlineQueryResult] = deriveDecoder
+}

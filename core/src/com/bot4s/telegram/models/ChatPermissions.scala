@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
  *
@@ -34,3 +37,7 @@ case class ChatPermissions(
   canPinMessages: Option[Boolean] = None,
   canManageTopics: Option[Boolean] = None
 )
+
+object ChatPermissions {
+  implicit val circeDecoder: Decoder[ChatPermissions] = deriveDecoder[ChatPermissions]
+}

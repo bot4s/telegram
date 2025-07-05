@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * This object represents an incoming inline query.
  *
@@ -18,3 +21,7 @@ case class InlineQuery(
   query: String,
   offset: String
 )
+
+object InlineQuery {
+  implicit val circeDecoder: Decoder[InlineQuery] = deriveDecoder[InlineQuery]
+}

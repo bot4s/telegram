@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.Currency.Currency
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object contains basic information about an invoice.
@@ -18,3 +20,7 @@ case class Invoice(
   currency: Currency,
   totalAmount: Long
 )
+
+object Invoice {
+  implicit val circeDecoder: Decoder[Invoice] = deriveDecoder[Invoice]
+}

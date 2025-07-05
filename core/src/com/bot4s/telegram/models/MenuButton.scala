@@ -59,5 +59,5 @@ object MenuButton {
       }
     )
 
-  implicit val menuButtonDecoder: Decoder[MenuButton] = deriveConfiguredDecoder
+  implicit val circeDecoder: Decoder[MenuButton] = deriveConfiguredDecoder
 }

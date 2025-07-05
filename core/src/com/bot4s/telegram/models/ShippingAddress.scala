@@ -1,6 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.CountryCode.CountryCode
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 
 /**
  * This object represents a shipping address.
@@ -30,3 +32,7 @@ case class ShippingAddress(
   streetLine2: String,
   postCode: String
 )
+
+object ShippingAddress {
+  implicit val circeDecoder: Decoder[ShippingAddress] = deriveDecoder[ShippingAddress]
+}

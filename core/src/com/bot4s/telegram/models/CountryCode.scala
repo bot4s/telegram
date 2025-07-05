@@ -1,5 +1,7 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+
 /**
  * ISO 3166-1 alpha-2 country codes.
  */
@@ -8,6 +10,9 @@ object CountryCode extends Enumeration {
   sealed case class Country(code: String, englishName: String) extends Val(code)
 
   implicit def valueToCountry(v: Value): Country = v.asInstanceOf[Country]
+
+  implicit val circeDecoder: Decoder[CountryCode] =
+    Decoder[String].map(a => CountryCode.withName(a))
 
   val AD = Country(code = "AD", englishName = "Andorra")
   val AE = Country(code = "AE", englishName = "United Arab Emirates")
