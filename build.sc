@@ -130,7 +130,7 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
   override def artifactName = s"telegram-$location"
 }
 
-trait Publishable extends PublishModule {
+trait Publishable extends SonatypeCentralPublishModule {
 
   override def publishVersion = "5.8.4"
 
