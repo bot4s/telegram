@@ -1,9 +1,11 @@
 package com.bot4s.telegram.models
 
-import io.circe.DecodingFailure
-import io.circe.Decoder
-import io.circe.HCursor
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+import io.circe.HCursor
+import io.circe.DecodingFailure
 
 /**
  * This object represents an incoming update.
@@ -66,7 +68,9 @@ case class Update(
 }
 
 object Update {
+  implicit val customConfig: Configuration   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[Update] = deriveDecoder[Update]
+  implicit val circeEncoder: Encoder[Update] = deriveConfiguredEncoder[Update]
 }
 
 /*

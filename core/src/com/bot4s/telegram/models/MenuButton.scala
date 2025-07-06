@@ -1,5 +1,14 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto._
+import io.circe.generic.extras.Configuration
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import com.bot4s.telegram.marshalling.CirceDecoders._
+import io.circe.syntax._
+
 /**
  * This object describes the bot's menu button in a private chat. It should be one of
  *
@@ -44,10 +53,6 @@ case class MenuButtonDefault(
 ) extends MenuButton
 
 object MenuButton {
-  import io.circe.Decoder
-  import io.circe.generic.extras.semiauto._
-  import io.circe.generic.extras.Configuration
-  import com.bot4s.telegram.marshalling.CirceDecoders._
 
   private implicit val configuration: Configuration = Configuration.default
     .withDiscriminator("type")
@@ -60,4 +65,24 @@ object MenuButton {
     )
 
   implicit val circeDecoder: Decoder[MenuButton] = deriveConfiguredDecoder
+  implicit val circeEncoder: Encoder[MenuButton] = Encoder.instance {
+    case q: MenuButtonDefault  => q.asJson
+    case q: MenuButtonWebApp   => q.asJson
+    case q: MenuButtonCommands => q.asJson
+  }
+}
+
+object MenuButtonDefault {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[MenuButtonDefault] = deriveConfiguredEncoder[MenuButtonDefault]
+}
+
+object MenuButtonWebApp {
+  implicit val customConfig: Configuration             = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[MenuButtonWebApp] = deriveConfiguredEncoder[MenuButtonWebApp]
+}
+
+object MenuButtonCommands {
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[MenuButtonCommands] = deriveConfiguredEncoder[MenuButtonCommands]
 }

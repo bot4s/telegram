@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -23,5 +23,7 @@ object UpdateType extends Enumeration {
 
   implicit val circeDecoder: Decoder[UpdateType] =
     Decoder[String].map(s => UpdateType.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[UpdateType] =
+    Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
 }

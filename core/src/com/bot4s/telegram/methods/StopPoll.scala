@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, Poll, ReplyMarkup }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to stop a poll which was sent by the bot.
@@ -12,3 +15,8 @@ import com.bot4s.telegram.models.{ ChatId, Poll, ReplyMarkup }
  */
 case class StopPoll(chatId: ChatId, messageId: Option[Int] = None, replyMarkup: Option[ReplyMarkup] = None)
     extends JsonRequest[Poll]
+
+object StopPoll {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val StopPollEncoder: Encoder[StopPoll] = deriveConfiguredEncoder[StopPoll]
+}

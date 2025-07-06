@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
  *
@@ -10,3 +14,8 @@ case class SetCustomEmojiStickerSetThumbnail(
   name: String,
   customEmojiId: Option[String] = None
 ) extends JsonRequest[Boolean]
+
+object SetCustomEmojiStickerSetThumbnail {
+  implicit val customConfig: Configuration                              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SetCustomEmojiStickerSetThumbnail] = deriveConfiguredEncoder
+}

@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ Message, ReplyMarkup }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send point on the map.
@@ -41,3 +44,8 @@ case class SendLocation(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendLocation {
+  implicit val customConfig: Configuration         = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SendLocation] = deriveConfiguredEncoder
+}

@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ Message, ReplyMarkup }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send phone contacts.
@@ -35,3 +38,8 @@ case class SendContact(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendContact {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendContactEncoder: Encoder[SendContact] = deriveConfiguredEncoder[SendContact]
+}

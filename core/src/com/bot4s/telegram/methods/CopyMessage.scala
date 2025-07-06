@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ ChatId, MessageEntity, MessageId, ReplyMarkup }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to copy messages of any kind.
@@ -40,3 +43,8 @@ case class CopyMessage(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[MessageId]
+
+object CopyMessage {
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[CopyMessage] = deriveConfiguredEncoder
+}

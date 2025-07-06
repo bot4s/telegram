@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Use this method to send answers to callback queries sent from inline keyboards.
  *
@@ -26,3 +30,8 @@ case class AnswerCallbackQuery(
   url: Option[String] = None,
   cacheTime: Option[Int] = None
 ) extends JsonRequest[Boolean]
+
+object AnswerCallbackQuery {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val answerCallbackQueryEncoder: Encoder[AnswerCallbackQuery] = deriveConfiguredEncoder[AnswerCallbackQuery]
+}

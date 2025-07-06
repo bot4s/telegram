@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -23,4 +26,7 @@ object ChatAction extends Enumeration {
 
   implicit val circeDecoder: Decoder[ChatAction] =
     Decoder[String].map(s => ChatAction.withName(pascalize(s)))
+
+  implicit val chatActionEncoder: Encoder[ChatAction] =
+    Encoder[String].contramap[ChatAction](e => CaseConversions.snakenize(e.toString))
 }

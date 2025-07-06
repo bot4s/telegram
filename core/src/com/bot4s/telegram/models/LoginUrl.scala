@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents a parameter of the inline keyboard button used to automatically authorize a user.
@@ -31,5 +33,7 @@ case class LoginUrl(
 )
 
 object LoginUrl {
+  implicit val customConfig: Configuration     = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
+  implicit val circeEncoder: Encoder[LoginUrl] = deriveConfiguredEncoder[LoginUrl]
 }

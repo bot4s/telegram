@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represent a user's profile pictures.
@@ -15,5 +17,7 @@ case class UserProfilePhotos(
 )
 
 object UserProfilePhotos {
-  implicit val circeDecoder: Decoder[UserProfilePhotos] = deriveDecoder[UserProfilePhotos]
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[UserProfilePhotos] = deriveDecoder
+  implicit val circeEncoder: Encoder[UserProfilePhotos] = deriveConfiguredEncoder
 }

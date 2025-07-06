@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to set a new group sticker set for a supergroup.
@@ -11,3 +14,8 @@ import com.bot4s.telegram.models.ChatId
  * @param stickerSetName  String Yes Name of the sticker set to be set as the group sticker set
  */
 case class SetChatStickerSet(chatId: ChatId, stickerSetName: String) extends JsonRequest[Boolean]
+
+object SetChatStickerSet {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val setChatStickerSetEncoder: Encoder[SetChatStickerSet] = deriveConfiguredEncoder[SetChatStickerSet]
+}

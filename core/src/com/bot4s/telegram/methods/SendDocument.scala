@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send general files. On success, the sent Message is returned.
@@ -12,7 +15,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param document             InputFile or String File to send.
  *                             Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
  *                             pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
- * @param thumbnail            InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
+ * @param thumbnail            InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption              String Optional Document caption (may also be used when resending documents by file_id), 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
  *                             fixed-width text or inline URLs in the media caption.
@@ -43,4 +46,9 @@ case class SendDocument(
   messageThreadId: Option[Int] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("document" -> document)
+}
+
+object SendDocument {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendDocumentEncoder: Encoder[SendDocument] = deriveConfiguredEncoder[SendDocument]
 }

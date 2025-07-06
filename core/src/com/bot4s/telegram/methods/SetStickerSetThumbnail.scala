@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.InputFile
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to set the thumbnail of a regular or mask sticker set.
@@ -21,4 +24,9 @@ case class SetStickerSetThumbnail(
   thumbnail: Option[InputFile]
 ) extends MultipartRequest[Boolean] {
   override def getFiles: List[(String, InputFile)] = thumbnail.map(f => "thumbnail" -> f).toList
+}
+
+object SetStickerSetThumbnail {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SetStickerSetThumbnail] = deriveConfiguredEncoder
 }

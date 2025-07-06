@@ -1,5 +1,9 @@
 package com.bot4s.telegram.models
 
+import io.circe.Encoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object describes a sticker to be added to a sticker set.
  *
@@ -14,3 +18,8 @@ case class InputSticker(
   maskPosition: Option[MaskPosition] = None,
   keywords: Option[Array[String]] = None
 )
+
+object InputSticker {
+  implicit val customConfig: Configuration         = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputSticker] = deriveConfiguredEncoder
+}

@@ -1,8 +1,10 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.MaskPositionType.MaskPositionType
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object describes the position on faces where a mask should be placed by default.
@@ -18,5 +20,7 @@ import io.circe.generic.semiauto.deriveDecoder
 case class MaskPosition(point: MaskPositionType, xShift: Double, yShift: Double, zoom: Double)
 
 object MaskPosition {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[MaskPosition] = deriveDecoder[MaskPosition]
+  implicit val circeEncoder: Encoder[MaskPosition] = deriveConfiguredEncoder[MaskPosition]
 }

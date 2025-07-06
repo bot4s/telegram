@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
 import com.bot4s.telegram.models.ChatInviteLink
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to edit a non-primary invite link created by the bot.
@@ -26,4 +29,9 @@ case class EditChatInviteLink(
 
   if (createsJoinRequest.fold(false)(identity))
     require(memberLimit.isEmpty, "memberLimit can't be specified if createsJoinRequest is set")
+}
+
+object EditChatInviteLink {
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[EditChatInviteLink] = deriveConfiguredEncoder
 }

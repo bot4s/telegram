@@ -1,6 +1,7 @@
 package com.bot4s.telegram.methods
 
 import io.circe.Decoder
+import io.circe.Encoder
 
 /**
  * Formatting options
@@ -59,4 +60,6 @@ object ParseMode extends Enumeration {
   import com.bot4s.telegram.marshalling._
 
   implicit val circeDecoder: Decoder[ParseMode] = Decoder[String].map(s => ParseMode.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[ParseMode] =
+    Encoder[String].contramap[ParseMode](e => snakenize(e.toString))
 }

@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to set a new profile photo for the chat.
@@ -18,4 +21,9 @@ case class SetChatPhoto(
   photo: InputFile
 ) extends MultipartRequest[Boolean] {
   override def getFiles: List[(String, InputFile)] = List("photo" -> photo)
+}
+
+object SetChatPhoto {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val setChatPhotoEncoder: Encoder[SetChatPhoto] = deriveConfiguredEncoder[SetChatPhoto]
 }

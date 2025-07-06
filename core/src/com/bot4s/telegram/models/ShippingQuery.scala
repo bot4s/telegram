@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object contains information about an incoming shipping query.
@@ -19,5 +21,7 @@ case class ShippingQuery(
 )
 
 object ShippingQuery {
-  implicit val circeDecoder: Decoder[ShippingQuery] = deriveDecoder[ShippingQuery]
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ShippingQuery] = deriveDecoder
+  implicit val circeEncoder: Encoder[ShippingQuery] = deriveConfiguredEncoder
 }

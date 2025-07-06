@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to promote or demote a user in a supergroup or a channel.
@@ -50,3 +53,8 @@ case class PromoteChatMember(
   canPromoteMembers: Option[Boolean] = None,
   canManageTopics: Option[Boolean]
 ) extends JsonRequest[Boolean]
+
+object PromoteChatMember {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val promoteChatMemberEncoder: Encoder[PromoteChatMember] = deriveConfiguredEncoder[PromoteChatMember]
+}

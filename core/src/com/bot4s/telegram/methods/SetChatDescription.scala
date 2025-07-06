@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to change the description of a supergroup or a channel.
@@ -14,3 +17,8 @@ case class SetChatDescription(
   chatId: ChatId,
   description: Option[String] = None
 ) extends JsonRequest[Boolean]
+
+object SetChatDescription {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val setChatDescriptionEncoder: Encoder[SetChatDescription] = deriveConfiguredEncoder[SetChatDescription]
+}

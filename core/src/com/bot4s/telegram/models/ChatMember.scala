@@ -1,8 +1,10 @@
 package com.bot4s.telegram.models
 
 import MemberStatus.MemberStatus
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object contains information about one member of the chat.
@@ -68,5 +70,7 @@ case class ChatMember(
 )
 
 object ChatMember {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ChatMember] = deriveDecoder[ChatMember]
+  implicit val circeEncoder: Encoder[ChatMember] = deriveConfiguredEncoder[ChatMember]
 }

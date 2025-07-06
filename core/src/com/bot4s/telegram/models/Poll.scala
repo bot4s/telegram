@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object contains information about a poll.
@@ -14,5 +16,7 @@ import io.circe.generic.semiauto.deriveDecoder
 case class Poll(id: String, question: String, options: Array[PollOption], isClosed: Boolean)
 
 object Poll {
-  implicit val circeDecoder: Decoder[Poll] = deriveDecoder[Poll]
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[Poll] = deriveDecoder
+  implicit val circeEncoder: Encoder[Poll] = deriveConfiguredEncoder
 }

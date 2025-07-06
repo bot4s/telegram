@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to unban a previously kicked user in a supergroup.
@@ -16,3 +19,8 @@ case class UnbanChatMember(
   userId: Long,
   onlyIfBanned: Option[Boolean] = None
 ) extends JsonRequest[Boolean]
+
+object UnbanChatMember {
+  implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[UnbanChatMember] = deriveConfiguredEncoder
+}

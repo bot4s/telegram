@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import ChatAction.ChatAction
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method when you need to tell the user that something is happening on the bot's side.
@@ -23,3 +26,8 @@ case class SendChatAction(
   action: ChatAction,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Boolean]
+
+object SendChatAction {
+  implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SendChatAction] = deriveConfiguredEncoder
+}

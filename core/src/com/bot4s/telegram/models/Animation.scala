@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example).
@@ -24,5 +26,7 @@ case class Animation(
 )
 
 object Animation {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[Animation] = deriveDecoder[Animation]
+  implicit val circeEncoder: Encoder[Animation] = deriveConfiguredEncoder[Animation]
 }

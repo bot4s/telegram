@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send text messages.
@@ -65,3 +68,8 @@ case class SendMessage(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendMessage {
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SendMessage] = deriveConfiguredEncoder
+}

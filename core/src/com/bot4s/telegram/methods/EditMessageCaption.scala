@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, ReplyMarkup }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
@@ -32,4 +35,9 @@ case class EditMessageCaption(
 
   if (chatId.isEmpty && messageId.isEmpty)
     require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}
+
+object EditMessageCaption {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val editMessageCaptionEncoder: Encoder[EditMessageCaption] = deriveConfiguredEncoder[EditMessageCaption]
 }

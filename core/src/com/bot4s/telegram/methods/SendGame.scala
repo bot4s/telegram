@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ Message, ReplyMarkup }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send a game.
@@ -28,3 +31,8 @@ case class SendGame(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendGame {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendGameEncoder: Encoder[SendGame] = deriveConfiguredEncoder[SendGame]
+}

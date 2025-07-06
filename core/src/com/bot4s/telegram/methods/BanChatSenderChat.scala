@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to ban a channel chat in a supergroup or a channel.
@@ -15,3 +18,8 @@ case class BanChatSenderChat(
   chatId: ChatId,
   sendChatId: Long
 ) extends JsonRequest[Boolean]
+
+object BanChatSenderChat {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[BanChatSenderChat] = deriveConfiguredEncoder
+}

@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.Message
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to set the score of the specified user in a game.
@@ -38,4 +41,9 @@ case class SetGameScore(
 
   if (chatId.isEmpty && messageId.isEmpty)
     require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}
+
+object SetGameScore {
+  implicit val customConfig: Configuration         = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SetGameScore] = deriveConfiguredEncoder
 }

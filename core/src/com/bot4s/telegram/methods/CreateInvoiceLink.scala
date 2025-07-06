@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.LabeledPrice
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to create an additional invite link for a chat.
@@ -56,4 +59,9 @@ case class CreateInvoiceLink(
   require(title.length > 0 && title.length <= 32, "Title must be less than 32 characters")
   require(description.length > 0 && description.length <= 255, "Description must be less than 255 characters")
   require(payload.getBytes.length > 0 && payload.getBytes.length <= 128, "Payload must be less than 128 bytes")
+}
+
+object CreateInvoiceLink {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[CreateInvoiceLink] = deriveConfiguredEncoder
 }

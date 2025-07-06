@@ -2,6 +2,7 @@ package com.bot4s.telegram.api
 
 import com.bot4s.telegram.methods.{ ChatAction, SendChatAction }
 import com.bot4s.telegram.models.Message
+import io.circe.Decoder._
 
 /**
  * Provides handy chat actions shortcuts.

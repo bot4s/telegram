@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Use this method to delete a sticker set that was created by the bot.
  * Return True on success.
@@ -9,3 +13,8 @@ package com.bot4s.telegram.methods
 case class DeleteStickerSet(
   name: String
 ) extends JsonRequest[Boolean]
+
+object DeleteStickerSet {
+  implicit val customConfig: Configuration             = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[DeleteStickerSet] = deriveConfiguredEncoder
+}

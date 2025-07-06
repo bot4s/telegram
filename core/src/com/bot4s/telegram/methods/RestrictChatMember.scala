@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, ChatPermissions }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to restrict a user in a supergroup.
@@ -23,3 +26,8 @@ case class RestrictChatMember(
   useIndependentChatPermissions: Option[Boolean] = None,
   untilDate: Option[Int] = None
 ) extends JsonRequest[Boolean]
+
+object RestrictChatMember {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val restrictChatMemberEncoder: Encoder[RestrictChatMember] = deriveConfiguredEncoder[RestrictChatMember]
+}

@@ -3,6 +3,10 @@ package com.bot4s.telegram.models
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import io.circe.Encoder
+import io.circe.syntax.EncoderOps
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents one result of an inline query.
@@ -660,85 +664,147 @@ case class InlineQueryResultCachedAudio(
 ) extends InlineQueryResult
 
 object InlineQueryResultCachedAudio {
+  implicit val customConfig: Configuration                         = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedAudio] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedAudio] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedVoice {
+  implicit val customConfig: Configuration                         = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedVoice] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedVoice] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedVideo {
+  implicit val customConfig: Configuration                         = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedVideo] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedVideo] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedDocument {
+  implicit val customConfig: Configuration                            = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedDocument] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedDocument] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedSticker {
+  implicit val customConfig: Configuration                           = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedSticker] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedSticker] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedMpeg4Gif {
+  implicit val customConfig: Configuration                            = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedMpeg4Gif] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedMpeg4Gif] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedGif {
+  implicit val customConfig: Configuration                       = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedGif] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedGif] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultCachedPhoto {
+  implicit val customConfig: Configuration                         = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultCachedPhoto] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultCachedPhoto] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultContact {
+  implicit val customConfig: Configuration                     = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultContact] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultContact] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultVenue {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultVenue] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultVenue] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultLocation {
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultLocation] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultLocation] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultDocument {
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultDocument] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultDocument] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultVoice {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultVoice] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultVoice] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultAudio {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultAudio] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultAudio] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultVideo {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultVideo] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultVideo] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultMpeg4Gif {
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultMpeg4Gif] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultMpeg4Gif] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultGif {
+  implicit val customConfig: Configuration                 = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultGif] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultGif] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultGame {
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultGame] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultGame] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultPhoto {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultPhoto] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultPhoto] = deriveConfiguredEncoder
 }
 
 object InlineQueryResultArticle {
+  implicit val customConfig: Configuration                     = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultArticle] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResultArticle] = deriveConfiguredEncoder
 }
 
 object InlineQueryResult {
   implicit val circeDecoder: Decoder[InlineQueryResult] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQueryResult] = Encoder.instance {
+    case q: InlineQueryResultCachedAudio    => q.asJson
+    case q: InlineQueryResultCachedDocument => q.asJson
+    case q: InlineQueryResultCachedGif      => q.asJson
+    case q: InlineQueryResultCachedMpeg4Gif => q.asJson
+    case q: InlineQueryResultCachedPhoto    => q.asJson
+    case q: InlineQueryResultCachedSticker  => q.asJson
+    case q: InlineQueryResultCachedVideo    => q.asJson
+    case q: InlineQueryResultCachedVoice    => q.asJson
+    case q: InlineQueryResultArticle        => q.asJson
+    case q: InlineQueryResultAudio          => q.asJson
+    case q: InlineQueryResultContact        => q.asJson
+    case q: InlineQueryResultDocument       => q.asJson
+    case q: InlineQueryResultGif            => q.asJson
+    case q: InlineQueryResultLocation       => q.asJson
+    case q: InlineQueryResultMpeg4Gif       => q.asJson
+    case q: InlineQueryResultPhoto          => q.asJson
+    case q: InlineQueryResultVenue          => q.asJson
+    case q: InlineQueryResultVideo          => q.asJson
+    case q: InlineQueryResultVoice          => q.asJson
+    case q: InlineQueryResultGame           => q.asJson
+  }
 }

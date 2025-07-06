@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to delete a chat photo.
@@ -16,3 +19,8 @@ import com.bot4s.telegram.models.ChatId
 case class DeleteChatPhoto(
   chatId: ChatId
 ) extends JsonRequest[Boolean]
+
+object DeleteChatPhoto {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val deleteChatPhotoEncoder: Encoder[DeleteChatPhoto] = deriveConfiguredEncoder[DeleteChatPhoto]
+}

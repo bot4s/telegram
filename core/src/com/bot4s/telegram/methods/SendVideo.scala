@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document).
@@ -18,7 +21,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param thumbnail            InputFile or String Optional Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
  *                             The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320.
  *                             Ignored if the file is not uploaded using multipart/form-data.
- *                             Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+ *                             Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
  * @param caption              String Optional Video caption (may also be used when resending videos by file_id), 0-200 characters
  * @param parseMode            String Optional Send Markdown or HTML, if you want Telegram apps to show bold, italic,
  *                             fixed-width text or inline URLs in the media caption.
@@ -55,4 +58,9 @@ case class SendVideo(
   hasSpoiler: Option[Boolean] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("video" -> video)
+}
+
+object SendVideo {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendVideoEncoder: Encoder[SendVideo] = deriveConfiguredEncoder[SendVideo]
 }

@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ Message, ReplyMarkup }
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
@@ -18,7 +21,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param thumbnail            InputFile or String Optional Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
  *                             The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320.
  *                             Ignored if the file is not uploaded using multipart/form-data.
- *                             Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+ *                             Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
  * @param disableNotification  Boolean Optional Sends the message silently.
  *                             iOS users will not receive a notification, Android users will receive a notification with no sound.
  * @param protectContent       Boolean Optional Protects the contents of the sent message from forwarding and saving
@@ -41,4 +44,9 @@ case class SendVideoNote(
   messageThreadId: Option[Int] = None
 ) extends MultipartRequest[Message] {
   override def getFiles: List[(String, InputFile)] = List("videoNote" -> videoNote)
+}
+
+object SendVideoNote {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendVideoNoteEncoder: Encoder[SendVideoNote] = deriveConfiguredEncoder[SendVideoNote]
 }

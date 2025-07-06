@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.InlineQueryResult
 import com.bot4s.telegram.models.InlineQueryResultsButton
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send answers to an inline query. On success, True is returned.
@@ -22,3 +25,8 @@ case class AnswerInlineQuery(
   nextOffset: Option[String] = None,
   button: Option[InlineQueryResultsButton] = None
 ) extends JsonRequest[Boolean]
+
+object AnswerInlineQuery {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[AnswerInlineQuery] = deriveConfiguredEncoder
+}

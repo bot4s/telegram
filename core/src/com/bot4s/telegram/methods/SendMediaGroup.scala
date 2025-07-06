@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.Message
 import com.bot4s.telegram.models._
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send a group of photos or videos as an album.
@@ -35,4 +38,9 @@ case class SendMediaGroup(
       case animation: InputMediaAnimation => animation.animation.map(animation.media.stripPrefix(attachPrefix) -> _)
     }
   }
+}
+
+object SendMediaGroup {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup] = deriveConfiguredEncoder[SendMediaGroup]
 }

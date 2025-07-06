@@ -1,8 +1,10 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.Currency.Currency
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object contains basic information about an invoice.
@@ -22,5 +24,7 @@ case class Invoice(
 )
 
 object Invoice {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[Invoice] = deriveDecoder[Invoice]
+  implicit val circeEncoder: Encoder[Invoice] = deriveConfiguredEncoder[Invoice]
 }

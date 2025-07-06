@@ -2,6 +2,9 @@ package com.bot4s.telegram.models
 
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a service message about a user allowing a bot added to the attachment menu to write messages.
@@ -16,5 +19,7 @@ case class WriteAccessAllowed(
 )
 
 object WriteAccessAllowed {
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[WriteAccessAllowed] = deriveDecoder[WriteAccessAllowed]
+  implicit val circeEncoder: Encoder[WriteAccessAllowed] = deriveConfiguredEncoder
 }

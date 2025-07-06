@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, Message, ReplyMarkup }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send an animated emoji that will display a random value.
@@ -31,3 +34,8 @@ case class SendDice(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendDice {
+  implicit val customConfig: Configuration     = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SendDice] = deriveConfiguredEncoder
+}

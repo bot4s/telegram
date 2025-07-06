@@ -1,8 +1,10 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.CountryCode.CountryCode
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a shipping address.
@@ -34,5 +36,7 @@ case class ShippingAddress(
 )
 
 object ShippingAddress {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ShippingAddress] = deriveDecoder[ShippingAddress]
+  implicit val circeEncoder: Encoder[ShippingAddress] = deriveConfiguredEncoder[ShippingAddress]
 }

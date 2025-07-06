@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Once the user has confirmed their payment and shipping details,
  * the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query.
@@ -23,4 +27,9 @@ case class AnswerPreCheckoutQuery(preCheckoutQueryId: String, ok: Boolean, error
     extends JsonRequest[Boolean] {
 
   require(ok || errorMessage.isDefined, "errorMessage is required if ok is False")
+}
+
+object AnswerPreCheckoutQuery {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[AnswerPreCheckoutQuery] = deriveConfiguredEncoder
 }

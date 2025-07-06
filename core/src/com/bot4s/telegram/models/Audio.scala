@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents an audio file (voice note).
@@ -27,5 +29,7 @@ case class Audio(
 )
 
 object Audio {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[Audio] = deriveDecoder[Audio]
+  implicit val circeEncoder: Encoder[Audio] = deriveConfiguredEncoder[Audio]
 }

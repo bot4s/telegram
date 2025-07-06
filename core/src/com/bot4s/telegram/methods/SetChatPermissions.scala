@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, ChatPermissions }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to set default chat permissions for all members.
@@ -17,3 +20,8 @@ case class SetChatPermissions(
   permissions: ChatPermissions,
   useIndependentChatPermissions: Option[Boolean] = None
 ) extends JsonRequest[Boolean]
+
+object SetChatPermissions {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val setChatPermissionsEncoder: Encoder[SetChatPermissions] = deriveConfiguredEncoder[SetChatPermissions]
+}

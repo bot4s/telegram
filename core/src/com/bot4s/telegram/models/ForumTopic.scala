@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a forum topic.
@@ -19,5 +21,7 @@ case class ForumTopic(
 )
 
 object ForumTopic {
+  implicit val customConfig: Configuration       = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ForumTopic] = deriveDecoder[ForumTopic]
+  implicit val circeEncoder: Encoder[ForumTopic] = deriveConfiguredEncoder[ForumTopic]
 }

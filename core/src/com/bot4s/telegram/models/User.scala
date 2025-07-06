@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents a Telegram user or bot.
@@ -33,5 +35,7 @@ case class User(
 )
 
 object User {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[User] = deriveDecoder[User]
+  implicit val circeEncoder: Encoder[User] = deriveConfiguredEncoder[User]
 }

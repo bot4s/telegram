@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ ChatId, GameHighScore }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to get data for high score tables.
@@ -22,3 +25,8 @@ case class GetGameHighScores(
   messageId: Option[Int] = None,
   inlineMessageId: Option[String] = None
 ) extends JsonRequest[Seq[GameHighScore]]
+
+object GetGameHighScores {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[GetGameHighScores] = deriveConfiguredEncoder
+}

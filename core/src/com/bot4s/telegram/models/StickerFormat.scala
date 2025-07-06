@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -13,4 +13,6 @@ object StickerFormat extends Enumeration {
 
   implicit val circeDecoder: Decoder[StickerFormat] =
     Decoder[String].map(s => StickerFormat.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[StickerFormat] =
+    Encoder[String].contramap[StickerFormat](e => CaseConversions.snakenize(e.toString))
 }

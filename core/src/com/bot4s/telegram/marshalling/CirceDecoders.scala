@@ -26,10 +26,6 @@ import com.typesafe.scalalogging.StrictLogging
  */
 trait CirceDecoders extends StrictLogging {
 
-  implicit val booleanDecoder: Decoder[Boolean] = Decoder.decodeBoolean
-  implicit val stringDecoder: Decoder[String]   = Decoder.decodeString
-  implicit val intDecoder: Decoder[Int]         = Decoder.decodeInt
-
   implicit def responseDecoder[T: Decoder]: Decoder[Response[T]] = deriveDecoder[Response[T]]
 
   implicit def eitherDecoder[A, B](implicit decA: Decoder[A], decB: Decoder[B]): Decoder[Either[A, B]] = {

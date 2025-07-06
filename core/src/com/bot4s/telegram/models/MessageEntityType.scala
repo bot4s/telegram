@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -21,4 +21,6 @@ object MessageEntityType extends Enumeration {
           MessageEntityType.Unknown
       }
     }
+  implicit val circeEncoder: Encoder[MessageEntityType] =
+    Encoder[String].contramap[MessageEntityType](e => CaseConversions.snakenize(e.toString))
 }

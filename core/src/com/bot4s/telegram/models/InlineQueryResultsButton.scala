@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
@@ -17,5 +19,7 @@ final case class InlineQueryResultsButton(
 )
 
 object InlineQueryResultsButton {
+  implicit val customConfig: Configuration                     = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[InlineQueryResultsButton] = deriveDecoder[InlineQueryResultsButton]
+  implicit val circeEncoder: Encoder[InlineQueryResultsButton] = deriveConfiguredEncoder
 }

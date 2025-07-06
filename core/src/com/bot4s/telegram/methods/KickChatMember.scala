@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to kick a user from a group, a supergroup or a channel.
@@ -26,3 +29,8 @@ case class KickChatMember(
   untilDate: Option[Int] = None,
   revokeMessages: Option[Boolean] = None
 ) extends JsonRequest[Boolean]
+
+object KickChatMember {
+  implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[KickChatMember] = deriveConfiguredEncoder
+}

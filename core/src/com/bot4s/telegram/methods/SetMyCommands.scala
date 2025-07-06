@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.BotCommand
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  *  Use this method to change the list of the bot's commands
@@ -17,3 +20,8 @@ case class SetMyCommands(
   scope: Option[BotCommandScope] = None,
   languageCode: Option[String] = None
 ) extends JsonRequest[Boolean]
+
+object SetMyCommands {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val setMyCommandsEncoder: Encoder[SetMyCommands] = deriveConfiguredEncoder[SetMyCommands]
+}

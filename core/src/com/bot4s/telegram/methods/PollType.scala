@@ -1,6 +1,6 @@
 package com.bot4s.telegram.methods
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -13,4 +13,6 @@ object PollType extends Enumeration {
 
   implicit val circeDecoder: Decoder[PollType] =
     Decoder[String].map(s => PollType.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[PollType] =
+    Encoder[String].contramap[PollType](e => CaseConversions.snakenize(e.toString))
 }

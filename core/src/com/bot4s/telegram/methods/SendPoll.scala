@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import com.bot4s.telegram.models.{ ChatId, Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.methods.ParseMode.ParseMode
 import com.bot4s.telegram.methods.PollType.PollType
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send a native poll.
@@ -12,7 +15,7 @@ import com.bot4s.telegram.methods.PollType.PollType
  * @param question                   Poll question, 1-255 characters
  * @param options                    List of answer options, 2-10 strings 1-100 characters each
  * @param isAnonymous                Optional: if the poll needs to be anonymous, defaults to True
- * @param type                       Optional: Poll type, “quiz” or “regular”, defaults to “regular”
+ * @param type                       Optional: Poll type, "quiz" or "regular", defaults to "regular"
  * @param allowsMultipleAnswers      Optional: True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
  * @param correctOptionId            Optional: 0-based identifier of the correct answer option, required for polls in quiz mode
  * @param explanation                Optional: Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
@@ -49,3 +52,8 @@ case class SendPoll(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
 ) extends JsonRequest[Message]
+
+object SendPoll {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendPollEncoder: Encoder[SendPoll] = deriveConfiguredEncoder[SendPoll]
+}

@@ -9,6 +9,7 @@ import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
 import io.circe.{ Decoder, Encoder }
 import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.methods.GetFile._
 import com.bot4s.telegram.models.SentWebAppMessage._
 import com.bot4s.telegram.models.User._
 import com.bot4s.telegram.models.StickerSet._
@@ -26,6 +27,7 @@ import com.bot4s.telegram.models.UserProfilePhotos._
 import com.bot4s.telegram.models.WebhookInfo._
 import com.bot4s.telegram.models.ChatInviteLink._
 import com.bot4s.telegram.models.ForumTopic._
+import io.circe.Decoder._
 
 import com.bot4s.telegram.marshalling._
 

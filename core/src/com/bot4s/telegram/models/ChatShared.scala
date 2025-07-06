@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object contains information about the chat whose identifier was shared with the bot using a KeyboardButtonRequestChat button.
@@ -12,5 +14,7 @@ import io.circe.generic.semiauto.deriveDecoder
 case class ChatShared(requestId: Int, chatId: Long)
 
 object ChatShared {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ChatShared] = deriveDecoder[ChatShared]
+  implicit val circeEncoder: Encoder[ChatShared] = deriveConfiguredEncoder[ChatShared]
 }

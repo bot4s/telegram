@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a result of an inline query that was chosen by the user and sent to their chat partner.
@@ -23,5 +25,7 @@ case class ChosenInlineResult(
 )
 
 object ChosenInlineResult {
-  implicit val circeDecoder: Decoder[ChosenInlineResult] = deriveDecoder[ChosenInlineResult]
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ChosenInlineResult] = deriveDecoder
+  implicit val circeEncoder: Encoder[ChosenInlineResult] = deriveConfiguredEncoder
 }

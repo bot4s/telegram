@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.InputSticker
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to add a new sticker to a set created by the bot.
@@ -15,3 +18,8 @@ case class AddStickerToSet(
   name: String,
   sticker: InputSticker
 ) extends JsonRequest[Boolean]
+
+object AddStickerToSet {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val addStickerToSetEncoder: Encoder[AddStickerToSet] = deriveConfiguredEncoder[AddStickerToSet]
+}

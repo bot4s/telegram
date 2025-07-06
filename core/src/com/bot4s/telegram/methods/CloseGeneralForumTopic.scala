@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
@@ -10,3 +13,8 @@ import com.bot4s.telegram.models.ChatId
 case class CloseGeneralForumTopic(
   chatId: ChatId
 ) extends JsonRequest[Boolean]
+
+object CloseGeneralForumTopic {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[CloseGeneralForumTopic] = deriveConfiguredEncoder
+}

@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a portion of the price for goods or services.
@@ -17,5 +19,7 @@ case class LabeledPrice(
 )
 
 object LabeledPrice {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[LabeledPrice] = deriveDecoder[LabeledPrice]
+  implicit val circeEncoder: Encoder[LabeledPrice] = deriveConfiguredEncoder[LabeledPrice]
 }

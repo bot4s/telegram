@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents a file ready to be downloaded.
@@ -24,5 +26,7 @@ case class File(
 )
 
 object File {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[File] = deriveDecoder[File]
+  implicit val circeEncoder: Encoder[File] = deriveConfiguredEncoder[File]
 }

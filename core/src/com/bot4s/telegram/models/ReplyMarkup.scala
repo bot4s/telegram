@@ -1,7 +1,10 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
+import io.circe.syntax._
 
 /**
  * ReplyMarkup
@@ -50,7 +53,9 @@ case class KeyboardButton(
  * }}}
  */
 object KeyboardButton {
+  implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[KeyboardButton] = deriveDecoder[KeyboardButton]
+  implicit val circeEncoder: Encoder[KeyboardButton] = deriveConfiguredEncoder[KeyboardButton]
 
   /**
    * `text` will be sent to the bot as a message when the button is pressed.
@@ -107,7 +112,9 @@ case class ReplyKeyboardMarkup(
 ) extends ReplyMarkup
 
 object ReplyKeyboardMarkup {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ReplyKeyboardMarkup] = deriveDecoder[ReplyKeyboardMarkup]
+  implicit val circeEncoder: Encoder[ReplyKeyboardMarkup] = deriveConfiguredEncoder[ReplyKeyboardMarkup]
 
   /**
    * Markup with a single big button.
@@ -187,6 +194,7 @@ case class InlineKeyboardMarkup(
 ) extends ReplyMarkup
 
 object InlineKeyboardMarkup {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
 
   /**
    * Markup with a single button.
@@ -207,6 +215,7 @@ object InlineKeyboardMarkup {
     InlineKeyboardMarkup(buttonColumn.map(Seq(_)))
 
   implicit val circeDecoder: Decoder[InlineKeyboardMarkup] = deriveDecoder[InlineKeyboardMarkup]
+  implicit val circeEncoder: Encoder[InlineKeyboardMarkup] = deriveConfiguredEncoder[InlineKeyboardMarkup]
 }
 
 /**
@@ -277,6 +286,7 @@ case class InlineKeyboardButton(
  * }}}
  */
 object InlineKeyboardButton {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
 
   /**
    * Interactive button that will send a callback.
@@ -326,6 +336,7 @@ object InlineKeyboardButton {
     InlineKeyboardButton(text, pay = Some(true))
 
   implicit val circeDecoder: Decoder[InlineKeyboardButton] = deriveDecoder[InlineKeyboardButton]
+  implicit val circeEncoder: Encoder[InlineKeyboardButton] = deriveConfiguredEncoder[InlineKeyboardButton]
 }
 
 /**
@@ -407,21 +418,41 @@ case class KeyboardButtonRequestChat(
 )
 
 object ReplyKeyboardRemove {
-  implicit val circeDecoder: Decoder[ReplyKeyboardRemove] = deriveDecoder[ReplyKeyboardRemove]
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ReplyKeyboardRemove] = deriveDecoder
+  implicit val circeEncoder: Encoder[ReplyKeyboardRemove] = deriveConfiguredEncoder
 }
 
 object ForceReply {
-  implicit val circeDecoder: Decoder[ForceReply] = deriveDecoder[ForceReply]
+  implicit val customConfig: Configuration       = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ForceReply] = deriveDecoder
+  implicit val circeEncoder: Encoder[ForceReply] = deriveConfiguredEncoder
 }
 
 object KeyboardButtonPollType {
-  implicit val circeDecoder: Decoder[KeyboardButtonPollType] = deriveDecoder[KeyboardButtonPollType]
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[KeyboardButtonPollType] = deriveDecoder
+  implicit val circeEncoder: Encoder[KeyboardButtonPollType] = deriveConfiguredEncoder
 }
 
 object KeyboardButtonRequestUser {
-  implicit val circeDecoder: Decoder[KeyboardButtonRequestUser] = deriveDecoder[KeyboardButtonRequestUser]
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[KeyboardButtonRequestUser] = deriveDecoder
+  implicit val circeEncoder: Encoder[KeyboardButtonRequestUser] = deriveConfiguredEncoder
 }
 
 object KeyboardButtonRequestChat {
-  implicit val circeDecoder: Decoder[KeyboardButtonRequestChat] = deriveDecoder[KeyboardButtonRequestChat]
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[KeyboardButtonRequestChat] = deriveDecoder
+  implicit val circeEncoder: Encoder[KeyboardButtonRequestChat] = deriveConfiguredEncoder
+}
+
+// Complex encoder for ReplyMarkup trait
+object ReplyMarkup {
+  implicit val circeEncoder: Encoder[ReplyMarkup] = Encoder.instance {
+    case fr: ForceReply            => fr.asJson
+    case ikm: InlineKeyboardMarkup => ikm.asJson
+    case rkr: ReplyKeyboardRemove  => rkr.asJson
+    case rkm: ReplyKeyboardMarkup  => rkm.asJson
+  }
 }

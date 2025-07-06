@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ InlineKeyboardMarkup, Message }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to stop updating a live location message sent by the bot or via the bot (for inline bots) before live_period expires.
@@ -19,3 +22,8 @@ case class StopMessageLiveLocation(
   inlineMessageId: Option[Int] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
 ) extends JsonRequest[Message Either Boolean]
+
+object StopMessageLiveLocation {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] = deriveConfiguredEncoder[StopMessageLiveLocation]
+}

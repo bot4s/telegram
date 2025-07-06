@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
@@ -39,5 +41,7 @@ case class ChatPermissions(
 )
 
 object ChatPermissions {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[ChatPermissions] = deriveDecoder[ChatPermissions]
+  implicit val circeEncoder: Encoder[ChatPermissions] = deriveConfiguredEncoder[ChatPermissions]
 }

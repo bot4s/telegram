@@ -1,7 +1,9 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents an invite link for a chat.
@@ -31,5 +33,7 @@ case class ChatInviteLink(
 )
 
 object ChatInviteLink {
-  implicit val circeDecoder: Decoder[ChatInviteLink] = deriveDecoder[ChatInviteLink]
+  implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ChatInviteLink] = deriveDecoder
+  implicit val circeEncoder: Encoder[ChatInviteLink] = deriveConfiguredEncoder
 }

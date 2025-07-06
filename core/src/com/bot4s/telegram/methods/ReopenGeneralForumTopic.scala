@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to reopen a closed 'General' topic in a forum supergroup chat.
@@ -12,3 +15,8 @@ import com.bot4s.telegram.models.ChatId
 case class ReopenGeneralForumTopic(
   chatId: ChatId
 ) extends JsonRequest[Boolean]
+
+object ReopenGeneralForumTopic {
+  implicit val customConfig: Configuration                    = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[ReopenGeneralForumTopic] = deriveConfiguredEncoder
+}

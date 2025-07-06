@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.Decoder
+import io.circe.{ Decoder, Encoder }
 import com.bot4s.telegram.marshalling._
 
 /**
@@ -17,8 +17,9 @@ object StickerType extends Enumeration {
         StickerType.withName(pascalize(s))
       } catch {
         case e: NoSuchElementException =>
-          // logger.warn(s"Unexpected StickerType: '$s', fallback to Unknown.")
           StickerType.Unknown
       }
     }
+  implicit val circeEncoder: Encoder[StickerType] =
+    Encoder[String].contramap[StickerType](e => snakenize(e.toString))
 }
