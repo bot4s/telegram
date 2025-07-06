@@ -1,8 +1,8 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.Currency.Currency
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
 import io.circe.generic.extras.Configuration
 import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
@@ -30,7 +30,7 @@ case class SuccessfulPayment(
 )
 
 object SuccessfulPayment {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[SuccessfulPayment] = deriveDecoder[SuccessfulPayment]
   implicit val circeEncoder: Encoder[SuccessfulPayment] = deriveConfiguredEncoder[SuccessfulPayment]
 }

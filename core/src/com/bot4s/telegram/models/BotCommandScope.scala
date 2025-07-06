@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.{Decoder, Encoder}
+import io.circe.{ Decoder, Encoder }
 import com.bot4s.telegram.marshalling._
 
 object BotCommandScope extends Enumeration {

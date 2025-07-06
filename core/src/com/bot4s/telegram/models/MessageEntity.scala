@@ -1,7 +1,7 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.MessageEntityType.MessageEntityType
-import io.circe.{Decoder, Encoder}
+import io.circe.{ Decoder, Encoder }
 import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto.deriveDecoder
 import io.circe.generic.extras.Configuration
@@ -31,7 +31,7 @@ case class MessageEntity(
 )
 
 object MessageEntity {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
   implicit val circeDecoder: Decoder[MessageEntity] = deriveDecoder[MessageEntity]
   implicit val circeEncoder: Encoder[MessageEntity] = deriveConfiguredEncoder[MessageEntity]
 }

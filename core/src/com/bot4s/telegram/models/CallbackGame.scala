@@ -1,6 +1,6 @@
 package com.bot4s.telegram.models
 
-import io.circe.{Decoder, Encoder, JsonObject}
+import io.circe.{ Decoder, Encoder, JsonObject }
 import io.circe.generic.semiauto.deriveDecoder
 
 /**
