@@ -13,18 +13,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v3
-        with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Set version
         run: sed -i "s/publishVersion = \"\(.*\)\"/publishVersion = \"\1-$(echo ${GITHUB_SHA} | cut -c1-8)-SNAPSHOT\"/g" build.sc
       - name: Publish
         shell: bash
         env:
-          SONATYPE_USERNAME: ${{ secrets.OSS_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.OSS_PASSWORD }}
+          MILL_SONATYPE_USERNAME: ${{ secrets.OSS_USERNAME }}
+          MILL_SONATYPE_PASSWORD: ${{ secrets.OSS_PASSWORD }}
+          MILL_PGP_PASSPHRASE: ${{ secrets.MILL_PGP_PASSPHRASE }}
+          MILL_PGP_SECRET_BASE64: ${{ secrets.MILL_PGP_SECRET_BASE64 }}
         run: |
-          ./mill mill.scalalib.PublishModule/ --publishArtifacts __.publishArtifacts
+          ./mill mill.scalalib.SonatypeCentralPublishModule/ --publishArtifacts __.publishArtifacts

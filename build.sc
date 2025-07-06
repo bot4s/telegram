@@ -1,6 +1,6 @@
 import mill._
-import mill.scalalib._
-import mill.scalalib.publish._
+import scalalib._
+import publish._
 
 val ScalaVersions = Seq("2.12.20", "2.13.16")
 
@@ -130,7 +130,7 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
   override def artifactName = s"telegram-$location"
 }
 
-trait Publishable extends PublishModule {
+trait Publishable extends SonatypeCentralPublishModule {
 
   override def publishVersion = "5.8.4"
 
