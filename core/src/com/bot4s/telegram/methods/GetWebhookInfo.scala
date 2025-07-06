@@ -8,6 +8,7 @@ import io.circe.Encoder
  * Requires no parameters. On success, returns a WebhookInfo object.
  * If the bot is using getUpdates, will return an object with the url field empty.
  */
-case object GetWebhookInfo extends JsonRequest[WebhookInfo] {
+case object GetWebhookInfo extends JsonRequest {
+  type Response = WebhookInfo
   implicit val circeEncoder: Encoder[GetWebhookInfo.type] = Encoder.instance(_ => io.circe.Json.Null)
 }

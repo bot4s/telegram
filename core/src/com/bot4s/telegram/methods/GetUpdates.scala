@@ -28,9 +28,11 @@ case class GetUpdates(
   limit: Option[Int] = None,
   timeout: Option[Int] = None,
   allowedUpdates: Option[Seq[UpdateType]] = None
-) extends JsonRequest[Seq[ParsedUpdate]]
+) extends JsonRequest {
+  type Response = Seq[ParsedUpdate]
+}
 
 object GetUpdates {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames
   implicit val getUpdatesEncoder: Encoder[GetUpdates] = deriveConfiguredEncoder[GetUpdates]
 }

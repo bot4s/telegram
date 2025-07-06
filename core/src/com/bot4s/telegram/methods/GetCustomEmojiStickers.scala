@@ -11,7 +11,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param customEmojiIds     Array of string. List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified
  */
-case class GetCustomEmojiStickers(customEmojiIds: Array[String]) extends JsonRequest[List[Sticker]]
+case class GetCustomEmojiStickers(customEmojiIds: Array[String]) extends JsonRequest {
+  type Response = List[Sticker]
+}
 
 object GetCustomEmojiStickers {
   implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames

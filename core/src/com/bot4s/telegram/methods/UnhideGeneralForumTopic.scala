@@ -12,7 +12,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class UnhideGeneralForumTopic(
   chatId: ChatId
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object UnhideGeneralForumTopic {
   implicit val customConfig: Configuration                    = Configuration.default.withSnakeCaseMemberNames

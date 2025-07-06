@@ -9,6 +9,7 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  * A simple method for testing your bot's auth token. Requires no parameters.
  * Returns basic information about the bot in form of a User object.
  */
-case object GetMe extends JsonRequest[User] {
+case object GetMe extends JsonRequest {
+  type Response = User
   implicit val circeEncoder: Encoder[GetMe.type] = Encoder.instance(_ => io.circe.Json.Null)
 }

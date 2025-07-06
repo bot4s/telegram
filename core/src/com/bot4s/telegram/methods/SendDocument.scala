@@ -44,11 +44,12 @@ case class SendDocument(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("document" -> document)
 }
 
 object SendDocument {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
   implicit val sendDocumentEncoder: Encoder[SendDocument] = deriveConfiguredEncoder[SendDocument]
 }

@@ -26,7 +26,8 @@ case class SendMediaGroup(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyToMessageId: Option[Int] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Array[Message]] {
+) extends MultipartRequest {
+  type Response = Array[Message]
 
   override def getFiles: List[(String, InputFile)] = {
     val attachPrefix = "attach://"
@@ -41,6 +42,6 @@ case class SendMediaGroup(
 }
 
 object SendMediaGroup {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                    = Configuration.default.withSnakeCaseMemberNames
   implicit val sendMediaGroupEncoder: Encoder[SendMediaGroup] = deriveConfiguredEncoder[SendMediaGroup]
 }

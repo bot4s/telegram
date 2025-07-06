@@ -17,7 +17,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class BanChatSenderChat(
   chatId: ChatId,
   sendChatId: Long
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object BanChatSenderChat {
   implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames

@@ -19,9 +19,11 @@ case class SetMyCommands(
   commands: List[BotCommand],
   scope: Option[BotCommandScope] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetMyCommands {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
   implicit val setMyCommandsEncoder: Encoder[SetMyCommands] = deriveConfiguredEncoder[SetMyCommands]
 }

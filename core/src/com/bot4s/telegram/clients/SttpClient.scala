@@ -43,14 +43,16 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  override def sendRequest[R, T <: BotRequest[?]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): F[R] = {
+  override def sendRequest[T <: BotRequest: Encoder](
+    request: T
+  )(implicit d: Decoder[request.Response]): F[request.Response] = {
     val url = apiBaseUrl + request.methodName
 
     val sttpRequest: Either[IllegalArgumentException, SttpRequest[String, Any]] = request match {
-      case r: JsonRequest[_] =>
+      case r: JsonRequest =>
         Right(quickRequest.post(uri"$url").body(request))
 
-      case r: MultipartRequest[_] =>
+      case r: MultipartRequest =>
         val parts = r.getFiles.flatMap { case (camelKey, inputFile) =>
           val key = CaseConversions.snakenize(camelKey)
           inputFile match {
@@ -79,19 +81,19 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
         Left(new IllegalArgumentException(f"Unsupported request type ${req.getClass().getName()}"))
     }
 
-    monadError.fromEither(sttpRequest).flatMap { request =>
-      logger.debug(request.toCurl)
+    monadError.fromEither(sttpRequest).flatMap { sttpRequest =>
+      logger.debug(sttpRequest.toCurl)
 
       import com.bot4s.telegram.marshalling.responseDecoder
 
-      val response = request
+      val response = sttpRequest
         .readTimeout(readTimeout)
-        .response(asJson[Response[R]])
+        .response(asJson[Response[request.Response]])
         .send(backend)
 
       response
         .map(_.body)
-        .map(processApiResponse[R])
+        .map(v => processApiResponse[request.Response](v))
     }
 
   }

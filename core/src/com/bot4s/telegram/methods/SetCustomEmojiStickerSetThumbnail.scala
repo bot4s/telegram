@@ -13,7 +13,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetCustomEmojiStickerSetThumbnail(
   name: String,
   customEmojiId: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetCustomEmojiStickerSetThumbnail {
   implicit val customConfig: Configuration                              = Configuration.default.withSnakeCaseMemberNames

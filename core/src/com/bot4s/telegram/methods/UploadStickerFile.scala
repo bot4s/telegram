@@ -14,12 +14,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  * @param sticker       A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files »
  * @param stickerFormat Format of the sticker, must be one of "static", "animated", "video"
  */
-case class UploadStickerFile(userId: Long, sticker: InputFile, stickerFormat: StickerFormat)
-    extends MultipartRequest[File] {
+case class UploadStickerFile(userId: Long, sticker: InputFile, stickerFormat: StickerFormat) extends MultipartRequest {
+  type Response = File
   override def getFiles: List[(String, InputFile)] = List("sticker" -> sticker)
 }
 
 object UploadStickerFile {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                          = Configuration.default.withSnakeCaseMemberNames
   implicit val uploadStickerFileEncoder: Encoder[UploadStickerFile] = deriveConfiguredEncoder[UploadStickerFile]
 }

@@ -14,9 +14,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  * @param replyMarkup  A JSON-serialized object for a new message inline keyboard.
  */
 case class StopPoll(chatId: ChatId, messageId: Option[Int] = None, replyMarkup: Option[ReplyMarkup] = None)
-    extends JsonRequest[Poll]
+    extends JsonRequest {
+  type Response = Poll
+}
 
 object StopPoll {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
   implicit val StopPollEncoder: Encoder[StopPoll] = deriveConfiguredEncoder[StopPoll]
 }

@@ -12,7 +12,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class DeleteStickerSet(
   name: String
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteStickerSet {
   implicit val customConfig: Configuration             = Configuration.default.withSnakeCaseMemberNames

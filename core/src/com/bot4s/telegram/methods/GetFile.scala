@@ -17,7 +17,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class GetFile(
   fileId: String
-) extends JsonRequest[File]
+) extends JsonRequest {
+  type Response = File
+}
 
 object GetFile {
   implicit val customConfig: Configuration    = Configuration.default.withSnakeCaseMemberNames

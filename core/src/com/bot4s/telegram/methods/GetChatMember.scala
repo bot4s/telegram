@@ -14,7 +14,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class GetChatMember(
   chatId: ChatId,
   userId: Long
-) extends JsonRequest[ChatMember]
+) extends JsonRequest {
+  type Response = ChatMember
+}
 
 object GetChatMember {
   implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames

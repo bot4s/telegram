@@ -26,7 +26,8 @@ case class AnswerShippingQuery(
   ok: Boolean,
   shippingOptions: Option[Array[ShippingOption]] = None,
   errorMessage: Option[String] = None
-) extends JsonRequest[Boolean] {
+) extends JsonRequest {
+  type Response = Boolean
 
   require(!ok || shippingOptions.isDefined, "shippingOptions required if ok is True")
   require(ok || errorMessage.isDefined, "errorMessage required if ok is False")

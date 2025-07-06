@@ -16,9 +16,12 @@ case class SetChatAdministratorCustomTitle(
   chatId: ChatId,
   userId: Long,
   customTitle: String
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetChatAdministratorCustomTitle {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] = deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
+  implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] =
+    deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
 }

@@ -28,13 +28,15 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
 
   import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
 
-  override def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] =
+  override def sendRequest[T <: Request: Encoder](
+    request: T
+  )(implicit d: Decoder[request.Response]): Future[request.Response] =
     Source
       .future(Marshal(request).to[RequestEntity].map { re =>
         HttpRequest(HttpMethods.POST, Uri(path = Path(s"/bot$token/" + request.methodName)), entity = re)
       })
       .via(flow)
-      .mapAsync(1)(r => Unmarshal(r.entity).to[Response[R]])
+      .mapAsync(1)(r => Unmarshal(r.entity).to[Response[request.Response]])
       .runWith(Sink.head)
-      .map(processApiResponse[R])
+      .map(v => processApiResponse[request.Response](v))
 }

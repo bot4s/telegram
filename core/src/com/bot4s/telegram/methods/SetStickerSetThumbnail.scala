@@ -22,7 +22,8 @@ case class SetStickerSetThumbnail(
   name: String,
   userId: Long,
   thumbnail: Option[InputFile]
-) extends MultipartRequest[Boolean] {
+) extends MultipartRequest {
+  type Response = Boolean
   override def getFiles: List[(String, InputFile)] = thumbnail.map(f => "thumbnail" -> f).toList
 }
 

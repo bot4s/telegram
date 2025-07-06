@@ -32,7 +32,8 @@ case class SetGameScore(
   chatId: Option[ChatId] = None,
   messageId: Option[Int] = None,
   inlineMessageId: Option[String] = None
-) extends JsonRequest[Either[Boolean, Message]] {
+) extends JsonRequest {
+  type Response = Either[Boolean, Message]
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")

@@ -14,9 +14,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class ExportChatInviteLink(
   chatId: ChatId
-) extends JsonRequest[String]
+) extends JsonRequest {
+  type Response = String
+}
 
 object ExportChatInviteLink {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] = deriveConfiguredEncoder[ExportChatInviteLink]
+  implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] =
+    deriveConfiguredEncoder[ExportChatInviteLink]
 }

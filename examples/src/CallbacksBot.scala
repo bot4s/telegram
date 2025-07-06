@@ -1,6 +1,7 @@
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._
+import com.bot4s.telegram.marshalling._
 import com.bot4s.telegram.api.declarative.{ Callbacks, Commands }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.EditMessageReplyMarkup

@@ -20,7 +20,8 @@ case class EditMessageReplyMarkup(
   messageId: Option[Int] = None,
   inlineMessageId: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends JsonRequest[Either[Boolean, Message]] {
+) extends JsonRequest {
+  type Response = Either[Boolean, Message]
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
     require(messageId.isDefined, "Required if inlineMessageId is not specified")
@@ -32,5 +33,6 @@ case class EditMessageReplyMarkup(
 
 object EditMessageReplyMarkup {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] = deriveConfiguredEncoder[EditMessageReplyMarkup]
+  implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] =
+    deriveConfiguredEncoder[EditMessageReplyMarkup]
 }

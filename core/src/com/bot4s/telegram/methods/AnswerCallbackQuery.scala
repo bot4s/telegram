@@ -29,9 +29,11 @@ case class AnswerCallbackQuery(
   showAlert: Option[Boolean] = None,
   url: Option[String] = None,
   cacheTime: Option[Int] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object AnswerCallbackQuery {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                              = Configuration.default.withSnakeCaseMemberNames
   implicit val answerCallbackQueryEncoder: Encoder[AnswerCallbackQuery] = deriveConfiguredEncoder[AnswerCallbackQuery]
 }

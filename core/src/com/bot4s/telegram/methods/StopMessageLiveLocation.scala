@@ -21,9 +21,12 @@ case class StopMessageLiveLocation(
   messageId: Option[Int] = None,
   inlineMessageId: Option[Int] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends JsonRequest[Message Either Boolean]
+) extends JsonRequest {
+  type Response = Message Either Boolean
+}
 
 object StopMessageLiveLocation {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] = deriveConfiguredEncoder[StopMessageLiveLocation]
+  implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] =
+    deriveConfiguredEncoder[StopMessageLiveLocation]
 }

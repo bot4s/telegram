@@ -26,7 +26,8 @@ case class EditMessageCaption(
   caption: Option[String] = None,
   parseMode: Option[ParseMode] = None,
   replyMarkup: Option[ReplyMarkup] = None
-) extends JsonRequest[Either[Boolean, Message]] {
+) extends JsonRequest {
+  type Response = Either[Boolean, Message]
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
@@ -38,6 +39,6 @@ case class EditMessageCaption(
 }
 
 object EditMessageCaption {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                            = Configuration.default.withSnakeCaseMemberNames
   implicit val editMessageCaptionEncoder: Encoder[EditMessageCaption] = deriveConfiguredEncoder[EditMessageCaption]
 }

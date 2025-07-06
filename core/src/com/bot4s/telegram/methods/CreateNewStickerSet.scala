@@ -28,7 +28,9 @@ case class CreateNewStickerSet(
   stickerFormat: StickerFormat,
   stickerType: Option[StickerType] = None,
   needsRepainting: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object CreateNewStickerSet {
   implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames

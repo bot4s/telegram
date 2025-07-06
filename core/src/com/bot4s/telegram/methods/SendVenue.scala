@@ -45,7 +45,9 @@ case class SendVenue(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendVenue {
   implicit val customConfig: Configuration      = Configuration.default.withSnakeCaseMemberNames

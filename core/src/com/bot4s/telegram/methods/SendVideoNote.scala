@@ -42,11 +42,12 @@ case class SendVideoNote(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("videoNote" -> videoNote)
 }
 
 object SendVideoNote {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
   implicit val sendVideoNoteEncoder: Encoder[SendVideoNote] = deriveConfiguredEncoder[SendVideoNote]
 }

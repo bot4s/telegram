@@ -19,9 +19,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetChatTitle(
   chatId: ChatId,
   title: String
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetChatTitle {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
   implicit val setChatTitleEncoder: Encoder[SetChatTitle] = deriveConfiguredEncoder[SetChatTitle]
 }

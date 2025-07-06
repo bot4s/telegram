@@ -25,7 +25,9 @@ case class SendChatAction(
   chatId: ChatId,
   action: ChatAction,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SendChatAction {
   implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames

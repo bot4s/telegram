@@ -11,9 +11,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param name  String Name of the sticker set
  */
-case class GetStickerSet(name: String) extends JsonRequest[StickerSet]
+case class GetStickerSet(name: String) extends JsonRequest {
+  type Response = StickerSet
+}
 
 object GetStickerSet {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
   implicit val getStickerSetEncoder: Encoder[GetStickerSet] = deriveConfiguredEncoder[GetStickerSet]
 }

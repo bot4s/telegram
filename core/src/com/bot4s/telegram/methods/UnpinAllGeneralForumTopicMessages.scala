@@ -13,7 +13,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param chatId   ChatId  	Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
  */
-case class UnpinAllGeneralForumTopicMessages(chatId: ChatId) extends JsonRequest[Boolean]
+case class UnpinAllGeneralForumTopicMessages(chatId: ChatId) extends JsonRequest {
+  type Response = Boolean
+}
 
 object UnpinAllGeneralForumTopicMessages {
   implicit val customConfig: Configuration                              = Configuration.default.withSnakeCaseMemberNames

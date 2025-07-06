@@ -10,9 +10,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param sticker String	File identifier of the sticker
  */
-case class DeleteStickerFromSet(sticker: String) extends JsonRequest[Boolean]
+case class DeleteStickerFromSet(sticker: String) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteStickerFromSet {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val deleteStickerFromSetEncoder: Encoder[DeleteStickerFromSet] = deriveConfiguredEncoder[DeleteStickerFromSet]
+  implicit val deleteStickerFromSetEncoder: Encoder[DeleteStickerFromSet] =
+    deriveConfiguredEncoder[DeleteStickerFromSet]
 }

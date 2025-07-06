@@ -13,7 +13,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class GetChatMenuButton(
   chatId: ChatId
-) extends JsonRequest[MenuButton]
+) extends JsonRequest {
+  type Response = MenuButton
+}
 
 object GetChatMenuButton {
   implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames

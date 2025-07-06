@@ -9,7 +9,10 @@ import io.circe.Decoder._
  */
 trait ChatActions[F[_]] {
   this: BotBase[F] =>
-  def typing(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.Typing))
+  def typing(implicit msg: Message): F[Boolean] = {
+    val x = request(SendChatAction(msg.source, ChatAction.Typing))
+    x
+  }
 
   def uploadingPhoto(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadPhoto))
 

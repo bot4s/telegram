@@ -18,7 +18,9 @@ case class UnbanChatMember(
   chatId: ChatId,
   userId: Long,
   onlyIfBanned: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object UnbanChatMember {
   implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames

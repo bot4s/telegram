@@ -26,9 +26,12 @@ case class EditMessageLiveLocation(
   latitude: Option[Double] = None,
   longitude: Option[Double] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends JsonRequest[Message Either Boolean]
+) extends JsonRequest {
+  type Response = Message Either Boolean
+}
 
 object EditMessageLiveLocation {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val editMessageLiveLocationEncoder: Encoder[EditMessageLiveLocation] = deriveConfiguredEncoder[EditMessageLiveLocation]
+  implicit val editMessageLiveLocationEncoder: Encoder[EditMessageLiveLocation] =
+    deriveConfiguredEncoder[EditMessageLiveLocation]
 }

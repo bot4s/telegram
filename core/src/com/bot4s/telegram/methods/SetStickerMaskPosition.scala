@@ -15,7 +15,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetStickerMaskPosition(
   sticker: String,
   maskPosition: Option[MaskPosition] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetStickerMaskPosition {
   implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames

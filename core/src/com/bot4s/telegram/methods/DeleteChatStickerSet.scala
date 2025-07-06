@@ -13,9 +13,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param chatId Integer or String Yes Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
  */
-case class DeleteChatStickerSet(chatId: ChatId) extends JsonRequest[Boolean]
+case class DeleteChatStickerSet(chatId: ChatId) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteChatStickerSet {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] = deriveConfiguredEncoder[DeleteChatStickerSet]
+  implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] =
+    deriveConfiguredEncoder[DeleteChatStickerSet]
 }

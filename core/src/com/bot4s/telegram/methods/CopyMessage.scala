@@ -42,7 +42,9 @@ case class CopyMessage(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[MessageId]
+) extends JsonRequest {
+  type Response = MessageId
+}
 
 object CopyMessage {
   implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames

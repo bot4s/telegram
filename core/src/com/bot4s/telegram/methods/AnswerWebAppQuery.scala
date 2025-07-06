@@ -14,7 +14,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class AnswerWebAppQuery(
   webAppQueryId: String,
   result: Option[InlineQueryResult] = None
-) extends JsonRequest[SentWebAppMessage]
+) extends JsonRequest {
+  type Response = SentWebAppMessage
+}
 
 object AnswerWebAppQuery {
   implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames

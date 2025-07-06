@@ -24,7 +24,9 @@ case class AnswerInlineQuery(
   isPersonal: Option[Boolean] = None,
   nextOffset: Option[String] = None,
   button: Option[InlineQueryResultsButton] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object AnswerInlineQuery {
   implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames

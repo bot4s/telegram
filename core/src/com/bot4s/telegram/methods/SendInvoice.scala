@@ -66,7 +66,9 @@ case class SendInvoice(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendInvoice {
   implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames

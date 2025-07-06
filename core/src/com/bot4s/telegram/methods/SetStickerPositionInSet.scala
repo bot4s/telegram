@@ -11,9 +11,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  * @param sticker   String File identifier of the sticker
  * @param position  Integer New sticker position in the set, zero-based
  */
-case class SetStickerPositionInSet(sticker: String, position: Int) extends JsonRequest[Boolean]
+case class SetStickerPositionInSet(sticker: String, position: Int) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetStickerPositionInSet {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] = deriveConfiguredEncoder[SetStickerPositionInSet]
+  implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] =
+    deriveConfiguredEncoder[SetStickerPositionInSet]
 }

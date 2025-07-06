@@ -16,7 +16,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class ApproveChatJoinRequest(
   chatId: ChatId,
   userId: Long
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object ApproveChatJoinRequest {
   implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames

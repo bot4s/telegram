@@ -37,9 +37,11 @@ case class SendContact(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendContact {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
   implicit val sendContactEncoder: Encoder[SendContact] = deriveConfiguredEncoder[SendContact]
 }

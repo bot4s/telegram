@@ -45,11 +45,12 @@ case class SendVoice(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("voice" -> voice)
 }
 
 object SendVoice {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
   implicit val sendVoiceEncoder: Encoder[SendVoice] = deriveConfiguredEncoder[SendVoice]
 }

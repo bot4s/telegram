@@ -18,7 +18,9 @@ case class EditForumTopic(
   messageThreadId: Int,
   name: Option[String] = None,
   iconCustomEmojiId: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object EditForumTopic {
   implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames

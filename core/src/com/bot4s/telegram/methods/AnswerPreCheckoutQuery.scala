@@ -24,7 +24,8 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *                            Telegram will display this message to the user.
  */
 case class AnswerPreCheckoutQuery(preCheckoutQueryId: String, ok: Boolean, errorMessage: Option[String] = None)
-    extends JsonRequest[Boolean] {
+    extends JsonRequest {
+  type Response = Boolean
 
   require(ok || errorMessage.isDefined, "errorMessage is required if ok is False")
 }

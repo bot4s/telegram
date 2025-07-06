@@ -10,7 +10,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  *
  * @param chatId Integer or String Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
  */
-case class LeaveChat(chatId: ChatId) extends JsonRequest[Boolean]
+case class LeaveChat(chatId: ChatId) extends JsonRequest {
+  type Response = Boolean
+}
 
 object LeaveChat {
   implicit val customConfig: Configuration      = Configuration.default.withSnakeCaseMemberNames

@@ -15,9 +15,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class DeleteMyCommands(
   scope: Option[BotCommandScope] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteMyCommands {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
   implicit val deleteMyCommandsEncoder: Encoder[DeleteMyCommands] = deriveConfiguredEncoder[DeleteMyCommands]
 }

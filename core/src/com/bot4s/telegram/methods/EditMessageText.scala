@@ -27,7 +27,8 @@ case class EditMessageText(
   parseMode: Option[ParseMode] = None,
   disableWebPagePreview: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None
-) extends JsonRequest[Either[Boolean, Message]] {
+) extends JsonRequest {
+  type Response = Either[Boolean, Message]
 
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
@@ -39,6 +40,6 @@ case class EditMessageText(
 }
 
 object EditMessageText {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val editMessageTextEncoder: Encoder[EditMessageText] = deriveConfiguredEncoder[EditMessageText]
 }

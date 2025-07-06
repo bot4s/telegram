@@ -34,11 +34,12 @@ case class SendSticker(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("sticker" -> sticker)
 }
 
 object SendSticker {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
   implicit val sendStickerEncoder: Encoder[SendSticker] = deriveConfiguredEncoder[SendSticker]
 }

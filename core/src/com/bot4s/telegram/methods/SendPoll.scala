@@ -51,9 +51,11 @@ case class SendPoll(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendPoll {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
   implicit val sendPollEncoder: Encoder[SendPoll] = deriveConfiguredEncoder[SendPoll]
 }

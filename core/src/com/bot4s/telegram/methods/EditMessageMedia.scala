@@ -25,13 +25,14 @@ case class EditMessageMedia(
   inlineMessageId: Option[String] = None,
   media: InputMedia,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends MultipartRequest[Either[Boolean, Message]] {
+) extends MultipartRequest {
+  type Response = Either[Boolean, Message]
 
   override def getFiles: List[(String, InputFile)] =
     media.getFiles
 }
 
 object EditMessageMedia {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
   implicit val editMessageMediaEncoder: Encoder[EditMessageMedia] = deriveConfiguredEncoder[EditMessageMedia]
 }

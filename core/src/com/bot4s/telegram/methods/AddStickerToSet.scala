@@ -17,9 +17,11 @@ case class AddStickerToSet(
   userId: Long,
   name: String,
   sticker: InputSticker
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object AddStickerToSet {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val addStickerToSetEncoder: Encoder[AddStickerToSet] = deriveConfiguredEncoder[AddStickerToSet]
 }

@@ -19,11 +19,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetChatPhoto(
   chatId: ChatId,
   photo: InputFile
-) extends MultipartRequest[Boolean] {
+) extends MultipartRequest {
+  type Response = Boolean
   override def getFiles: List[(String, InputFile)] = List("photo" -> photo)
 }
 
 object SetChatPhoto {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
   implicit val setChatPhotoEncoder: Encoder[SetChatPhoto] = deriveConfiguredEncoder[SetChatPhoto]
 }

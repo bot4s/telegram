@@ -37,16 +37,18 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
 
-  def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] = {
+  def sendRequest[T <: Request: Encoder](
+    request: T
+  )(implicit d: Decoder[request.Response]): Future[request.Response] = {
     val url = apiBaseUrl + request.methodName
 
     val scalajRequest = request match {
-      case r: JsonRequest[_] =>
+      case r: JsonRequest =>
         Http(url)
           .postData(marshalling.toJson(request))
           .header("Content-Type", "application/json")
 
-      case r: MultipartRequest[_] =>
+      case r: MultipartRequest =>
         // InputFile.FileIds are encoded as query params.
         val (fileIds, files) = r.getFiles.partition {
           case (key, _: InputFile.FileId) => true
@@ -106,10 +108,10 @@ class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHos
       }
     } map { x =>
       if (x.isSuccess)
-        marshalling.fromJson[Response[R]](x.body)
+        marshalling.fromJson[Response[request.Response]](x.body)
       else
         throw new RuntimeException(s"Error ${x.code} on request")
-    } map (processApiResponse[R])
+    } map (v => processApiResponse[request.Response](v))
   }
 
 }

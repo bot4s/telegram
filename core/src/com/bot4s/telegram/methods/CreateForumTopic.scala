@@ -18,7 +18,9 @@ case class CreateForumTopic(
   name: String,
   iconColor: Int,
   iconCustomEmojiId: Option[String] = None
-) extends JsonRequest[ForumTopic]
+) extends JsonRequest {
+  type Response = ForumTopic
+}
 
 object CreateForumTopic {
   implicit val customConfig: Configuration             = Configuration.default.withSnakeCaseMemberNames

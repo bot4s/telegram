@@ -28,7 +28,9 @@ case class BanChatMember(
   userId: Long,
   untilDate: Option[Int] = None,
   revokeMessages: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object BanChatMember {
   implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames

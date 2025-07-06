@@ -20,9 +20,11 @@ case class PinChatMessage(
   chatId: ChatId,
   messageId: Int,
   disableNotification: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object PinChatMessage {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                    = Configuration.default.withSnakeCaseMemberNames
   implicit val pinChatMessageEncoder: Encoder[PinChatMessage] = deriveConfiguredEncoder[PinChatMessage]
 }

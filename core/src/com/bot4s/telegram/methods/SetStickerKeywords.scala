@@ -14,7 +14,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetStickerKeywords(
   sicket: String,
   keywords: Option[Array[String]] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetStickerKeywords {
   implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames

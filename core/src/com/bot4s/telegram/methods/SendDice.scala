@@ -33,7 +33,9 @@ case class SendDice(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendDice {
   implicit val customConfig: Configuration     = Configuration.default.withSnakeCaseMemberNames

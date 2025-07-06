@@ -43,7 +43,9 @@ case class SendLocation(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object SendLocation {
   implicit val customConfig: Configuration         = Configuration.default.withSnakeCaseMemberNames

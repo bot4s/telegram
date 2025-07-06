@@ -17,6 +17,7 @@ import io.circe.{ Decoder, Encoder }
 
 import scala.concurrent.Future
 import scala.util.{ Failure, Success }
+import io.circe.generic.extras.Configuration
 
 /**
  * Provides basic endpoints to manage game's scoring.
@@ -120,7 +121,7 @@ object Payload {
       cbq.gameShortName.get
     ) // throws if not a game callback
 
-  import marshalling._
+  implicit val customConfig: Configuration      = Configuration.default.withSnakeCaseMemberNames
   implicit val payloadEncoder: Encoder[Payload] = deriveConfiguredEncoder[Payload]
   implicit val payloadDecoder: Decoder[Payload] = deriveDecoder[Payload]
 }

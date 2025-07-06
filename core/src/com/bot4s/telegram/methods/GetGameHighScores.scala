@@ -24,7 +24,9 @@ case class GetGameHighScores(
   chatId: Option[ChatId] = None,
   messageId: Option[Int] = None,
   inlineMessageId: Option[String] = None
-) extends JsonRequest[Seq[GameHighScore]]
+) extends JsonRequest {
+  type Response = Seq[GameHighScore]
+}
 
 object GetGameHighScores {
   implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames

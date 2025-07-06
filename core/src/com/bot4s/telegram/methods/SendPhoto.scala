@@ -43,11 +43,12 @@ case class SendPhoto(
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None,
   hasSpoiler: Option[Boolean] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("photo" -> photo)
 }
 
 object SendPhoto {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
   implicit val sendPhotoEncoder: Encoder[SendPhoto] = deriveConfiguredEncoder[SendPhoto]
 }

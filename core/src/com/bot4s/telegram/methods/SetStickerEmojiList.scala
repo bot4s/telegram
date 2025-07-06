@@ -14,7 +14,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetStickerEmojiList(
   sicket: String,
   emojiList: Option[Array[String]] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetStickerEmojiList {
   implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames

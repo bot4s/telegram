@@ -25,9 +25,11 @@ case class RestrictChatMember(
   permissions: Option[ChatPermissions] = None,
   useIndependentChatPermissions: Option[Boolean] = None,
   untilDate: Option[Int] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object RestrictChatMember {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                            = Configuration.default.withSnakeCaseMemberNames
   implicit val restrictChatMemberEncoder: Encoder[RestrictChatMember] = deriveConfiguredEncoder[RestrictChatMember]
 }

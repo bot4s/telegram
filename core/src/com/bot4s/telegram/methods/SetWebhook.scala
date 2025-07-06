@@ -44,7 +44,8 @@ case class SetWebhook(
   ipAddress: Option[String] = None,
   dropPendingUpdates: Option[Boolean] = None,
   secretToken: Option[String] = None
-) extends MultipartRequest[Boolean] {
+) extends MultipartRequest {
+  type Response = Boolean
   override def getFiles: List[(String, InputFile)] = certificate.map("certificate" -> _).toList
 }
 

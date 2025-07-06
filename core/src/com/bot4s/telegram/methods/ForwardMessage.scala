@@ -23,7 +23,9 @@ case class ForwardMessage(
   protectContent: Option[Boolean] = None,
   messageId: Int,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
 
 object ForwardMessage {
   implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames

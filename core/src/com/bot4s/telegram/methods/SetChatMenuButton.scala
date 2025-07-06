@@ -14,9 +14,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetChatMenuButton(
   chatId: ChatId,
   menuButton: Option[MenuButton] = Some(MenuButtonDefault())
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetChatMenuButton {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val setChatButtonEncoder: Encoder[SetChatMenuButton] = deriveConfiguredEncoder[SetChatMenuButton]
 }

@@ -23,7 +23,8 @@ case class CreateChatInviteLink(
   expireDate: Option[Int] = None,
   memberLimit: Option[Int] = None,
   createsJoinRequest: Option[Boolean] = None
-) extends JsonRequest[ChatInviteLink] {
+) extends JsonRequest {
+  type Response = ChatInviteLink
 
   if (createsJoinRequest.fold(false)(identity))
     require(memberLimit.isEmpty, "memberLimit can't be specified if createsJoinRequest is set")

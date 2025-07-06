@@ -18,9 +18,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class DeleteChatPhoto(
   chatId: ChatId
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteChatPhoto {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                      = Configuration.default.withSnakeCaseMemberNames
   implicit val deleteChatPhotoEncoder: Encoder[DeleteChatPhoto] = deriveConfiguredEncoder[DeleteChatPhoto]
 }

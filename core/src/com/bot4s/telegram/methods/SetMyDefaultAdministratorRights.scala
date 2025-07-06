@@ -15,4 +15,6 @@ import com.bot4s.telegram.models.ChatAdministratorRights
 case class SetMyDefaultAdministratorRights(
   rights: Option[ChatAdministratorRights] = None,
   forChannels: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}

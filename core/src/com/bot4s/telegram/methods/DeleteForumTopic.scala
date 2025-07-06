@@ -14,7 +14,9 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class DeleteForumTopic(
   chatId: ChatId,
   messageThreadId: Int
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object DeleteForumTopic {
   implicit val customConfig: Configuration             = Configuration.default.withSnakeCaseMemberNames

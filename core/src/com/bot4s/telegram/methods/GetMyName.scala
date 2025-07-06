@@ -11,9 +11,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class GetMyName(
   languageCode: Option[String] = None
-) extends JsonRequest[BotName]
+) extends JsonRequest {
+  type Response = BotName
+}
 
 object GetMyName {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
   implicit val getMyNameEncoder: Encoder[GetMyName] = deriveConfiguredEncoder[GetMyName]
 }

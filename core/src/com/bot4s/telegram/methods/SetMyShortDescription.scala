@@ -13,9 +13,12 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 case class SetMyShortDescription(
   shortDescription: Option[String] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetMyShortDescription {
   implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit val setMyShortDescriptionEncoder: Encoder[SetMyShortDescription] = deriveConfiguredEncoder[SetMyShortDescription]
+  implicit val setMyShortDescriptionEncoder: Encoder[SetMyShortDescription] =
+    deriveConfiguredEncoder[SetMyShortDescription]
 }

@@ -19,9 +19,11 @@ case class SetChatPermissions(
   chatId: ChatId,
   permissions: ChatPermissions,
   useIndependentChatPermissions: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object SetChatPermissions {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                            = Configuration.default.withSnakeCaseMemberNames
   implicit val setChatPermissionsEncoder: Encoder[SetChatPermissions] = deriveConfiguredEncoder[SetChatPermissions]
 }

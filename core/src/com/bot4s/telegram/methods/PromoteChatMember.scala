@@ -52,9 +52,11 @@ case class PromoteChatMember(
   canDeleteStories: Option[Boolean] = None,
   canPromoteMembers: Option[Boolean] = None,
   canManageTopics: Option[Boolean]
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object PromoteChatMember {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                          = Configuration.default.withSnakeCaseMemberNames
   implicit val promoteChatMemberEncoder: Encoder[PromoteChatMember] = deriveConfiguredEncoder[PromoteChatMember]
 }

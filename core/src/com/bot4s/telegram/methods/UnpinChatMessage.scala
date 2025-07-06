@@ -15,9 +15,11 @@ import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
  */
 case class UnpinChatMessage(
   chatId: ChatId
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
 
 object UnpinChatMessage {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
   implicit val unpinChatMessageEncoder: Encoder[UnpinChatMessage] = deriveConfiguredEncoder[UnpinChatMessage]
 }

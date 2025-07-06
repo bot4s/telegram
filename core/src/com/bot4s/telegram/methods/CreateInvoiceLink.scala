@@ -54,7 +54,8 @@ case class CreateInvoiceLink(
   sendPhoneNumberToProvider: Option[Boolean] = None,
   sendEmailToProvider: Option[Boolean] = None,
   isFlexible: Option[Boolean] = None
-) extends JsonRequest[String] {
+) extends JsonRequest {
+  type Response = String
 
   require(title.length > 0 && title.length <= 32, "Title must be less than 32 characters")
   require(description.length > 0 && description.length <= 255, "Description must be less than 255 characters")
