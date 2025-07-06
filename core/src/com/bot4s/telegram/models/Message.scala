@@ -1,9 +1,9 @@
 package com.bot4s.telegram.models
 
 import io.circe.{ Decoder, Encoder }
-import io.circe.generic.semiauto.deriveDecoder
-import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
-import io.circe.generic.extras.Configuration
+import io.circe.syntax.EncoderOps
+import io.circe.HCursor
+import io.circe.Json
 
 /**
  * This object represents a message.
@@ -155,7 +155,218 @@ case class Message(
 }
 
 object Message {
-  implicit val customConfig: Configuration    = Configuration.default.withSnakeCaseMemberNames
-  implicit val circeDecoder: Decoder[Message] = deriveDecoder
-  implicit val circeEncoder: Encoder[Message] = deriveConfiguredEncoder
+  // Implementing Encoder / Decoder manually
+  // Until https://github.com/scala/scala3/issues/22688 is resolved
+  implicit val circeDecoder: Decoder[Message] = new Decoder[Message] {
+    final def apply(c: HCursor): Decoder.Result[Message] =
+      for {
+        messageId             <- c.downField("messageId").as[Int]
+        from                  <- c.getOrElse[Option[User]]("from")(None)
+        date                  <- c.downField("date").as[Int]
+        chat                  <- c.downField("chat").as[Chat]
+        forwardFrom           <- c.getOrElse[Option[User]]("forwardFrom")(None)
+        forwardFromChat       <- c.getOrElse[Option[Chat]]("forwardFromChat")(None)
+        forwardFromMessageId  <- c.getOrElse[Option[Int]]("forwardFromMessageId")(None)
+        forwardSignature      <- c.getOrElse[Option[String]]("forwardSignature")(None)
+        forwardSenderName     <- c.getOrElse[Option[String]]("forwardSenderName")(None)
+        forwardDate           <- c.getOrElse[Option[Int]]("forwardDate")(None)
+        replyToMessage        <- c.getOrElse[Option[Message]]("replyToMessage")(None)
+        editDate              <- c.getOrElse[Option[Int]]("editDate")(None)
+        authorSignature       <- c.getOrElse[Option[String]]("authorSignature")(None)
+        text                  <- c.getOrElse[Option[String]]("text")(None)
+        entities              <- c.getOrElse[Option[Seq[MessageEntity]]]("entities")(None)
+        captionEntities       <- c.getOrElse[Option[Array[MessageEntity]]]("captionEntities")(None)
+        audio                 <- c.getOrElse[Option[Audio]]("audio")(None)
+        document              <- c.getOrElse[Option[Document]]("document")(None)
+        animation             <- c.getOrElse[Option[Animation]]("animation")(None)
+        game                  <- c.getOrElse[Option[Game]]("game")(None)
+        photo                 <- c.getOrElse[Option[Seq[PhotoSize]]]("photo")(None)
+        sticker               <- c.getOrElse[Option[Sticker]]("sticker")(None)
+        story                 <- c.getOrElse[Option[Story.type]]("story")(None)
+        video                 <- c.getOrElse[Option[Video]]("video")(None)
+        voice                 <- c.getOrElse[Option[Voice]]("voice")(None)
+        videoNote             <- c.getOrElse[Option[VideoNote]]("videoNote")(None)
+        newChatMembers        <- c.getOrElse[Option[Array[User]]]("newChatMembers")(None)
+        caption               <- c.getOrElse[Option[String]]("caption")(None)
+        contact               <- c.getOrElse[Option[Contact]]("contact")(None)
+        location              <- c.getOrElse[Option[Location]]("location")(None)
+        venue                 <- c.getOrElse[Option[Venue]]("venue")(None)
+        poll                  <- c.getOrElse[Option[Poll]]("poll")(None)
+        leftChatMember        <- c.getOrElse[Option[User]]("leftChatMember")(None)
+        newChatTitle          <- c.getOrElse[Option[String]]("newChatTitle")(None)
+        newChatPhoto          <- c.getOrElse[Option[Seq[PhotoSize]]]("newChatPhoto")(None)
+        deleteChatPhoto       <- c.getOrElse[Option[Boolean]]("deleteChatPhoto")(None)
+        groupChatCreated      <- c.getOrElse[Option[Boolean]]("groupChatCreated")(None)
+        supergroupChatCreated <- c.getOrElse[Option[Boolean]]("supergroupChatCreated")(None)
+        channelChatCreated    <- c.getOrElse[Option[Boolean]]("channelChatCreated")(None)
+        migrateToChatId       <- c.getOrElse[Option[Long]]("migrateToChatId")(None)
+        migrateFromChatId     <- c.getOrElse[Option[Long]]("migrateFromChatId")(None)
+        pinnedMessage         <- c.getOrElse[Option[Message]]("pinnedMessage")(None)
+        invoice               <- c.getOrElse[Option[Invoice]]("invoice")(None)
+        successfulPayment     <- c.getOrElse[Option[SuccessfulPayment]]("successfulPayment")(None)
+        userShared            <- c.getOrElse[Option[UserShared]]("userShared")(None)
+        chatShared            <- c.getOrElse[Option[ChatShared]]("chatShared")(None)
+        connectedWebsite      <- c.getOrElse[Option[String]]("connectedWebsite")(None)
+        replyMarkup           <- c.getOrElse[Option[InlineKeyboardMarkup]]("replyMarkup")(None)
+        hasProtectedContent   <- c.getOrElse[Option[Boolean]]("hasProtectedContent")(None)
+        isAutomaticForward    <- c.getOrElse[Option[Boolean]]("isAutomaticForward")(None)
+        senderChat            <- c.getOrElse[Option[Chat]]("senderChat")(None)
+        webAppData            <- c.getOrElse[Option[WebAppData]]("webAppData")(None)
+        videoChatScheduled    <- c.getOrElse[Option[VideoChatScheduled]]("videoChatScheduled")(None)
+        videoChatStarted      <- c.getOrElse[Option[VideoChatStarted.type]]("videoChatStarted")(None)
+        videoChatEnded        <- c.getOrElse[Option[VideoChatEnded]]("videoChatEnded")(None)
+        videoChatParticipantsInvited <-
+          c.getOrElse[Option[VideoChatParticipantsInvited]]("videoChatParticipantsInvited")(None)
+        messageThreadId         <- c.getOrElse[Option[Int]]("messageThreadId")(None)
+        isTopicMessage          <- c.getOrElse[Option[Boolean]]("isTopicMessage")(None)
+        forumTopicCreated       <- c.getOrElse[Option[ForumTopicCreated]]("forumTopicCreated")(None)
+        forumTopicEdited        <- c.getOrElse[Option[ForumTopicEdited]]("forumTopicEdited")(None)
+        forumTopicClosed        <- c.getOrElse[Option[ForumTopicClosed.type]]("forumTopicClosed")(None)
+        forumTopicReopened      <- c.getOrElse[Option[ForumTopicReopened.type]]("forumTopicReopened")(None)
+        generalForumTopicHidden <- c.getOrElse[Option[GeneralForumTopicHidden.type]]("generalForumTopicHidden")(None)
+        generalForumTopicunHidden <-
+          c.getOrElse[Option[GeneralForumTopicUnhidden.type]]("generalForumTopicunHidden")(None)
+        writeAccessAllowed <- c.getOrElse[Option[WriteAccessAllowed]]("writeAccessAllowed")(None)
+        hasMediaSpoiler    <- c.getOrElse[Option[Boolean]]("hasMediaSpoiler")(None)
+      } yield {
+        Message(
+          messageId,
+          from,
+          date,
+          chat,
+          forwardFrom,
+          forwardFromChat,
+          forwardFromMessageId,
+          forwardSignature,
+          forwardSenderName,
+          forwardDate,
+          replyToMessage,
+          editDate,
+          authorSignature,
+          text,
+          entities,
+          captionEntities,
+          audio,
+          document,
+          animation,
+          game,
+          photo,
+          sticker,
+          story,
+          video,
+          voice,
+          videoNote,
+          newChatMembers,
+          caption,
+          contact,
+          location,
+          venue,
+          poll,
+          leftChatMember,
+          newChatTitle,
+          newChatPhoto,
+          deleteChatPhoto,
+          groupChatCreated,
+          supergroupChatCreated,
+          channelChatCreated,
+          migrateToChatId,
+          migrateFromChatId,
+          pinnedMessage,
+          invoice,
+          successfulPayment,
+          userShared,
+          chatShared,
+          connectedWebsite,
+          replyMarkup,
+          hasProtectedContent,
+          isAutomaticForward,
+          senderChat,
+          webAppData,
+          videoChatScheduled,
+          videoChatStarted,
+          videoChatEnded,
+          videoChatParticipantsInvited,
+          messageThreadId,
+          isTopicMessage,
+          forumTopicCreated,
+          forumTopicEdited,
+          forumTopicClosed,
+          forumTopicReopened,
+          generalForumTopicHidden,
+          generalForumTopicunHidden,
+          writeAccessAllowed,
+          hasMediaSpoiler
+        )
+      }
+  }
+  implicit val circeEncoder: Encoder[Message] = Encoder.instance[Message] { v =>
+    Json.obj(
+      "message_id"                      -> v.messageId.asJson,
+      "from"                            -> v.from.asJson,
+      "date"                            -> v.date.asJson,
+      "chat"                            -> v.chat.asJson,
+      "forward_from"                    -> v.forwardFrom.asJson,
+      "forward_from_chat"               -> v.forwardFromChat.asJson,
+      "forward_from_message_id"         -> v.forwardFromMessageId.asJson,
+      "forward_signature"               -> v.forwardSignature.asJson,
+      "forward_sender_name"             -> v.forwardSenderName.asJson,
+      "forward_date"                    -> v.forwardDate.asJson,
+      "reply_to_message"                -> v.replyToMessage.asJson,
+      "edit_date"                       -> v.editDate.asJson,
+      "author_signature"                -> v.authorSignature.asJson,
+      "text"                            -> v.text.asJson,
+      "entities"                        -> v.entities.asJson,
+      "caption_entities"                -> v.captionEntities.asJson,
+      "audio"                           -> v.audio.asJson,
+      "document"                        -> v.document.asJson,
+      "animation"                       -> v.animation.asJson,
+      "game"                            -> v.game.asJson,
+      "photo"                           -> v.photo.asJson,
+      "sticker"                         -> v.sticker.asJson,
+      "story"                           -> v.story.asJson,
+      "video"                           -> v.video.asJson,
+      "voice"                           -> v.voice.asJson,
+      "video_note"                      -> v.videoNote.asJson,
+      "new_chat_members"                -> v.newChatMembers.asJson,
+      "caption"                         -> v.caption.asJson,
+      "contact"                         -> v.contact.asJson,
+      "location"                        -> v.location.asJson,
+      "venue"                           -> v.venue.asJson,
+      "poll"                            -> v.poll.asJson,
+      "left_chat_member"                -> v.leftChatMember.asJson,
+      "new_chat_title"                  -> v.newChatTitle.asJson,
+      "new_chat_photo"                  -> v.newChatPhoto.asJson,
+      "delete_chat_photo"               -> v.deleteChatPhoto.asJson,
+      "group_chat_created"              -> v.groupChatCreated.asJson,
+      "supergroup_chat_created"         -> v.supergroupChatCreated.asJson,
+      "channel_chat_created"            -> v.channelChatCreated.asJson,
+      "migrate_to_chat_id"              -> v.migrateToChatId.asJson,
+      "migrate_from_chat_id"            -> v.migrateFromChatId.asJson,
+      "pinned_message"                  -> v.pinnedMessage.asJson,
+      "invoice"                         -> v.invoice.asJson,
+      "successful_payment"              -> v.successfulPayment.asJson,
+      "user_shared"                     -> v.userShared.asJson,
+      "chat_shared"                     -> v.chatShared.asJson,
+      "connected_website"               -> v.connectedWebsite.asJson,
+      "reply_markup"                    -> v.replyMarkup.asJson,
+      "has_protected_content"           -> v.hasProtectedContent.asJson,
+      "is_automatic_forward"            -> v.isAutomaticForward.asJson,
+      "sender_chat"                     -> v.senderChat.asJson,
+      "web_app_data"                    -> v.webAppData.asJson,
+      "video_chat_scheduled"            -> v.videoChatScheduled.asJson,
+      "video_chat_started"              -> v.videoChatStarted.asJson,
+      "video_chat_ended"                -> v.videoChatEnded.asJson,
+      "video_chat_participants_invited" -> v.videoChatParticipantsInvited.asJson,
+      "message_thread_id"               -> v.messageThreadId.asJson,
+      "is_topic_message"                -> v.isTopicMessage.asJson,
+      "forum_topic_created"             -> v.forumTopicCreated.asJson,
+      "forum_topic_edited"              -> v.forumTopicEdited.asJson,
+      "forum_topic_closed"              -> v.forumTopicClosed.asJson,
+      "forum_topic_reopened"            -> v.forumTopicReopened.asJson,
+      "general_forum_topic_hidden"      -> v.generalForumTopicHidden.asJson,
+      "general_forum_topicun_hidden"    -> v.generalForumTopicunHidden.asJson,
+      "write_access_allowed"            -> v.writeAccessAllowed.asJson,
+      "has_media_spoiler"               -> v.hasMediaSpoiler.asJson
+    )
+  }
 }
