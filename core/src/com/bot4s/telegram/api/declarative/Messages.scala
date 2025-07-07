@@ -120,7 +120,7 @@ trait Messages[F[_]] extends BotBase[F] {
       replyToMessageId,
       allowSendingWithoutReply,
       replyMarkup
-    )(message)
+    )(using message)
 
   /**
    * Sends text replies in Markdown format (using the new format)
@@ -156,7 +156,7 @@ trait Messages[F[_]] extends BotBase[F] {
       replyToMessageId,
       allowSendingWithoutReply,
       replyMarkup
-    )(message)
+    )(using message)
 
   override def receiveMessage(msg: Message): F[Unit] =
     for {

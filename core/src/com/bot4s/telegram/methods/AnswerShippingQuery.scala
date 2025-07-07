@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ShippingOption
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified,
@@ -23,8 +26,14 @@ case class AnswerShippingQuery(
   ok: Boolean,
   shippingOptions: Option[Array[ShippingOption]] = None,
   errorMessage: Option[String] = None
-) extends JsonRequest[Boolean] {
+) extends JsonRequest {
+  type Response = Boolean
 
   require(!ok || shippingOptions.isDefined, "shippingOptions required if ok is True")
   require(ok || errorMessage.isDefined, "errorMessage required if ok is False")
+}
+
+object AnswerShippingQuery {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[AnswerShippingQuery] = deriveConfiguredEncoder
 }

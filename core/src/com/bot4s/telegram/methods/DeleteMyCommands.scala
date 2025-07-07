@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  *  Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
@@ -12,4 +15,11 @@ import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 case class DeleteMyCommands(
   scope: Option[BotCommandScope] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object DeleteMyCommands {
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
+  implicit val deleteMyCommandsEncoder: Encoder[DeleteMyCommands] = deriveConfiguredEncoder[DeleteMyCommands]
+}

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Decoder
+import io.circe.Encoder
+
 /**
  * Formatting options
  *   The Bot API supports basic formatting for messages.
@@ -53,4 +56,10 @@ object ParseMode extends Enumeration {
   val Markdown   = Value("Markdown")
   val MarkdownV2 = Value("markdownv2")
   val HTML       = Value("HTML")
+
+  import com.bot4s.telegram.marshalling._
+
+  implicit val circeDecoder: Decoder[ParseMode] = Decoder[String].map(s => ParseMode.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[ParseMode] =
+    Encoder[String].contramap[ParseMode](e => snakenize(e.toString))
 }

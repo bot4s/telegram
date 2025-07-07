@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents a parameter of the inline keyboard button used to automatically authorize a user.
  * Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram.
@@ -26,3 +31,9 @@ case class LoginUrl(
   botUsername: Option[String] = None,
   requestWriteAccess: Option[Boolean] = None
 )
+
+object LoginUrl {
+  implicit val customConfig: Configuration     = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[LoginUrl] = deriveDecoder[LoginUrl]
+  implicit val circeEncoder: Encoder[LoginUrl] = deriveConfiguredEncoder[LoginUrl]
+}

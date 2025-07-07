@@ -15,7 +15,7 @@ class ProcessBot(token: String) extends ExampleBot(token) with Polling with Comm
     withArgs { args =>
       try {
         import sys.process._
-        val result = args.mkString(" ") !!
+        val result = args.mkString(" ").!!
 
         reply(result).void
       } catch {

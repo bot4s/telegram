@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to delete a group sticker set from a supergroup.
@@ -10,4 +13,12 @@ import com.bot4s.telegram.models.ChatId
  *
  * @param chatId Integer or String Yes Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
  */
-case class DeleteChatStickerSet(chatId: ChatId) extends JsonRequest[Boolean]
+case class DeleteChatStickerSet(chatId: ChatId) extends JsonRequest {
+  type Response = Boolean
+}
+
+object DeleteChatStickerSet {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] =
+    deriveConfiguredEncoder[DeleteChatStickerSet]
+}

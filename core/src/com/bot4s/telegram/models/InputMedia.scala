@@ -1,6 +1,10 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import io.circe.Encoder
+import io.circe.syntax.EncoderOps
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
 
 sealed trait InputMedia {
   def getFiles: List[(String, InputFile)] = {
@@ -147,3 +151,39 @@ case class InputMediaDocument(
   parseMode: Option[ParseMode] = None,
   `type`: String = "document"
 ) extends InputMedia
+
+object InputMediaDocument {
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputMediaDocument] = deriveConfiguredEncoder
+}
+
+object InputMediaAudio {
+  implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputMediaAudio] = deriveConfiguredEncoder
+}
+
+object InputMediaAnimation {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputMediaAnimation] = deriveConfiguredEncoder
+}
+
+object InputMediaVideo {
+  implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputMediaVideo] = deriveConfiguredEncoder
+}
+
+object InputMediaPhoto {
+  implicit val customConfig: Configuration            = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[InputMediaPhoto] = deriveConfiguredEncoder
+}
+
+object InputMedia {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val inputMessageContentEncoder: Encoder[InputMedia] = Encoder.instance {
+    case q: InputMediaPhoto     => q.asJson
+    case q: InputMediaVideo     => q.asJson
+    case q: InputMediaAnimation => q.asJson
+    case q: InputMediaAudio     => q.asJson
+    case q: InputMediaDocument  => q.asJson
+  }
+}

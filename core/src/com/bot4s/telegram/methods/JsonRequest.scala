@@ -7,4 +7,4 @@ package com.bot4s.telegram.methods
  *
  * The request will be sent as application/json
  */
-trait JsonRequest[R] extends Request[R]
+trait JsonRequest extends Request

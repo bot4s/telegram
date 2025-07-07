@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * This object represents an incoming inline query.
  *
@@ -18,3 +23,9 @@ case class InlineQuery(
   query: String,
   offset: String
 )
+
+object InlineQuery {
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InlineQuery] = deriveDecoder
+  implicit val circeEncoder: Encoder[InlineQuery] = deriveConfiguredEncoder
+}

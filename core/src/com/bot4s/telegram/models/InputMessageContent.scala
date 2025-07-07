@@ -1,6 +1,11 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.methods.ParseMode.ParseMode
+import io.circe.{ Decoder, Encoder }
+import io.circe.syntax.EncoderOps
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
 
 /**
  * This object represents the content of a message to be sent as a result of an inline query.
@@ -79,3 +84,38 @@ case class InputContactMessageContent(
   lastName: Option[String] = None,
   vcard: Option[String] = None
 ) extends InputMessageContent
+
+object InputTextMessageContent {
+  implicit val customConfig: Configuration                    = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputTextMessageContent] = deriveDecoder
+  implicit val circeEncoder: Encoder[InputTextMessageContent] = deriveConfiguredEncoder
+}
+
+object InputLocationMessageContent {
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputLocationMessageContent] = deriveDecoder
+  implicit val circeEncoder: Encoder[InputLocationMessageContent] = deriveConfiguredEncoder
+}
+
+object InputVenueMessageContent {
+  implicit val customConfig: Configuration                     = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputVenueMessageContent] = deriveDecoder
+  implicit val circeEncoder: Encoder[InputVenueMessageContent] = deriveConfiguredEncoder
+}
+
+object InputContactMessageContent {
+  implicit val customConfig: Configuration                       = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputContactMessageContent] = deriveDecoder
+  implicit val circeEncoder: Encoder[InputContactMessageContent] = deriveConfiguredEncoder
+}
+
+object InputMessageContent {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputMessageContent] = deriveDecoder
+  implicit val inputMessageContentEncoder: Encoder[InputMessageContent] = Encoder.instance {
+    case q: InputTextMessageContent     => q.asJson
+    case q: InputLocationMessageContent => q.asJson
+    case q: InputVenueMessageContent    => q.asJson
+    case q: InputContactMessageContent  => q.asJson
+  }
+}

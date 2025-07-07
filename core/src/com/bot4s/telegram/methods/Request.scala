@@ -19,7 +19,9 @@ package com.bot4s.telegram.methods
  *
  * @tparam R Expected result type.
  */
-trait Request[R] {
+trait Request {
+
+  type Response
 
   /**
    * Extract request URL from class name.

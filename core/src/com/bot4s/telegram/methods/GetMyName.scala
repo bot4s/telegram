@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.BotName
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to get the current bot name for the given user language. Returns BotName on success.
@@ -8,4 +11,11 @@ import com.bot4s.telegram.models.BotName
  */
 case class GetMyName(
   languageCode: Option[String] = None
-) extends JsonRequest[BotName]
+) extends JsonRequest {
+  type Response = BotName
+}
+
+object GetMyName {
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val getMyNameEncoder: Encoder[GetMyName] = deriveConfiguredEncoder[GetMyName]
+}

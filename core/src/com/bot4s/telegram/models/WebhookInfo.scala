@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Contains information about the current status of a webhook.
  *
@@ -24,3 +27,7 @@ case class WebhookInfo(
   maxConnections: Option[Int] = None,
   allowedUpdates: Option[Array[String]] = None
 )
+
+object WebhookInfo {
+  implicit val circeDecoder: Decoder[WebhookInfo] = deriveDecoder[WebhookInfo]
+}

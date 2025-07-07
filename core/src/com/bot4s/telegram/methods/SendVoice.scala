@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message.
@@ -42,6 +45,12 @@ case class SendVoice(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("voice" -> voice)
+}
+
+object SendVoice {
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendVoiceEncoder: Encoder[SendVoice] = deriveConfiguredEncoder[SendVoice]
 }

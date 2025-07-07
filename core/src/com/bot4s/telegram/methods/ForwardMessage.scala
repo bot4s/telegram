@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.Message
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -20,4 +23,11 @@ case class ForwardMessage(
   protectContent: Option[Boolean] = None,
   messageId: Int,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
+
+object ForwardMessage {
+  implicit val customConfig: Configuration           = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[ForwardMessage] = deriveConfiguredEncoder
+}

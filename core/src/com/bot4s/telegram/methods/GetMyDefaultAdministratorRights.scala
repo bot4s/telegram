@@ -10,4 +10,6 @@ import com.bot4s.telegram.models.ChatAdministratorRights
  */
 case class GetMyDefaultAdministratorRights(
   forChannels: Option[Boolean] = None
-) extends JsonRequest[ChatAdministratorRights]
+) extends JsonRequest {
+  type Response = ChatAdministratorRights
+}

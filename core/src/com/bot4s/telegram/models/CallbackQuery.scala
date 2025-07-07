@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents an incoming callback query from a callback button in an inline keyboard.
  * If the button that originated the query was attached to a message sent by the bot, the field message will be presented.
@@ -29,3 +34,9 @@ case class CallbackQuery(
   data: Option[String] = None,
   gameShortName: Option[String] = None
 )
+
+object CallbackQuery {
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[CallbackQuery] = deriveDecoder
+  implicit val circeEncoder: Encoder[CallbackQuery] = deriveConfiguredEncoder
+}

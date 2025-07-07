@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Encoder
+import io.circe.syntax.EncoderOps
+
 /**
  * This object represents the contents of a file to be uploaded.
  * Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
@@ -23,4 +26,9 @@ object InputFile {
   def apply(fileId: String): InputFile                          = FileId(fileId)
   def apply(path: java.nio.file.Path): InputFile                = Path(path)
   def apply(filename: String, contents: Array[Byte]): InputFile = Contents(filename, contents)
+
+  implicit val circeEncoder: Encoder[InputFile] = Encoder.instance {
+    case InputFile.FileId(fileId) => fileId.asJson
+    case _                        => io.circe.Json.Null
+  }
 }

@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * This object represents changes in the status of a chat member.
  *
@@ -20,3 +25,9 @@ case class ChatMemberUpdated(
   inviteLink: Option[ChatInviteLink] = None,
   viaChatFolderInviteLink: Option[Boolean] = None
 )
+
+object ChatMemberUpdated {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ChatMemberUpdated] = deriveDecoder[ChatMemberUpdated]
+  implicit val circeEncoder: Encoder[ChatMemberUpdated] = deriveConfiguredEncoder[ChatMemberUpdated]
+}

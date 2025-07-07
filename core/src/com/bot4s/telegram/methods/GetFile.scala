@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.File
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to get basic info about a file and prepare it for downloading.
@@ -14,4 +17,11 @@ import com.bot4s.telegram.models.File
  */
 case class GetFile(
   fileId: String
-) extends JsonRequest[File]
+) extends JsonRequest {
+  type Response = File
+}
+
+object GetFile {
+  implicit val customConfig: Configuration    = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[GetFile] = deriveConfiguredEncoder
+}

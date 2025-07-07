@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
@@ -11,4 +14,11 @@ import com.bot4s.telegram.models.ChatId
 case class EditGeneralForumTopic(
   chatId: ChatId,
   name: String
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object EditGeneralForumTopic {
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[EditGeneralForumTopic] = deriveConfiguredEncoder
+}

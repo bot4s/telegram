@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents a general file (as opposed to photos and audio files).
  *
@@ -18,3 +23,9 @@ case class Document(
   mimeType: Option[String] = None,
   fileSize: Option[Long] = None
 )
+
+object Document {
+  implicit val customConfig: Configuration     = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[Document] = deriveDecoder[Document]
+  implicit val circeEncoder: Encoder[Document] = deriveConfiguredEncoder[Document]
+}

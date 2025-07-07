@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Use this method to change the bot's name. Returns True on success.
  *
@@ -9,4 +13,11 @@ package com.bot4s.telegram.methods
 case class SetMyName(
   name: Option[String] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object SetMyName {
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val setMyNameEncoder: Encoder[SetMyName] = deriveConfiguredEncoder[SetMyName]
+}

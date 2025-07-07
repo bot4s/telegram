@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.MaskPosition
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to change the mask position of a mask sticker.
@@ -12,4 +15,11 @@ import com.bot4s.telegram.models.MaskPosition
 case class SetStickerMaskPosition(
   sticker: String,
   maskPosition: Option[MaskPosition] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object SetStickerMaskPosition {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SetStickerMaskPosition] = deriveConfiguredEncoder
+}

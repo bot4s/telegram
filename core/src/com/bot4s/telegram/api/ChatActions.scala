@@ -2,13 +2,14 @@ package com.bot4s.telegram.api
 
 import com.bot4s.telegram.methods.{ ChatAction, SendChatAction }
 import com.bot4s.telegram.models.Message
+import io.circe.Decoder._
 
 /**
  * Provides handy chat actions shortcuts.
  */
 trait ChatActions[F[_]] {
   this: BotBase[F] =>
-  def typing(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.Typing))
+  def typing(implicit msg: Message): F[Boolean] = request(SendChatAction(msg.source, ChatAction.Typing))
 
   def uploadingPhoto(implicit msg: Message) = request(SendChatAction(msg.source, ChatAction.UploadPhoto))
 

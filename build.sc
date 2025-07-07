@@ -1,14 +1,15 @@
 import mill._
-import scalalib._
-import publish._
+import mill.scalalib._
+import mill.scalalib.publish._
+import mill.scalalib.api.JvmWorkerUtil
 
-val ScalaVersions = Seq("2.12.20", "2.13.16")
+val ScalaVersions = Seq("2.12.20", "2.13.16", "3.3.6")
 
 object library {
 
   object Version {
     val circe              = "0.14.14"
-    val circeGenericExtras = "0.14.4"
+    val circeGenericExtras = "0.14.5-RC1"
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
     val zio                = "2.1.17"
@@ -73,19 +74,16 @@ object library {
 }
 
 trait Bot4sTelegramModule extends CrossScalaModule {
+  protected def isScala3: Task[Boolean] = T.task(JvmWorkerUtil.isScala3(scalaVersion()))
 
   override def scalacOptions = Seq(
     "-unchecked",
     "-deprecation",
-    "-language:_",
     "-encoding",
     "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xlint:_",
-    // circe raises a lot of those warnings in the CirceEncoders file
-    "-Wconf:cat=lint-byname-implicit:s",
-    "-Ywarn-dead-code"
+    "-language:implicitConversions",
+    "-language:higherKinds"
   )
 
   override def ivyDeps = T {
@@ -120,10 +118,12 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
 
   def millSourcePath = build.millSourcePath / location
 
-  override def sources = T.sources(
-    millSourcePath / "src",
-    millSourcePath / s"src-$platformSegment"
-  )
+  override def sources = T.sources {
+    Seq(
+      PathRef(millSourcePath / "src"),
+      PathRef(millSourcePath / s"src-$platformSegment")
+    ) ++ scalaVersionDirectoryNames.map(s => PathRef(millSourcePath / s"src-$platformSegment-$s"))
+  }
 
   def crossScalaVersion: String
 
@@ -153,10 +153,12 @@ object core extends Module {
     override val platformSegment: String = "jvm"
     override val location: String        = "core"
 
+    val versionDependencies: T[Agg[Dep]] = T {
+      if (isScala3()) Agg.empty else Agg(library.scalajHttp)
+    }
+
     override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
-        library.scalajHttp
-      )
+      super.ivyDeps() ++ versionDependencies()
     }
 
     object test extends Tests
@@ -206,11 +208,14 @@ object examples extends Module {
   trait ExamplesJvmModule extends ExamplesJvmCommon {
     override val location: String = "examples"
 
+    val versionDependencies: T[Agg[Dep]] = T {
+      if (isScala3()) Agg.empty else Agg(library.scalajHttp)
+    }
+
     override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalajHttp,
       library.akkaHttpCors,
       library.sttpOkHttp
-    )
+    ) ++ versionDependencies()
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
   }

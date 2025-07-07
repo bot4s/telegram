@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to unban a previously banned channel chat in a supergroup or channel.
@@ -13,4 +16,11 @@ import com.bot4s.telegram.models.ChatId
 case class UnbanChatSenderChat(
   chatId: ChatId,
   sendChatId: Long
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object UnbanChatSenderChat {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[UnbanChatSenderChat] = deriveConfiguredEncoder
+}
