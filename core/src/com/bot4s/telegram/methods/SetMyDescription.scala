@@ -1,5 +1,9 @@
 package com.bot4s.telegram.methods
 
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+
 /**
  * Use this method to change the bot's description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
  *
@@ -9,4 +13,11 @@ package com.bot4s.telegram.methods
 case class SetMyDescription(
   description: Option[String] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object SetMyDescription {
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
+  implicit val setMyDescriptionEncoder: Encoder[SetMyDescription] = deriveConfiguredEncoder[SetMyDescription]
+}

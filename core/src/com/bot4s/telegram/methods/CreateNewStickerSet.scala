@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import com.bot4s.telegram.models.StickerType.StickerType
 import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import com.bot4s.telegram.models.InputSticker
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to create new sticker set owned by a user.
@@ -25,4 +28,11 @@ case class CreateNewStickerSet(
   stickerFormat: StickerFormat,
   stickerType: Option[StickerType] = None,
   needsRepainting: Option[Boolean] = None
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object CreateNewStickerSet {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[CreateNewStickerSet] = deriveConfiguredEncoder
+}

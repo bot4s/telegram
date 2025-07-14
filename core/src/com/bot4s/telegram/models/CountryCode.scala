@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import com.bot4s.telegram.marshalling.CaseConversions
+
 /**
  * ISO 3166-1 alpha-2 country codes.
  */
@@ -8,6 +11,12 @@ object CountryCode extends Enumeration {
   sealed case class Country(code: String, englishName: String) extends Val(code)
 
   implicit def valueToCountry(v: Value): Country = v.asInstanceOf[Country]
+
+  implicit val circeDecoder: Decoder[CountryCode] =
+    Decoder[String].map(a => CountryCode.withName(a))
+
+  implicit val circeEncoder: Encoder[CountryCode] =
+    Encoder[String].contramap(c => CaseConversions.snakenize(c.toString))
 
   val AD = Country(code = "AD", englishName = "Andorra")
   val AE = Country(code = "AE", englishName = "United Arab Emirates")

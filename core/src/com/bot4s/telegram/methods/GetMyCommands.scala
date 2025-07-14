@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.BotCommandScope.BotCommandScope
 import com.bot4s.telegram.models.BotCommand
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  *  Use this method to get the current list of the bot's commands for the given scope and user language. Returns Array of BotCommand on success. If commands aren't set, an empty list is returned.
@@ -13,4 +16,11 @@ import com.bot4s.telegram.models.BotCommand
 case class GetMyCommands(
   scope: Option[BotCommandScope] = None,
   languageCode: Option[String] = None
-) extends JsonRequest[List[BotCommand]]
+) extends JsonRequest {
+  type Response = List[BotCommand]
+}
+
+object GetMyCommands {
+  implicit val customConfig: Configuration                  = Configuration.default.withSnakeCaseMemberNames
+  implicit val getMyCommandsEncoder: Encoder[GetMyCommands] = deriveConfiguredEncoder[GetMyCommands]
+}

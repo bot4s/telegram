@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to change the title of a chat.
@@ -16,4 +19,11 @@ import com.bot4s.telegram.models.ChatId
 case class SetChatTitle(
   chatId: ChatId,
   title: String
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object SetChatTitle {
+  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
+  implicit val setChatTitleEncoder: Encoder[SetChatTitle] = deriveConfiguredEncoder[SetChatTitle]
+}

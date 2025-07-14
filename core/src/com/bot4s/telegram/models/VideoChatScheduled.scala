@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents a service message about a video chat scheduled in the chat.
  *
@@ -8,3 +13,9 @@ package com.bot4s.telegram.models
 case class VideoChatScheduled(
   startDate: Int
 )
+
+object VideoChatScheduled {
+  implicit val customConfig: Configuration               = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[VideoChatScheduled] = deriveDecoder[VideoChatScheduled]
+  implicit val circeEncoder: Encoder[VideoChatScheduled] = deriveConfiguredEncoder
+}

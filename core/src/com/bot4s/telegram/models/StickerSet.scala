@@ -1,6 +1,10 @@
 package com.bot4s.telegram.models
 
 import com.bot4s.telegram.models.StickerType.StickerType
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * This object represents a sticker set.
@@ -22,3 +26,9 @@ case class StickerSet(
   containsMasks: Boolean,
   stickers: Array[Sticker]
 )
+
+object StickerSet {
+  implicit val customConfig: Configuration       = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[StickerSet] = deriveDecoder[StickerSet]
+  implicit val circeEncoder: Encoder[StickerSet] = deriveConfiguredEncoder[StickerSet]
+}

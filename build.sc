@@ -1,17 +1,18 @@
 import mill._
-import scalalib._
-import publish._
+import mill.scalalib._
+import mill.scalalib.publish._
+import mill.javalib.api.JvmWorkerUtil
 
-val ScalaVersions = Seq("2.12.20", "2.13.16")
+val ScalaVersions = Seq("2.12.20", "2.13.16", "3.3.6")
 
 object library {
 
   object Version {
     val circe              = "0.14.14"
-    val circeGenericExtras = "0.14.4"
+    val circeGenericExtras = "0.14.5-RC1"
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
-    val zio                = "2.1.17"
+    val zio                = "2.1.19"
     val catsEffect3        = "3.6.2"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.5"
@@ -32,79 +33,74 @@ object library {
     val sbtTesting         = "1.0"
   }
 
-  val akkaHttp        = ivy"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit = ivy"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-  val akkaTestkit     = ivy"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
-  val akkaActor       = ivy"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream      = ivy"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val akkaHttp        = mvn"com.typesafe.akka::akka-http::${Version.akkaHttp}"
+  val akkaHttpTestkit = mvn"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
+  val akkaTestkit     = mvn"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
+  val akkaActor       = mvn"com.typesafe.akka::akka-actor::${Version.akkaActor}"
+  val akkaStream      = mvn"com.typesafe.akka::akka-stream::${Version.akkaStream}"
   val asyncHttpClientBackendCats =
-    ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
+    mvn"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
   val asyncHttpClientBackendCats3 =
-    ivy"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
+    mvn"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
   val asyncHttpClientBackendZio =
-    ivy"com.softwaremill.sttp.client3::async-http-client-backend-zio::${Version.sttp}"
+    mvn"com.softwaremill.sttp.client3::async-http-client-backend-zio::${Version.sttp}"
 
-  val asyncHttpClientBackendMonix = ivy"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
-  val scalajHttp                  = ivy"org.scalaj::scalaj-http::${Version.scalajHttp}"
-  val scalaLogging                = ivy"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
-  val scalaMockScalaTest          = ivy"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
-  val akkaHttpCors                = ivy"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
-  val scalaTest                   = ivy"org.scalatest::scalatest::${Version.scalaTest}"
-  val sbtTesting                  = ivy"org.scala-sbt:test-interface:${Version.sbtTesting}"
+  val asyncHttpClientBackendMonix = mvn"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
+  val scalajHttp                  = mvn"org.scalaj::scalaj-http::${Version.scalajHttp}"
+  val scalaLogging                = mvn"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
+  val scalaMockScalaTest          = mvn"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
+  val akkaHttpCors                = mvn"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
+  val scalaTest                   = mvn"org.scalatest::scalatest::${Version.scalaTest}"
+  val sbtTesting                  = mvn"org.scala-sbt:test-interface:${Version.sbtTesting}"
 
-  val logback            = ivy"ch.qos.logback:logback-classic::${Version.logback}"
-  val circeCore          = ivy"io.circe::circe-core::${Version.circe}"
-  val circeGeneric       = ivy"io.circe::circe-generic::${Version.circe}"
-  val circeGenericExtras = ivy"io.circe::circe-generic-extras::${Version.circeGenericExtras}"
-  val circeParser        = ivy"io.circe::circe-parser::${Version.circe}"
-  val circeLiteral       = ivy"io.circe::circe-literal::${Version.circe}"
-  val catsCore           = ivy"org.typelevel::cats-core::${Version.cats}"
-  val catsFree           = ivy"org.typelevel::cats-free::${Version.cats}"
-  val catsEffect         = ivy"org.typelevel::cats-effect::${Version.catsEffect}"
-  val catsEffect3        = ivy"org.typelevel::cats-effect::${Version.catsEffect3}"
-  val monix              = ivy"io.monix::monix::${Version.monix}"
-  val sttpCore           = ivy"com.softwaremill.sttp.client3::core::${Version.sttp}"
-  val sttpCirce          = ivy"com.softwaremill.sttp.client3::circe::${Version.sttp}"
-  val sttpOkHttp         = ivy"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
-  val hammock            = ivy"com.pepegar::hammock-core::${Version.hammock}"
-  val zio                = ivy"dev.zio::zio::${Version.zio}"
-  val zhttp              = ivy"io.d11::zhttp::${Version.zhttp}"
-  val zioInteropCats     = ivy"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
+  val logback            = mvn"ch.qos.logback:logback-classic::${Version.logback}"
+  val circeCore          = mvn"io.circe::circe-core::${Version.circe}"
+  val circeGeneric       = mvn"io.circe::circe-generic::${Version.circe}"
+  val circeGenericExtras = mvn"io.circe::circe-generic-extras::${Version.circeGenericExtras}"
+  val circeParser        = mvn"io.circe::circe-parser::${Version.circe}"
+  val circeLiteral       = mvn"io.circe::circe-literal::${Version.circe}"
+  val catsCore           = mvn"org.typelevel::cats-core::${Version.cats}"
+  val catsFree           = mvn"org.typelevel::cats-free::${Version.cats}"
+  val catsEffect         = mvn"org.typelevel::cats-effect::${Version.catsEffect}"
+  val catsEffect3        = mvn"org.typelevel::cats-effect::${Version.catsEffect3}"
+  val monix              = mvn"io.monix::monix::${Version.monix}"
+  val sttpCore           = mvn"com.softwaremill.sttp.client3::core::${Version.sttp}"
+  val sttpCirce          = mvn"com.softwaremill.sttp.client3::circe::${Version.sttp}"
+  val sttpOkHttp         = mvn"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
+  val hammock            = mvn"com.pepegar::hammock-core::${Version.hammock}"
+  val zio                = mvn"dev.zio::zio::${Version.zio}"
+  val zhttp              = mvn"io.d11::zhttp::${Version.zhttp}"
+  val zioInteropCats     = mvn"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
 trait Bot4sTelegramModule extends CrossScalaModule {
+  protected def isScala3: Task[Boolean] = Task(JvmWorkerUtil.isScala3(scalaVersion()))
 
   override def scalacOptions = Seq(
     "-unchecked",
     "-deprecation",
-    "-language:_",
     "-encoding",
     "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xlint:_",
-    // circe raises a lot of those warnings in the CirceEncoders file
-    "-Wconf:cat=lint-byname-implicit:s",
-    "-Ywarn-dead-code"
+    "-language:implicitConversions",
+    "-language:higherKinds"
   )
 
-  override def ivyDeps = T {
-    Agg(
-      library.circeCore,
-      library.circeGeneric,
-      library.circeGenericExtras,
-      library.circeParser,
-      library.circeLiteral,
-      library.catsCore,
-      library.catsFree,
-      library.sttpCore,
-      library.scalaLogging
-    )
-  }
+  override def mvnDeps = Seq(
+    library.circeCore,
+    library.circeGeneric,
+    library.circeGenericExtras,
+    library.circeParser,
+    library.circeLiteral,
+    library.catsCore,
+    library.catsFree,
+    library.sttpCore,
+    library.scalaLogging
+  )
 
   trait Tests extends ScalaTests with TestModule.ScalaTest {
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
         library.scalaTest,
         library.scalaMockScalaTest,
         library.sbtTesting
@@ -118,14 +114,17 @@ trait Bot4sTelegramCrossPlatform extends Bot4sTelegramModule {
   val platformSegment: String
   val location: String
 
-  def millSourcePath = build.millSourcePath / location
+  def moduleDir = build.moduleDir / location
 
-  override def sources = T.sources(
-    millSourcePath / "src",
-    millSourcePath / s"src-$platformSegment"
+  def versionSources = Task.Sources(scalaVersionDirectoryNames.map(s => moduleDir / s"src-$platformSegment-$s") *)
+
+  def regularSources = Task.Sources(
+    moduleDir / "src",
+    moduleDir / s"src-$platformSegment"
   )
-
-  def crossScalaVersion: String
+  override def sources = Task {
+    versionSources() ++ regularSources()
+  }
 
   override def artifactName = s"telegram-$location"
 }
@@ -153,10 +152,12 @@ object core extends Module {
     override val platformSegment: String = "jvm"
     override val location: String        = "core"
 
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
-        library.scalajHttp
-      )
+    def versionDependencies = Task {
+      if (isScala3()) Seq.empty else Seq(library.scalajHttp)
+    }
+
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ versionDependencies()
     }
 
     object test extends Tests
@@ -172,19 +173,21 @@ object akka extends Module {
     override val location: String        = "akka"
     override def artifactName            = "telegram-akka"
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.akkaActor,
-      library.akkaHttp,
-      library.akkaStream
-    )
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
+        library.akkaActor,
+        library.akkaHttp,
+        library.akkaStream
+      )
+    }
 
     override def moduleDeps = Seq(core.jvm())
 
     object test extends Tests {
       override def moduleDeps = super.moduleDeps ++ Seq(core.jvm().test)
 
-      override def ivyDeps = T {
-        super.ivyDeps() ++ Agg(
+      override def mvnDeps = Task {
+        super.mvnDeps() ++ Seq(
           library.akkaTestkit,
           library.akkaHttpTestkit
         )
@@ -197,20 +200,25 @@ object examples extends Module {
   trait ExamplesJvmCommon extends Bot4sTelegramCrossPlatform {
     override val platformSegment: String = "jvm"
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.logback
-    )
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(library.logback)
+    }
   }
 
   object jvm extends Cross[ExamplesJvmModule](ScalaVersions)
   trait ExamplesJvmModule extends ExamplesJvmCommon {
     override val location: String = "examples"
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.scalajHttp,
-      library.akkaHttpCors,
-      library.sttpOkHttp
-    )
+    def versionDependencies = Task {
+      if (isScala3()) Seq.empty else Seq(library.scalajHttp)
+    }
+
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
+        library.akkaHttpCors,
+        library.sttpOkHttp
+      ) ++ versionDependencies()
+    }
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
   }
@@ -219,22 +227,24 @@ object examples extends Module {
   trait ExamplesCatsModule extends ExamplesJvmCommon {
     override val location: String = "cats"
 
-    override def ivyDeps = super.ivyDeps() ++ Agg(
-      library.asyncHttpClientBackendCats,
-      library.catsEffect
-    )
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
+        library.asyncHttpClientBackendCats,
+        library.catsEffect
+      )
+    }
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def sources = T.sources(build.millSourcePath / "examples" / "src-cats")
+    override def sources = Task.Sources(build.moduleDir / "examples" / "src-cats")
   }
 
   object cats3jvm extends Cross[ExamplesCats3Module](ScalaVersions)
   trait ExamplesCats3Module extends ExamplesJvmCommon {
     override val location: String = "cats"
 
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
         library.asyncHttpClientBackendCats3,
         library.catsEffect3
       )
@@ -242,15 +252,15 @@ object examples extends Module {
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def sources = T.sources(build.millSourcePath / "examples" / "src-cats3")
+    override def sources = Task.Sources(build.moduleDir / "examples" / "src-cats3")
   }
 
   object ziojvm extends Cross[ExamplesZIOModule](ScalaVersions)
   trait ExamplesZIOModule extends ExamplesJvmCommon {
     override val location: String = "zio"
 
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
         library.asyncHttpClientBackendZio,
         library.zio,
         library.zhttp,
@@ -261,15 +271,15 @@ object examples extends Module {
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def sources = T.sources(build.millSourcePath / "examples" / "src-zio")
+    override def sources = Task.Sources(build.moduleDir / "examples" / "src-zio")
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions)
   trait ExamplesMonixModule extends ExamplesJvmCommon {
     override val location: String = "monix"
 
-    override def ivyDeps = T {
-      super.ivyDeps() ++ Agg(
+    override def mvnDeps = Task {
+      super.mvnDeps() ++ Seq(
         library.asyncHttpClientBackendMonix,
         library.monix
       )
@@ -277,6 +287,6 @@ object examples extends Module {
 
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
-    override def sources = T.sources(build.millSourcePath / "examples" / "src-monix")
+    override def sources = Task.Sources(build.moduleDir / "examples" / "src-monix")
   }
 }

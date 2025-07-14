@@ -1,5 +1,7 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+
 /**
  * Parsed from [[https://core.telegram.org/bots/payments/currencies.json]].
  */
@@ -21,6 +23,12 @@ object Currency extends Enumeration {
   ) extends Val(code)
 
   implicit def valueToCurrency(v: Value): TelegramCurrency = v.asInstanceOf[TelegramCurrency]
+
+  implicit val circeDecoder: Decoder[Currency] =
+    Decoder[String].map(a => Currency.withName(a))
+
+  implicit val circeEncoder: Encoder[Currency] =
+    Encoder[String].contramap(c => c.asInstanceOf[TelegramCurrency].code)
 
   val AED = TelegramCurrency(
     code = "AED",

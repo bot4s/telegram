@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to export an invite link to a supergroup or a channel.
@@ -11,4 +14,12 @@ import com.bot4s.telegram.models.ChatId
  */
 case class ExportChatInviteLink(
   chatId: ChatId
-) extends JsonRequest[String]
+) extends JsonRequest {
+  type Response = String
+}
+
+object ExportChatInviteLink {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] =
+    deriveConfiguredEncoder[ExportChatInviteLink]
+}
