@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models._
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to edit audio, document, photo, or video messages.
@@ -22,8 +25,14 @@ case class EditMessageMedia(
   inlineMessageId: Option[String] = None,
   media: InputMedia,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends MultipartRequest[Either[Boolean, Message]] {
+) extends MultipartRequest {
+  type Response = Either[Boolean, Message]
 
   override def getFiles: List[(String, InputFile)] =
     media.getFiles
+}
+
+object EditMessageMedia {
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
+  implicit val editMessageMediaEncoder: Encoder[EditMessageMedia] = deriveConfiguredEncoder[EditMessageMedia]
 }

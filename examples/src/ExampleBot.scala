@@ -4,6 +4,7 @@ import com.bot4s.telegram.future.TelegramBot
 
 import scala.concurrent.Future
 import sttp.client3.SttpBackend
+import sttp.client3.okhttp.OkHttpFutureBackend
 
 /**
  * Quick helper to spawn example bots.
@@ -17,6 +18,6 @@ import sttp.client3.SttpBackend
  */
 abstract class ExampleBot(val token: String) extends TelegramBot {
 
-  implicit val backend: SttpBackend[Future, Any] = SttpBackends.default
+  implicit val backend: SttpBackend[Future, Any] = OkHttpFutureBackend()
   override val client: RequestHandler[Future]    = new FutureSttpClient(token)
 }

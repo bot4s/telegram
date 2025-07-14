@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
 import com.bot4s.telegram.models.ChatInviteLink
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to create an additional invite link for a chat.
@@ -20,8 +23,14 @@ case class CreateChatInviteLink(
   expireDate: Option[Int] = None,
   memberLimit: Option[Int] = None,
   createsJoinRequest: Option[Boolean] = None
-) extends JsonRequest[ChatInviteLink] {
+) extends JsonRequest {
+  type Response = ChatInviteLink
 
   if (createsJoinRequest.fold(false)(identity))
     require(memberLimit.isEmpty, "memberLimit can't be specified if createsJoinRequest is set")
+}
+
+object CreateChatInviteLink {
+  implicit val customConfig: Configuration                 = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[CreateChatInviteLink] = deriveConfiguredEncoder
 }

@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
  * Contains information about why a request was unsuccessful.
  *
@@ -13,3 +16,7 @@ case class ResponseParameters(
   migrateToChatId: Option[Long] = None,
   retryAfter: Option[Int] = None
 )
+
+object ResponseParameters {
+  implicit val circeDecoder: Decoder[ResponseParameters] = deriveDecoder[ResponseParameters]
+}

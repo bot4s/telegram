@@ -29,7 +29,7 @@ trait Callbacks[F[_]] extends BotBase[F] {
    */
   def onCallbackWithTag(tag: String)(action: Action[F, CallbackQuery]): Unit =
     when(onCallbackQuery, hasTag(tag)) { cbq =>
-      untag(tag)(action)(cbq)
+      untag(tag)(action)(using cbq)
     }
 
   /**

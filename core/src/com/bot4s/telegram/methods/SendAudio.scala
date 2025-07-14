@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import ParseMode.ParseMode
 import com.bot4s.telegram.models.{ Message, MessageEntity, ReplyMarkup }
 import com.bot4s.telegram.models.{ ChatId, InputFile }
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send audio files, if you want Telegram clients to display them in the music player.
@@ -22,7 +25,7 @@ import com.bot4s.telegram.models.{ ChatId, InputFile }
  * @param duration             Integer Optional Duration of the audio in seconds
  * @param performer            String Optional Performer
  * @param title                String Optional Track name
- * @param thumbnail            InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
+ * @param thumbnail            InputFile or String 	Optional 	Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
  * @param disableNotification  Boolean Optional Sends the message silently. iOS users will not receive a notification,
  *                             Android users will receive a notification with no sound.
@@ -50,6 +53,12 @@ case class SendAudio(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[ReplyMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends MultipartRequest[Message] {
+) extends MultipartRequest {
+  type Response = Message
   override def getFiles: List[(String, InputFile)] = List("audio" -> audio)
+}
+
+object SendAudio {
+  implicit val customConfig: Configuration          = Configuration.default.withSnakeCaseMemberNames
+  implicit val sendAudioEncoder: Encoder[SendAudio] = deriveConfiguredEncoder[SendAudio]
 }

@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
  *
@@ -16,3 +21,9 @@ final case class SwitchInlineQueryChosenChat(
   allowGroupChats: Option[Boolean] = None,
   allowChannelChats: Option[Boolean] = None
 )
+
+object SwitchInlineQueryChosenChat {
+  implicit val customConfig: Configuration                        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[SwitchInlineQueryChosenChat] = deriveDecoder[SwitchInlineQueryChosenChat]
+  implicit val circeEncoder: Encoder[SwitchInlineQueryChosenChat] = deriveConfiguredEncoder
+}

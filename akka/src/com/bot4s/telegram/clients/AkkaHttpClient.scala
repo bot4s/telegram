@@ -33,13 +33,15 @@ class AkkaHttpClient(token: String, telegramHost: String = "api.telegram.org")(i
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
   private val http       = Http()
 
-  override def sendRequest[R, T <: Request[_]](request: T)(implicit encT: Encoder[T], decR: Decoder[R]): Future[R] =
+  override def sendRequest[T <: Request: Encoder](
+    request: T
+  )(implicit d: Decoder[request.Response]): Future[request.Response] =
     Marshal(request)
       .to[RequestEntity]
       .map { re =>
         HttpRequest(HttpMethods.POST, Uri(apiBaseUrl + request.methodName), entity = re)
       }
       .flatMap(http.singleRequest(_))
-      .flatMap(r => Unmarshal(r.entity).to[Response[R]])
-      .map(t => processApiResponse[R](t))
+      .flatMap(r => Unmarshal(r.entity).to[Response[request.Response]])
+      .map(t => processApiResponse[request.Response](t))
 }

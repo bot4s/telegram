@@ -8,7 +8,7 @@ import io.circe.parser.parse
 import io.circe.syntax._
 import io.circe.{ Json, JsonObject, _ }
 
-object `package` extends CirceEncoders with CirceDecoders with CaseConversions {
+object `package` extends CirceDecoders with CaseConversions {
 
   private def transformKeys(json: Json, f: String => String): Trampoline[Json] = {
     def transformObjectKeys(obj: JsonObject, f: String => String): JsonObject =
