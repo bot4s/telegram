@@ -72,7 +72,7 @@ object library {
   val zioInteropCats     = mvn"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
-trait Bot4sTelegramModule extends CrossScalaModule, PlatformScalaModule {
+trait Bot4sTelegramModule extends CrossScalaModule {
 
   override def scalacOptions = Seq(
     "-unchecked",
