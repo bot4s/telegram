@@ -3,6 +3,9 @@ package com.bot4s.telegram.methods
 import com.bot4s.telegram.models.{ InlineKeyboardMarkup, LabeledPrice }
 import com.bot4s.telegram.models.Currency.Currency
 import com.bot4s.telegram.models.Message
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to send invoices.
@@ -63,4 +66,11 @@ case class SendInvoice(
   allowSendingWithoutReply: Option[Boolean] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None,
   messageThreadId: Option[Int] = None
-) extends JsonRequest[Message]
+) extends JsonRequest {
+  type Response = Message
+}
+
+object SendInvoice {
+  implicit val customConfig: Configuration        = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[SendInvoice] = deriveConfiguredEncoder
+}

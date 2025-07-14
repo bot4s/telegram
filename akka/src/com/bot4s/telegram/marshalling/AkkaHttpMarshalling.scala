@@ -15,15 +15,15 @@ object AkkaHttpMarshalling {
       .forContentTypes(ContentTypes.`application/json`)
       .map(marshalling.fromJson[R])
 
-  implicit def underscore_case_marshaller[T <: Request[_]](implicit encT: Encoder[T]): ToEntityMarshaller[T] =
+  implicit def underscore_case_marshaller[T <: Request: Encoder]: ToEntityMarshaller[T] =
     Marshaller.strict { request =>
       request match {
         // JSON-only request
-        case r: JsonRequest[_] =>
+        case r: JsonRequest =>
           Marshalling.Opaque(() => HttpEntity(ContentTypes.`application/json`, marshalling.toJson(request)))
 
         // Request with multipart payload
-        case r: MultipartRequest[_] =>
+        case r: MultipartRequest =>
           val files = r.getFiles
           val parts = files.map { case (camelKey, inputFile) =>
             val key = CaseConversions.snakenize(camelKey)
@@ -66,7 +66,7 @@ object AkkaHttpMarshalling {
           val params     = fields.getOrElse(Map()).toMap
           val paramParts = params.map { case (key, value) => Multipart.FormData.BodyPart(key, HttpEntity(value)) }
 
-          Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts): _*).toEntity())
+          Marshalling.Opaque(() => Multipart.FormData((parts ++ paramParts): _*).toEntity)
       }
     }
 }

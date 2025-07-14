@@ -1,5 +1,10 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.deriveDecoder
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
+import io.circe.generic.extras.Configuration
+
 /**
  * This object represents a service message about a new forum topic created in the chat
  *
@@ -12,3 +17,9 @@ case class ForumTopicCreated(
   iconColor: Int,
   iconCustomEmojiId: Option[String] = None
 )
+
+object ForumTopicCreated {
+  implicit val customConfig: Configuration              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[ForumTopicCreated] = deriveDecoder
+  implicit val circeEncoder: Encoder[ForumTopicCreated] = deriveConfiguredEncoder
+}

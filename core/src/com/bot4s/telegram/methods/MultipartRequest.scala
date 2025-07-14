@@ -9,6 +9,6 @@ import com.bot4s.telegram.models.InputFile
  *
  * Request will be serialized as multipart/form-data
  */
-trait MultipartRequest[R] extends Request[R] {
+trait MultipartRequest extends Request {
   def getFiles: List[(String, InputFile)]
 }

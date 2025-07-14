@@ -2,6 +2,9 @@ package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.{ InlineKeyboardMarkup, Message }
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
@@ -17,7 +20,8 @@ case class EditMessageReplyMarkup(
   messageId: Option[Int] = None,
   inlineMessageId: Option[String] = None,
   replyMarkup: Option[InlineKeyboardMarkup] = None
-) extends JsonRequest[Either[Boolean, Message]] {
+) extends JsonRequest {
+  type Response = Either[Boolean, Message]
   if (inlineMessageId.isEmpty) {
     require(chatId.isDefined, "Required if inlineMessageId is not specified")
     require(messageId.isDefined, "Required if inlineMessageId is not specified")
@@ -25,4 +29,10 @@ case class EditMessageReplyMarkup(
 
   if (chatId.isEmpty && messageId.isEmpty)
     require(inlineMessageId.isDefined, "Required if chatId and messageId are not specified")
+}
+
+object EditMessageReplyMarkup {
+  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] =
+    deriveConfiguredEncoder[EditMessageReplyMarkup]
 }

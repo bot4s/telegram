@@ -1,6 +1,9 @@
 package com.bot4s.telegram.methods
 
 import com.bot4s.telegram.models.ChatId
+import io.circe.Encoder
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 
 /**
  * Use this method to decline a chat join request.
@@ -13,4 +16,11 @@ import com.bot4s.telegram.models.ChatId
 case class DeclineChatJoinRequest(
   chatId: ChatId,
   userId: Long
-) extends JsonRequest[Boolean]
+) extends JsonRequest {
+  type Response = Boolean
+}
+
+object DeclineChatJoinRequest {
+  implicit val customConfig: Configuration                   = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeEncoder: Encoder[DeclineChatJoinRequest] = deriveConfiguredEncoder
+}

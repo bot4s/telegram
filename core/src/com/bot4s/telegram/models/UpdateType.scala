@@ -1,5 +1,8 @@
 package com.bot4s.telegram.models
 
+import io.circe.{ Decoder, Encoder }
+import com.bot4s.telegram.marshalling._
+
 /**
  * Provides grouped update types to filter updates (e.g. message related, payments related).
  */
@@ -17,5 +20,10 @@ object UpdateType extends Enumeration {
 
     val AllUpdates: Seq[UpdateType] = UpdateType.values.toSeq
   }
+
+  implicit val circeDecoder: Decoder[UpdateType] =
+    Decoder[String].map(s => UpdateType.withName(pascalize(s)))
+  implicit val circeEncoder: Encoder[UpdateType] =
+    Encoder[String].contramap(e => CaseConversions.snakenize(e.toString))
 
 }
