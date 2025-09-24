@@ -18,7 +18,9 @@ jobs:
       - name: Publish
         shell: bash
         env:
-          SONATYPE_USERNAME: ${{ secrets.OSS_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.OSS_PASSWORD }}
+          MILL_SONATYPE_USERNAME: ${{ secrets.OSS_USERNAME }}
+          MILL_SONATYPE_PASSWORD: ${{ secrets.OSS_PASSWORD }}
+          MILL_PGP_PASSPHRASE: ${{ secrets.MILL_PGP_PASSPHRASE }}
+          MILL_PGP_SECRET_BASE64: ${{ secrets.MILL_PGP_SECRET_BASE64 }}
         run: |
-          ./mill mill.scalalib.PublishModule/ --publishArtifacts  __.publishArtifacts
+          ./mill mill.scalalib.SonatypeCentralPublishModule/ --publishArtifacts __.publishArtifacts
