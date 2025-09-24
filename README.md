@@ -31,7 +31,7 @@
   <a href="https://oss.sonatype.org/content/repositories/snapshots/com/bot4s/telegram-core_2.12/" title="Nexus snapshot">
     <img src="https://img.shields.io/nexus/s/com.bot4s/telegram-core_2.12.svg?server=https%3A%2F%2Foss.sonatype.org" />
   </a>
-  
+
 </p>
 <p align="center">
   <a href="http://www.apache.org/licenses/LICENSE-2.0.html" title="License">
@@ -45,7 +45,12 @@ Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://co
 
 # Table of contents
 
-- [Quick start](#quick-start)
+- [Installation](#installation)
+- [Quickstart with scala-cli](#quickstart-with-scala-cli)
+- [Examples](#examples)
+  - [Random Bot](#random-bot)
+  - [Text To Speech Bot](#text-to-speech-bot)
+  - [Calculator Bot (using Webhooks)](#calculator-bot)
 - [Leaking bot tokens](#leaking-bot-tokens)
 - [Webhooks vs Polling](#webhooks-vs-polling)
 - [Payments](#payments)
@@ -53,15 +58,13 @@ Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://co
 - [Deployment](#deployment)
 - [Running the examples](#running-the-examples)
 - [A note on implicits](#a-note-on-implicits)
-- [Examples](#examples)
-  - [Let me Google that for you!](#let-me-google-that-for-you)
-  - [Google Text To Speech](#google-tts)
-  - [Random Bot (Webhooks)](#using-webhooks)
 - [Versioning](#versioning)
 - [Authors](#authors)
 - [License](#license)
 
-## As SBT/mill dependency
+## Installation
+
+Since 6.0.0 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
 
 Add to your `build.sbt` file:
 
@@ -73,12 +76,182 @@ libraryDependencies += "com.bot4s" %% "telegram-core" % "6.0.0"
 libraryDependencies += "com.bot4s" %% "telegram-akka" % "6.0.0"
 ```
 
-For [mill](https://com-lihaoyi.github.io/mill) add to your `build.sc` project deps:
+For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
 
 ```scala
-ivy"com.bot4s::telegram-core:6.0.0", // core
-ivy"com.bot4s::telegram-akka:6.0.0"  // extra goodies
+// Core with minimal dependencies, enough to spawn your first bot.
+ivy"com.bot4s::telegram-core:6.0.0",
+// Extra goodies: Webhooks, support for games, bindings for actors.
+ivy"com.bot4s::telegram-akka:6.0.0"
 ```
+
+## Quickstart with scala-cli.
+
+Replace `BOT_TOKEN` with your [Telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
+
+```scala
+//> using scala 3.3.6
+//> using dep "com.bot4s::telegram-core:6.0.0"
+//> using dep "com.softwaremill.sttp.client3::okhttp-backend:3.11.0"
+//
+import cats.syntax.functor.*
+import scala.concurrent.*
+import scala.concurrent.duration.*
+import com.bot4s.telegram.api.RequestHandler
+import com.bot4s.telegram.clients.FutureSttpClient
+import com.bot4s.telegram.future.*
+import com.bot4s.telegram.methods.SendMessage
+import com.bot4s.telegram.models.Message
+import sttp.client3.SttpBackend
+import sttp.client3.okhttp.OkHttpFutureBackend
+
+/**
+ * Echo bot.
+ * Echo, ohcE
+ */
+class EchoBot(token: String) extends TelegramBot with Polling {
+  implicit val backend: SttpBackend[Future, Any] = OkHttpFutureBackend()
+  override val client: RequestHandler[Future]    = new FutureSttpClient(token)
+
+  override def receiveMessage(msg: Message): Future[Unit] =
+    msg.text.fold(Future.successful(())) { text =>
+      request(SendMessage(msg.source, text.reverse)).void
+    }
+}
+
+@main def main() = {
+  // To run spawn the bot
+  val bot = new EchoBot("BOT_TOKEN")
+  val eol: Future[Unit] = bot.run()
+  println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
+  scala.io.StdIn.readLine()
+  bot.shutdown() // initiate shutdown
+  // Wait for the bot end-of-life
+  Await.result(eol, Duration.Inf)
+}
+```
+
+## Examples
+
+#### Random bot [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src/RandomBot.scala)
+
+```scala
+class RandomBot(token: String) extends ExampleBot(token) with Polling with Commands[Future] {
+
+  val rng = new scala.util.Random(System.currentTimeMillis())
+  onCommand("coin" or "flip") { implicit msg =>
+    reply(if (rng.nextBoolean()) "Head!" else "Tail!").void
+  }
+  onCommand("real" | "double" | "float") { implicit msg =>
+    reply(rng.nextDouble().toString).void
+  }
+  onCommand("/die" | "roll") { implicit msg =>
+    reply("⚀⚁⚂⚃⚄⚅" (rng.nextInt(6)).toString).void
+  }
+  onCommand("random" or "rnd") { implicit msg =>
+    withArgs {
+      case Seq(Int(n)) if n > 0 =>
+        reply(rng.nextInt(n).toString).void
+      case _ => reply("Invalid argumentヽ(ಠ_ಠ)ノ").void
+    }
+  }
+  onCommand("choose" | "pick" | "select") { implicit msg =>
+    withArgs { args =>
+      replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size))).void
+    }
+  }
+
+  onCommand("auto") { implicit msg =>
+    request(SendDice(msg.chat.id)).void
+  }
+  // Extractor
+  object Int {
+    def unapply(s: String): Option[Int] = Try(s.toInt).toOption
+  }
+
+}
+```
+
+#### Text to speech bot [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/TextToSpeechBot.scala)
+
+```scala
+/**
+ * Text-to-speech bot (using Google TTS API)
+ *
+ * Google will rightfully block your IP in case of abuse.
+ * '''Usage:''' /speak Hello World
+ * '''Inline mode:''' @YourBot This is awesome
+ */
+class TextToSpeechBot(token: String)
+    extends ExampleBot(token)
+    with Polling
+    with Commands[Future]
+    with InlineQueries[Future]
+    with ChatActions[Future] {
+
+  def ttsUrl(text: String): String =
+    s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
+
+  onCommand("speak" | "say" | "talk") { implicit msg =>
+    withArgs { args =>
+      val text = args.mkString(" ")
+      for {
+        r <- Future(scalaj.http.Http(ttsUrl(text)).asBytes)
+        if r.isSuccess
+        bytes    = r.body
+        _       <- uploadingAudio // hint the user
+        voiceMp3 = InputFile("voice.mp3", bytes)
+        _       <- request(SendVoice(msg.source, voiceMp3))
+      } yield ()
+    }
+  }
+
+  def nonEmptyQuery(iq: InlineQuery): Boolean = iq.query.nonEmpty
+
+  whenOrElse(onInlineQuery, nonEmptyQuery) { implicit iq =>
+    answerInlineQuery(
+      Seq(
+        // Inline "playable" preview
+        InlineQueryResultVoice("inline: " + iq.query, ttsUrl(iq.query), iq.query),
+        // Redirection to /speak command
+        InlineQueryResultArticle(
+          "command: " + iq.query,
+          iq.query,
+          inputMessageContent = InputTextMessageContent("/speak " + iq.query),
+          description = "/speak " + iq.query
+        )
+      )
+    ).void
+  } /* empty query */ {
+    answerInlineQuery(Seq())(_).void
+  }
+}
+```
+
+#### Calculator bot (using Webhooks) [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookBot.scala)
+
+
+```scala
+class WebhookBot(token: String) extends AkkaExampleBot(token) with Webhook {
+  val port       = 8080
+  val webhookUrl = "https://88c444ab.ngrok.io"
+
+  val baseUrl = "http://api.mathjs.org/v1/?expr="
+
+  override def receiveMessage(msg: Message): Future[Unit] =
+    msg.text.fold(Future.successful(())) { text =>
+      val url = baseUrl + URLEncoder.encode(text, "UTF-8")
+      for {
+        res <- Http().singleRequest(HttpRequest(uri = Uri(url)))
+        if res.status.isSuccess()
+        result <- Unmarshal(res).to[String]
+        _      <- request(SendMessage(msg.source, result))
+      } yield ()
+    }
+}
+```
+
+Check out the [sample bots](https://github.com/bot4s/telegram/tree/main/examples) for more functionality.
 
 ## Leaking bot tokens
 
@@ -94,7 +267,7 @@ Both methods are supported.
 Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
-Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/WebhookSSLBot.scala) (with self signed SSL certificate setup).
+Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookSSLBot.scala) (with self signed SSL certificate setup).
 
 ## Payments
 
@@ -105,8 +278,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
@@ -122,7 +295,7 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 
 ## Running the examples
 
-`bot4s.telegram` uses [mill](https://com-lihaoyi.github.io/mill).
+`bot4s.telegram` uses [mill](https://mill-build.org/mill/).
 
 ```
 $ mill examples.jvm[2.13.10].console
@@ -139,163 +312,10 @@ Change `RandomBot` to whatever bot you find interesting [here](https://github.co
 
 A few implicits are provided to reduce boilerplate, but are discouraged because unexpected side-effects.
 
-Think seamless `T => Option[T]` conversion, Markdown string extensions (these are fine)...  
+Think seamless `T => Option[T]` conversion, Markdown string extensions (these are fine)...
 Be aware that, for conciseness, most examples need the implicits to compile, be sure to include them.
 
 `import com.bot4s.telegram.Implicits._`
-
-## Examples
-
-#### RandomBot! [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src/RandomBot.scala)
-
-```scala
-import cats.instances.future._
-import cats.syntax.functor._
-import com.bot4s.telegram.api.RequestHandler
-import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.clients.{FutureSttpClient, ScalajHttpClient}
-import com.bot4s.telegram.future.{Polling, TelegramBot}
-import slogging.{LogLevel, LoggerConfig, PrintLoggerFactory}
-
-import scala.util.Try
-import scala.concurrent.Future
-
-/** Generates random values.
-  */
-class RandomBot(val token: String) extends TelegramBot
-  with Polling
-  with Commands[Future] {
-
-  LoggerConfig.factory = PrintLoggerFactory()
-  // set log level, e.g. to TRACE
-  LoggerConfig.level = LogLevel.TRACE
-
-  // Use sttp-based backend
-  implicit val backend = SttpBackends.default
-  override val client: RequestHandler[Future] = new FutureSttpClient(token)
-
-  // Or just the scalaj-http backend
-  // override val client: RequestHandler[Future] = new ScalajHttpClient(token)
-
-  val rng = new scala.util.Random(System.currentTimeMillis())
-  onCommand("coin" or "flip") { implicit msg =>
-    reply(if (rng.nextBoolean()) "Head!" else "Tail!").void
-  }
-  onCommand('real | 'double | 'float) { implicit msg =>
-    reply(rng.nextDouble().toString).void
-  }
-  onCommand("/dice" | "roll") { implicit msg =>
-    reply("⚀⚁⚂⚃⚄⚅" (rng.nextInt(6)).toString).void
-  }
-  onCommand("random" or "rnd") { implicit msg =>
-    withArgs {
-      case Seq(Int(n)) if n > 0 =>
-        reply(rng.nextInt(n).toString).void
-      case _ => reply("Invalid argumentヽ(ಠ_ಠ)ノ").void
-    }
-  }
-  onCommand('choose | 'pick | 'select) { implicit msg =>
-    withArgs { args =>
-      replyMd(if (args.isEmpty) "No arguments provided." else args(rng.nextInt(args.size))).void
-    }
-  }
-
-  // Int(n) extractor
-  object Int {
-    def unapply(s: String): Option[Int] = Try(s.toInt).toOption
-  }
-}
-
-
-// To run spawn the bot
-val bot = new RandomBot("BOT_TOKEN")
-val eol = bot.run()
-println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
-scala.io.StdIn.readLine()
-bot.shutdown() // initiate shutdown
-// Wait for the bot end-of-life
-Await.result(eol, Duration.Inf)
-```
-
-#### Google TTS [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm/TextToSpeechBot.scala)
-
-```scala
-import java.net.URLEncoder
-
-import cats.instances.future._
-import cats.syntax.functor._
-import com.bot4s.telegram.Implicits._
-import com.bot4s.telegram.api.declarative._
-import com.bot4s.telegram.api.ChatActions
-import com.bot4s.telegram.future.Polling
-import com.bot4s.telegram.methods._
-import com.bot4s.telegram.models._
-
-import scala.concurrent.Future
-
-/** Text-to-speech bot (using Google TTS API)
-  *
-  * Google will rightfully block your IP in case of abuse.
-  * Usage: /speak Hello World
-  */
-object TextToSpeechBot extends TelegramBot
-  with Polling
-  with Commands[Future]
-  with InlineQueries[Future]
-  with ChatActions[Future] {
-
-  override val client: RequestHandler[Future] = new ScalajHttpClient("BOT_TOKEN")
-
-  def ttsUrl(text: String): String =
-    s"http://translate.google.com/translate_tts?client=tw-ob&tl=en-us&q=${URLEncoder.encode(text, "UTF-8")}"
-
-  onCommand("speak" | "say" | "talk") { implicit msg =>
-    withArgs { args =>
-      val text = args.mkString(" ")
-      for {
-        r <- Future { scalaj.http.Http(ttsUrl(text)).asBytes }
-        if r.isSuccess
-        bytes = r.body
-        _ <- uploadingAudio // hint the user
-        voiceMp3 = InputFile("voice.mp3", bytes)
-        _ <- request(SendVoice(msg.source, voiceMp3))
-      } yield ()
-    }
-  }
-}
-
-val bot = TextToSpeechBot
-val eol = bot.run()
-println("Press [ENTER] to shutdown the bot, it may take a few seconds...")
-scala.io.StdIn.readLine()
-bot.shutdown() // initiate shutdown
-// Wait for the bot end-of-life
-Await.result(eol, Duration.Inf) // ScalaJs wont't let you do this
-```
-
-#### Using webhooks
-
-```scala
-object LmgtfyBot extends AkkaTelegramBot
-  with Webhook
-  with Commands[Future] {
-
-  val client = new AkkaHttpClient("BOT_TOKEN")
-  override val port = 8443
-  override val webhookUrl = "https://1d1ceb07.ngrok.io"
-
-  onCommand("lmgtfy") { implicit msg =>
-    withArgs { args =>
-      reply(
-        "http://lmgtfy.com/?q=" + URLEncoder.encode(args.mkString(" "), "UTF-8"),
-        disableWebPagePreview = Some(true)
-      )
-    }
-  }
-}
-```
-
-Check out the [sample bots](https://github.com/bot4s/telegram/tree/main/examples) for more functionality.
 
 ## Versioning
 
