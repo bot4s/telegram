@@ -81,6 +81,7 @@ import io.circe.Json
  * @param generalForumTopicunHidden   GeneralForumTopicUnhidden. Optinal. Service message: the 'General' forum topic unhidden
  * @param writeAccessAllowed          WrieAccessAllowed. Optional. Service message: the user allowed the bot added to the attachment menu to write messages
  * @param hasMediaSpoiler             Optional. True, if the message media is covered by a spoiler animation
+ * @param mediaGroupId                Optional. The unique identifier of a media message group this message belongs to
  */
 case class Message(
   messageId: Int,
@@ -148,7 +149,8 @@ case class Message(
   generalForumTopicHidden: Option[GeneralForumTopicHidden.type] = None,
   generalForumTopicunHidden: Option[GeneralForumTopicUnhidden.type] = None,
   writeAccessAllowed: Option[WriteAccessAllowed] = None,
-  hasMediaSpoiler: Option[Boolean] = None
+  hasMediaSpoiler: Option[Boolean] = None,
+  mediaGroupId: Option[String] = None,
 ) {
 
   def source: Long = chat.id
@@ -228,6 +230,7 @@ object Message {
           c.getOrElse[Option[GeneralForumTopicUnhidden.type]]("generalForumTopicunHidden")(None)
         writeAccessAllowed <- c.getOrElse[Option[WriteAccessAllowed]]("writeAccessAllowed")(None)
         hasMediaSpoiler    <- c.getOrElse[Option[Boolean]]("hasMediaSpoiler")(None)
+        mediaGroupId <- c.getOrElse[Option[String]]("mediaGroupId")(None)
       } yield {
         Message(
           messageId,
@@ -295,7 +298,8 @@ object Message {
           generalForumTopicHidden,
           generalForumTopicunHidden,
           writeAccessAllowed,
-          hasMediaSpoiler
+          hasMediaSpoiler,
+          mediaGroupId,
         )
       }
   }
@@ -366,7 +370,8 @@ object Message {
       "general_forum_topic_hidden"      -> v.generalForumTopicHidden.asJson,
       "general_forum_topicun_hidden"    -> v.generalForumTopicunHidden.asJson,
       "write_access_allowed"            -> v.writeAccessAllowed.asJson,
-      "has_media_spoiler"               -> v.hasMediaSpoiler.asJson
+      "has_media_spoiler"               -> v.hasMediaSpoiler.asJson,
+      "media_group_id"                  -> v.mediaGroupId.asJson,
     )
   }
 }
