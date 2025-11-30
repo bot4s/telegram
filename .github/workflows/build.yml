@@ -19,9 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Check code format
-        uses: jrouly/scalafmt-native-action@v1
+        uses: jrouly/scalafmt-native-action@v4
         with:
-          version: "3.8.3"
           arguments: "-c .scalafmt.conf --test core akka examples"
       - name: Compile
         run: ./mill '_._[_].compile'
