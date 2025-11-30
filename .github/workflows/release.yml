@@ -6,6 +6,9 @@ jobs:
   compile-all:
     runs-on: ubuntu-latest
 
+    env:
+      JAVA_OPTS: "-Xss32m -Xmx4g"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
