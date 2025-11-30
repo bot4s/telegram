@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MILL_JVM_OPTS: "-Xss16m -Xmx4g"
+      JAVA_OPTS: "-Xss32m -Xmx4g"
 
     steps:
       - name: Checkout code
