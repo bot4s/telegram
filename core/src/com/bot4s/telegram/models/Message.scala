@@ -150,7 +150,7 @@ case class Message(
   generalForumTopicunHidden: Option[GeneralForumTopicUnhidden.type] = None,
   writeAccessAllowed: Option[WriteAccessAllowed] = None,
   hasMediaSpoiler: Option[Boolean] = None,
-  mediaGroupId: Option[String] = None,
+  mediaGroupId: Option[String] = None
 ) {
 
   def source: Long = chat.id
@@ -230,7 +230,7 @@ object Message {
           c.getOrElse[Option[GeneralForumTopicUnhidden.type]]("generalForumTopicunHidden")(None)
         writeAccessAllowed <- c.getOrElse[Option[WriteAccessAllowed]]("writeAccessAllowed")(None)
         hasMediaSpoiler    <- c.getOrElse[Option[Boolean]]("hasMediaSpoiler")(None)
-        mediaGroupId <- c.getOrElse[Option[String]]("mediaGroupId")(None)
+        mediaGroupId       <- c.getOrElse[Option[String]]("mediaGroupId")(None)
       } yield {
         Message(
           messageId,
@@ -299,7 +299,7 @@ object Message {
           generalForumTopicunHidden,
           writeAccessAllowed,
           hasMediaSpoiler,
-          mediaGroupId,
+          mediaGroupId
         )
       }
   }
@@ -371,7 +371,7 @@ object Message {
       "general_forum_topicun_hidden"    -> v.generalForumTopicunHidden.asJson,
       "write_access_allowed"            -> v.writeAccessAllowed.asJson,
       "has_media_spoiler"               -> v.hasMediaSpoiler.asJson,
-      "media_group_id"                  -> v.mediaGroupId.asJson,
+      "media_group_id"                  -> v.mediaGroupId.asJson
     )
   }
 }
