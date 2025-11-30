@@ -3,7 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import mill.javalib.api.JvmWorkerUtil
 
-val ScalaVersions = Seq("2.12.20", "2.13.16", "3.3.6")
+val ScalaVersions = Seq("2.12.20", "2.13.18", "3.3.7")
 
 object library {
 
