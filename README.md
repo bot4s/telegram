@@ -61,25 +61,25 @@ Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://co
 
 ## Installation
 
-Since 6.0.0 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
+Since 6.0.1 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
 
 Add to your `build.sbt` file:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "6.0.0"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "6.0.1"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "6.0.0"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "6.0.1"
 ```
 
 For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-ivy"com.bot4s::telegram-core:6.0.0",
+ivy"com.bot4s::telegram-core:6.0.1",
 // Extra goodies: Webhooks, support for games, bindings for actors.
-ivy"com.bot4s::telegram-akka:6.0.0"
+ivy"com.bot4s::telegram-akka:6.0.1"
 ```
 
 ## Quickstart with scala-cli.
@@ -88,7 +88,7 @@ Replace `BOT_TOKEN` with your [Telegram bot token](https://core.telegram.org/bot
 
 ```scala
 //> using scala 3.3.7
-//> using dep "com.bot4s::telegram-core:6.0.0"
+//> using dep "com.bot4s::telegram-core:6.0.1"
 //> using dep "com.softwaremill.sttp.client3::okhttp-backend:3.11.0"
 //
 import cats.syntax.functor.*
