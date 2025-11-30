@@ -87,7 +87,7 @@ ivy"com.bot4s::telegram-akka:6.0.0"
 Replace `BOT_TOKEN` with your [Telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ```scala
-//> using scala 3.3.6
+//> using scala 3.3.7
 //> using dep "com.bot4s::telegram-core:6.0.0"
 //> using dep "com.softwaremill.sttp.client3::okhttp-backend:3.11.0"
 //
