@@ -26,10 +26,7 @@
     <img src="https://github.com/bot4s/telegram/actions/workflows/build.yml/badge.svg?branch=main" />
   </a>
   <a href="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.13" title="Maven Central">
-    <img src="https://maven-badges.herokuapp.com/maven-central/com.bot4s/telegram-core_2.13/badge.svg"/>
-  </a>
-  <a href="https://oss.sonatype.org/content/repositories/snapshots/com/bot4s/telegram-core_2.13/" title="Nexus snapshot">
-    <img src="https://img.shields.io/nexus/s/com.bot4s/telegram-core_2.13.svg?server=https%3A%2F%2Foss.sonatype.org" />
+    <img src="https://maven-badges.sml.io/sonatype-central/com.bot4s/telegram-core_2.13/badge.svg"/>
   </a>
 
 </p>
