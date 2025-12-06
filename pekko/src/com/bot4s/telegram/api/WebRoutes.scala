@@ -1,15 +1,15 @@
 package com.bot4s.telegram.api
 
-import akka.http.scaladsl.{ Http, HttpsConnectionContext }
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
+import org.apache.pekko.http.scaladsl.{ Http, HttpsConnectionContext }
+import org.apache.pekko.http.scaladsl.server.Directives._
+import org.apache.pekko.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ Future, Promise }
 
 trait WebRoutes extends BotBase[Future] with StrictLogging {
-  this: BotExecutionContext with AkkaImplicits =>
+  this: BotExecutionContext with PekkoImplicit =>
 
   val port: Int
   val interfaceIp: String                          = "::0"

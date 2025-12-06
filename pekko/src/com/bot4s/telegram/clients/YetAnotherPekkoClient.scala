@@ -1,13 +1,13 @@
 package com.bot4s.telegram.clients
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshalling.Marshal
-import akka.http.scaladsl.model.Uri.Path
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.Materializer
-import akka.stream.scaladsl.{ Sink, Source }
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.marshalling.Marshal
+import org.apache.pekko.http.scaladsl.model.Uri.Path
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.scaladsl.{ Sink, Source }
 import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.methods.{ Request, Response }
@@ -17,7 +17,7 @@ import com.bot4s.telegram.marshalling.responseDecoder
 
 import scala.concurrent.{ ExecutionContext, Future }
 
-class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.org")(implicit
+class YetAnotherPekkoClient(token: String, telegramHost: String = "api.telegram.org")(implicit
   system: ActorSystem,
   materializer: Materializer,
   ec: ExecutionContext
@@ -26,7 +26,7 @@ class YetAnotherAkkaClient(token: String, telegramHost: String = "api.telegram.o
 
   private val flow = Http().outgoingConnectionHttps(telegramHost)
 
-  import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
+  import com.bot4s.telegram.marshalling.PekkoHttpMarshalling._
 
   override def sendRequest[T <: Request: Encoder](
     request: T

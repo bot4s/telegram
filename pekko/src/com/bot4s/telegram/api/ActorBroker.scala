@@ -1,6 +1,6 @@
 package com.bot4s.telegram.api
 
-import akka.actor.ActorRef
+import org.apache.pekko.actor.ActorRef
 import com.bot4s.telegram.models.{ Update, User }
 
 import scala.concurrent.Future

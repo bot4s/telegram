@@ -1,14 +1,14 @@
 package com.bot4s.telegram.clients
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshalling._
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.marshalling._
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.stream.Materializer
 import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
-import com.bot4s.telegram.marshalling.AkkaHttpMarshalling
+import com.bot4s.telegram.marshalling.PekkoHttpMarshalling
 import com.bot4s.telegram.marshalling._
 import com.bot4s.telegram.methods.{ Request, Response }
 import io.circe.{ Decoder, Encoder }
@@ -17,19 +17,19 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.concurrent.{ ExecutionContext, Future }
 
 /**
- * Akka-backed Telegram Bot API client
+ * Pekko-backed Telegram Bot API client
  * Provide transparent camelCase <-> underscore_case conversions during serialization/deserialization
  *
  * @param token Bot token
  */
-class AkkaHttpClient(token: String, telegramHost: String = "api.telegram.org")(implicit
+class PekkoHttpClient(token: String, telegramHost: String = "api.telegram.org")(implicit
   system: ActorSystem,
   materializer: Materializer,
   ec: ExecutionContext
 ) extends RequestHandler[Future]
     with StrictLogging {
 
-  import AkkaHttpMarshalling._
+  import PekkoHttpMarshalling._
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
   private val http       = Http()
 

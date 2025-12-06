@@ -22,22 +22,22 @@ object library {
     val scalaLogging       = "3.9.5"
     val logback            = "1.5.18"
     val scalajHttp         = "2.4.2"
-    val akkaVersion        = "2.6.20"
-    val akkaActor          = akkaVersion
-    val akkaStream         = akkaVersion
-    val akkaHttp           = "10.5.2"
-    val akkaTestkit        = akkaVersion
-    val akkaHttpCors       = "1.2.0"
+    val pekkoVersion       = "1.3.0"
+    val pekkoActor         = pekkoVersion
+    val pekkoStream        = pekkoVersion
+    val pekkoHttp          = "1.3.0"
+    val pekkoTestkit       = pekkoVersion
+    val pekkoHttpCors      = pekkoHttp
     val hammock            = "0.11.3"
     val monix              = "3.4.1"
     val sbtTesting         = "1.0"
   }
 
-  val akkaHttp        = mvn"com.typesafe.akka::akka-http::${Version.akkaHttp}"
-  val akkaHttpTestkit = mvn"com.typesafe.akka::akka-http-testkit::${Version.akkaHttp}"
-  val akkaTestkit     = mvn"com.typesafe.akka::akka-testkit::${Version.akkaTestkit}"
-  val akkaActor       = mvn"com.typesafe.akka::akka-actor::${Version.akkaActor}"
-  val akkaStream      = mvn"com.typesafe.akka::akka-stream::${Version.akkaStream}"
+  val pekkoHttp        = mvn"org.apache.pekko::pekko-http::${Version.pekkoHttp}"
+  val pekkoHttpTestkit = mvn"org.apache.pekko::pekko-http-testkit::${Version.pekkoHttp}"
+  val pekkoTestkit     = mvn"org.apache.pekko::pekko-testkit::${Version.pekkoTestkit}"
+  val pekkoActor       = mvn"org.apache.pekko::pekko-actor::${Version.pekkoActor}"
+  val pekkoStream      = mvn"org.apache.pekko::pekko-stream::${Version.pekkoStream}"
   val asyncHttpClientBackendCats =
     mvn"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
   val asyncHttpClientBackendCats3 =
@@ -49,7 +49,7 @@ object library {
   val scalajHttp                  = mvn"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = mvn"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest          = mvn"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
-  val akkaHttpCors                = mvn"ch.megard::akka-http-cors::${Version.akkaHttpCors}"
+  val pekkoHttpCors               = mvn"org.apache.pekko::pekko-http-cors::${Version.pekkoHttpCors}"
   val scalaTest                   = mvn"org.scalatest::scalatest::${Version.scalaTest}"
   val sbtTesting                  = mvn"org.scala-sbt:test-interface:${Version.sbtTesting}"
 
@@ -165,19 +165,19 @@ object core extends Module {
 
 }
 
-object akka extends Module {
+object pekko extends Module {
 
-  object jvm extends Cross[AkkaModule](ScalaVersions)
-  trait AkkaModule extends Bot4sTelegramCrossPlatform with Publishable {
+  object jvm extends Cross[pekkoModule](ScalaVersions)
+  trait pekkoModule extends Bot4sTelegramCrossPlatform with Publishable {
     override val platformSegment: String = "jvm"
-    override val location: String        = "akka"
-    override def artifactName            = "telegram-akka"
+    override val location: String        = "pekko"
+    override def artifactName            = "telegram-pekko"
 
     override def mvnDeps = Task {
       super.mvnDeps() ++ Seq(
-        library.akkaActor,
-        library.akkaHttp,
-        library.akkaStream
+        library.pekkoActor,
+        library.pekkoHttp,
+        library.pekkoStream
       )
     }
 
@@ -188,8 +188,8 @@ object akka extends Module {
 
       override def mvnDeps = Task {
         super.mvnDeps() ++ Seq(
-          library.akkaTestkit,
-          library.akkaHttpTestkit
+          library.pekkoTestkit,
+          library.pekkoHttpTestkit
         )
       }
     }
@@ -215,12 +215,12 @@ object examples extends Module {
 
     override def mvnDeps = Task {
       super.mvnDeps() ++ Seq(
-        library.akkaHttpCors,
+        library.pekkoHttpCors,
         library.sttpOkHttp
       ) ++ versionDependencies()
     }
 
-    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), akka.jvm())
+    override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), pekko.jvm())
   }
 
   object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions)
