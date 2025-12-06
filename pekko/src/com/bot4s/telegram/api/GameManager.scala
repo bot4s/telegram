@@ -4,9 +4,9 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.util.Base64
 
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.{ Directive1, Route }
+import org.apache.pekko.http.scaladsl.model.StatusCodes
+import org.apache.pekko.http.scaladsl.server.Directives._
+import org.apache.pekko.http.scaladsl.server.{ Directive1, Route }
 import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods.{ GetGameHighScores, SetGameScore }
 import com.bot4s.telegram.models.{ CallbackQuery, ChatId, User }
@@ -35,7 +35,7 @@ import io.circe.generic.extras.Configuration
  * or even better, submit a PR with your approach.
  */
 trait GameManager extends WebRoutes {
-  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] with BotExecutionContext with PekkoImplicit =>
 
   import com.bot4s.telegram.marshalling._
 

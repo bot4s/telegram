@@ -1,14 +1,14 @@
 package com.bot4s.telegram.api
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import com.bot4s.telegram.future.TelegramBot
 
-trait AkkaTelegramBot extends TelegramBot with AkkaDefaults
+trait PekkoTelegramBot extends TelegramBot with PekkoDefaults
 
-trait AkkaImplicits {
+trait PekkoImplicit {
   implicit val system: ActorSystem
 }
 
-trait AkkaDefaults extends AkkaImplicits {
+trait PekkoDefaults extends PekkoImplicit {
   implicit val system: ActorSystem = ActorSystem()
 }

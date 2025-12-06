@@ -21,7 +21,7 @@ jobs:
       - name: Check code format
         uses: jrouly/scalafmt-native-action@v4
         with:
-          arguments: "-c .scalafmt.conf --test core akka examples"
+          arguments: "-c .scalafmt.conf --test core pekko examples"
       - name: Compile
         run: ./mill '_._[_].compile'
       - name: Test

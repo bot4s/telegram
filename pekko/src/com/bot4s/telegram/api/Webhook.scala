@@ -1,8 +1,8 @@
 package com.bot4s.telegram.api
 
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
+import org.apache.pekko.http.scaladsl.model.StatusCodes
+import org.apache.pekko.http.scaladsl.server.Directives._
+import org.apache.pekko.http.scaladsl.server.Route
 import com.bot4s.telegram.future.BotExecutionContext
 import com.bot4s.telegram.methods.SetWebhook
 import com.bot4s.telegram.models.{ InputFile, Update }
@@ -17,10 +17,10 @@ import scala.util.control.NonFatal
  * Automatically registers the webhook on run().
  */
 trait Webhook extends WebRoutes with StrictLogging {
-  this: BotBase[Future] with BotExecutionContext with AkkaImplicits =>
+  this: BotBase[Future] with BotExecutionContext with PekkoImplicit =>
 
   import com.bot4s.telegram.marshalling._
-  import com.bot4s.telegram.marshalling.AkkaHttpMarshalling._
+  import com.bot4s.telegram.marshalling.PekkoHttpMarshalling._
 
   /**
    * URL for the webhook.
