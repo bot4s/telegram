@@ -10,6 +10,8 @@ import com.bot4s.telegram.cats.Polling
 
 import scala.concurrent.duration._
 import scala.util.Try
+import sttp.client4.Backend
+import com.bot4s.telegram.cats.TelegramBot
 
 /**
  * Showcases different ways to declare commands (Commands + RegexCommands).
@@ -18,8 +20,8 @@ import scala.util.Try
  *
  * @param token Bot's token.
  */
-class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String)
-    extends ExampleBot[F](token)
+class CommandsBot[F[_]: Concurrent: Timer: ContextShift](token: String, backend: Backend[F])
+    extends TelegramBot[F](token, backend)
     with Polling[F]
     with Commands[F]
     with RegexCommands[F] {

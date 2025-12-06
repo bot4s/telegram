@@ -6,6 +6,9 @@ import zhttp.service.Server
 import zhttp.service.server.ServerChannelFactory
 import zhttp.service.EventLoopGroup
 import com.bot4s.telegram.models.Update
+import com.bot4s.telegram.cats.TelegramBot
+import sttp.client4.Backend
+import zio.interop.catz._
 
 /**
  * Example on the usage of webhook with a custom webserver
@@ -13,8 +16,8 @@ import com.bot4s.telegram.models.Update
  * @param token Bot's token.
  * @param started Bot's current state (started or not)
  */
-class CommandsWebhookBot(token: String, private val started: Ref.Synchronized[Boolean])
-    extends ExampleBot(token)
+class CommandsWebhookBot(token: String, backend: Backend[Task], private val started: Ref.Synchronized[Boolean])
+    extends TelegramBot(token, backend)
     with Commands[Task]
     with RegexCommands[Task] {
 

@@ -4,9 +4,9 @@ import cats.instances.future._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import sttp.client3.SttpBackend
+import sttp.client4.Backend
 
 class FutureSttpClient(token: String, telegramHost: String = "api.telegram.org")(implicit
-  backend: SttpBackend[Future, Any],
+  backend: Backend[Future],
   ec: ExecutionContext
 ) extends SttpClient[Future](token, telegramHost)
