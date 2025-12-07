@@ -1,14 +1,14 @@
 package com.bot4s.telegram.marshalling
 
-import akka.http.scaladsl.marshalling.{ Marshaller, Marshalling, ToEntityMarshaller }
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.unmarshalling.{ FromEntityUnmarshaller, Unmarshaller }
+import org.apache.pekko.http.scaladsl.marshalling.{ Marshaller, Marshalling, ToEntityMarshaller }
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.unmarshalling.{ FromEntityUnmarshaller, Unmarshaller }
 import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request }
-import com.bot4s.telegram.models.{ AkkaInputFile, InputFile }
+import com.bot4s.telegram.models.{ InputFile, PekkoInputFile }
 import io.circe.{ Decoder, Encoder }
 
-object AkkaHttpMarshalling {
+object PekkoHttpMarshalling {
 
   implicit def camelCaseJsonUnmarshaller[R](implicit decR: Decoder[R]): FromEntityUnmarshaller[R] =
     Unmarshaller.stringUnmarshaller
@@ -40,7 +40,7 @@ object AkkaHttpMarshalling {
               case InputFile.Path(path) =>
                 Multipart.FormData.BodyPart.fromPath(key, MediaTypes.`application/octet-stream`, path)
 
-              case AkkaInputFile.ByteString(filename, bytes) =>
+              case PekkoInputFile.ByteString(filename, bytes) =>
                 Multipart.FormData.BodyPart(
                   key,
                   HttpEntity(MediaTypes.`application/octet-stream`, bytes),

@@ -1,9 +1,9 @@
 import java.net.URLEncoder
 
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{ Authorization, BasicHttpCredentials }
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.model.headers.{ Authorization, BasicHttpCredentials }
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.future.Polling
@@ -22,7 +22,7 @@ import scala.concurrent.Future
  * The provided clientId/secret are not guaranteed to work forever.
  * See [[https://developer.spotify.com/web-api/authorization-guide/]]
  */
-class SpotifyBot(token: String) extends AkkaExampleBot(token) with Polling {
+class SpotifyBot(token: String) extends PekkoExampleBot(token) with Polling {
 
   val limit = 10
 
