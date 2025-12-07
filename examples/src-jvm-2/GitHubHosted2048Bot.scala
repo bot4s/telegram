@@ -1,15 +1,14 @@
-import akka.http.scaladsl.model.Uri
-import akka.http.scaladsl.model.Uri.{ Path, Query }
-import akka.http.scaladsl.model.headers.HttpOrigin
-import akka.http.scaladsl.server.RouteConcatenation._
-import akka.http.scaladsl.server.Route
-
-import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
+import org.apache.pekko.http.scaladsl.model.Uri
+import org.apache.pekko.http.scaladsl.model.Uri.{ Path, Query }
+import org.apache.pekko.http.scaladsl.model.headers.HttpOrigin
+import org.apache.pekko.http.scaladsl.server.RouteConcatenation._
+import org.apache.pekko.http.scaladsl.server.Route
+import org.apache.pekko.http.cors.scaladsl.settings.CorsSettings
+import org.apache.pekko.http.cors.scaladsl.model.HttpOriginMatcher
+import org.apache.pekko.http.cors.scaladsl.CorsDirectives._
 
 import cats.instances.future._
 import cats.syntax.functor._
-import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
-import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import com.bot4s.telegram.api.declarative.{ Callbacks, Commands }
 import com.bot4s.telegram.api.{ GameManager, Payload }
 import com.bot4s.telegram.future.Polling
@@ -48,7 +47,7 @@ import scala.concurrent.Future
  * @param gameManagerHost Base URL of the game manager.
  */
 class GitHubHosted2048Bot(token: String, gameManagerHost: String)
-    extends AkkaExampleBot(token)
+    extends PekkoExampleBot(token)
     with Polling
     with Commands[Future]
     with Callbacks[Future]

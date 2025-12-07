@@ -1,5 +1,5 @@
-import akka.http.scaladsl.model.Uri
-import akka.http.scaladsl.model.Uri.Query
+import org.apache.pekko.http.scaladsl.model.Uri
+import org.apache.pekko.http.scaladsl.model.Uri.Query
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.Implicits._

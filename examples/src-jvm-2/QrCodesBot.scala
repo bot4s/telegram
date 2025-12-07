@@ -1,14 +1,14 @@
 import java.net.URLEncoder
 
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{ HttpRequest, Uri }
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.util.ByteString
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.model.{ HttpRequest, Uri }
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.util.ByteString
 import com.bot4s.telegram.api.declarative.Commands
 import com.bot4s.telegram.api._
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods._
-import com.bot4s.telegram.models.AkkaInputFile
+import com.bot4s.telegram.models.PekkoInputFile
 
 import scala.concurrent.Future
 
@@ -16,7 +16,7 @@ import scala.concurrent.Future
  * Generates QR codes from text/url.
  */
 class QrCodesBot(token: String)
-    extends AkkaExampleBot(token)
+    extends PekkoExampleBot(token)
     with Polling
     with Commands[Future]
     with ChatActions[Future] {
@@ -31,7 +31,7 @@ class QrCodesBot(token: String)
         response <- Http().singleRequest(HttpRequest(uri = Uri(url)))
         if response.status.isSuccess()
         bytes <- Unmarshal(response).to[ByteString]
-        photo  = AkkaInputFile("qrcode.png", bytes)
+        photo  = PekkoInputFile("qrcode.png", bytes)
         _     <- uploadingPhoto // Hint the user
         _     <- request(SendPhoto(msg.source, photo))
       } yield ()

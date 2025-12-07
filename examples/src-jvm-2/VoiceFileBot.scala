@@ -1,7 +1,7 @@
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{ HttpRequest, Uri }
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.util.ByteString
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.model.{ HttpRequest, Uri }
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.util.ByteString
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.Commands
@@ -14,7 +14,7 @@ import scala.util.{ Failure, Success }
 /**
  * This bot receives voice recordings and outputs the file size.
  */
-class VoiceFileBot(token: String) extends AkkaExampleBot(token) with Polling with Commands[Future] {
+class VoiceFileBot(token: String) extends PekkoExampleBot(token) with Polling with Commands[Future] {
 
   onMessage { implicit msg =>
     using(_.voice) { voice =>

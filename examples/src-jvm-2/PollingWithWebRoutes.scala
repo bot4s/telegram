@@ -13,7 +13,7 @@ import scala.concurrent.Future
  * and even serving entire websites.
  */
 class PollingWithWebRoutes(token: String)
-    extends AkkaExampleBot(token)
+    extends PekkoExampleBot(token)
     with Polling
     with WebRoutes
     with Commands[Future] {
@@ -24,7 +24,7 @@ class PollingWithWebRoutes(token: String)
     reply("Hello").void
   }
 
-  import akka.http.scaladsl.server.Directives._
+  import org.apache.pekko.http.scaladsl.server.Directives._
 
   override def routes = pathEndOrSingleSlash {
     complete("I'm running...")

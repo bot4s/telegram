@@ -1,12 +1,12 @@
-import akka.http.scaladsl.model.Uri
-import akka.http.scaladsl.model.Uri.{ Path, Query }
-import akka.http.scaladsl.server.Directives.{ getFromResourceDirectory, pathPrefix }
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.RouteConcatenation._
+import org.apache.pekko.http.scaladsl.model.Uri
+import org.apache.pekko.http.scaladsl.model.Uri.{ Path, Query }
+import org.apache.pekko.http.scaladsl.server.Directives.{ getFromResourceDirectory, pathPrefix }
+import org.apache.pekko.http.scaladsl.server.Route
+import org.apache.pekko.http.scaladsl.server.RouteConcatenation._
 import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.api.declarative.{ Callbacks, Commands }
-import com.bot4s.telegram.api.{ AkkaDefaults, GameManager, Payload }
+import com.bot4s.telegram.api.{ GameManager, Payload, PekkoDefaults }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendGame
 
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class SelfHosted2048Bot(token: String, gameManagerHost: String)
     extends ExampleBot(token)
     with Polling
-    with AkkaDefaults
+    with PekkoDefaults
     with Callbacks[Future]
     with GameManager
     with Commands[Future] {

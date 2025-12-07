@@ -1,15 +1,15 @@
-import akka.actor.{ Actor, ActorRef, Props, Terminated }
+import org.apache.pekko.actor.{ Actor, ActorRef, Props, Terminated }
 import cats.syntax.functor._
 import cats.instances.future._
 import com.bot4s.telegram.api.declarative.Commands
-import com.bot4s.telegram.api.{ ActorBroker, AkkaDefaults }
+import com.bot4s.telegram.api.{ ActorBroker, PekkoDefaults }
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.methods.SendMessage
 import com.bot4s.telegram.models.{ Message, Update }
 
 import scala.concurrent.Future
 
-trait PerChatRequests extends ActorBroker with AkkaDefaults {
+trait PerChatRequests extends ActorBroker with PekkoDefaults {
 
   override val broker = Some(system.actorOf(Props(new Broker), "broker"))
 
