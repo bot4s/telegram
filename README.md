@@ -58,25 +58,25 @@ Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://co
 
 ## Installation
 
-Since 6.0.1 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
+Since version 6.0.0 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
 
 Add to your `build.sbt` file:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "6.0.1"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "7.0.0"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "6.0.1"
+libraryDependencies += "com.bot4s" %% "telegram-akka" % "7.0.0"
 ```
 
 For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-ivy"com.bot4s::telegram-core:6.0.1",
+ivy"com.bot4s::telegram-core:7.0.0",
 // Extra goodies: Webhooks, support for games, bindings for actors.
-ivy"com.bot4s::telegram-akka:6.0.1"
+ivy"com.bot4s::telegram-akka:7.0.0"
 ```
 
 ## Quickstart with scala-cli.
@@ -85,7 +85,7 @@ Replace `BOT_TOKEN` with your [Telegram bot token](https://core.telegram.org/bot
 
 ```scala
 //> using scala 3.3.7
-//> using dep "com.bot4s::telegram-core:6.0.1"
+//> using dep "com.bot4s::telegram-core:7.0.0"
 //> using dep "com.softwaremill.sttp.client3::okhttp-backend:3.11.0"
 //
 import cats.syntax.functor.*
@@ -166,7 +166,7 @@ class RandomBot(token: String) extends ExampleBot(token) with Polling with Comma
 }
 ```
 
-#### Text to speech bot [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/TextToSpeechBot.scala)
+#### Text to speech bot [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/TextToSpeechBot.scala)
 
 ```scala
 /**
@@ -222,7 +222,7 @@ class TextToSpeechBot(token: String)
 }
 ```
 
-#### Calculator bot (using Webhooks) [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookBot.scala)
+#### Calculator bot (using Webhooks) [(full example)](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/WebhookBot.scala)
 
 
 ```scala
@@ -261,7 +261,7 @@ Both methods are supported.
 Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
-Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/WebhookSSLBot.scala) (with self signed SSL certificate setup).
+Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/WebhookSSLBot.scala) (with self signed SSL certificate setup).
 
 ## Payments
 
@@ -272,8 +272,8 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 
 The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
-Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/SelfHosted2048Bot.scala) and
-[GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm2/GitHubHosted2048Bot.scala) versions of the
+Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/SelfHosted2048Bot.scala) and
+[GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/GitHubHosted2048Bot.scala) versions of the
 popular [2048](https://gabrielecirulli.github.io/2048/) game.
 
 ## Deployment
