@@ -11,7 +11,7 @@ object Launcher extends zio.ZIOAppDefault {
       _ <- args.getArgs.toList match {
              case List("EchoBot", token) =>
                new EchoBot(token, b).startPolling().map(_ => ExitCode.success)
-             case List("CommandsBot", token, _) =>
+             case List("CommandsBot", token) =>
                new CommandsBot(token, b).startPolling().map(_ => ExitCode.success)
              case List("CommandsWebhookBot", token) =>
                Ref.Synchronized.make(false).flatMap { started =>
