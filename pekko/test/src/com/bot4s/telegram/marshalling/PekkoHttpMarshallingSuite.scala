@@ -9,7 +9,7 @@ import org.apache.pekko.util.ByteString
 import com.bot4s.telegram.api.TestUtils
 import com.bot4s.telegram.marshalling.PekkoHttpMarshalling.underscore_case_marshaller
 import com.bot4s.telegram.methods.SendDocument
-import com.bot4s.telegram.models.{ PekkoInputFile, InputFile }
+import com.bot4s.telegram.models.{ InputFile, PekkoInputFile }
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 

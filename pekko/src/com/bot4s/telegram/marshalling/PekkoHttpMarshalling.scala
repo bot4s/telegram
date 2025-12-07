@@ -5,7 +5,7 @@ import org.apache.pekko.http.scaladsl.model._
 import org.apache.pekko.http.scaladsl.unmarshalling.{ FromEntityUnmarshaller, Unmarshaller }
 import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request }
-import com.bot4s.telegram.models.{ PekkoInputFile, InputFile }
+import com.bot4s.telegram.models.{ InputFile, PekkoInputFile }
 import io.circe.{ Decoder, Encoder }
 
 object PekkoHttpMarshalling {
