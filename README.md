@@ -58,7 +58,7 @@ Simple, extensible, strongly-typed wrapper for the [Telegram Bot API](https://co
 
 ## Installation
 
-Since version 6.0.0 `telegram-core` and `telegram-akka` are published for Scala 2.12, 2.13 and 3.
+Since version 6.0.0 `telegram-core` and `telegram-pekko` are published for Scala 2.12, 2.13 and 3.
 
 Add to your `build.sbt` file:
 
@@ -67,7 +67,7 @@ Add to your `build.sbt` file:
 libraryDependencies += "com.bot4s" %% "telegram-core" % "7.0.0"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-akka" % "7.0.0"
+libraryDependencies += "com.bot4s" %% "telegram-pekko" % "7.0.0"
 ```
 
 For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
@@ -76,7 +76,7 @@ For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
 // Core with minimal dependencies, enough to spawn your first bot.
 ivy"com.bot4s::telegram-core:7.0.0",
 // Extra goodies: Webhooks, support for games, bindings for actors.
-ivy"com.bot4s::telegram-akka:7.0.0"
+ivy"com.bot4s::telegram-pekko:7.0.0"
 ```
 
 ## Quickstart with scala-cli.
@@ -96,15 +96,15 @@ import com.bot4s.telegram.clients.FutureSttpClient
 import com.bot4s.telegram.future.*
 import com.bot4s.telegram.methods.SendMessage
 import com.bot4s.telegram.models.Message
-import sttp.client3.SttpBackend
-import sttp.client3.okhttp.OkHttpFutureBackend
+import sttp.client4.Backend
+import sttp.client4.okhttp.OkHttpFutureBackend
 
 /**
  * Echo bot.
  * Echo, ohcE
  */
 class EchoBot(token: String) extends TelegramBot with Polling {
-  implicit val backend: SttpBackend[Future, Any] = OkHttpFutureBackend()
+  implicit val backend: Backend[Future] = OkHttpFutureBackend()
   override val client: RequestHandler[Future]    = new FutureSttpClient(token)
 
   override def receiveMessage(msg: Message): Future[Unit] =
@@ -226,7 +226,7 @@ class TextToSpeechBot(token: String)
 
 
 ```scala
-class WebhookBot(token: String) extends AkkaExampleBot(token) with Webhook {
+class WebhookBot(token: String) extends PekkoExampleBot(token) with Webhook {
   val port       = 8080
   val webhookUrl = "https://88c444ab.ngrok.io"
 
@@ -258,7 +258,7 @@ Hopefully [GitGuardian](https://www.gitguardian.com/) got you covered and will w
 Both methods are supported.
 (Long) Polling is bundled in the `core` artifact and it's by far the easiest method.
 
-Webhook support comes in the `extra` artifact based on [akka-http](https://github.com/akka/akka-http); requires a server, it won't work on your laptop.
+Webhook support comes in the `extra` artifact based on [pekko-http](https://github.com/apache/pekko-http); requires a server, it won't work on your laptop.
 For a comprehensive reference check [Marvin's Patent Pending Guide to All Things Webhook](https://core.telegram.org/bots/webhooks).
 
 Some webhook examples are available [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/WebhookBot.scala) and [here](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/WebhookSSLBot.scala) (with self signed SSL certificate setup).
@@ -270,7 +270,7 @@ I'll support developers willing to integrate and/or improve the payments API; pl
 
 ## Games
 
-The Akka extensions include support for games in two flavors; self-hosted (served by the bot itself),
+The Pekko extensions include support for games in two flavors; self-hosted (served by the bot itself),
 and external, hosted on e.g. GitHub Pages.
 Check both the [self-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/SelfHosted2048Bot.scala) and
 [GitHub-hosted](https://github.com/bot4s/telegram/blob/main/examples/src-jvm-2/GitHubHosted2048Bot.scala) versions of the
