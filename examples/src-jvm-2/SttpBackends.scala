@@ -1,7 +1,7 @@
-import sttp.client3.okhttp.OkHttpFutureBackend
-import sttp.client3.SttpBackend
+import sttp.client4.okhttp.OkHttpFutureBackend
+import sttp.client4.Backend
 import scala.concurrent.Future
 
 object SttpBackends {
-  val default: SttpBackend[Future, Any] = OkHttpFutureBackend()
+  val default: Backend[Future] = OkHttpFutureBackend()
 }

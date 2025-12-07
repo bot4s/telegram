@@ -7,6 +7,8 @@ import com.bot4s.telegram.api.declarative.{ Commands, RegexCommands }
 import com.bot4s.telegram.cats.Polling
 
 import scala.util.Try
+import sttp.client4.Backend
+import com.bot4s.telegram.cats.TelegramBot
 
 /**
  * Showcases different ways to declare commands (Commands + RegexCommands).
@@ -15,8 +17,8 @@ import scala.util.Try
  *
  * @param token Bot's token.
  */
-class CommandsBot(token: String)
-    extends ExampleBot(token)
+class CommandsBot(token: String, backend: Backend[Task])
+    extends TelegramBot(token, backend)
     with Polling[Task]
     with Commands[Task]
     with RegexCommands[Task] {

@@ -2,7 +2,7 @@ import cats.instances.future._
 import cats.syntax.functor._
 import com.bot4s.telegram.future.Polling
 import com.bot4s.telegram.api.declarative.Commands
-import sttp.client3._
+import sttp.client4._
 
 import scala.concurrent.Future
 

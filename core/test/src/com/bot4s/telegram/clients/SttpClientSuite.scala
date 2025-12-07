@@ -1,7 +1,7 @@
 package com.bot4s.telegram.clients
 
 import org.scalatest.flatspec.AsyncFlatSpec
-import sttp.client3.testing.SttpBackendStub
+import sttp.client4.testing.BackendStub
 import com.bot4s.telegram.methods.GetMe
 import scala.concurrent.ExecutionContext
 import io.circe.ParsingFailure
@@ -12,7 +12,7 @@ class SttpClientSuite extends AsyncFlatSpec {
   behavior of "STTP client"
 
   it should "fail with a ParsingFailure in case of server error" in {
-    val backend = SttpBackendStub.asynchronousFuture
+    val backend = BackendStub.asynchronousFuture
       .whenRequestMatches(_.uri.path.contains("GetMe"))
       .thenRespondServerError()
     val client = new FutureSttpClient("")(backend, implicitly[ExecutionContext])
@@ -23,9 +23,9 @@ class SttpClientSuite extends AsyncFlatSpec {
   }
 
   it should "fail with a TelegramApiException the API returned an error" in {
-    val backend = SttpBackendStub.asynchronousFuture
+    val backend = BackendStub.asynchronousFuture
       .whenRequestMatches(_.uri.path.contains("GetMe"))
-      .thenRespond("""{"ok":false,"error_code":401,"description":"Unauthorized"}""")
+      .thenRespondAdjust("""{"ok":false,"error_code":401,"description":"Unauthorized"}""")
     val client = new FutureSttpClient("")(backend, implicitly[ExecutionContext])
 
     recoverToSucceededIf[TelegramApiException] {

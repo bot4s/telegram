@@ -13,13 +13,12 @@ import io.circe.{ Decoder, Encoder }
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration._
-import sttp.client3._
+import sttp.client4._
 
-import sttp.client3.ResponseAs
+import sttp.client4.ResponseAs
 import sttp.model.MediaType
-import sttp.client3.BodySerializer
-import sttp.client3.StringBody
-import sttp.client3.{ Request => SttpRequest }
+import sttp.client4.StringBody
+import sttp.client4.{ Request => SttpRequest }
 
 /**
  * Sttp HTTP client.
@@ -28,17 +27,17 @@ import sttp.client3.{ Request => SttpRequest }
  * @param token Bot token
  */
 class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")(implicit
-  backend: SttpBackend[F, Any],
+  backend: Backend[F],
   monadError: MonadError[F, Throwable]
 ) extends RequestHandler[F]()(using monadError)
     with StrictLogging {
 
   val readTimeout: Duration = 50.seconds
 
-  private implicit def circeBodySerializer[B: Encoder]: BodySerializer[B] =
-    b => StringBody(marshalling.toJson[B](b), "utf-8", MediaType.ApplicationJson)
+  private def asJson[B: Encoder](b: B): StringBody =
+    StringBody(marshalling.toJson[B](b), "utf-8", MediaType.ApplicationJson)
 
-  private def asJson[B: Decoder]: ResponseAs[B, Any] =
+  private def asJson[B: Decoder]: ResponseAs[B] =
     asStringAlways("utf-8").map(s => marshalling.fromJson[B](s))
 
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"
@@ -48,9 +47,9 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
   )(implicit d: Decoder[request.Response]): F[request.Response] = {
     val url = apiBaseUrl + request.methodName
 
-    val sttpRequest: Either[IllegalArgumentException, SttpRequest[String, Any]] = request match {
+    val sttpRequest: Either[IllegalArgumentException, SttpRequest[String]] = request match {
       case r: JsonRequest =>
-        Right(quickRequest.post(uri"$url").body(request))
+        Right(quickRequest.post(uri"$url").body(asJson(request)))
 
       case r: MultipartRequest =>
         val parts = r.getFiles.flatMap { case (camelKey, inputFile) =>

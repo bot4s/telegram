@@ -16,7 +16,7 @@ object library {
     val catsEffect3        = "3.6.2"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.5"
-    val sttp               = "3.11.0"
+    val sttp               = "4.0.13"
     val scalaTest          = "3.2.19"
     val scalaMockScalaTest = "7.4.0"
     val scalaLogging       = "3.9.5"
@@ -38,14 +38,15 @@ object library {
   val pekkoTestkit     = mvn"org.apache.pekko::pekko-testkit::${Version.pekkoTestkit}"
   val pekkoActor       = mvn"org.apache.pekko::pekko-actor::${Version.pekkoActor}"
   val pekkoStream      = mvn"org.apache.pekko::pekko-stream::${Version.pekkoStream}"
-  val asyncHttpClientBackendCats =
-    mvn"com.softwaremill.sttp.client3::async-http-client-backend-cats-ce2::${Version.sttp}"
-  val asyncHttpClientBackendCats3 =
-    mvn"com.softwaremill.sttp.client3::async-http-client-backend-cats::${Version.sttp}"
-  val asyncHttpClientBackendZio =
-    mvn"com.softwaremill.sttp.client3::async-http-client-backend-zio::${Version.sttp}"
 
-  val asyncHttpClientBackendMonix = mvn"com.softwaremill.sttp.client3::async-http-client-backend-monix::${Version.sttp}"
+  val asyncHttpClientBackendCats =
+    mvn"com.softwaremill.sttp.client4::fs2ce2::${Version.sttp}"
+  val asyncHttpClientBackendCats3 =
+    mvn"com.softwaremill.sttp.client4::cats::${Version.sttp}"
+  val asyncHttpClientBackendZio =
+    mvn"com.softwaremill.sttp.client4::zio::${Version.sttp}"
+
+  val asyncHttpClientBackendMonix = mvn"com.softwaremill.sttp.client4::monix::${Version.sttp}"
   val scalajHttp                  = mvn"org.scalaj::scalaj-http::${Version.scalajHttp}"
   val scalaLogging                = mvn"com.typesafe.scala-logging::scala-logging::${Version.scalaLogging}"
   val scalaMockScalaTest          = mvn"org.scalamock::scalamock::${Version.scalaMockScalaTest}"
@@ -64,9 +65,9 @@ object library {
   val catsEffect         = mvn"org.typelevel::cats-effect::${Version.catsEffect}"
   val catsEffect3        = mvn"org.typelevel::cats-effect::${Version.catsEffect3}"
   val monix              = mvn"io.monix::monix::${Version.monix}"
-  val sttpCore           = mvn"com.softwaremill.sttp.client3::core::${Version.sttp}"
-  val sttpCirce          = mvn"com.softwaremill.sttp.client3::circe::${Version.sttp}"
-  val sttpOkHttp         = mvn"com.softwaremill.sttp.client3::okhttp-backend::${Version.sttp}"
+  val sttpCore           = mvn"com.softwaremill.sttp.client4::core::${Version.sttp}"
+  val sttpCirce          = mvn"com.softwaremill.sttp.client4::circe::${Version.sttp}"
+  val sttpOkHttp         = mvn"com.softwaremill.sttp.client4::okhttp-backend::${Version.sttp}"
   val hammock            = mvn"com.pepegar::hammock-core::${Version.hammock}"
   val zio                = mvn"dev.zio::zio::${Version.zio}"
   val zhttp              = mvn"io.d11::zhttp::${Version.zhttp}"
