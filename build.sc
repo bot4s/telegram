@@ -1,6 +1,7 @@
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
+import mill.scalajslib._
 import mill.javalib.api.JvmWorkerUtil
 
 val ScalaVersions = Seq("2.12.20", "2.13.18", "3.3.7")
@@ -19,6 +20,7 @@ object library {
     val sttp               = "4.0.13"
     val scalaTest          = "3.2.19"
     val scalaMockScalaTest = "7.4.0"
+    val scalaJS            = "1.22.0"
     val scalaLogging       = "3.9.5"
     val logback            = "1.5.18"
     val scalajHttp         = "2.4.2"
@@ -94,9 +96,7 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     library.circeParser,
     library.circeLiteral,
     library.catsCore,
-    library.catsFree,
-    library.sttpCore,
-    library.scalaLogging
+    library.catsFree
   )
 
   trait Tests extends ScalaTests with TestModule.ScalaTest {
@@ -158,10 +158,21 @@ object core extends Module {
     }
 
     override def mvnDeps = Task {
-      super.mvnDeps() ++ versionDependencies()
+      super.mvnDeps() ++ Seq(
+        library.scalaLogging,
+        library.sttpCore
+      ) ++ versionDependencies()
     }
 
     object test extends Tests
+  }
+
+  object js extends Cross[CoreJsModule](ScalaVersions)
+  trait CoreJsModule extends Bot4sTelegramCrossPlatform with ScalaJSModule with Publishable {
+    override val platformSegment: String = "js"
+    override val location: String        = "core"
+
+    override def scalaJSVersion = library.Version.scalaJS
   }
 
 }
@@ -176,6 +187,7 @@ object pekko extends Module {
 
     override def mvnDeps = Task {
       super.mvnDeps() ++ Seq(
+        library.scalaLogging,
         library.pekkoActor,
         library.pekkoHttp,
         library.pekkoStream

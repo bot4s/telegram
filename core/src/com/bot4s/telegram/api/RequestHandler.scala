@@ -1,14 +1,12 @@
 package com.bot4s.telegram.api
 
-import java.util.UUID
-
 import cats.MonadError
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.monadError._
 import com.bot4s.telegram.methods._
 import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.util.StrictLogging
 import io.circe.Decoder._
 
 import com.bot4s.telegram.marshalling._
@@ -27,7 +25,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
   def apply[T <: Request: Encoder](request: T)(implicit d: Decoder[request.Response]): F[request.Response] =
     for {
       uuid <- monadError.pure {
-                val uuid = UUID.randomUUID()
+                val uuid = RequestHandler.nextRequestId()
                 logger.trace("REQUEST {} {}", uuid, request)
                 uuid
               }
@@ -54,5 +52,14 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
 
     case other =>
       throw new RuntimeException(s"Unexpected API response: $other")
+  }
+}
+
+object RequestHandler {
+  private[this] var requestId = 0L
+
+  private def nextRequestId(): Long = synchronized {
+    requestId += 1
+    requestId
   }
 }

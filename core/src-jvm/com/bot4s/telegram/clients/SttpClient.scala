@@ -10,8 +10,6 @@ import com.bot4s.telegram.marshalling
 import com.bot4s.telegram.models.InputFile
 import io.circe.parser.parse
 import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
-
 import scala.concurrent.duration._
 import sttp.client4._
 
@@ -22,15 +20,13 @@ import sttp.client4.{ Request => SttpRequest }
 
 /**
  * Sttp HTTP client.
- * Supports browsers via sttp's FetchBackend.
  *
  * @param token Bot token
  */
 class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")(implicit
   backend: Backend[F],
   monadError: MonadError[F, Throwable]
-) extends RequestHandler[F]()(using monadError)
-    with StrictLogging {
+) extends RequestHandler[F]()(using monadError) {
 
   val readTimeout: Duration = 50.seconds
 

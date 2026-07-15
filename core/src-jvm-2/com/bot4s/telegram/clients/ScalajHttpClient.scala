@@ -11,7 +11,6 @@ import com.bot4s.telegram.marshalling
 import io.circe.parser.parse
 import io.circe.{ Decoder, Encoder }
 import scalaj.http.{ Http, MultiPart }
-import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ blocking, ExecutionContext, Future }
 
@@ -29,8 +28,7 @@ import scala.concurrent.{ blocking, ExecutionContext, Future }
  */
 class ScalajHttpClient(token: String, proxy: Proxy = Proxy.NO_PROXY, telegramHost: String = "api.telegram.org")(implicit
   ec: ExecutionContext
-) extends RequestHandler[Future]
-    with StrictLogging {
+) extends RequestHandler[Future] {
 
   val connectionTimeoutMs = 10000
   val readTimeoutMs       = 50000
