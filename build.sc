@@ -3,6 +3,7 @@ import mill.scalalib._
 import mill.scalalib.publish._
 import mill.scalajslib._
 import mill.javalib.api.JvmWorkerUtil
+import mill.scalajslib.api.ModuleKind
 
 val ScalaVersions = Seq("2.12.20", "2.13.18", "3.3.7")
 
@@ -177,6 +178,22 @@ object core extends Module {
 
 }
 
+object serverless extends Module {
+
+  object js extends Cross[ServerlessJsModule](ScalaVersions)
+  trait ServerlessJsModule extends Bot4sTelegramCrossPlatform with ScalaJSModule with Publishable {
+    override val platformSegment: String = "js"
+    override val location: String        = "serverless"
+    override def artifactName            = "telegram-serverless"
+
+    override def scalaJSVersion = library.Version.scalaJS
+
+    override def moduleDeps = Seq(core.js())
+
+    override def moduleKind = ModuleKind.ESModule
+  }
+}
+
 object pekko extends Module {
 
   object jvm extends Cross[pekkoModule](ScalaVersions)
@@ -285,6 +302,27 @@ object examples extends Module {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm())
 
     override def sources = Task.Sources(build.moduleDir / "examples" / "src-zio")
+  }
+
+  object serverlessjs extends Cross[ExamplesServerlessModule](Seq("2.13.18", "3.3.7"))
+  trait ExamplesServerlessModule extends CrossScalaModule with ScalaJSModule {
+    override def scalacOptions = Seq(
+      "-unchecked",
+      "-deprecation",
+      "-encoding",
+      "UTF-8",
+      "-feature",
+      "-language:implicitConversions",
+      "-language:higherKinds"
+    )
+
+    override def scalaJSVersion = library.Version.scalaJS
+
+    override def sources = Task.Sources(build.moduleDir / "examples" / "src-serverless")
+
+    override def moduleDeps = Seq(serverless.js())
+
+    override def moduleKind = ModuleKind.ESModule
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions)
