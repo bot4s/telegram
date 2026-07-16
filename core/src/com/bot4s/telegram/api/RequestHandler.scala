@@ -24,18 +24,18 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
    */
   def apply[T <: Request: Encoder](request: T)(implicit d: Decoder[request.Response]): F[request.Response] =
     for {
-      uuid <- monadError.pure {
-                val uuid = RequestHandler.nextRequestId()
-                logger.trace("REQUEST {} {}", uuid, request)
-                uuid
-              }
+      requestId <- monadError.pure {
+                     val requestId = RequestHandler.nextRequestId()
+                     logger.trace("REQUEST {} {}", requestId, request)
+                     requestId
+                   }
       result <- monadError
                   .attempt(sendRequest(request))
                   .flatTap {
                     case Right(response) =>
-                      monadError.pure(logger.trace("RESPONSE {} {}", uuid, response))
+                      monadError.pure(logger.trace("RESPONSE {} {}", requestId, response))
                     case Left(e) =>
-                      monadError.pure(logger.error("RESPONSE {} {}", uuid, e))
+                      monadError.pure(logger.error("RESPONSE {} {}", requestId, e))
                   }
                   .rethrow
     } yield result
@@ -56,10 +56,5 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
 }
 
 object RequestHandler {
-  private[this] var requestId = 0L
-
-  private def nextRequestId(): Long = synchronized {
-    requestId += 1
-    requestId
-  }
+  private def nextRequestId(): String = java.util.UUID.randomUUID().toString
 }
