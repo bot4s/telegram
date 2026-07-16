@@ -24,10 +24,7 @@ trait Request {
   type Response
 
   /**
-   * Extract request URL from the case class or case object name.
+   * Extract request URL from class name.
    */
-  def methodName: String = this match {
-    case product: Product => product.productPrefix
-    case _                => throw new IllegalStateException("Request.methodName must be overridden for non-product requests")
-  }
+  def methodName: String = getClass.getSimpleName.takeWhile('$' != _)
 }

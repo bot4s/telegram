@@ -1,7 +1,7 @@
 package com.bot4s.telegram.util
 
 trait StrictLogging {
-  protected lazy val logger: BotLogger = PlatformLogger.create(this)
+  protected lazy val logger: BotLogger = NoopBotLogger
 }
 
 trait BotLogger {

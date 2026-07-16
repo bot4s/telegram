@@ -1,5 +1,7 @@
 package com.bot4s.telegram.api
 
+import java.util.UUID
+
 import cats.MonadError
 import cats.syntax.flatMap._
 import cats.syntax.functor._
@@ -24,18 +26,18 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
    */
   def apply[T <: Request: Encoder](request: T)(implicit d: Decoder[request.Response]): F[request.Response] =
     for {
-      requestId <- monadError.pure {
-                     val requestId = RequestHandler.nextRequestId()
-                     logger.trace("REQUEST {} {}", requestId, request)
-                     requestId
-                   }
+      uuid <- monadError.pure {
+                val uuid = UUID.randomUUID()
+                logger.trace("REQUEST {} {}", uuid, request)
+                uuid
+              }
       result <- monadError
                   .attempt(sendRequest(request))
                   .flatTap {
                     case Right(response) =>
-                      monadError.pure(logger.trace("RESPONSE {} {}", requestId, response))
+                      monadError.pure(logger.trace("RESPONSE {} {}", uuid, response))
                     case Left(e) =>
-                      monadError.pure(logger.error("RESPONSE {} {}", requestId, e))
+                      monadError.pure(logger.error("RESPONSE {} {}", uuid, e))
                   }
                   .rethrow
     } yield result
@@ -53,8 +55,4 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
     case other =>
       throw new RuntimeException(s"Unexpected API response: $other")
   }
-}
-
-object RequestHandler {
-  private def nextRequestId(): String = java.util.UUID.randomUUID().toString
 }

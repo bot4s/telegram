@@ -97,7 +97,8 @@ trait Bot4sTelegramModule extends CrossScalaModule {
     library.circeParser,
     library.circeLiteral,
     library.catsCore,
-    library.catsFree
+    library.catsFree,
+    library.sttpCore
   )
 
   trait Tests extends ScalaTests with TestModule.ScalaTest {
@@ -159,10 +160,7 @@ object core extends Module {
     }
 
     override def mvnDeps = Task {
-      super.mvnDeps() ++ Seq(
-        library.scalaLogging,
-        library.sttpCore
-      ) ++ versionDependencies()
+      super.mvnDeps() ++ Seq(library.scalaLogging) ++ versionDependencies()
     }
 
     object test extends Tests
