@@ -22,10 +22,10 @@ object library {
     val scalaLogging       = "3.9.5"
     val logback            = "1.5.18"
     val scalajHttp         = "2.4.2"
-    val pekkoVersion       = "1.3.0"
+    val pekkoVersion       = "1.6.0"
     val pekkoActor         = pekkoVersion
     val pekkoStream        = pekkoVersion
-    val pekkoHttp          = "1.3.0"
+    val pekkoHttp          = "1.6.0"
     val pekkoTestkit       = pekkoVersion
     val pekkoHttpCors      = pekkoHttp
     val hammock            = "0.11.3"
