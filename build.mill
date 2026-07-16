@@ -8,7 +8,7 @@ val ScalaVersions = Seq("2.12.20", "2.13.18", "3.3.8")
 object library {
 
   object Version {
-    val circe              = "0.14.14"
+    val circe              = "0.14.16"
     val circeGenericExtras = "0.14.5-RC1"
     val cats               = "2.13.0"
     val catsEffect         = "2.5.5"
@@ -16,11 +16,11 @@ object library {
     val catsEffect3        = "3.6.3"
     val zhttp              = "2.0.0-RC10"
     val zioInteropCats     = "23.1.0.5"
-    val sttp               = "4.0.13"
+    val sttp               = "4.0.26"
     val scalaTest          = "3.2.20"
     val scalaMockScalaTest = "7.4.2"
-    val scalaLogging       = "3.9.5"
-    val logback            = "1.5.18"
+    val scalaLogging       = "3.9.6"
+    val logback            = "1.5.38"
     val scalajHttp         = "2.4.2"
     val pekkoVersion       = "1.3.0"
     val pekkoActor         = pekkoVersion
