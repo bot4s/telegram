@@ -70,13 +70,15 @@ libraryDependencies += "com.bot4s" %% "telegram-core" % "7.0.0"
 libraryDependencies += "com.bot4s" %% "telegram-pekko" % "7.0.0"
 ```
 
-For [mill](https://mill-build.org/mill/) add to your `build.sc` project deps:
+For [Mill](https://mill-build.org/mill/), add the dependencies to your `build.mill` module:
 
 ```scala
-// Core with minimal dependencies, enough to spawn your first bot.
-ivy"com.bot4s::telegram-core:7.0.0",
-// Extra goodies: Webhooks, support for games, bindings for actors.
-ivy"com.bot4s::telegram-pekko:7.0.0"
+def mvnDeps = Seq(
+  // Core with minimal dependencies, enough to spawn your first bot.
+  mvn"com.bot4s::telegram-core:7.0.0",
+  // Extra goodies: Webhooks, support for games, bindings for actors.
+  mvn"com.bot4s::telegram-pekko:7.0.0"
+)
 ```
 
 ## Quickstart with scala-cli.
@@ -289,12 +291,11 @@ Scala.js is also supported, bots can run on the browser via the SttpClient. Node
 
 ## Running the examples
 
-`bot4s.telegram` uses [mill](https://mill-build.org/mill/).
+`bot4s.telegram` uses [Mill](https://mill-build.org/mill/).
 
 ```
-./mill examples.jvm[2.13.10].console
-[79/79] examples.jvm[2.13.10].console
-Welcome to Scala 2.13.10 (OpenJDK 64-Bit Server VM, Java 11.0.10).
+./mill examples.jvm.2_13_18.console
+Welcome to Scala 2.13.18.
 Type in expressions for evaluation. Or try :help.
 
 scala> new RandomBot("BOT_TOKEN").run()
