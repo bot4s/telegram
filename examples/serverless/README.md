@@ -1,9 +1,24 @@
 # Serverless Echo Example
 
-Build the Scala.js module:
+Build a tgcloud-ready module tree:
 
 ```sh
-MILL_VERSION=1.0.6-jvm ./mill examples.serverlessjs[2.13.18].fullLinkJS
+./mill 'examples.serverlessjs[2.13.18].tgcloudBundle'
 ```
 
-Copy the linked JavaScript output to `lib/echo_serverless_bot.js` in a `tgcloud` project, then use `handlers/message.js` from this directory as the default-export wrapper. Telegram Serverless resolves imports by module name, so the handler imports `lib/echo_serverless_bot` rather than a relative path.
+The result is written to `out/examples/serverlessjs/2.13.18/tgcloudBundle.dest`:
+
+```text
+handlers/message.js
+lib/echo_serverless_bot.js
+schema.js
+```
+
+Create a tgcloud project and copy the bundle into it:
+
+```sh
+npm create @tgcloud/bot my-bot
+cp -R out/examples/serverlessjs/2.13.18/tgcloudBundle.dest/. my-bot/
+```
+
+Continue with Telegram's [getting started guide](https://core.telegram.org/bots/serverless#getting-started) to connect, test, and deploy the project.

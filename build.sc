@@ -321,6 +321,29 @@ object examples extends Module {
     override def moduleDeps = Seq(serverless.js())
 
     override def moduleKind = ModuleKind.ESModule
+
+    def tgcloudSources = Task.Sources(
+      build.moduleDir / "examples" / "serverless" / "handlers" / "message.js",
+      build.moduleDir / "examples" / "serverless" / "schema.js"
+    )
+
+    def tgcloudBundle = Task {
+      val report = fullLinkJS()
+      val Seq(messageHandler, schema) = tgcloudSources().map(_.path)
+      val linkedModule = report.publicModules.toSeq match {
+        case Seq(module) => module
+        case modules     => Task.fail(s"Expected one linked JavaScript module, found ${modules.size}")
+      }
+
+      val destination = Task.dest
+      os.makeDir.all(destination / "handlers")
+      os.makeDir.all(destination / "lib")
+      os.copy(report.dest.path / linkedModule.jsFileName, destination / "lib" / "echo_serverless_bot.js")
+      os.copy(messageHandler, destination / "handlers" / "message.js")
+      os.copy(schema, destination / "schema.js")
+
+      PathRef(destination)
+    }
   }
 
   object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions)
