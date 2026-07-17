@@ -1,10 +1,7 @@
 import zio._
-import zhttp.http._
+import zio.http._
 import com.bot4s.telegram.api.declarative.{ Commands, RegexCommands }
 import com.bot4s.telegram.methods.SetWebhook
-import zhttp.service.Server
-import zhttp.service.server.ServerChannelFactory
-import zhttp.service.EventLoopGroup
 import com.bot4s.telegram.models.Update
 import com.bot4s.telegram.cats.TelegramBot
 import sttp.client4.Backend
@@ -24,15 +21,21 @@ class CommandsWebhookBot(token: String, backend: Backend[Task], private val star
   import com.bot4s.telegram.marshalling._
   val webhookUrl = "https://XXXX.eu.ngrok.io"
 
-  private def callback = Http.collectZIO[Request] { case req @ Method.POST -> !! =>
-    for {
-      body    <- req.bodyAsString
-      update  <- ZIO.attempt(fromJson[Update](body))
-      handler <- receiveUpdate(update, None)
-    } yield Response.ok
-  }
+  private def callback = Routes(
+    Method.POST / Root -> handler { (req: Request) =>
+      for {
+        body    <- req.body.asString
+        update  <- ZIO.attempt(fromJson[Update](body))
+        handler <- receiveUpdate(update, None)
+      } yield Response.ok
+    }
+  )
 
-  private def server = Server.port(8081) ++ Server.app(callback)
+  private def server =
+    Server
+      .install(callback.sandbox)
+      .flatMap(port => ZIO.logInfo(s"Server started on $port") *> ZIO.never)
+      .provide(Server.defaultWithPort(8081))
   override def run() =
     started.updateZIO { isStarted =>
       for {
@@ -46,9 +49,7 @@ class CommandsWebhookBot(token: String, backend: Backend[Task], private val star
           }
       } yield response
     } *>
-      server.make
-        .flatMap(start => ZIO.logInfo(s"Server started on ${start.port}") *> ZIO.never)
-        .provide(ServerChannelFactory.auto, EventLoopGroup.auto(1), Scope.default)
+      server
 
   // String commands.
   onCommand("/hello") { implicit msg =>
