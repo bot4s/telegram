@@ -23,6 +23,6 @@ jobs:
         with:
           arguments: "-c .scalafmt.conf --test core pekko examples"
       - name: Compile
-        run: ./mill '_._[_].compile'
+        run: ./mill __.compile
       - name: Test
-        run: ./mill '_._[_].test'
+        run: ./mill __.test
