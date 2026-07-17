@@ -14,7 +14,7 @@ object library {
     val catsEffect         = "2.5.5"
     val zio                = "2.1.26"
     val catsEffect3        = "3.7.0"
-    val zhttp              = "2.0.0-RC10"
+    val zioHttp            = "3.11.3"
     val zioInteropCats     = "23.1.0.13"
     val sttp               = "4.0.26"
     val scalaTest          = "3.2.20"
@@ -70,7 +70,7 @@ object library {
   val sttpOkHttp         = mvn"com.softwaremill.sttp.client4::okhttp-backend::${Version.sttp}"
   val hammock            = mvn"com.pepegar::hammock-core::${Version.hammock}"
   val zio                = mvn"dev.zio::zio::${Version.zio}"
-  val zhttp              = mvn"io.d11::zhttp::${Version.zhttp}"
+  val zioHttp            = mvn"dev.zio::zio-http::${Version.zioHttp}"
   val zioInteropCats     = mvn"dev.zio::zio-interop-cats::${Version.zioInteropCats}"
 }
 
@@ -264,7 +264,7 @@ object examples extends Module {
       super.mvnDeps() ++ Seq(
         library.asyncHttpClientBackendZio,
         library.zio,
-        library.zhttp,
+        library.zioHttp,
         library.zioInteropCats,
         library.catsEffect3
       )
