@@ -16,6 +16,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
       - name: Set version
         run: sed -i "s/publishVersion = \"\(.*\)\"/publishVersion = \"\1-SNAPSHOT\"/g" build.mill
       - name: Publish
