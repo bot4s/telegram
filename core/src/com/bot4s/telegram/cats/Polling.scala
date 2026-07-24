@@ -8,7 +8,7 @@ import cats.syntax.traverse._
 import com.bot4s.telegram.api.{ Polling => BasePolling }
 import com.bot4s.telegram.methods.{ DeleteWebhook, GetMe }
 import com.bot4s.telegram.models.User
-import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.util.StrictLogging
 import com.bot4s.telegram.models.ParsedUpdate
 
 case class PollingState(botUser: User, offset: Option[Long])
