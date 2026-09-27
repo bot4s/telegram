@@ -308,7 +308,7 @@ Change `RandomBot` to whatever bot you find interesting [here](https://github.co
 With Node.js 22 or newer on your PATH, run from the repository root:
 
 ```sh
-export BOT_TOKEN='YOUR_BOT_TOKEN'
+ export BOT_TOKEN='YOUR_BOT_TOKEN'
 ./mill --no-daemon examples.js.2_13_18.run
 ```
 
