@@ -64,10 +64,10 @@ Add to your `build.sbt` file:
 
 ```scala
 // Core with minimal dependencies, enough to spawn your first bot.
-libraryDependencies += "com.bot4s" %% "telegram-core" % "7.0.0"
+libraryDependencies += "com.bot4s" %% "telegram-core" % "7.1.0"
 
 // Extra goodies: Webhooks, support for games, bindings for actors.
-libraryDependencies += "com.bot4s" %% "telegram-pekko" % "7.0.0"
+libraryDependencies += "com.bot4s" %% "telegram-pekko" % "7.1.0"
 ```
 
 For [Mill](https://mill-build.org/mill/), add the dependencies to your `build.mill` module:
@@ -75,20 +75,30 @@ For [Mill](https://mill-build.org/mill/), add the dependencies to your `build.mi
 ```scala
 def mvnDeps = Seq(
   // Core with minimal dependencies, enough to spawn your first bot.
-  mvn"com.bot4s::telegram-core:7.0.0",
+  mvn"com.bot4s::telegram-core:7.1.0",
   // Extra goodies: Webhooks, support for games, bindings for actors.
-  mvn"com.bot4s::telegram-pekko:7.0.0"
+  mvn"com.bot4s::telegram-pekko:7.1.0"
 )
 ```
+
+Since version 7.1.0, `telegram-core` is also published for Scala.js on Scala 2.12, 2.13 and 3.
+In an sbt Scala.js project, use `%%%` to select the Scala.js artifact:
+
+```scala
+libraryDependencies += "com.bot4s" %%% "telegram-core" % "7.1.0"
+```
+
+In a Mill Scala.js module, use `mvn"com.bot4s::telegram-core::7.1.0"`.
+`telegram-pekko` is JVM-only.
 
 ## Quickstart with scala-cli.
 
 Replace `BOT_TOKEN` with your [Telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ```scala
-//> using scala 3.3.7
-//> using dep "com.bot4s::telegram-core:7.0.0"
-//> using dep "com.softwaremill.sttp.client3::okhttp-backend:3.11.0"
+//> using scala 3.3.8
+//> using dep "com.bot4s::telegram-core:7.1.0"
+//> using dep "com.softwaremill.sttp.client4::okhttp-backend:4.0.27"
 //
 import cats.syntax.functor.*
 import scala.concurrent.*
