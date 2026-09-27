@@ -287,7 +287,7 @@ Distribution/deployment is outside the scope of the library, but all platforms w
 supported should be compatible. You may find [sbt-assembly](https://github.com/sbt/sbt-assembly) and [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 very handy.
 
-Scala.js is also supported, bots can run on the browser via the SttpClient. NodeJs is not supported yet.
+Scala.js is also supported via the SttpClient and FetchBackend, including Node.js (see below).
 
 ## Running the examples
 
@@ -302,6 +302,30 @@ scala> new RandomBot("BOT_TOKEN").run()
 ```
 
 Change `RandomBot` to whatever bot you find interesting [here](https://github.com/bot4s/telegram/tree/main/examples).
+
+### Node.js
+
+With Node.js 22 or newer on your PATH, run from the repository root:
+
+```sh
+ export BOT_TOKEN='YOUR_BOT_TOKEN'
+./mill --no-daemon examples.js.2_13_18.run
+```
+
+This launches `EchoBot`, which replies with your message reversed. To run `RandomBot` instead:
+
+```sh
+BOT_NAME=RandomBot ./mill --no-daemon examples.js.2_13_18.run
+```
+
+Send `/coin` to try RandomBot. Stop either bot with Ctrl+C.
+
+Use `--no-daemon` to avoid Mill 1.1.7's Scala.js stdin forwarding failure
+(`missing keys in dictionary: bytes`) in daemon mode.
+
+Both platforms compile the same `EchoBot.scala`, `RandomBot.scala`, and `ExampleBot.scala` sources.
+Only the HTTP backend differs: OkHttp on JVM and FetchBackend on JS, using Node's built-in Fetch API.
+The JS target currently includes these two examples; other examples may require JVM-only APIs.
 
 ## A note on implicits
 

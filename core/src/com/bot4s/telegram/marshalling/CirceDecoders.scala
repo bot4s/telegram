@@ -19,7 +19,7 @@ import com.bot4s.telegram.models.StickerFormat.StickerFormat
 import UpdateType.UpdateType
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
-import com.typesafe.scalalogging.StrictLogging
+import com.bot4s.telegram.util.StrictLogging
 
 /**
  * Circe marshalling borrowed/inspired from [[https://github.com/nikdon/telepooz]]

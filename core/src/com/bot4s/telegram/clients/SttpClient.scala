@@ -7,11 +7,8 @@ import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.marshalling.CaseConversions
 import com.bot4s.telegram.methods.{ JsonRequest, MultipartRequest, Request => BotRequest, Response }
 import com.bot4s.telegram.marshalling
-import com.bot4s.telegram.models.InputFile
 import io.circe.parser.parse
 import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
-
 import scala.concurrent.duration._
 import sttp.client4._
 
@@ -29,8 +26,7 @@ import sttp.client4.{ Request => SttpRequest }
 class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")(implicit
   backend: Backend[F],
   monadError: MonadError[F, Throwable]
-) extends RequestHandler[F]()(using monadError)
-    with StrictLogging {
+) extends RequestHandler[F]()(using monadError) {
 
   val readTimeout: Duration = 50.seconds
 
@@ -54,13 +50,7 @@ class SttpClient[F[_]](token: String, telegramHost: String = "api.telegram.org")
       case r: MultipartRequest =>
         val parts = r.getFiles.flatMap { case (camelKey, inputFile) =>
           val key = CaseConversions.snakenize(camelKey)
-          inputFile match {
-            // FileId must be submitted through the JSON query, see `inputFileEncoder`
-            case InputFile.FileId(id)                   => None
-            case InputFile.Contents(filename, contents) => Some(multipart(key, contents).fileName(filename))
-            case InputFile.Path(path)                   => Some(multipartFile(key, path))
-            case other                                  => throw new RuntimeException(s"InputFile $other not supported")
-          }
+          SttpInputFile.multipartBodyPart(key, inputFile)
         }
 
         val fields = parse(marshalling.toJson(request))

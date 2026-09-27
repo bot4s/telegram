@@ -12,7 +12,6 @@ import com.bot4s.telegram.marshalling.PekkoHttpMarshalling
 import com.bot4s.telegram.marshalling._
 import com.bot4s.telegram.methods.{ Request, Response }
 import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ ExecutionContext, Future }
 
@@ -26,8 +25,7 @@ class PekkoHttpClient(token: String, telegramHost: String = "api.telegram.org")(
   system: ActorSystem,
   materializer: Materializer,
   ec: ExecutionContext
-) extends RequestHandler[Future]
-    with StrictLogging {
+) extends RequestHandler[Future] {
 
   import PekkoHttpMarshalling._
   private val apiBaseUrl = s"https://$telegramHost/bot$token/"

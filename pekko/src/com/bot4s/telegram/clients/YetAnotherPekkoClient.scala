@@ -12,7 +12,6 @@ import cats.instances.future._
 import com.bot4s.telegram.api.RequestHandler
 import com.bot4s.telegram.methods.{ Request, Response }
 import io.circe.{ Decoder, Encoder }
-import com.typesafe.scalalogging.StrictLogging
 import com.bot4s.telegram.marshalling.responseDecoder
 
 import scala.concurrent.{ ExecutionContext, Future }
@@ -21,8 +20,7 @@ class YetAnotherPekkoClient(token: String, telegramHost: String = "api.telegram.
   system: ActorSystem,
   materializer: Materializer,
   ec: ExecutionContext
-) extends RequestHandler[Future]
-    with StrictLogging {
+) extends RequestHandler[Future] {
 
   private val flow = Http().outgoingConnectionHttps(telegramHost)
 
