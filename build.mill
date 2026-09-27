@@ -208,6 +208,29 @@ object pekko extends Module {
 }
 
 object examples extends Module {
+  object js extends Cross[ExamplesJsModule](ScalaVersions)
+  trait ExamplesJsModule extends Bot4sTelegramCrossPlatform with ScalaJSModule {
+    override val platformSegment: String = "js"
+    override val location: String        = "examples"
+
+    override def scalaJSVersion = library.Version.scalaJS
+    override def moduleDeps = Seq(core.js())
+    override def mainClass = Some("Launcher")
+    // Command matching uses Unicode regex character classes (\p{L}, \p{S}, \p{N}).
+    override def esFeatures = Task {
+      super.esFeatures().withESVersion(mill.scalajslib.api.ESVersion.ES2018)
+    }
+
+    // Reuse the same bot implementations as the JVM examples. Other examples
+    // require JVM-only APIs (filesystem, processes, timers, or java.time).
+    override def regularSources = Task.Sources(
+      moduleDir / "src" / "ExampleBot.scala",
+      moduleDir / "src" / "EchoBot.scala",
+      moduleDir / "src" / "RandomBot.scala",
+      moduleDir / "src-js"
+    )
+  }
+
   trait ExamplesJvmCommon extends Bot4sTelegramCrossPlatform {
     override val platformSegment: String = "jvm"
 
