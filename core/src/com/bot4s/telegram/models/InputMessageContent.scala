@@ -110,8 +110,8 @@ object InputContactMessageContent {
 }
 
 object InputMessageContent {
-  implicit val customConfig: Configuration                = Configuration.default.withSnakeCaseMemberNames
-  implicit val circeDecoder: Decoder[InputMessageContent] = deriveDecoder
+  implicit val customConfig: Configuration                              = Configuration.default.withSnakeCaseMemberNames
+  implicit val circeDecoder: Decoder[InputMessageContent]               = deriveDecoder
   implicit val inputMessageContentEncoder: Encoder[InputMessageContent] = Encoder.instance {
     case q: InputTextMessageContent     => q.asJson
     case q: InputLocationMessageContent => q.asJson

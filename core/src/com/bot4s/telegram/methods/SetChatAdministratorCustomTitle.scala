@@ -21,7 +21,7 @@ case class SetChatAdministratorCustomTitle(
 }
 
 object SetChatAdministratorCustomTitle {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                                      = Configuration.default.withSnakeCaseMemberNames
   implicit val setChatAdministratorCustomTitleEncoder: Encoder[SetChatAdministratorCustomTitle] =
     deriveConfiguredEncoder[SetChatAdministratorCustomTitle]
 }

@@ -31,7 +31,7 @@ case class EditMessageLiveLocation(
 }
 
 object EditMessageLiveLocation {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                      = Configuration.default.withSnakeCaseMemberNames
   implicit val editMessageLiveLocationEncoder: Encoder[EditMessageLiveLocation] =
     deriveConfiguredEncoder[EditMessageLiveLocation]
 }

@@ -39,10 +39,10 @@ class CommandsWebhookBot(token: String, backend: Backend[Task], private val star
   override def run() =
     started.updateZIO { isStarted =>
       for {
-        _ <- ZIO.when(isStarted)(ZIO.fail(new Exception("Bot already started")))
+        _        <- ZIO.when(isStarted)(ZIO.fail(new Exception("Bot already started")))
         response <-
           request(SetWebhook(url = webhookUrl, certificate = None, allowedUpdates = None)).flatMap {
-            case true => ZIO.succeed(true)
+            case true  => ZIO.succeed(true)
             case false =>
               ZIO.logError("Failed to set webhook")
               throw new RuntimeException("Failed to set webhook")

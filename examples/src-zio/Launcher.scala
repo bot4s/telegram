@@ -8,7 +8,7 @@ object Launcher extends zio.ZIOAppDefault {
     for {
       args <- ZIO.service[ZIOAppArgs]
       b    <- HttpClientZioBackend()
-      _ <- args.getArgs.toList match {
+      _    <- args.getArgs.toList match {
              case List("EchoBot", token) =>
                new EchoBot(token, b).startPolling().map(_ => ExitCode.success)
              case List("CommandsBot", token) =>

@@ -16,7 +16,7 @@ case class GetMyShortDescription(
 }
 
 object GetMyShortDescription {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                  = Configuration.default.withSnakeCaseMemberNames
   implicit val getMyShortDescriptionEncoder: Encoder[GetMyShortDescription] =
     deriveConfiguredEncoder[GetMyShortDescription]
 }

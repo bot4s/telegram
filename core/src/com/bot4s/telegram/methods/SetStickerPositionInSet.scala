@@ -16,7 +16,7 @@ case class SetStickerPositionInSet(sticker: String, position: Int) extends JsonR
 }
 
 object SetStickerPositionInSet {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                      = Configuration.default.withSnakeCaseMemberNames
   implicit val setStickerPositionInSetEncoder: Encoder[SetStickerPositionInSet] =
     deriveConfiguredEncoder[SetStickerPositionInSet]
 }

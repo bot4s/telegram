@@ -61,7 +61,7 @@ trait Webhook extends WebRoutes with StrictLogging {
 
   abstract override def run(): Future[Unit] =
     request(SetWebhook(url = webhookUrl, certificate = certificate, allowedUpdates = allowedUpdates)).flatMap {
-      case true => super.run() // spawn WebRoutes
+      case true  => super.run() // spawn WebRoutes
       case false =>
         logger.error("Failed to set webhook")
         throw new RuntimeException("Failed to set webhook")

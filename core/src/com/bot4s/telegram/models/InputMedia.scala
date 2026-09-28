@@ -9,7 +9,7 @@ import io.circe.generic.extras.Configuration
 sealed trait InputMedia {
   def getFiles: List[(String, InputFile)] = {
     val attachPrefix = "attach://"
-    val t = this match {
+    val t            = this match {
       case photo: InputMediaPhoto         => photo.photo.map(photo.media.stripPrefix(attachPrefix) -> _)
       case video: InputMediaVideo         => video.video.map(video.media.stripPrefix(attachPrefix) -> _)
       case audio: InputMediaAudio         => audio.audio.map(audio.media.stripPrefix(attachPrefix) -> _)
@@ -178,7 +178,7 @@ object InputMediaPhoto {
 }
 
 object InputMedia {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                     = Configuration.default.withSnakeCaseMemberNames
   implicit val inputMessageContentEncoder: Encoder[InputMedia] = Encoder.instance {
     case q: InputMediaPhoto     => q.asJson
     case q: InputMediaVideo     => q.asJson
