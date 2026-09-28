@@ -15,7 +15,7 @@ object library {
     val catsEffect         = "2.5.5"
     val zio                = "2.1.26"
     val catsEffect3        = "3.7.1"
-    val zioHttp            = "3.11.4"
+    val zioHttp            = "3.11.6"
     val zioInteropCats     = "23.1.0.13"
     val sttp               = "4.0.27"
     val scalaTest          = "3.2.20"
@@ -214,8 +214,8 @@ object examples extends Module {
     override val location: String        = "examples"
 
     override def scalaJSVersion = library.Version.scalaJS
-    override def moduleDeps = Seq(core.js())
-    override def mainClass = Some("Launcher")
+    override def moduleDeps     = Seq(core.js())
+    override def mainClass      = Some("Launcher")
     // Command matching uses Unicode regex character classes (\p{L}, \p{S}, \p{N}).
     override def esFeatures = Task {
       super.esFeatures().withESVersion(mill.scalajslib.api.ESVersion.ES2018)
