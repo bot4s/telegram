@@ -45,11 +45,11 @@ class Api66Bot(token: String) extends ExampleBot(token) with Polling {
     val stickerSetThumbnail = InputFile(Path.of(getClass.getResource("stickers/thumbnail.png").toURI))
 
     for {
-      me       <- request(GetMe)
-      user      = msg.from.get
-      name      = f"api_by_${me.username.mkString}"
-      sticker  <- request(UploadStickerFile(user.id, stickerResource, StickerFormat.Static))
-      sticker2 <- request(UploadStickerFile(user.id, sticker2Resource, StickerFormat.Static))
+      me         <- request(GetMe)
+      user        = msg.from.get
+      name        = f"api_by_${me.username.mkString}"
+      sticker    <- request(UploadStickerFile(user.id, stickerResource, StickerFormat.Static))
+      sticker2   <- request(UploadStickerFile(user.id, sticker2Resource, StickerFormat.Static))
       stickerSet <- request(
                       CreateNewStickerSet(
                         user.id,

@@ -32,7 +32,7 @@ case class EditMessageReplyMarkup(
 }
 
 object EditMessageReplyMarkup {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                    = Configuration.default.withSnakeCaseMemberNames
   implicit val editMessageReplyMarkupEncoder: Encoder[EditMessageReplyMarkup] =
     deriveConfiguredEncoder[EditMessageReplyMarkup]
 }

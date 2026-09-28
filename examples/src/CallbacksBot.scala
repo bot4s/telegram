@@ -39,9 +39,9 @@ class CallbacksBot(token: String) extends ExampleBot(token) with Polling with Co
     // Or just ackCallback()
 
     val maybeEditFuture = for {
-      data  <- cbq.data
-      Int(n) = data
-      msg   <- cbq.message
+      data     <- cbq.data
+      Int(n)    = data
+      msg      <- cbq.message
       response <- request(
                     EditMessageReplyMarkup(
                       ChatId(msg.source), // msg.chat.id

@@ -19,7 +19,7 @@ trait PerChatRequests extends ActorBroker with PekkoDefaults {
     def receive = {
       case u: Update =>
         u.message.foreach { m =>
-          val id = m.chat.id
+          val id      = m.chat.id
           val handler = chatActors.getOrElseUpdate(
             m.chat.id, {
               val worker = system.actorOf(Props(new Worker), s"worker_$id")

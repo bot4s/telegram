@@ -19,7 +19,7 @@ case class ExportChatInviteLink(
 }
 
 object ExportChatInviteLink {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                = Configuration.default.withSnakeCaseMemberNames
   implicit val exportChatInviteLinkEncoder: Encoder[ExportChatInviteLink] =
     deriveConfiguredEncoder[ExportChatInviteLink]
 }

@@ -26,7 +26,7 @@ case class StopMessageLiveLocation(
 }
 
 object StopMessageLiveLocation {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                      = Configuration.default.withSnakeCaseMemberNames
   implicit val stopMessageLiveLocationEncoder: Encoder[StopMessageLiveLocation] =
     deriveConfiguredEncoder[StopMessageLiveLocation]
 }

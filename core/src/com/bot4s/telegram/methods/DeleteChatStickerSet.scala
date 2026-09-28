@@ -18,7 +18,7 @@ case class DeleteChatStickerSet(chatId: ChatId) extends JsonRequest {
 }
 
 object DeleteChatStickerSet {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                = Configuration.default.withSnakeCaseMemberNames
   implicit val deleteChatStickerSetEncoder: Encoder[DeleteChatStickerSet] =
     deriveConfiguredEncoder[DeleteChatStickerSet]
 }

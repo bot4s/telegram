@@ -64,7 +64,7 @@ trait GameManager extends WebRoutes {
       ) {
 
         case Success(value) => complete(StatusCodes.OK)
-        case Failure(ex) =>
+        case Failure(ex)    =>
           complete((StatusCodes.InternalServerError, s"An error occurred: ${ex.getMessage}"))
       }
     } ~
@@ -73,7 +73,7 @@ trait GameManager extends WebRoutes {
         extractPayload) { payload =>
         onComplete(request(payload.toGetGameHighScores)) {
           case Success(scores) => complete(marshalling.toJson(scores))
-          case Failure(ex) =>
+          case Failure(ex)     =>
             complete((StatusCodes.InternalServerError, s"An error occurred: ${ex.getMessage}"))
         }
       }

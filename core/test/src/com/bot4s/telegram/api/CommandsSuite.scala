@@ -26,7 +26,7 @@ class CommandsSuite extends AnyFlatSpec with MockFactory with TestUtils with Com
     val handlerUnderscore = mockFunction[Message, Future[Unit]]
 
     val botUser = User(123, true, "FirstName", username = Some("TestBot"))
-    val bot = new TestBot with GlobalExecutionContext with Commands[Future] {
+    val bot     = new TestBot with GlobalExecutionContext with Commands[Future] {
       // Bot name = "TestBot".
       override val client = new RequestHandler {
         override def sendRequest[T <: Request: Encoder](request: T)(implicit

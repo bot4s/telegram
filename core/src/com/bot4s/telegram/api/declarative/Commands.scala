@@ -87,7 +87,7 @@ trait CommandFilterMagnet {
   }
   def |(other: CommandFilterMagnet) = or(other)
   def &(other: CommandFilterMagnet) = and(other)
-  def not: CommandFilterMagnet = new CommandFilterMagnet {
+  def not: CommandFilterMagnet      = new CommandFilterMagnet {
     override def accept(command: Command)                   = !self.accept(command)
     override def to(r: Option[String]): CommandFilterMagnet = self.to(r).not
   }

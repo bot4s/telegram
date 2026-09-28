@@ -15,7 +15,7 @@ case class DeleteStickerFromSet(sticker: String) extends JsonRequest {
 }
 
 object DeleteStickerFromSet {
-  implicit val customConfig: Configuration = Configuration.default.withSnakeCaseMemberNames
+  implicit val customConfig: Configuration                                = Configuration.default.withSnakeCaseMemberNames
   implicit val deleteStickerFromSetEncoder: Encoder[DeleteStickerFromSet] =
     deriveConfiguredEncoder[DeleteStickerFromSet]
 }

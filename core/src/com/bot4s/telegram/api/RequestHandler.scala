@@ -43,7 +43,7 @@ abstract class RequestHandler[F[_]](implicit monadError: MonadError[F, Throwable
     } yield result
 
   protected def processApiResponse[R](response: Response[R]): R = response match {
-    case Response(true, Some(result), _, _, _) => result
+    case Response(true, Some(result), _, _, _)                        => result
     case Response(false, _, description, Some(errorCode), parameters) =>
       throw TelegramApiException(
         description.getOrElse("Unexpected/invalid/empty response"),

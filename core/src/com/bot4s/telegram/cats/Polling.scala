@@ -19,7 +19,7 @@ trait Polling[F[_]] extends BasePolling[F] with StrictLogging {
   private def poll(state: PollingState): F[Unit] =
     for {
       updates <- pollingGetUpdates(state.offset.map(_ + 1))
-      _ <- updates.toList.map {
+      _       <- updates.toList.map {
              case ParsedUpdate.Failure(updateId, cause) =>
                logger.error(s"Unable to decode update ${updateId}: ${cause.getMessage()}")
                unit

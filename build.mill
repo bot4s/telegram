@@ -149,7 +149,7 @@ trait Publishable extends SonatypeCentralPublishModule {
 
 object core extends Module {
 
-  object jvm extends Cross[CoreJvmModule](ScalaVersions)
+  object jvm          extends Cross[CoreJvmModule](ScalaVersions)
   trait CoreJvmModule extends Bot4sTelegramCrossPlatform with Publishable {
     override val platformSegment: String = "jvm"
     override val location: String        = "core"
@@ -165,7 +165,7 @@ object core extends Module {
     object test extends Tests
   }
 
-  object js extends Cross[CoreJsModule](ScalaVersions)
+  object js          extends Cross[CoreJsModule](ScalaVersions)
   trait CoreJsModule extends Bot4sTelegramCrossPlatform with ScalaJSModule with Publishable {
     override val platformSegment: String = "js"
     override val location: String        = "core"
@@ -177,7 +177,7 @@ object core extends Module {
 
 object pekko extends Module {
 
-  object jvm extends Cross[pekkoModule](ScalaVersions)
+  object jvm        extends Cross[pekkoModule](ScalaVersions)
   trait pekkoModule extends Bot4sTelegramCrossPlatform with Publishable {
     override val platformSegment: String = "jvm"
     override val location: String        = "pekko"
@@ -208,14 +208,14 @@ object pekko extends Module {
 }
 
 object examples extends Module {
-  object js extends Cross[ExamplesJsModule](ScalaVersions)
+  object js              extends Cross[ExamplesJsModule](ScalaVersions)
   trait ExamplesJsModule extends Bot4sTelegramCrossPlatform with ScalaJSModule {
     override val platformSegment: String = "js"
     override val location: String        = "examples"
 
     override def scalaJSVersion = library.Version.scalaJS
-    override def moduleDeps = Seq(core.js())
-    override def mainClass = Some("Launcher")
+    override def moduleDeps     = Seq(core.js())
+    override def mainClass      = Some("Launcher")
     // Command matching uses Unicode regex character classes (\p{L}, \p{S}, \p{N}).
     override def esFeatures = Task {
       super.esFeatures().withESVersion(mill.scalajslib.api.ESVersion.ES2018)
@@ -239,7 +239,7 @@ object examples extends Module {
     }
   }
 
-  object jvm extends Cross[ExamplesJvmModule](ScalaVersions)
+  object jvm              extends Cross[ExamplesJvmModule](ScalaVersions)
   trait ExamplesJvmModule extends ExamplesJvmCommon {
     override val location: String = "examples"
 
@@ -257,7 +257,7 @@ object examples extends Module {
     override def moduleDeps = super.moduleDeps ++ Seq(core.jvm(), pekko.jvm())
   }
 
-  object catsjvm extends Cross[ExamplesCatsModule](ScalaVersions)
+  object catsjvm           extends Cross[ExamplesCatsModule](ScalaVersions)
   trait ExamplesCatsModule extends ExamplesJvmCommon {
     override val location: String = "cats"
 
@@ -273,7 +273,7 @@ object examples extends Module {
     override def sources = Task.Sources(build.moduleDir / "examples" / "src-cats")
   }
 
-  object cats3jvm extends Cross[ExamplesCats3Module](ScalaVersions)
+  object cats3jvm           extends Cross[ExamplesCats3Module](ScalaVersions)
   trait ExamplesCats3Module extends ExamplesJvmCommon {
     override val location: String = "cats"
 
@@ -289,7 +289,7 @@ object examples extends Module {
     override def sources = Task.Sources(build.moduleDir / "examples" / "src-cats3")
   }
 
-  object ziojvm extends Cross[ExamplesZIOModule](ScalaVersions)
+  object ziojvm           extends Cross[ExamplesZIOModule](ScalaVersions)
   trait ExamplesZIOModule extends ExamplesJvmCommon {
     override val location: String = "zio"
 
@@ -308,7 +308,7 @@ object examples extends Module {
     override def sources = Task.Sources(build.moduleDir / "examples" / "src-zio")
   }
 
-  object monixjvm extends Cross[ExamplesMonixModule](ScalaVersions)
+  object monixjvm           extends Cross[ExamplesMonixModule](ScalaVersions)
   trait ExamplesMonixModule extends ExamplesJvmCommon {
     override val location: String = "monix"
 
