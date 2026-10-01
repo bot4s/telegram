@@ -22,7 +22,7 @@ object library {
     val scalaMockScalaTest = "7.5.5"
     val scalaJS            = "1.22.0"
     val scalaLogging       = "3.9.6"
-    val logback            = "1.6.4"
+    val logback            = "1.6.5"
     val scalajHttp         = "2.4.2"
     val pekkoVersion       = "1.7.0"
     val pekkoActor         = pekkoVersion
