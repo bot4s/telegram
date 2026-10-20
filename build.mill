@@ -24,7 +24,7 @@ object library {
     val scalaLogging       = "3.9.6"
     val logback            = "1.6.4"
     val scalajHttp         = "2.4.2"
-    val pekkoVersion       = "1.7.0"
+    val pekkoVersion       = "1.7.1"
     val pekkoActor         = pekkoVersion
     val pekkoStream        = pekkoVersion
     val pekkoHttp          = "1.4.2"
