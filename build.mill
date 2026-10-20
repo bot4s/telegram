@@ -27,7 +27,7 @@ object library {
     val pekkoVersion       = "1.7.0"
     val pekkoActor         = pekkoVersion
     val pekkoStream        = pekkoVersion
-    val pekkoHttp          = "1.4.0"
+    val pekkoHttp          = "1.4.2"
     val pekkoTestkit       = pekkoVersion
     val pekkoHttpCors      = pekkoHttp
     val hammock            = "0.11.3"
